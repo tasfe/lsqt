@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd" default-lazy-init="true">
+	
+	<!-- 配置C3P0数据源 -->
+	<!-- C3P0 Base -->
+	<bean id="dataSourceC3P0Base" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" lazy-init="true">
+		<property name="minPoolSize" value="2" />
+		<property name="maxPoolSize" value="20" />
+		<property name="maxIdleTime" value="3600" />
+		<property name="acquireIncrement" value="2" />
+		<property name="maxStatements" value="100" />
+		<property name="initialPoolSize" value="5" />
+		<property name="idleConnectionTestPeriod" value="60" />
+		<property name="acquireRetryAttempts" value="30" />
+		<property name="acquireRetryDelay" value="30000" />
+		<property name="breakAfterAcquireFailure" value="false" />
+		<property name="testConnectionOnCheckout" value="false" />
+		<property name="maxStatementsPerConnection" value="100" />
+		<property name="numHelperThreads" value="10" />
+	</bean>
+
+	<bean id="heaRoutingDataSourceDataSource" class="com.hirisun.hea.common.dao.support.DynamicDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry key="dataSource1" value-ref="dataSource1" />
+				<!-- 
+				<entry key="dataSource2" value-ref="dataSource2" />
+				<entry key="dataSource3" value-ref="dataSource3" />
+				 -->
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="dataSource1" />
+	</bean>
+
+	<!-- hea java:comp/env/-->
+	<jee:jndi-lookup id="dataSource1" jndi-name="jdbc/hea" resource-ref="false"/>
+
+	<bean id="dataSource1xxxaaa" parent="dataSourceC3P0Base" destroy-method="close"
+		lazy-init="true">
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.20.38:1521:hirisuntest" />
+		<property name="user" value="hn4" />
+		<property name="password" value="hn4" />
+	</bean>
+	<!-- 图表数据源别名 -->
+	<alias name="dataSource1" alias="cp_dataSource"/>
+	
+	<!-- MySQL -->
+	<bean id="dataSource2" parent="dataSourceC3P0Base" destroy-method="close"
+		lazy-init="true">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test" />
+		<property name="user" value="root" />
+		<property name="password" value="root" />
+	</bean>
+	
+	
+	
+	<!-- Weblogic的JNDI数据源,已不用 -->
+	<jee:jndi-lookup id="dataSource3" jndi-name="oracleDS"
+		resource-ref="false" lookup-on-startup="true"
+		proxy-interface="javax.sql.DataSource" >
+		<jee:environment>
+			java.naming.factory.initial=weblogic.jndi.WLInitialContextFactory
+		</jee:environment>
+	</jee:jndi-lookup>
+</beans>
