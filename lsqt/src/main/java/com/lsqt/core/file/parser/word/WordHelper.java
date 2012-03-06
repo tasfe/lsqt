@@ -92,7 +92,7 @@ public final class WordHelper {
 	public WordHelper appendImage(String fullImagePath) throws WordException {
 		try {
 			Image img = Image.getInstance(fullImagePath);
-			img.setAbsolutePosition(50, 100);// 图片添加位置
+			//img.setAbsolutePosition(50, 100);// 图片添加位置
 			document.add(img);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,7 +103,7 @@ public final class WordHelper {
 	
 	/**
 	 * 
-	 * @param properties 描述word内文字的属性,例: "size:14;color:red;BOLB:true"
+	 * @param properties 描述word内文字的属性,例: "color: green;font-size: 12px;font-weight: bold;"
 	 * @return
 	 */
 	private static Font getFont(String properties){
