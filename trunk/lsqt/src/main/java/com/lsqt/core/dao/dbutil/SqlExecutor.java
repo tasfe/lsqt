@@ -126,12 +126,103 @@ public class SqlExecutor {
 		return holdString;
 	}
 	
+	
+	
+	/**
+	 * 执行存储过程,返回结果集
+	 * @param procedureName 存储过程名称
+	 * @return DataSet 
+	 */
+	public static DataSet excuteProcedure(final String procedureName) {
+		final DataSet DATASET = new DataSet();
+		CallableStatement cstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = dataSource.getConnection();
+			cstmt = con.prepareCall("{call " + procedureName + "()}");
+
+			boolean hasResults = cstmt.execute();
+
+			while (hasResults) {
+				DataTable dt = new DataTable();
+
+				rs = cstmt.getResultSet();
+				int colCount = rs.getMetaData().getColumnCount();
+				while (rs.next()) {
+					DataRow row = new DataRow();
+					for (int i = 0; i < colCount; i++) {
+						row.add(rs.getObject(i + 1));
+					}
+					dt.add(row);
+				}
+				DATASET.add(dt);
+				hasResults = cstmt.getMoreResults();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DbHelper.destroy(con, cstmt, rs);
+		}
+
+		return DATASET;
+	}
+	
+		
+	/**
+	 * 执行只带输入参数的存储过程
+	 * @param procedureName  存储过程名称
+	 * @param paramValues 入参值
+	 * @return DataSet 数据集
+	 */
+	public static DataSet executeProcedure(final String procedureName, final Object[] paramValues) {
+		final DataSet DATASET = new DataSet();
+		CallableStatement cstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = dataSource.getConnection();
+			cstmt = con.prepareCall("{call " + procedureName + "(" + processProcedureParamHold(paramValues) + ")}");
+
+			boolean hasResults = cstmt.execute();
+
+			while (hasResults) {
+				DataTable dt = new DataTable();
+
+				rs = cstmt.getResultSet();
+				int colCount = rs.getMetaData().getColumnCount();
+				while (rs.next()) {
+					DataRow row = new DataRow();
+					for (int i = 0; i < colCount; i++) {
+						row.add(rs.getObject(i + 1));
+					}
+					dt.add(row);
+				}
+				DATASET.add(dt);
+				hasResults = cstmt.getMoreResults();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DbHelper.destroy(con, cstmt, rs); 
+		}
+			
+		return DATASET;
+	}
+
+	
+	
+	
+	
 	/**
 	 * 存储过程调用 (返回结果集+输出参数+执行系列更新语句),调用时显示指定入参和输出参数据数据类型
 	 * 
-	 * 
+	 * @param procedureName 存储过程名称
+	 * @param paramValues 入参值和输出参数的值
+	 * @param paramValueTypes 储存过程入参和输出参数据的数据类型
+	 * @return DataSet 数据集
 	 * **/
-	public static DataSet excuteProcedure(final String procedureName, final Object[] paramValues, final int[] paramValueTypes) {
+	public static DataSet executeProcedure(final String procedureName, final Object[] paramValues, final int[] paramValueTypes) {
 		if (paramValues.length != paramValueTypes.length) {
 			try {
 				throw new DaoException("参数值和类型指定,不匹配");
