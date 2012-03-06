@@ -9,6 +9,7 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 public class XmlHelper {
+
 	/***
 	 * 
 	 * 方法说明：格式化xml字符串,xmlString不在同一行显示
