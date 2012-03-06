@@ -23,7 +23,7 @@
 				<prop key="hibernate.jdbc.batch_size">500</prop>
 				<prop key="hibernate.connection.release_mode">auto</prop>
 				<prop key="hibernate.cache.use_second_level_cache">false</prop>
-				<prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<!--
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> 
 				<prop key="hibernate.generate_statistics">true</prop>
