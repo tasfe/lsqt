@@ -39,7 +39,7 @@ http://www.springframework.org/schema/jee http://www.springframework.org/schema/
 	</bean>
 
 	<!-- hea java:comp/env/-->
-	<jee:jndi-lookup id="dataSource1" jndi-name="jdbc/hea" resource-ref="false"/>
+	<jee:jndi-lookup id="dataSource1xx32fes" jndi-name="jdbc/hea" resource-ref="false"/>
 
 	<bean id="dataSource1xxxaaa" parent="dataSourceC3P0Base" destroy-method="close"
 		lazy-init="true">
@@ -48,11 +48,10 @@ http://www.springframework.org/schema/jee http://www.springframework.org/schema/
 		<property name="user" value="hn4" />
 		<property name="password" value="hn4" />
 	</bean>
-	<!-- 图表数据源别名 -->
-	<alias name="dataSource1" alias="cp_dataSource"/>
+
 	
 	<!-- MySQL -->
-	<bean id="dataSource2" parent="dataSourceC3P0Base" destroy-method="close"
+	<bean id="dataSource1" parent="dataSourceC3P0Base" destroy-method="close"
 		lazy-init="true">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test" />

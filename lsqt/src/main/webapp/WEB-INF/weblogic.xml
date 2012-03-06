@@ -5,7 +5,7 @@
 	<wls:context-root>huarun</wls:context-root>
 	
 	<wls:session-descriptor>
-		<wls:cookie-name>HUARUNJID</wls:cookie-name>
+		<wls:cookie-name>LSQTJID</wls:cookie-name>
 	</wls:session-descriptor>
 	<wls:container-descriptor>
 		<!--  让weblogic优先加载应用程序的jar包,hpunix布署失败可改成false值 --> 

@@ -11,15 +11,11 @@
 	<!-- Spring ApplicationContext配置文件的路径 ,此参数用于后面的Spring-Context loader -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>
-			classpath:/WEB-INF/applicationContext.xml
-		</param-value>
+		<param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
-		<param-value>
-			classpath:/WEB-INF/log4j.properties
-		</param-value>
+		<param-value>classpath:log4j.properties</param-value>
 	</context-param>
 	
 	<!-- Character Encoding filter -->
@@ -33,7 +29,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/spring/*</url-pattern>
 	</filter-mapping>
 
 
@@ -45,7 +41,7 @@
 	
 	<filter-mapping>
 		<filter-name>hibernateFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/spring/*</url-pattern>
 	</filter-mapping>
 
 	<!-- spring mvc servlet -->
@@ -58,7 +54,7 @@
 	<!-- spring mvc  -->
 	<servlet-mapping>
 		<servlet-name>dispatcherServlet</servlet-name>
-		<url-pattern>/*.spring</url-pattern>
+		<url-pattern>/spring/*</url-pattern>
 	</servlet-mapping>
 	
 	
@@ -71,7 +67,7 @@
     
     
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
 
@@ -92,11 +88,7 @@
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
-
-	<!-- 加载全局常量 -->
-	<listener>
-		<listener-class>com.hirisun.hea.common.listener.SysGlobarInitContext</listener-class>
-	</listener>
+	
 	
 	<jsp-config>
 		<taglib>
