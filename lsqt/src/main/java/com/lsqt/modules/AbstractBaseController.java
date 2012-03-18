@@ -4,14 +4,14 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 
-import com.lsqt.modules.resource.service.StudentService;
+import com.lsqt.modules.resource.service.UserService;
 
 @Controller
 public class AbstractBaseController {
-	protected StudentService studentService;
+	protected UserService userService;
 
 	@Resource
-	public void setStudentService(StudentService studentService) {
-		this.studentService = studentService;
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 }

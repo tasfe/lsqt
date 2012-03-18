@@ -1,4 +1,6 @@
-package com.lsqt.modules.resource.model;
+package com.lsqt.modules.resource.model.mtm;
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,30 +10,28 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity
-@Table(name="test_student2")
-public class Student {
-	private String id;
-	
-	private String stuName;
-	
-	public void setStuName(String stuName) {
-		this.stuName = stuName;
-	}
-	
-	@Column(name="stuName",length=50)
-	public String getStuName() {
-		return stuName;
-	}
 
+@Entity
+@Table(name="TEST_ORDER")
+public class Order {
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
 	@GeneratedValue(generator="idGenerator")
+	private String id;
+	
+	@Column(name="date")
+	private Date date;
+	
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }
