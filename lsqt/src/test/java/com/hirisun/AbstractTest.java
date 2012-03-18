@@ -1,5 +1,7 @@
 package com.hirisun;
 
+import java.util.UUID;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
@@ -48,7 +50,10 @@ public class AbstractTest {
 	@BeforeClass
 	public static void init() {
 		configs = new ClassPathXmlApplicationContext(new String[] { "applicationContext.xml" });
-
+		
+		
+		
+		
 		sessionFactory = (SessionFactory) getBean("sessionFactory");
 		Session s = sessionFactory.openSession();
 		TransactionSynchronizationManager.bindResource(sessionFactory,new SessionHolder(s));
@@ -71,5 +76,17 @@ public class AbstractTest {
 	}
 	@After
 	public void invokAfter() {
+	}
+	
+	public static void main(String args[]){
+		 
+			UUID uuid = UUID.randomUUID();
+			System.out.println(uuid);
+			
+			
+			
+			
+			System.out.println(uuid);
+		//new org.springframework.context.annotation.AnnotationConfigApplicationContext("com").getBean("dataSource") ;
 	}
 }
