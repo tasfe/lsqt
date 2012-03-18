@@ -25,48 +25,14 @@ http://www.springframework.org/schema/jee http://www.springframework.org/schema/
 		<property name="numHelperThreads" value="10" />
 	</bean>
 
-	<bean id="heaRoutingDataSourceDataSource" class="com.hirisun.hea.common.dao.support.DynamicDataSource">
-		<property name="targetDataSources">
-			<map key-type="java.lang.String">
-				<entry key="dataSource1" value-ref="dataSource1" />
-				<!-- 
-				<entry key="dataSource2" value-ref="dataSource2" />
-				<entry key="dataSource3" value-ref="dataSource3" />
-				 -->
-			</map>
-		</property>
-		<property name="defaultTargetDataSource" ref="dataSource1" />
-	</bean>
 
-	<!-- hea java:comp/env/-->
-	<jee:jndi-lookup id="dataSource1xx32fes" jndi-name="jdbc/hea" resource-ref="false"/>
-
-	<bean id="dataSource1xxxaaa" parent="dataSourceC3P0Base" destroy-method="close"
-		lazy-init="true">
-		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.20.38:1521:hirisuntest" />
-		<property name="user" value="hn4" />
-		<property name="password" value="hn4" />
-	</bean>
-
-	
 	<!-- MySQL -->
-	<bean id="dataSource1" parent="dataSourceC3P0Base" destroy-method="close"
+	<bean id="dataSource" parent="dataSourceC3P0Base" destroy-method="close"
 		lazy-init="true">
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/test" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/demo" />
 		<property name="user" value="root" />
 		<property name="password" value="root" />
 	</bean>
-	
-	
-	
-	<!-- Weblogic的JNDI数据源,已不用 -->
-	<jee:jndi-lookup id="dataSource3" jndi-name="oracleDS"
-		resource-ref="false" lookup-on-startup="true"
-		proxy-interface="javax.sql.DataSource" >
-		<jee:environment>
-			java.naming.factory.initial=weblogic.jndi.WLInitialContextFactory
-		</jee:environment>
-	</jee:jndi-lookup>
+
 </beans>

@@ -10,7 +10,8 @@
 	
 	<!--  -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.hirisun" />
+	<context:component-scan base-package="com" />
+	<context:component-scan base-package="classpath:com" />
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/modules/"></property>
