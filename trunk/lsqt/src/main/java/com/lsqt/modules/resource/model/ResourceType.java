@@ -11,5 +11,5 @@ public interface ResourceType {
 	static final String TYPE_NEWS = "1";
 	
 	/** 产品资源 **/
-	static final String type_product = "3";
+	static final String TYPE_PRODUCT = "3";
 }
