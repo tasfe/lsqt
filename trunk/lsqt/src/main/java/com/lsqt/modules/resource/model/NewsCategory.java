@@ -1,6 +1,6 @@
 package com.lsqt.modules.resource.model;
 
-public class NewsCatetory {
+public class NewsCategory {
 	private String id;
 	
 }
