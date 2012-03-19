@@ -12,8 +12,9 @@ import org.hibernate.annotations.Entity;
 import org.hibernate.annotations.GenericGenerator;
 
 
+@SuppressWarnings("serial")
 @Entity(dynamicInsert=true,dynamicUpdate=true)  
-@Table(name="product")  
+@Table(name="TEST_PRODUCT")  
 public class Product implements Serializable{  
     private int id;  
     private String name;  
@@ -21,11 +22,11 @@ public class Product implements Serializable{
     private Set<OrderItem> orderItems;  
   
     @Id
-    @GenericGenerator(name="g_id",strategy="increment")  
-    @GeneratedValue(generator="g_id")  
+    @GenericGenerator(name="product_id",strategy="increment")  
+    @GeneratedValue(generator="product_id")  
     public int getId(){  
          return id;  
-    }  
+    }
     public void setId(int id){  
          this.id=id;  
     }  

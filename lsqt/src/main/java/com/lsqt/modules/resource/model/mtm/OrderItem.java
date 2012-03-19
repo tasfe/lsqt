@@ -11,8 +11,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Entity;
 
 
+@SuppressWarnings("serial")
 @Entity(dynamicInsert=true,dynamicUpdate=true)  
-@Table(name="order_item")  
+@Table(name="ORDER_ITEM")  
 @IdClass(OrderItemPK.class)  
 public class OrderItem implements Serializable{  
       
@@ -27,7 +28,7 @@ public class OrderItem implements Serializable{
     public void setProduct(Product product){  
         this.product=product;  
     }  
-    @Id  
+    @Id
     public Order getOrder(){  
         return order;  
     }  
