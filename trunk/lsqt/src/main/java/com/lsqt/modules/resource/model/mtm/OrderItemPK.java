@@ -6,6 +6,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+@SuppressWarnings("serial")
 @Embeddable  
 public class OrderItemPK implements Serializable{  
     private Product product;  
