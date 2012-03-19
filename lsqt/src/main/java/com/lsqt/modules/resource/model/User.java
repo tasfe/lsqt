@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name="LSQT_USER")
 public class User implements ResourceType,Serializable {
