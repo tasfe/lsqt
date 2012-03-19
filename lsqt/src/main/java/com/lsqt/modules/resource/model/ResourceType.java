@@ -4,7 +4,7 @@ public interface ResourceType {
 	/** 用户资源 **/
 	static final String TYPE_USER = "0";
 	
-	/** 类别名称资源 **/
+	/** 类别资源 **/
 	static final String TYPE_CATEGORY = "2";
 	
 	/** 新闻资源 **/
