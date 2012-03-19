@@ -2,7 +2,7 @@ package com.lsqt.modules.resource.model;
 
 import java.io.UnsupportedEncodingException;
 
-public class Lob {
+public class LobContent {
 	private String id;
 	private byte[] value;
 	
