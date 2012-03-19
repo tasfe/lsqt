@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Entity;
@@ -81,6 +82,7 @@ public class News implements ResourceType ,Serializable{
 	private Boolean isDynamic;
 	
 	/**当前新闻所属的多个类别**/
+	@OneToMany(mappedBy="news")
 	private Set<NewsCategory> newsCategoryItems;
 	
 	public String getId() {
