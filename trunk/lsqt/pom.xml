@@ -85,7 +85,19 @@
 			<artifactId>spring-asm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-
+		
+		<!-- aspect 支持
+		<dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-aspects</artifactId>
+		  <version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.11</version>
+		</dependency>
+		 -->
 		<!-- 持久层支持 -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
