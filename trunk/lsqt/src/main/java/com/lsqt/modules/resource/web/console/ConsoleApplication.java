@@ -20,7 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.lsqt.modules.resource.service.UserService;
-@Component
+@Component("consoleApplication")
 public class ConsoleApplication extends WebApplication {
 	@Override
 	protected void init() {

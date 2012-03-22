@@ -28,5 +28,8 @@ public class UserServiceImpl implements UserService{
 	public boolean deleteUserById(String id){
 		return this.userDao.deleteUserById(id);
 	}
-	
+	@Transactional(readOnly=true)
+	public User findById(String id) {
+		return userDao.findById(id);
+	}
 }

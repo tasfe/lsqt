@@ -15,6 +15,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name="LSQT_USER")
 public class User implements ResourceType,Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6886626434521670211L;
 	private String id;
 	private String userId;
 	private String userPwd;
@@ -23,7 +27,7 @@ public class User implements ResourceType,Serializable {
 	private String sex;
 	private Date birthday;
 	private String email;
-	private String desc;
+	private String descript;
 	
 	
 	@Id
@@ -83,12 +87,12 @@ public class User implements ResourceType,Serializable {
 		this.email = email;
 	}
 	
-	@Column(name="desc",length=500)
-	public String getDesc() {
-		return desc;
+	@Column(name="descript",length=500)
+	public String getDescript() {
+		return descript;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescript(String descript) {
+		this.descript = descript;
 	}
 	
 

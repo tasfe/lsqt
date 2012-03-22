@@ -25,4 +25,8 @@ public class UserDaoImpl extends AbstractHibernateDaoSupport<User> implements Us
 	public User updateUser(User user) {
 		return super.update(user);
 	}
+	
+	public User findById(String id){
+		return super.findById(id);
+	}
 }

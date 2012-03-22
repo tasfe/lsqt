@@ -82,7 +82,7 @@ public class UserManage extends AbstractPage {
 		form.add(new TextField<String>("userId").setType(String.class));
 		form.add(new TextField<String>("userName").setType(String.class));
 		form.add(new EmailTextField("email").setType(String.class));
-		form.add(new TextArea<String>("desc").setType(String.class));
+		form.add(new TextArea<String>("descript").setType(String.class));
 		form.add(new DropDownChoice<String>("sex",list));
 	
 		
