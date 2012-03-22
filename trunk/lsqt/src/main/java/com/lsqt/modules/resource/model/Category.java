@@ -7,12 +7,14 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.Entity;
 import org.hibernate.annotations.GenericGenerator;
 
 @SuppressWarnings("serial")
 @Entity(dynamicInsert=true,dynamicUpdate=true) 
+@Table(name="lsqt_category")
 public class Category implements ResourceType , Serializable{
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")

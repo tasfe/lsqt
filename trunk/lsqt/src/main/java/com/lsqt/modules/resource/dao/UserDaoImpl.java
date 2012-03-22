@@ -1,6 +1,7 @@
 package com.lsqt.modules.resource.dao;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hirisun.components.dao.hibernate.AbstractHibernateDaoSupport;
 import com.lsqt.modules.resource.model.ResourceType;

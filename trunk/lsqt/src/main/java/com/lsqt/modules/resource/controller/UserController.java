@@ -12,7 +12,11 @@ public class UserController extends AbstractBaseController{
 	
 	@RequestMapping(params = "method=userAdd")
 	public String userAdd(User user){
+		System.out.println(userService);
 		
+		user.setUserName("格三");
+		userService.saveUser(user);
+		userService.deleteUserById("1111");
 		return "userList";
 	}
 }
