@@ -6,7 +6,12 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Entity;
 
-
+/**
+ * 
+ * 
+ * @author 袁明敏
+ *
+ */
 @Entity(dynamicInsert=true,dynamicUpdate=true) 
 @Table(name="LSQT_NEWS_CATEGORY")
 @IdClass(NewsCategoryPK.class)
