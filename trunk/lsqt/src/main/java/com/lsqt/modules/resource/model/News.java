@@ -15,10 +15,15 @@ import org.hibernate.annotations.GenericGenerator;
 
 
 
-@SuppressWarnings("serial")
 @Entity(dynamicInsert=true,dynamicUpdate=true) 
 @Table(name="LSQT_NEWS")
 public class News implements ResourceType ,Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 82924462940851815L;
+
+
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
 	@GeneratedValue(generator="idGenerator")
