@@ -15,17 +15,23 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.EmailTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.lsqt.modules.resource.dao.UserDao;
 import com.lsqt.modules.resource.model.User;
 import com.lsqt.modules.resource.service.UserService;
+import com.lsqt.modules.resource.service.UserServiceImpl;
+import org.apache.wicket.protocol.http.WebApplication;
 
-public class UserManage extends WebPage {
-	//@SpringBean
-	UserService userService;
+public class UserManage extends AbstractPage {
+	
+	
 	
 	
 	
@@ -34,7 +40,8 @@ public class UserManage extends WebPage {
 	
 	public UserManage(){
 		
-		  
+		
+		
 		
 		
 		List<String> list=new ArrayList<String>();
@@ -42,6 +49,14 @@ public class UserManage extends WebPage {
 		list.add("女");
 		
 		final User  user=new User();
+		
+		
+		User  user3=new User();
+		user3.setUserName("userName");
+		  
+		 //System.out.println(userService);
+		 
+		
 		Form<User> form=new Form<User>("form",new CompoundPropertyModel<User>(user)){
 			
 			
@@ -53,10 +68,9 @@ public class UserManage extends WebPage {
 
 			@Override
 			protected void onSubmit() {
-				System.out.println(user.getEmail());
-				
-				
-				
+				System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+				UserService userService=getService(UserService.class);
+				userService.saveUser(user);
 			}
 			
 			@Override
@@ -70,16 +84,7 @@ public class UserManage extends WebPage {
 		form.add(new EmailTextField("email").setType(String.class));
 		form.add(new TextArea<String>("desc").setType(String.class));
 		form.add(new DropDownChoice<String>("sex",list));
-		
-		//form.add(new PasswordTextField("birthday").setType(Date.class));
-		/*
-		form.add(new TextField<String>("").setType(Integer.class));
-		
-		
-		
-		*/
-		/*WebMarkupContainer birthday=new WebMarkupContainer("birthday");
-		form.add(birthday);*/
+	
 		
 		TextField<String> tf=new TextField<String>("birthday");
 		tf.setType(Date.class);
@@ -90,20 +95,9 @@ public class UserManage extends WebPage {
 		//dd.bind(tf);
 		form.add(dd);
 		form.add(tf);
-		
-		
-		
+
 		
 		super.add(form);
 	}
-
-	public UserService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-
 
 }
