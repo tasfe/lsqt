@@ -14,7 +14,7 @@ import com.hirisun.AbstractTest;
 
 public class StudentDaoTest extends AbstractTest{
 	private static final Logger LOGGER = Logger.getLogger(StudentDaoTest.class);
-	@Test
+	//@Test
 	public void testSessionFactory(){
 		
 		SessionFactory facotry=getBean("sessionFactory", SessionFactory.class);
@@ -23,7 +23,7 @@ public class StudentDaoTest extends AbstractTest{
 		System.out.println(facotry);
 	}
 	
-	@Test
+	//@Test
 	public void testSessionFactory2() throws SQLException{
 		DataSource dao= getBean("dataSource",DataSource.class);
 		Assert.assertNotNull(dao.getConnection());
