@@ -11,11 +11,17 @@ import org.hibernate.SessionFactory;
 import org.junit.Test;
 
 import com.hirisun.AbstractTest;
+import com.lsqt.modules.resource.model.User;
+import com.lsqt.modules.resource.service.UserService;
 
 public class StudentDaoTest extends AbstractTest{
 	private static final Logger LOGGER = Logger.getLogger(StudentDaoTest.class);
-	//@Test
+	@Test
 	public void testSessionFactory(){
+		UserService us=(UserService)getBean("userService");
+		User user=new User();
+		user.setEmail("keke@hirisun.com");
+		us.saveUser(user);
 		
 		SessionFactory facotry=getBean("sessionFactory", SessionFactory.class);
 		LOGGER.debug(facotry);
