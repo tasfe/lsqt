@@ -17,4 +17,10 @@ public class NewsDaoImpl  extends AbstractHibernateDaoSupport<News> implements N
 	public News updateNews(News news) {
 		return super.update(news);
 	}
+	@Override
+	public News findNewsById(String id){
+		return super.findById(id);
+	}
+	
+
 }
