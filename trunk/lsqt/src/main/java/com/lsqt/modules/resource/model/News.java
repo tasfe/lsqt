@@ -17,7 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @SuppressWarnings("serial")
 @Entity(dynamicInsert=true,dynamicUpdate=true) 
-@Table(name="lsqt_news")
+@Table(name="LSQT_NEWS")
 public class News implements ResourceType ,Serializable{
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
