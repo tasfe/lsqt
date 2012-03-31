@@ -14,7 +14,6 @@ import org.hibernate.annotations.Entity;
  */
 @Entity(dynamicInsert=true,dynamicUpdate=true) 
 @Table(name="LSQT_NEWS_CATEGORY")
-@IdClass(NewsCategoryPK.class)
 public class NewsCategory {
 	private News news;
 	private Category category;

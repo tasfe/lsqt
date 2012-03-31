@@ -11,7 +11,7 @@ import com.lsqt.modules.resource.model.User;
 public class UserServiceImpl implements UserService{
 	private UserDao userDao;
 
-	@Resource()
+	@Resource
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
 	public boolean deleteUserById(String id){
 		return this.userDao.deleteUserById(id);
 	}
-	@Transactional(readOnly=true)
+	
 	public User findById(String id) {
 		return userDao.findById(id);
 	}
