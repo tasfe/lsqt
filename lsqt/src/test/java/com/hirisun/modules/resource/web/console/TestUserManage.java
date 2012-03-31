@@ -61,10 +61,5 @@ public class TestUserManage {
 		
 	}
 	
-	public static void main(String args[]){
-		ApplicationContext context = new ClassPathXmlApplicationContext("classpath*:applicationContext.xml"); 
-		 for(String i: context.getBeanDefinitionNames()){
-			 System.out.println(i);
-		 }
-	}
+	
 }

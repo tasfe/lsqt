@@ -26,7 +26,6 @@ public class StudentDaoTest extends AbstractTest{
 		SessionFactory facotry=getBean("sessionFactory", SessionFactory.class);
 		LOGGER.debug(facotry);
 		Assert.assertNotNull(facotry);
-		System.out.println(facotry);
 	}
 	
 	//@Test

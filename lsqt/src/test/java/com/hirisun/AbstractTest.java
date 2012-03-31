@@ -35,6 +35,10 @@ public class AbstractTest {
 		
 		return configs.getBean(beanName);
 	}
+	
+	protected static <T> T getBean(Class<T> requiredType){
+		return configs.getBean(requiredType);
+	}
 
 	/**
 	 * 
