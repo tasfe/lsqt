@@ -1,19 +1,25 @@
 package com.lsqt.modules.resource.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.lsqt.modules.resource.model.oto.Wife;
+
 
 @Entity
-@Table(name="LSQT_USER")
+@Table(name="lsqt_user")
 public class User implements ResourceType,Serializable {
 	/**
 	 * 
@@ -24,10 +30,13 @@ public class User implements ResourceType,Serializable {
 	private String userPwd;
 	
 	private String userName;
-	private String sex;
+	/**０代表男,　１代表女**/
+	private Integer sex;
 	private Date birthday;
 	private String email;
 	private String descript;
+	
+	
 	
 	
 	@Id
@@ -63,10 +72,10 @@ public class User implements ResourceType,Serializable {
 		this.userId = userId;
 	}
 	@Column(name="sex",length=2)
-	public String getSex() {
+	public Integer getSex() {
 		return sex;
 	}
-	public void setSex(String sex) {
+	public void setSex(Integer sex) {
 		this.sex = sex;
 	}
 	
@@ -94,6 +103,4 @@ public class User implements ResourceType,Serializable {
 	public void setDescript(String descript) {
 		this.descript = descript;
 	}
-	
-
 }

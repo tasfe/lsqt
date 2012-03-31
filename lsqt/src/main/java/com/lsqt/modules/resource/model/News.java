@@ -14,7 +14,11 @@ import org.hibernate.annotations.Entity;
 import org.hibernate.annotations.GenericGenerator;
 
 
-
+/**
+ * 新闻与新闻类别的多对多关系(两个一对多实现多对多)
+ * @author 袁明敏
+ *
+ */
 @Entity(dynamicInsert=true,dynamicUpdate=true) 
 @Table(name="LSQT_NEWS")
 public class News implements ResourceType ,Serializable{

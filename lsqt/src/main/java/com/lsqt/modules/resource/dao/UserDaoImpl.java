@@ -9,11 +9,10 @@ import com.lsqt.modules.resource.model.User;
 import com.lsqt.modules.resource.service.UserService;
 
 @Repository
-public class UserDaoImpl extends AbstractHibernateDaoSupport<User> implements UserDao,ResourceType{
+public class UserDaoImpl extends AbstractHibernateDaoSupport<User> implements UserDao{
 	@Override
 	public boolean saveUser(User user) {
-		super.save(user);
-		return false;
+		return super.save(user);
 	}
 
 	@Override
