@@ -89,13 +89,13 @@ public class UserManage extends AbstractPage {
 	
 		
 		TextField<String> tf=new TextField<String>("birthday");
-		tf.setType(Date.class);
-		DatePicker dd=new DatePicker();
+		//tf.setType(Date.class);
+		//DatePicker dd=new DatePicker();
 		//dd.onConfigure(tf);
-		dd.setShowOnFieldClick(true);
+		//dd.setShowOnFieldClick(true);
 		//dd.isEnabled(tf);
 		//dd.bind(tf);
-		form.add(dd);
+		//form.add(dd);
 		form.add(tf);
 
 		
