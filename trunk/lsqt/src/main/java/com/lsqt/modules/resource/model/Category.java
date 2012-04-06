@@ -27,10 +27,6 @@ public class Category implements ResourceType , Serializable{
 	@Column(name="name")
 	private String name;
 	
-	@OneToMany(mappedBy="category")
-	private Set<NewsCategory> NewsCategoryItems;
-
-	
 	public String getId() {
 		return id;
 	}
@@ -53,13 +49,5 @@ public class Category implements ResourceType , Serializable{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Set<NewsCategory> getNewsCategoryItems() {
-		return NewsCategoryItems;
-	}
-
-	public void setNewsCategoryItems(Set<NewsCategory> newsCategoryItems) {
-		NewsCategoryItems = newsCategoryItems;
 	}
 }
