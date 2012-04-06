@@ -19,7 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author 袁明敏
  *
  */
-@Entity(dynamicInsert=true,dynamicUpdate=true) 
+@Entity
 @Table(name="LSQT_NEWS")
 public class News implements ResourceType ,Serializable{
 	/**

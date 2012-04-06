@@ -131,7 +131,5 @@ public class Resource implements ResourceType,Serializable{
 	public void setOpenTarget(String openTarget) {
 		this.openTarget = openTarget;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+
 }
