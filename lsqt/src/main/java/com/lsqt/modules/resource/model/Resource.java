@@ -10,8 +10,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-@Table(name="LSQT_RESOURCE")
+
 @Entity
+@Table(name="LSQT_RESOURCE")
 public class Resource implements ResourceType,Serializable{
 	/**
 	 * 

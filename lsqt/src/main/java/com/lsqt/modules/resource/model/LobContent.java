@@ -6,8 +6,6 @@ public class LobContent {
 	private String id;
 	private byte[] value;
 	
-	
-	
 	public String toString(){
 		 String content="";
 		try {

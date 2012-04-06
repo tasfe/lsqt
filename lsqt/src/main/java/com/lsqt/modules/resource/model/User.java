@@ -19,7 +19,7 @@ import com.lsqt.modules.resource.model.oto.Wife;
 
 
 @Entity
-@Table(name="lsqt_user")
+@Table(name="LSQT_USER")
 public class User implements ResourceType,Serializable {
 	/**
 	 * 

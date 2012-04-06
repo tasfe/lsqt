@@ -2,12 +2,10 @@ package com.lsqt.modules.resource.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Entity;
@@ -20,7 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
  *
  */
 @Entity
-@Table(name="LSQT_NEWS")
+@Table(name="lsqt_news")
 public class News implements ResourceType ,Serializable{
 	/**
 	 * 
@@ -90,9 +88,7 @@ public class News implements ResourceType ,Serializable{
 	@Column(name="isDynamic")
 	private Boolean isDynamic;
 	
-	/**当前新闻所属的多个类别**/
-	@OneToMany(mappedBy="news")
-	private Set<NewsCategory> newsCategoryItems;
+	
 	
 	public String getId() {
 		return id;
@@ -172,10 +168,5 @@ public class News implements ResourceType ,Serializable{
 	public void setIsDynamic(Boolean isDynamic) {
 		this.isDynamic = isDynamic;
 	}
-	public Set<NewsCategory> getNewsCategoryItems() {
-		return newsCategoryItems;
-	}
-	public void setNewsCategoryItems(Set<NewsCategory> newsCategoryItems) {
-		this.newsCategoryItems = newsCategoryItems;
-	}
+
 }
