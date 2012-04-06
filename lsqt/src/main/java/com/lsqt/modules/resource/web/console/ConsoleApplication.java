@@ -1,5 +1,6 @@
 package com.lsqt.modules.resource.web.console;
 
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.wicket.Application;
@@ -20,11 +21,15 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.lsqt.modules.resource.service.UserService;
+
 @Component("consoleApplication")
 public class ConsoleApplication extends WebApplication {
 	@Override
 	protected void init() {
-		super.init();
+		 super.init(); 
+		 getComponentInstantiationListeners().add(new SpringComponentInjector(this)); //对于wicket1.5以下的版本应写成addComponentInstantiationListeners(new SpringComponentInjector(this));
+		
+		
 		//this.getMarkupSettings().setStripWicketTags(true);
 		
 		

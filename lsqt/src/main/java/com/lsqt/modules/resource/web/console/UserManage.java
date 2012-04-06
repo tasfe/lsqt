@@ -32,7 +32,8 @@ import org.apache.wicket.protocol.http.WebApplication;
 public class UserManage extends AbstractPage {
 	
 	
-	
+	@SpringBean(name="userService")
+	private UserService userService ;
 	
 	
 	/****/
@@ -45,8 +46,8 @@ public class UserManage extends AbstractPage {
 		
 		
 		List<String> list=new ArrayList<String>();
-		list.add("男");
-		list.add("女");
+		list.add("1");
+		list.add("0");
 		
 		final User  user=new User();
 		
@@ -69,7 +70,8 @@ public class UserManage extends AbstractPage {
 			@Override
 			protected void onSubmit() {
 				System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-				UserService userService=getService(UserService.class);
+				//UserService userService=getService(UserService.class);
+			
 				userService.saveUser(user);
 			}
 			
