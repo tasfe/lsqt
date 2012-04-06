@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Entity;
 
 /**
- * 
+ * 新闻与类别的中间表
  * 
  * @author 袁明敏
  *
