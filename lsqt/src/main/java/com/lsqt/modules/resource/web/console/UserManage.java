@@ -30,55 +30,23 @@ import com.lsqt.modules.resource.service.UserServiceImpl;
 import org.apache.wicket.protocol.http.WebApplication;
 
 public class UserManage extends AbstractPage {
-	
-	
-	@SpringBean(name="userService")
-	private UserService userService ;
-	
-	
 	/****/
 	private static final long serialVersionUID = 1L;
 	
 	public UserManage(){
-		
-		
-		
-		
-		
+
 		List<String> list=new ArrayList<String>();
 		list.add("1");
 		list.add("0");
 		
 		final User  user=new User();
-		
-		
-		User  user3=new User();
-		user3.setUserName("userName");
-		  
-		 //System.out.println(userService);
-		 
-		
 		Form<User> form=new Form<User>("form",new CompoundPropertyModel<User>(user)){
-			
-			
-
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = -7465829731566596205L;
-
-			@Override
-			protected void onSubmit() {
-				System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-				//UserService userService=getService(UserService.class);
 			
+			protected void onSubmit() {
 				userService.saveUser(user);
 			}
 			
-			@Override
-			protected void onValidate() {
-				super.onValidate();
-			}
 		};
 		
 		form.add(new TextField<String>("userId").setType(String.class));
@@ -89,16 +57,8 @@ public class UserManage extends AbstractPage {
 	
 		
 		TextField<String> tf=new TextField<String>("birthday");
-		//tf.setType(Date.class);
-		//DatePicker dd=new DatePicker();
-		//dd.onConfigure(tf);
-		//dd.setShowOnFieldClick(true);
-		//dd.isEnabled(tf);
-		//dd.bind(tf);
-		//form.add(dd);
 		form.add(tf);
 
-		
 		super.add(form);
 	}
 
