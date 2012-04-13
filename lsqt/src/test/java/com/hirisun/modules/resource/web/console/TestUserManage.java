@@ -1,5 +1,8 @@
 package com.hirisun.modules.resource.web.console;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
@@ -23,6 +26,20 @@ public class TestUserManage {
 
 	@Test
 	public void init(){
+		// 获得路径
+		String path = this.getClass().getClassLoader().getResource("db/test.mdb").getPath().substring(1);
+		Connection con = null;
+		try {
+			System.out.println(path);
+			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+			String url = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ="+ path;
+			con = DriverManager.getConnection(url, "", "");
+			System.out.println("连接成功！");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
+		
 		/*WicketTester t=new WicketTester();
 		t.startPage(UserManage.class);
 		FormTester form=t.newFormTester("form");
