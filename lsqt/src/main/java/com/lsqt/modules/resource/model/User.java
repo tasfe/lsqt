@@ -35,6 +35,7 @@ public class User implements ResourceType,Serializable {
 	private Date birthday;
 	private String email;
 	private String descript;
+	private Double bodyWeight; 
 	
 	
 	
@@ -102,5 +103,13 @@ public class User implements ResourceType,Serializable {
 	}
 	public void setDescript(String descript) {
 		this.descript = descript;
+	}
+	
+	@Column(name="bodyWeight")
+	public Double getBodyWeight() {
+		return bodyWeight;
+	}
+	public void setBodyWeight(Double bodyWeight) {
+		this.bodyWeight = bodyWeight;
 	}
 }
