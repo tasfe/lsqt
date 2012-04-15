@@ -1,5 +1,7 @@
 package com.lsqt.modules.resource.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -18,18 +20,22 @@ public class UserServiceImpl implements UserService{
 	
 	@Transactional(readOnly=false)
 	public boolean saveUser(User user){
-		return this.userDao.saveUser(user);
+		return this.userDao.save(user);
 	}
 	@Transactional(readOnly=false)
 	public User updateUser(User user){
-		return this.userDao.updateUser(user);
+		return this.userDao.update(user);
 	}
 	@Transactional(readOnly=false)
 	public boolean deleteUserById(String id){
-		return this.userDao.deleteUserById(id);
+		return this.userDao.deleteById(id);
 	}
 	
 	public User findById(String id) {
 		return userDao.findById(id);
+	}
+	
+	public List<User> findAll() {
+		return userDao.findAll();
 	}
 }

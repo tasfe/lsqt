@@ -1,13 +1,19 @@
 package com.lsqt.modules.resource.dao;
 
+import java.io.Serializable;
+import java.util.List;
+
 import com.lsqt.modules.resource.model.User;
 
 public interface UserDao {
-	public boolean saveUser(User user);
+	
+	public boolean save(User user);
 
-	public User updateUser(User user);
+	public User update(User user);
 
-	public boolean deleteUserById(String id);
+	public boolean deleteById(Serializable id);
 
-	public User findById(String id);
+	public User findById(Serializable id) ;
+	
+	public List<User> findAll();
 }
