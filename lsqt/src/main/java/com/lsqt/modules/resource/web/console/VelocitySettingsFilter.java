@@ -20,20 +20,40 @@ import org.apache.velocity.app.Velocity;
 public class VelocitySettingsFilter implements Filter {
 	
 	/**
-	 * velocity.property属性配置迁移至该init实现
+	 * 过滤器初使化时覆盖默认配置,如:velocity与log4j配置文件
 	 */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
+		
+		initVelocity(config);
+
+		initLog4j(config);
+
+		VelocityUtil.WEB_ROOT_ABSOLUTE_PATH=config.getServletContext().getRealPath("/");
+		
+	}
+
+	/**
+	 * velocity模板文件指定位置:/WEB-INF/classes/vm
+	 * 日志输出到:/WEB-INF/classes/log/velocity.log
+	 * 编码格式设置: UTF-8
+	 * @param config
+	 */
+	private void initVelocity(FilterConfig config) {
 		Properties prop = new Properties();
 		prop.put("runtime.log", config.getServletContext().getRealPath("/WEB-INF/classes/log/velocity.log"));  //注意,指定为文件(非目录)
 		prop.put("file.resource.loader.path", config.getServletContext().getRealPath("/WEB-INF/classes/vm"));
 		prop.put("input.encoding", "UTF-8");
 		prop.put("output.encoding", "UTF-8");
 		Velocity.init(prop);
-		
-		
+	}
+
+	/**
+	 * Log4j的日志文件指定到:/WEB-INF/classes/log/lsqt.log
+	 * @param config
+	 */
+	private void initLog4j(FilterConfig config) {
 		Properties properties = new Properties();
-		
 		try {
 			InputStream input=VelocitySettingsFilter.class.getResourceAsStream("/log4j.properties");
 			properties.load(input);
@@ -48,11 +68,6 @@ public class VelocitySettingsFilter implements Filter {
 		}
 		properties.setProperty("log4j.appender.logfile.File", logDir.getAbsolutePath()+"/"+logFile);
 		PropertyConfigurator.configure(properties);// 装入log4j配置信息
-		
-		//System.setProperty ("classes", config.getServletContext().getRealPath("/WEB-INF/classes"));
-		
-		VelocityUtil.WEB_ROOT_ABSOLUTE_PATH=config.getServletContext().getRealPath("/");
-		System.out.println(VelocityUtil.WEB_ROOT_ABSOLUTE_PATH);
 	}
 
 	@Override
