@@ -80,16 +80,4 @@ public class AbstractTest {
 	@After
 	public void invokAfter() {
 	}
-	
-	public static void main(String args[]){
-		 
-			UUID uuid = UUID.randomUUID();
-			System.out.println(uuid);
-			
-			
-			
-			
-			System.out.println(uuid);
-		//new org.springframework.context.annotation.AnnotationConfigApplicationContext("com").getBean("dataSource") ;
-	}
 }
