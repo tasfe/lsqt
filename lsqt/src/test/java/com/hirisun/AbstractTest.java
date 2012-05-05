@@ -2,6 +2,7 @@ package com.hirisun;
 
 import java.util.UUID;
 
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
@@ -57,27 +58,29 @@ public class AbstractTest {
 		
 		
 		
-		sessionFactory = (SessionFactory) getBean("sessionFactory");
-		Session s = sessionFactory.openSession();
-		TransactionSynchronizationManager.bindResource(sessionFactory,new SessionHolder(s));
+		
 	}
 
 	@AfterClass
 	public static void destroy() {
 
-		SessionHolder holder = (SessionHolder) TransactionSynchronizationManager.getResource(sessionFactory);
-		Session s = holder.getSession();
-		s.flush();
-		TransactionSynchronizationManager.unbindResource(sessionFactory);
-		SessionFactoryUtils.closeSession(holder.getSession());
+		
 
 		System.out.println("容器销毁...");
 	}
 
 	@Before
 	public void invokeBefore() {
+		sessionFactory = (SessionFactory) getBean("sessionFactory");
+		Session s = sessionFactory.openSession();
+		TransactionSynchronizationManager.bindResource(sessionFactory,new SessionHolder(s));
 	}
 	@After
 	public void invokAfter() {
+		SessionHolder holder = (SessionHolder) TransactionSynchronizationManager.getResource(sessionFactory);
+		Session s = holder.getSession();
+		s.flush();
+		TransactionSynchronizationManager.unbindResource(sessionFactory);
+		SessionFactoryUtils.closeSession(holder.getSession());
 	}
 }
