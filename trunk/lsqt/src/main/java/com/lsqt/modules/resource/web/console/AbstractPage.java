@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.util.WebUtils;
-
+import org.apache.wicket.markup.html.WebComponent;
 import com.lsqt.modules.resource.service.UserService;
 
 @SuppressWarnings("serial")

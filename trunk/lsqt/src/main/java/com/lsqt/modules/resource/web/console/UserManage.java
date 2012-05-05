@@ -28,6 +28,7 @@ import com.lsqt.modules.resource.model.User;
 import com.lsqt.modules.resource.service.UserService;
 import com.lsqt.modules.resource.service.UserServiceImpl;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.markup.html.WebComponent;
 
 public class UserManage extends AbstractPage {
 	/****/
