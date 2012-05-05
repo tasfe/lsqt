@@ -21,6 +21,7 @@ public class FileUploadController {
 	     @RequestParam("imageFile") MultipartFile image) throws IOException {  
 
 	      System.out.println(image.getBytes().length);  
+	      
 	      image.transferTo(new File("C:/Temp/temp/ttt"+image.getOriginalFilename()));
 	     return "imageList";  
 	   }
