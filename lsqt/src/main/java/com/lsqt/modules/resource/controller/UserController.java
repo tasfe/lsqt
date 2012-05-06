@@ -26,7 +26,7 @@ public class UserController extends AbstractBaseController{
 		System.out.println(userService);
 		
 		user.setUserName("格三");
-		userService.saveUser(user);
+		userService.save(user);
 		User myu=userService.findById("ff8081813639b117013639b11bb60001");
 		
 		System.out.println("test........."+myu.getEmail());
@@ -40,7 +40,7 @@ public class UserController extends AbstractBaseController{
 		user.setSex(0);
 		user.setDescript("张三测试用");
 		user.setEmail("zs@sohu.com");
-		userService.saveUser(user);
+		userService.save(user);
 		
 		//根据不同用户显示模版显示用户详细
 		String htmlDir=VelocityUtil.WEB_ROOT_ABSOLUTE_PATH+"/modules/html/";

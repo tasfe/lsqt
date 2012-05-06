@@ -45,7 +45,7 @@ public class UserManage extends AbstractPage {
 			private static final long serialVersionUID = -7465829731566596205L;
 			
 			protected void onSubmit() {
-				userService.saveUser(user);
+				userService.save(user);
 			}
 			
 		};

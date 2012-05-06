@@ -1,5 +1,7 @@
 package com.lsqt.modules.resource.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -17,24 +19,20 @@ public class NewsServiceImpl implements NewsService{
 	}
 	
 	
-	@Override
-	public boolean saveNews(News news) {
-		return newsDao.saveNews(news);
+	public boolean save(News news){
+		return this.newsDao.save(news);
 	}
-
-	@Override
-	public boolean deleteById(String id) {
-		return newsDao.deleteById(id);
+	public News update(News news){
+		return this.newsDao.update(news);
 	}
-
-	@Override
-	public News updateNews(News news) {
-		return newsDao.updateNews(news);
+	public boolean deleteById(String id){
+		return this.newsDao.deleteById(id);
 	}
-
-	@Override
-	public News findNewsById(String id) {
-		return newsDao.findNewsById(id);
+	public News findById(String id) {
+		return this.newsDao.findById(id);
+	}
+	public List<News> findAll(){
+		return this.newsDao.findAll();
 	}
 
 }

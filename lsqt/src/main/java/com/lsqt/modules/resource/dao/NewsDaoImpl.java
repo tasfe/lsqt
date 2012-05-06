@@ -8,22 +8,5 @@ import com.lsqt.modules.resource.model.News;
 
 @Repository
 public class NewsDaoImpl  extends AbstractHibernateDaoSupport<News> implements NewsDao{
-	@Override
-	public boolean deleteById(String id) {
-		return super.deleteById(id);
-	}
-	@Override
-	public boolean saveNews(News news) {
-		return super.save(news);
-	}
-	@Override
-	public News updateNews(News news) {
-		return super.update(news);
-	}
-	@Override
-	public News findNewsById(String id){
-		return super.findById(id);
-	}
 	
-
 }
