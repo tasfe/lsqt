@@ -30,7 +30,7 @@ public class StudentDaoTest extends AbstractTest{
 		UserService us=(UserService)getBean("userService");
 		User user=new User();
 		user.setEmail("keke@hirisun.com");
-		us.saveUser(user);
+		us.save(user);
 		
 		SessionFactory facotry=getBean("sessionFactory", SessionFactory.class);
 		LOGGER.debug(facotry);

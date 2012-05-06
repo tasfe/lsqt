@@ -22,7 +22,7 @@ public class TestUserService extends AbstractTest{
 		user.setUserPwd("admin");
 		UserService userService=getBean(UserService.class);
 		
-		userService.saveUser(user);
+		userService.save(user);
 		Assert.assertNotNull(user.getId());
 		
 		
@@ -33,11 +33,11 @@ public class TestUserService extends AbstractTest{
 		user.setUserId("administrator");
 		user.setUserName("yuanmingmin");
 		user.setUserPwd("administrator");
-		userService.updateUser(user);
+		userService.update(user);
 		
 		
 		String pk=user.getId();
-		boolean isOk=userService.deleteUserById(pk);
+		boolean isOk=userService.deleteById(pk);
 		Assert.assertTrue(isOk);
 		
 	}

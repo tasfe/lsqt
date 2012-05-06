@@ -27,7 +27,7 @@ public class TestNewsService extends AbstractTest {
 		news.setTitle("新闻标题");
 		
 		NewsService newsService=getBean(NewsServiceImpl.class);
-		newsService.saveNews(news);
+		newsService.save(news);
 		Assert.assertNotNull(news.getId());
 		
 		news.setCommentCnt(8888);
@@ -41,7 +41,7 @@ public class TestNewsService extends AbstractTest {
 		news.setPublishDate(new Date());
 		news.setStaticHttpUrl("http://lsqt.org/news/html/2.html");
 		news.setTitle("新闻标题2");
-		newsService.updateNews(news);
+		newsService.update(news);
 		
 		//newsService.deleteById(news.getId());
 		
