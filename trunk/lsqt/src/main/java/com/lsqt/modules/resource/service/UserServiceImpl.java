@@ -1,6 +1,5 @@
 package com.lsqt.modules.resource.service;
 
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -17,25 +16,29 @@ public class UserServiceImpl implements UserService{
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
-	
+
+	@Override
 	@Transactional(readOnly=false)
-	public boolean saveUser(User user){
+	public boolean save(User user) {
 		return this.userDao.save(user);
 	}
+
+	@Override
 	@Transactional(readOnly=false)
-	public User updateUser(User user){
+	public User update(User user) {
 		return this.userDao.update(user);
 	}
+
+	@Override
 	@Transactional(readOnly=false)
-	public boolean deleteUserById(String id){
+	public boolean deleteById(String id) {
 		return this.userDao.deleteById(id);
 	}
-	
+
+	@Override
 	public User findById(String id) {
-		return userDao.findById(id);
+		return this.userDao.findById(id);
 	}
 	
-	public List<User> findAll() {
-		return userDao.findAll();
-	}
+
 }

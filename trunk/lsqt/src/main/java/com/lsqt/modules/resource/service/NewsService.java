@@ -1,10 +1,14 @@
 package com.lsqt.modules.resource.service;
 
+import java.io.Serializable;
+import java.util.List;
+
 import com.lsqt.modules.resource.model.News;
 
 public interface NewsService {
-	public boolean saveNews(News news);
+	public boolean save(News news);
+	public News update(News news);
 	public boolean deleteById(String id);
-	public News updateNews(News news);
-	public News findNewsById(String id);
+	public News findById(String id) ;
+	public List<News> findAll();
 }
