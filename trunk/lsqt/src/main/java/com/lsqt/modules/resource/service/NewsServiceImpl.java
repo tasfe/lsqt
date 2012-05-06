@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lsqt.modules.resource.dao.NewsDao;
 import com.lsqt.modules.resource.model.News;
@@ -18,19 +19,25 @@ public class NewsServiceImpl implements NewsService{
 		this.newsDao = newsDao;
 	}
 	
-	
+	@Transactional(readOnly=false)
 	public boolean save(News news){
 		return this.newsDao.save(news);
 	}
+	
+	@Transactional(readOnly=false)
 	public News update(News news){
 		return this.newsDao.update(news);
 	}
+	
+	@Transactional(readOnly=false)
 	public boolean deleteById(String id){
 		return this.newsDao.deleteById(id);
 	}
+	
 	public News findById(String id) {
 		return this.newsDao.findById(id);
 	}
+	
 	public List<News> findAll(){
 		return this.newsDao.findAll();
 	}
