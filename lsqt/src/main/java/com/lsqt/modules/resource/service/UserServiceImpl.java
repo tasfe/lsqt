@@ -17,25 +17,21 @@ public class UserServiceImpl implements UserService{
 		this.userDao = userDao;
 	}
 
-	@Override
 	@Transactional(readOnly=false)
 	public boolean save(User user) {
 		return this.userDao.save(user);
 	}
 
-	@Override
 	@Transactional(readOnly=false)
 	public User update(User user) {
 		return this.userDao.update(user);
 	}
 
-	@Override
 	@Transactional(readOnly=false)
 	public boolean deleteById(String id) {
 		return this.userDao.deleteById(id);
 	}
 
-	@Override
 	public User findById(String id) {
 		return this.userDao.findById(id);
 	}
