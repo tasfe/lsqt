@@ -1,6 +1,5 @@
 package com.lsqt.modules.resource.service;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.lsqt.modules.resource.model.News;
