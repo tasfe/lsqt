@@ -5,7 +5,7 @@ import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.stereotype.Component;
-
+import org.apache.wicket.spring.SpringWebApplicationFactory;
 @Component("consoleApplication")
 public class ConsoleApplication extends WebApplication {
 	@Override
@@ -17,7 +17,9 @@ public class ConsoleApplication extends WebApplication {
 	
 
 	public Class<? extends Page> getHomePage() {
-		return UserManage.class;
+		//return UserManage.class;
+		return MyDemoPage.class;
 	}
+	
 	
 }
