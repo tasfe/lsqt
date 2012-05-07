@@ -20,9 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name="lsqt_news")
 public class News implements ResourceType ,Serializable{
-	/**
-	 * 
-	 */
+	/****/
 	private static final long serialVersionUID = 82924462940851815L;
 
 
