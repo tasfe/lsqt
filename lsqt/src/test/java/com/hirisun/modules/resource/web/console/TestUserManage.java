@@ -24,7 +24,7 @@ import com.lsqt.modules.resource.web.console.UserManage;
 @Configuration
 public class TestUserManage {
 
-	@Test
+	//@Test
 	public void init(){
 		// 获得路径
 		String path = this.getClass().getClassLoader().getResource("db/test.mdb").getPath().substring(1);
