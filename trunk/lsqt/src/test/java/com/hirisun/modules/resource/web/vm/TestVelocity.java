@@ -18,7 +18,7 @@ import com.hirisun.modules.resource.model.Student;
 
 public class TestVelocity {
 	
-	@Test
+	//@Test
 	public void testVelocity(){
 		Velocity.init("/home/mm/Workspaces/sts_workspace/lsqt/src/main/resources/velocity.properties");
 		VelocityContext content=new VelocityContext();
