@@ -3,6 +3,9 @@ package com.lsqt.modules.resource.web.console;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.MultiLineLabel;
+import org.apache.wicket.markup.html.border.Border;
+import org.apache.wicket.markup.html.border.BoxBorder;
+import org.apache.wicket.markup.html.include.Include;
 import org.apache.wicket.markup.html.panel.Panel;
 public class MyDemoPage extends AbstractPage{
 	/**
@@ -25,5 +28,11 @@ public class MyDemoPage extends AbstractPage{
 		add(container);
 		
 		
+		Border b=new BoxBorder("myBorder");
+		Label lName=new Label("stuName","名字");
+		b.add(lName);
+		add(b);
+		
+		add(new Include("footer","foot.html"));
 	}
 }
