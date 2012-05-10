@@ -10,6 +10,11 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import com.hirisun.components.dao.hibernate.AbstractHibernateDaoSupport;
 import com.lsqt.modules.resource.model.User;
 
+/**
+ * 
+ * @author mm
+ *
+ */
 public class AbstractHibernateDaoSupportTest extends AbstractHibernateDaoSupport<User>{
 	
 	
