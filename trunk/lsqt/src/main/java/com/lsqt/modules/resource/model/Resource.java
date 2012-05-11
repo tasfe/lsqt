@@ -65,6 +65,9 @@ public class Resource implements ResourceType,Serializable{
 	@Column(name="openTarget",length=50)
 	private String openTarget;
 	
+	/**资源创建时间**/
+	@Column(name="createTime")
+	private Long createTime=System.currentTimeMillis();
 	
 	public String getId() {
 		return id;
@@ -131,6 +134,12 @@ public class Resource implements ResourceType,Serializable{
 	}
 	public void setOpenTarget(String openTarget) {
 		this.openTarget = openTarget;
+	}
+	public Long getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Long createTime) {
+		this.createTime = createTime;
 	}
 
 }
