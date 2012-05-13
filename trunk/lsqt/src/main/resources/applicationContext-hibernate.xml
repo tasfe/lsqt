@@ -47,7 +47,7 @@
 		</property>
 		<property name="packagesToScan">
 			<list>
-				<value>com.lsqt.content.model.*</value>
+				<value>com.lsqt.*.model</value>
 			</list>
 		</property>
 	</bean>
