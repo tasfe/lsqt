@@ -24,9 +24,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.lsqt.content.dao.UserDao;
-import com.lsqt.modules.resource.model.User;
-import com.lsqt.modules.resource.service.UserService;
-import com.lsqt.modules.resource.service.UserServiceImpl;
+import com.lsqt.content.model.User;
+import com.lsqt.content.service.UserService;
+import com.lsqt.content.service.UserServiceImpl;
+
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.markup.html.WebComponent;
 
