@@ -7,7 +7,7 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.stereotype.Component;
 import org.apache.wicket.spring.SpringWebApplicationFactory;
 
-import com.lsqt.modules.resource.web.console.MyDemoPage;
+import com.lsqt.content.web.wicket.demo.MyDemoPage;
 @Component("consoleApplication")
 public class ConsoleApplication extends WebApplication {
 	@Override
