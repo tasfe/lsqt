@@ -9,11 +9,15 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.orm.hibernate3.SessionHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+
+import com.lsqt.content.service.UserService;
+import com.lsqt.content.service.UserServiceImpl;
 public class AbstractTest {
 	/**
 	 * 
@@ -61,6 +65,11 @@ public class AbstractTest {
 		
 	}
 
+	@Test
+	public void run(){
+		System.out.println(configs.getBean(UserService.class).validate("22", "33"));
+	}
+	
 	@AfterClass
 	public static void destroy() {
 
