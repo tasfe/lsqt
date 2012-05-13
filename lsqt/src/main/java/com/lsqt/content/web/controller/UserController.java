@@ -12,7 +12,6 @@ import org.apache.velocity.app.Velocity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.lsqt.modules.AbstractBaseController;
 import com.lsqt.modules.resource.model.User;
 import com.lsqt.modules.resource.web.console.VelocityUtil;
 //import org.springframework.transaction.aspectj.AnnotationTransactionAspect;
