@@ -13,7 +13,8 @@ import com.lsqt.content.service.UserService;
 @SuppressWarnings("serial")
 public abstract class AbstractPage extends WebPage {
 	
-	@SpringBean(name="userService")
+	//@SpringBean(name="userServiceImpl")
+	@SpringBean
 	protected UserService userService ;
 	
 	
