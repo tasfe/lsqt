@@ -17,7 +17,6 @@ import javax.servlet.ServletResponse;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.velocity.app.Velocity;
 
-import com.lsqt.modules.resource.web.console.VelocityUtil;
 
 public class VelocitySettingsFilter implements Filter {
 	

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.lsqt.content.model.User;
-import com.lsqt.modules.resource.web.console.VelocityUtil;
+import com.lsqt.content.web.filter.VelocityUtil;
 //import org.springframework.transaction.aspectj.AnnotationTransactionAspect;
 //import  org.aspectj.lang.NoAspectBoundException;
 @Controller
