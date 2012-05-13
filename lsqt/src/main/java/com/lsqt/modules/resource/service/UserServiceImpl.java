@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lsqt.modules.resource.dao.UserDao;
+import com.lsqt.content.dao.UserDao;
 import com.lsqt.modules.resource.model.User;
 @Service("userService")
 public class UserServiceImpl implements UserService{
