@@ -10,7 +10,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
-import com.lsqt.modules.resource.model.User;
+import com.lsqt.content.model.User;
 
 public final class VelocityUtil {
 	public static String WEB_ROOT_ABSOLUTE_PATH;
