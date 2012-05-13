@@ -23,7 +23,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.lsqt.modules.resource.dao.UserDao;
+import com.lsqt.content.dao.UserDao;
 import com.lsqt.modules.resource.model.User;
 import com.lsqt.modules.resource.service.UserService;
 import com.lsqt.modules.resource.service.UserServiceImpl;
