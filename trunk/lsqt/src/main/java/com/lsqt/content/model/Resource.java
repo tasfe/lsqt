@@ -16,9 +16,7 @@ import com.lsqt.modules.resource.model.ResourceType;
 @Entity
 @Table(name="LSQT_RESOURCE")
 public class Resource implements ResourceType,Serializable{
-	/**
-	 * 
-	 */
+	/****/
 	private static final long serialVersionUID = 2746748130837926699L;
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
