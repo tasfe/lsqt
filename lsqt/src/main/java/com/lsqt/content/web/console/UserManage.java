@@ -44,23 +44,13 @@ public class UserManage extends AbstractPage {
 		final User  user=new User();
 		Form<User> form=new Form<User>("form",new CompoundPropertyModel<User>(user)){
 			private static final long serialVersionUID = -7465829731566596205L;
-			
 			protected void onSubmit() {
 				userService.save(user);
 			}
-			
 		};
 		
 		form.add(new TextField<String>("userId").setType(String.class));
-		form.add(new TextField<String>("userName").setType(String.class));
 		form.add(new EmailTextField("email").setType(String.class));
-		form.add(new TextArea<String>("descript").setType(String.class));
-		form.add(new DropDownChoice<String>("sex",list));
-	
-		
-		TextField<String> tf=new TextField<String>("birthday");
-		form.add(tf);
-
 		super.add(form);
 	}
 

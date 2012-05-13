@@ -16,4 +16,6 @@ public interface UserDao {
 	public User findById(Serializable id) ;
 	
 	public List<User> findAll();
+	
+	public boolean validate(String id, String pwd) ;
 }
