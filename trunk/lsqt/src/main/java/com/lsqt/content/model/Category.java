@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Entity;
 import org.hibernate.annotations.GenericGenerator;
 
-import com.lsqt.modules.resource.model.ResourceType;
 
 @SuppressWarnings("serial")
 @Entity(dynamicInsert=true,dynamicUpdate=true) 

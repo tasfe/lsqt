@@ -15,8 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.lsqt.modules.resource.model.ResourceType;
-import com.lsqt.modules.resource.model.oto.Wife;
+import com.lsqt.content.model.demo.oto.Wife;
 
 
 @Entity
