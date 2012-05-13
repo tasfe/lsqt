@@ -10,4 +10,5 @@ public interface UserService {
 	public User update(User user);
 	public boolean deleteById(String id);
 	public User findById(String id) ;
+	public boolean validate(String id,String pwd);
 }
