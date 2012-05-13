@@ -14,7 +14,8 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.tools.generic.DateTool;
 import org.junit.Test;
 
-import com.hirisun.modules.resource.model.Student;
+import com.lsqt.content.model.User;
+
 
 public class TestVelocity {
 	
@@ -52,7 +53,7 @@ public class TestVelocity {
 		
 		
 		//对象方法调用
-		content.put("human", new Student());
+		content.put("human", new User());
 		
 		
 		//velocity空值引用将会按原样输出,加个"!"符号就为空了
@@ -65,3 +66,4 @@ public class TestVelocity {
 		System.out.println(sw.toString());
 	}
 }
+
