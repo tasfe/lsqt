@@ -33,7 +33,7 @@ public class AbstractHibernateDaoSupportTest extends AbstractHibernateDaoSupport
 		annotationFactory.getHibernateProperties().setProperty("hibernate.connection.username", "sa");
 		annotationFactory.getHibernateProperties().setProperty("hibernate.connection.password", "");
 		
-		annotationFactory.setPackagesToScan(new String[]{"com.lsqt.modules.resource.*"});
+		annotationFactory.setPackagesToScan(new String[]{"com.lsqt.*.model"});
 		try {
 			annotationFactory.afterPropertiesSet();
 		} catch (Exception e) {
@@ -56,5 +56,6 @@ public class AbstractHibernateDaoSupportTest extends AbstractHibernateDaoSupport
 		super.executeHqlQuery("from User u where u.userId=?",new Object[]{"23"});
 		//getHibernateTemplate().save(user);
 		//this.save(user);
+		
 	}
 }
