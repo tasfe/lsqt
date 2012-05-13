@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 
-import com.lsqt.modules.resource.service.UserService;
+import com.lsqt.content.service.UserService;
 
 @Controller
 public class AbstractBaseController {
