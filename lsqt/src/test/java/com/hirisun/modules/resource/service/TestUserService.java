@@ -6,8 +6,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.hirisun.AbstractTest;
-import com.lsqt.modules.resource.model.User;
-import com.lsqt.modules.resource.service.UserService;
+import com.lsqt.content.model.User;
+import com.lsqt.content.service.UserService;
 
 public class TestUserService extends AbstractTest{
 	@Test

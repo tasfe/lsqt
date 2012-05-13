@@ -19,9 +19,9 @@ import com.hirisun.components.dao.suport.DataSet;
 import com.hirisun.components.dao.suport.MatchWay;
 import com.hirisun.components.dao.suport.Page;
 import com.hirisun.components.dao.suport.ParamType;
-import com.lsqt.modules.resource.dao.UserDaoImpl;
-import com.lsqt.modules.resource.model.User;
-import com.lsqt.modules.resource.service.UserService;
+import com.lsqt.content.dao.UserDaoImpl;
+import com.lsqt.content.model.User;
+import com.lsqt.content.service.UserService;
 
 public class StudentDaoTest extends AbstractTest{
 	private static final Logger LOGGER = Logger.getLogger(StudentDaoTest.class);

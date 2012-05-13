@@ -15,10 +15,10 @@ import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.lsqt.modules.resource.dao.UserDao;
-import com.lsqt.modules.resource.model.User;
-import com.lsqt.modules.resource.service.UserService;
-import com.lsqt.modules.resource.service.UserServiceImpl;
+import com.lsqt.content.dao.UserDao;
+import com.lsqt.content.model.User;
+import com.lsqt.content.service.UserService;
+import com.lsqt.content.service.UserServiceImpl;
 import com.lsqt.modules.resource.web.console.UserManage;
 
 @Configuration
