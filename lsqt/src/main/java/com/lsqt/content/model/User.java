@@ -22,9 +22,7 @@ import com.lsqt.modules.resource.model.oto.Wife;
 @Entity
 @Table(name="lsqt_user")
 public class User implements ResourceType,Serializable {
-	/**
-	 * 
-	 */
+	/****/
 	private static final long serialVersionUID = 6886626434521670211L;
 	private String id;
 	private String userId;
