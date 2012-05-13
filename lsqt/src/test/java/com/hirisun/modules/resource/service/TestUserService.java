@@ -13,12 +13,11 @@ public class TestUserService extends AbstractTest{
 	@Test
 	public void testCRUDUser(){
 		User user=new User();
-		user.setBirthday(new Date());
-		user.setDescript("这是一个描述");
+		
 		user.setEmail("yuanke52014@sohu.com");
-		user.setSex(0);
+		
 		user.setUserId("yuanke");
-		user.setUserName("admin");
+		
 		user.setUserPwd("admin");
 		UserService userService=getBean(UserService.class);
 		
@@ -26,12 +25,10 @@ public class TestUserService extends AbstractTest{
 		Assert.assertNotNull(user.getId());
 		
 		
-		user.setBirthday(new Date());
-		user.setDescript("描述");
+		
 		user.setEmail("keke@sohu.com");
-		user.setSex(1);
+		
 		user.setUserId("administrator");
-		user.setUserName("yuanmingmin");
 		user.setUserPwd("administrator");
 		userService.update(user);
 		
