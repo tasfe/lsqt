@@ -25,7 +25,7 @@ public class UserController extends AbstractBaseController{
 	public String userAdd(User user){
 		System.out.println(userService);
 		
-		user.setUserName("格三");
+		
 		userService.save(user);
 		User myu=userService.findById("ff8081813639b117013639b11bb60001");
 		
@@ -36,9 +36,7 @@ public class UserController extends AbstractBaseController{
 	@RequestMapping(params = "method=userInfo")
 	public String userInfo(){
 		User user=new User();
-		user.setUserName("格三");
-		user.setSex(0);
-		user.setDescript("张三测试用");
+		
 		user.setEmail("zs@sohu.com");
 		userService.save(user);
 		

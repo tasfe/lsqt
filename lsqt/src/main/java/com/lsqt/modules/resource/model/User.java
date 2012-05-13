@@ -19,7 +19,7 @@ import com.lsqt.modules.resource.model.oto.Wife;
 
 
 @Entity
-@Table(name="LSQT_USER")
+@Table(name="lsqt_user")
 public class User implements ResourceType,Serializable {
 	/**
 	 * 
@@ -28,14 +28,8 @@ public class User implements ResourceType,Serializable {
 	private String id;
 	private String userId;
 	private String userPwd;
-	
-	private String userName;
-	/**０代表男,　１代表女**/
-	private Integer sex;
-	private Date birthday;
 	private String email;
-	private String descript;
-	private Double bodyWeight; 
+	
 	
 	
 	
@@ -48,14 +42,6 @@ public class User implements ResourceType,Serializable {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-	
-	@Column(name="userName",length=50)
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 	
 	@Column(name="userPwd",length=50)
@@ -72,44 +58,12 @@ public class User implements ResourceType,Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	@Column(name="sex",length=2)
-	public Integer getSex() {
-		return sex;
-	}
-	public void setSex(Integer sex) {
-		this.sex = sex;
-	}
-	
-	@Column(name="birthday")
-	public Date getBirthday() {
-		return birthday;
-	}
-	
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
-	
+
 	@Column(name="email")
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	@Column(name="descript",length=500)
-	public String getDescript() {
-		return descript;
-	}
-	public void setDescript(String descript) {
-		this.descript = descript;
-	}
-	
-	@Column(name="bodyWeight")
-	public Double getBodyWeight() {
-		return bodyWeight;
-	}
-	public void setBodyWeight(Double bodyWeight) {
-		this.bodyWeight = bodyWeight;
 	}
 }
