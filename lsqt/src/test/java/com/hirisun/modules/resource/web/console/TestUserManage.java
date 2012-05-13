@@ -19,7 +19,7 @@ import com.lsqt.content.dao.UserDao;
 import com.lsqt.content.model.User;
 import com.lsqt.content.service.UserService;
 import com.lsqt.content.service.UserServiceImpl;
-import com.lsqt.content.web.wicket.UserManage;
+import com.lsqt.content.web.console.UserManage;
 
 @Configuration
 public class TestUserManage {
