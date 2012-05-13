@@ -19,15 +19,16 @@ import com.hirisun.components.dao.suport.DataSet;
 import com.hirisun.components.dao.suport.MatchWay;
 import com.hirisun.components.dao.suport.Page;
 import com.hirisun.components.dao.suport.ParamType;
+import com.lsqt.content.dao.UserDao;
 import com.lsqt.content.dao.UserDaoImpl;
 import com.lsqt.content.model.User;
 import com.lsqt.content.service.UserService;
 
 public class StudentDaoTest extends AbstractTest{
 	private static final Logger LOGGER = Logger.getLogger(StudentDaoTest.class);
-	//@Test
+	@Test
 	public void testSessionFactory(){
-		UserService us=(UserService)getBean("userService");
+		UserService us=getBean(UserService.class);
 		User user=new User();
 		user.setEmail("keke@hirisun.com");
 		us.save(user);
@@ -39,7 +40,7 @@ public class StudentDaoTest extends AbstractTest{
 	
 	@Test
 	public void testBaseDao() throws SQLException{
-		AbstractHibernateDaoSupport<User> baseDao=getBean(UserDaoImpl.class);
+		AbstractHibernateDaoSupport<User> baseDao=(AbstractHibernateDaoSupport<User>) getBean(UserDao.class);
 		/**
 		
 		
