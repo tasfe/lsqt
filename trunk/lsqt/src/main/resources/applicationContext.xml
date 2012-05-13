@@ -18,7 +18,7 @@
 	</bean>
 	
 	<!-- wicket的web框架用 -->
-	<bean id="consoleApplication" class="com.lsqt.modules.resource.web.console.ConsoleApplication"/>
+	<bean id="consoleApplication" class="com.lsqt.content.web.console.ConsoleApplication"/>
 	
 	<!-- common -->
 	<import resource="applicationContext-dataSource.xml" />
