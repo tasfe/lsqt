@@ -1,7 +1,10 @@
 package com.lsqt.content.dao;
 
+import org.lsqt.components.dao.hibernate.AbstractHibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.lsqt.content.model.User;
 
 
 
