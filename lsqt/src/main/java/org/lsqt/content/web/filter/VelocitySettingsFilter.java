@@ -25,10 +25,9 @@ public class VelocitySettingsFilter implements Filter {
 	 */
 	@Override
 	public void init(FilterConfig config) throws ServletException {
+		initLog4j(config);
 		
 		initVelocity(config);
-
-		initLog4j(config);
 
 		VelocityUtil.WEB_ROOT_ABSOLUTE_PATH=config.getServletContext().getRealPath("/");
 		
