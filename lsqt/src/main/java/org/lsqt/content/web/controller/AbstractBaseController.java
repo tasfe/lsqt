@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 public class AbstractBaseController {
 	protected UserService userService;
 
-	@Resource
+	@Resource(name="userServiceImpl")
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
