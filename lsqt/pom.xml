@@ -1,19 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.lsqt</groupId>
-	<artifactId>lsqt</artifactId>
+	<parent>
+		<artifactId>lsqt-aggregator</artifactId>
+		<groupId>org.lsqt</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>lsqt-content</artifactId>
+	<name>lsqt-content</name>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>lsqt Maven Webapp</name>
-	<description>
-		<![CDATA[]]>
-	</description>
-	<url>http://maven.apache.org</url>
-
+	
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven-eclipse-plugin.version>2.9</maven-eclipse-plugin.version>
 		
 		<spring.version>3.0.3.RELEASE</spring.version>
 		<hibernate-core.version>3.3.2.GA</hibernate-core.version>
@@ -362,7 +360,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.hirisun.components</groupId>
+			<groupId>org.lsqt</groupId>
 			<artifactId>components-dao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
@@ -453,4 +451,5 @@
 		<name>mirrors.ibiblio Maven Repository</name> <url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url> 
 		</repository> </repositories> -->
 		
+	<groupId>org.lsqt</groupId>
 </project>
