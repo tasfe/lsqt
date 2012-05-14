@@ -2,12 +2,12 @@ package com.hirisun.modules.resource.dao;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.lsqt.components.dao.hibernate.AbstractHibernateDaoSupport;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.SessionHolder;
 import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.hirisun.components.dao.hibernate.AbstractHibernateDaoSupport;
 import com.lsqt.content.model.User;
 
 /**
