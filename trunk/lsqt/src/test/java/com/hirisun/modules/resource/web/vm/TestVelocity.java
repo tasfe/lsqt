@@ -13,8 +13,8 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.tools.generic.DateTool;
 import org.junit.Test;
+import org.lsqt.content.model.User;
 
-import com.lsqt.content.model.User;
 
 
 public class TestVelocity {

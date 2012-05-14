@@ -4,10 +4,10 @@ import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.lsqt.content.model.User;
+import org.lsqt.content.service.UserService;
 
 import com.hirisun.AbstractTest;
-import com.lsqt.content.model.User;
-import com.lsqt.content.service.UserService;
 
 public class TestUserService extends AbstractTest{
 	@Test

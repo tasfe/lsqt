@@ -8,6 +8,11 @@ import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.easymock.MockControl;
 import org.junit.Test;
+import org.lsqt.content.dao.UserDao;
+import org.lsqt.content.model.User;
+import org.lsqt.content.service.UserService;
+import org.lsqt.content.service.UserServiceImpl;
+import org.lsqt.content.web.console.UserManage;
 import org.springframework.aop.support.annotation.AnnotationClassFilter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -15,11 +20,6 @@ import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.lsqt.content.dao.UserDao;
-import com.lsqt.content.model.User;
-import com.lsqt.content.service.UserService;
-import com.lsqt.content.service.UserServiceImpl;
-import com.lsqt.content.web.console.UserManage;
 
 @Configuration
 public class TestUserManage {
