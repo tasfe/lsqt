@@ -54,7 +54,7 @@ public class AbstractHibernateDaoSupportTest extends AbstractHibernateDaoSupport
 		save(user);
 		
 		super.executeHqlQuery("from User u where u.userId=?",new Object[]{"23"});
-		//getHibernateTemplate().save(user);
+		getHibernateTemplate().save(user);
 		//this.save(user);
 		
 	}
