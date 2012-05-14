@@ -11,14 +11,14 @@
 
 	<!-- spring 加载xml 属性配置 -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.lsqt" />
+	<context:component-scan base-package="org.lsqt" />
 
 	<bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
 		<property name="location" value="classpath:springConfig.properties"/>
 	</bean>
 	
 	<!-- wicket的web框架用 -->
-	<bean id="consoleApplication" class="com.lsqt.content.web.console.ConsoleApplication"/>
+	<bean id="consoleApplication" class="org.lsqt.content.web.console.ConsoleApplication"/>
 	
 	<!-- common -->
 	<import resource="applicationContext-dataSource.xml" />
