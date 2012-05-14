@@ -13,8 +13,7 @@ import org.apache.wicket.markup.html.WebComponent;
 @SuppressWarnings("serial")
 public abstract class AbstractPage extends WebPage {
 	
-	//@SpringBean(name="userServiceImpl")
-	@SpringBean
+	@SpringBean(name="userServiceImpl")
 	protected UserService userService ;
 	
 	
