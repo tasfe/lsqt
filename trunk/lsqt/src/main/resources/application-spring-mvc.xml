@@ -12,7 +12,7 @@
 
 	<!-- spring 加载xml 属性配置 -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.lsqt" />
+	<context:component-scan base-package="org.lsqt" />
 	<tx:annotation-driven transaction-manager="transactionManager" mode="proxy"/>
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
