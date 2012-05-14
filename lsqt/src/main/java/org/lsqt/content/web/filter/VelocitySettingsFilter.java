@@ -79,7 +79,7 @@ public class VelocitySettingsFilter implements Filter {
 	@Override
 	public void destroy() {
 		
-
+		
 	}
 
 }
