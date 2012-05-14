@@ -27,11 +27,7 @@ public class User implements ResourceType,Serializable {
 	private String userId;
 	private String userPwd;
 	private String email;
-	
-	
-	
-	
-	
+
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
 	@GeneratedValue(generator="idGenerator")
