@@ -39,25 +39,27 @@
 		<slf4j-log4j12.version>1.6.2</slf4j-log4j12.version>
 		<slf4j-api.version>1.6.4</slf4j-api.version>
 		
-		<!-- -->
-		<jstl.version>1.0</jstl.version>
+		<!-- 
+		<jstl.version>1.2</jstl.version>
 		<standard.version>1.0</standard.version>
 		<servlet.api.version>2.4</servlet.api.version>
-		 <!-- 
-		 <javaee.version>6</javaee.version>
-		  -->
+		 -->
+		 
+		 <!-- -->
+		 <javaee.version>5</javaee.version>
+		  
 	</properties>
 
 	<dependencies>
 		
 	
-		<!-- 
+		<!-- -->
 		<dependency>
 			<groupId>javaee</groupId>
 			<artifactId>javaee-api</artifactId>
 			<version>${javaee.version}</version>
 		</dependency>
-		 -->
+		 
 		 
 		<!-- velocity 网页静态化 -->
 		<dependency>
@@ -78,6 +80,7 @@
 			<version>${oscache.version}</version>
 		</dependency>
 		
+		<!-- spring 框架 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -281,7 +284,7 @@
 
 		<!-- 
 		<dependency>
-			<groupId>jstl</groupId>
+			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
 			<scope>provided</scope>
@@ -301,6 +304,8 @@
 			<scope>provided</scope>
 		</dependency>
 		 -->
+		 
+		 
 		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc14</artifactId> 
 			<version>10.2.0.4.0</version> <scope>runtime</scope> </dependency> -->
 
