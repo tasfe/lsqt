@@ -46,7 +46,7 @@ public class VelocitySettingsFilter implements Filter {
 		prop.put("output.encoding", "UTF-8");
 		Velocity.init(prop);
 	}
-
+	
 	/**
 	 * Log4j的日志文件指定到:/WEB-INF/classes/log/lsqt.log
 	 * @param config
