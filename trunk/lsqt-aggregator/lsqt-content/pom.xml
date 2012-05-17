@@ -19,7 +19,7 @@
 		<wicket.version>1.5.5</wicket.version>
 		
 		<velocity.version>1.7</velocity.version>
-		<velocity-tools.version>1.4</velocity-tools.version>
+		<velocity-tools.version>1.2</velocity-tools.version>
 		
 		<dbutils.version>1.4</dbutils.version>
 		<ejb3-persistence.version>1.0.2.GA</ejb3-persistence.version>
@@ -45,21 +45,28 @@
 		<servlet.api.version>2.4</servlet.api.version>
 		 -->
 		 
-		 <!-- -->
+		 <!-- 
 		 <javaee.version>5</javaee.version>
-		  
+		  -->
 	</properties>
 
-	<dependencies>
-		
 	
-		<!-- -->
+	<dependencies>
+	<!-- -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-oscache</artifactId>
+			<version>3.3.2.GA</version>
+		</dependency>
+	 
+		<!-- 
 		<dependency>
 			<groupId>javaee</groupId>
 			<artifactId>javaee-api</artifactId>
 			<version>${javaee.version}</version>
+			<scope>provided</scope>
 		</dependency>
-		 
+		 -->
 		 
 		<!-- velocity 网页静态化 -->
 		<dependency>
@@ -67,13 +74,16 @@
 		  <artifactId>velocity</artifactId>
 		  <version>${velocity.version}</version>
 		</dependency>
+		
+		
 		<dependency>
 		  <groupId>velocity-tools</groupId>
 		  <artifactId>velocity-tools</artifactId>
 		  <version>${velocity-tools.version}</version>
 		</dependency>
-		
-		<!-- oscache 缓存 -->
+		 
+		 
+		<!-- oscache web缓存 -->
 		<dependency>
 			<groupId>opensymphony</groupId>
 			<artifactId>oscache</artifactId>
