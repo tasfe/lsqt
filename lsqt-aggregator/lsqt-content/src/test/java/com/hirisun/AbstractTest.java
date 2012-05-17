@@ -78,7 +78,7 @@ public class AbstractTest {
 		System.out.println("容器销毁...");
 	}
 
-	@Before
+/*	@Before
 	public void invokeBefore() {
 		sessionFactory = (SessionFactory) getBean("sessionFactory");
 		Session s = sessionFactory.openSession();
@@ -91,5 +91,6 @@ public class AbstractTest {
 		s.flush();
 		TransactionSynchronizationManager.unbindResource(sessionFactory);
 		SessionFactoryUtils.closeSession(holder.getSession());
-	}
+	}*/
+	
 }
