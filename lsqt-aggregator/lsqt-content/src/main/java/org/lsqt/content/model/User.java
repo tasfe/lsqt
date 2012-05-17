@@ -13,6 +13,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.lsqt.content.model.oto.Wife;
 
@@ -20,6 +22,7 @@ import org.lsqt.content.model.oto.Wife;
 
 @Entity
 @Table(name="lsqt_user")
+@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User implements ResourceType,Serializable {
 	/****/
 	private static final long serialVersionUID = 6886626434521670211L;
