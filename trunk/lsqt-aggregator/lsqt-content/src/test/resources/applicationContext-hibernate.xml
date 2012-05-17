@@ -33,12 +33,13 @@
 				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
 				<!-- 
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> 
-				<prop key="hibernate.cache.provider_class">com.opensymphony.oscache.hibernate.OSCacheProvider</prop>
+				
 				-->
 				
 				
 				<prop key="hibernate.cache.use_second_level_cache">true</prop>
-				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.OSCacheProvider</prop>
+				<prop key="hibernate.cache.provider_class">com.opensymphony.oscache.hibernate.OSCacheProvider</prop>
 				<prop key="hibernate.generate_statistics">true</prop>
 				
 			</props>
