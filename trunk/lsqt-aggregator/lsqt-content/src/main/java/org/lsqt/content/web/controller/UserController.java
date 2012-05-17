@@ -23,7 +23,7 @@ public class UserController extends AbstractBaseController{
 	@RequestMapping(params = "method=userAdd")
 	public String userAdd(User user){
 		System.out.println(userService);
-		
+		user.setEmail("袁明敏@sohu.com");
 		
 		userService.save(user);
 		User myu=userService.findById("ff8081813639b117013639b11bb60001");
