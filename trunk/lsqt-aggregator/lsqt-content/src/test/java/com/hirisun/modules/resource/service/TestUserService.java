@@ -11,7 +11,6 @@ import org.lsqt.content.service.UserService;
 import com.hirisun.AbstractTest;
 import com.opensymphony.oscache.hibernate.OSCache;
 import com.opensymphony.oscache.hibernate.OSCacheProvider;
- 
 public class TestUserService extends AbstractTest{
 	private UserService userService=getBean(UserService.class);
 	@Test
@@ -36,13 +35,8 @@ public class TestUserService extends AbstractTest{
 		
 		
 		String pk=user.getId();
-		for(int i=0;i<50;i++){
-			//userService.findById(i+"");
+		for(int i=0;i<10;i++){
 			userService.findById(pk);
-			/*if(i==49){
-				userService.findById(pk);
-			}*/
-			
 		}
 		
 		boolean isOk=userService.deleteById(pk);
