@@ -33,7 +33,7 @@ public class AbstractHibernateDaoSupportTest extends AbstractHibernateDaoSupport
 		annotationFactory.getHibernateProperties().setProperty("hibernate.connection.username", "sa");
 		annotationFactory.getHibernateProperties().setProperty("hibernate.connection.password", "");
 		
-		annotationFactory.setPackagesToScan(new String[]{"com.lsqt.*.model"});
+		annotationFactory.setPackagesToScan(new String[]{"org.lsqt.*.model"});
 		try {
 			annotationFactory.afterPropertiesSet();
 		} catch (Exception e) {
