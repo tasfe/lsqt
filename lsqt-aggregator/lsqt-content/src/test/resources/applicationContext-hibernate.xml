@@ -25,13 +25,13 @@
 				<prop key="hibernate.format_sql">false</prop>
 				<prop key="hibernate.current_session_context_class">thread</prop>
 				<prop key="hibernate.connection.autocommit">true </prop> 
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
 				<prop key="hibernate.generate_statistics">true</prop>
 				<prop key="hibernate.autoReconnect">true</prop>
 				<prop key="hibernate.jdbc.batch_size">500</prop>
 				<prop key="hibernate.connection.release_mode">auto</prop>
 				<prop key="hibernate.cache.use_second_level_cache">false</prop>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
 				<!--
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> 
 				<prop key="hibernate.generate_statistics">true</prop>
@@ -47,7 +47,7 @@
 		</property>
 		<property name="packagesToScan">
 			<list>
-				<value>com.lsqt.*.model</value>
+				<value>org.lsqt.content.model</value>
 			</list>
 		</property>
 	</bean>
