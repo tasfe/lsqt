@@ -17,7 +17,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.orm.hibernate3.SessionHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-
+import org.hibernate.dialect.H2Dialect;
 public class AbstractTest {
 	/**
 	 * 
@@ -67,7 +67,7 @@ public class AbstractTest {
 
 	@Test
 	public void run(){
-		System.out.println(configs.getBean(UserService.class).validate("22", "33"));
+		//System.out.println(configs.getBean(UserService.class).validate("22", "33"));
 	}
 	
 	@AfterClass
@@ -78,7 +78,7 @@ public class AbstractTest {
 		System.out.println("容器销毁...");
 	}
 
-/*	@Before
+	@Before
 	public void invokeBefore() {
 		sessionFactory = (SessionFactory) getBean("sessionFactory");
 		Session s = sessionFactory.openSession();
@@ -91,6 +91,6 @@ public class AbstractTest {
 		s.flush();
 		TransactionSynchronizationManager.unbindResource(sessionFactory);
 		SessionFactoryUtils.closeSession(holder.getSession());
-	}*/
+	}
 	
 }
