@@ -13,7 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 
 @Entity
-@Table(name="LSQT_RESOURCE")
+@Table(name="lsqt_resource")
 public class Resource implements ResourceType,Serializable{
 	/****/
 	private static final long serialVersionUID = 2746748130837926699L;
