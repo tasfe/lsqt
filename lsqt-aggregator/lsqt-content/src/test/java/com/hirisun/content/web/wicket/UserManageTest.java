@@ -22,22 +22,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 @Configuration
-public class TestUserManage {
+public class UserManageTest {
 
 	//@Test
 	public void init(){
-		// 获得路径
-		String path = this.getClass().getClassLoader().getResource("db/test.mdb").getPath().substring(1);
-		Connection con = null;
-		try {
-			System.out.println(path);
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-			String url = "jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ="+ path;
-			con = DriverManager.getConnection(url, "", "");
-			System.out.println("连接成功！");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
         
 		
 		/*WicketTester t=new WicketTester();
