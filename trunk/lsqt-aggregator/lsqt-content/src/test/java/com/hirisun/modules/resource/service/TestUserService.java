@@ -1,16 +1,11 @@
 package com.hirisun.modules.resource.service;
 
-import java.util.Date;
-
-import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.junit.Assert;
 import org.junit.Test;
 import org.lsqt.content.model.User;
 import org.lsqt.content.service.UserService;
 
 import com.hirisun.AbstractTest;
-import com.opensymphony.oscache.hibernate.OSCache;
-import com.opensymphony.oscache.hibernate.OSCacheProvider;
 public class TestUserService extends AbstractTest{
 	private UserService userService=getBean(UserService.class);
 	@Test
