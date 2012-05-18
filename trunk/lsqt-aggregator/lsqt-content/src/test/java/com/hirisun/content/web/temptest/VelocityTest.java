@@ -17,7 +17,7 @@ import org.lsqt.content.model.User;
 
 
 
-public class TestVelocity {
+public class VelocityTest {
 	
 	//@Test
 	public void testVelocity(){
