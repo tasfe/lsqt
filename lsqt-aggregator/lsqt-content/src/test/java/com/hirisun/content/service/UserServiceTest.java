@@ -20,8 +20,6 @@ public class UserServiceTest extends AbstractTest{
 		userService.save(user);
 		Assert.assertNotNull(user.getId());
 		
-		
-		
 		user.setEmail("keke@sohu.com");
 		
 		user.setUserId("administrator");
@@ -35,7 +33,6 @@ public class UserServiceTest extends AbstractTest{
 		}
 		
 		boolean isOk=userService.deleteById(pk);
-		
 		
 		Assert.assertTrue(isOk);
 	}
