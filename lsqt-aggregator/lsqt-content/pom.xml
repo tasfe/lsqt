@@ -39,29 +39,48 @@
 		<slf4j-log4j12.version>1.6.2</slf4j-log4j12.version>
 		<slf4j-api.version>1.6.4</slf4j-api.version>
 		
-		<!-- 
+		<!--  -->
 		<jstl.version>1.2</jstl.version>
 		<standard.version>1.0</standard.version>
 		<servlet.api.version>2.4</servlet.api.version>
-		 -->
+		
 		 
-		 <!-- 
+		 <!--   -->
 		 <javaee.version>5</javaee.version>
-		  -->
+		
 	</properties>
 
 	
 	<dependencies>
+	
+		<!-- ehcache缓存
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.4.6</version>
+		</dependency>
+		 -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-web</artifactId>
+			<version>2.0.4</version>
+		</dependency>
+	
+		<!-- 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-oscache</artifactId>
 			<version>3.3.2.GA</version>
 		</dependency>
-	 <dependency>
+		 -->
+		 
+		 <!-- 
+	 	<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>
 			<version>3.3.2.GA</version>
 		</dependency>
+		 -->
 		<!-- 
 		<dependency>
 			<groupId>javaee</groupId>
@@ -86,13 +105,14 @@
 		</dependency>
 		 
 		 
-		<!-- oscache web缓存 -->
+		<!-- oscache web缓存
 		<dependency>
 			<groupId>opensymphony</groupId>
 			<artifactId>oscache</artifactId>
 			<version>${oscache.version}</version>
 		</dependency>
-		
+		 -->
+		 
 		<!-- spring 框架 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -295,28 +315,28 @@
 		</dependency>
 		-->
 
-		<!-- 
+	
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
+	<!-- 
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>${standard.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
+ -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>${servlet.api.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		 -->
+		
 		 
 		 
 		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc14</artifactId> 
@@ -375,11 +395,17 @@
 		  <scope>test</scope>
 		</dependency>
 
+<!-- ####################################################### -->
 		<dependency>
 			<groupId>org.lsqt</groupId>
 			<artifactId>components-dao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.lsqt</groupId>
+			<artifactId>components-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

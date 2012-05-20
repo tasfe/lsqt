@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.StringWriter;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;

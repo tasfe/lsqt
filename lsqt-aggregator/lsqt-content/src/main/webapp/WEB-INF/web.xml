@@ -18,7 +18,7 @@
 		<param-value>classpath:log4j.properties</param-value>
 	</context-param>
 
-	<!-- oscache全局缓存支持 -->
+	<!-- oscache全局缓存支持
 	<filter>
 		<filter-name>CacheFilter</filter-name>
 		<filter-class>com.opensymphony.oscache.web.filter.CacheFilter</filter-class>
@@ -35,7 +35,43 @@
 		<filter-name>CacheFilter</filter-name>
 		<url-pattern>/product/*</url-pattern>
 	</filter-mapping>
+	 -->
+	 
+	 <!-- ehcache 缓存 -->
+	<filter>
+		<filter-name>pageFilter</filter-name>
+		<filter-class>net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter</filter-class>
+		<init-param>
+			<param-name>suppressStackTtraces</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cacheName</param-name>
+			<param-value>pageCache</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>pageFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	
+	 <filter>
+		<filter-name>fragmentCache</filter-name>
+		<filter-class>net.sf.ehcache.constructs.web.filter.SimplePageFragmentCachingFilter</filter-class>
+		<init-param>
+			<param-name>suppressStackTtraces</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cacheName</param-name>
+			<param-value>fragmentCache</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>fragmentCache</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	 
 	<!-- Character Encoding filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>

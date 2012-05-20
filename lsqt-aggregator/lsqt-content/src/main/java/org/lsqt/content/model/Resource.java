@@ -11,7 +11,18 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 
-
+/**
+ * <pre>
+ * 功能说明: 
+ * 编写日期:	2011-5-13
+ * 作者:	袁明敏
+ * 
+ * 历史记录
+ * 1、修改日期：2011-5-13
+ *    修改人：袁明敏
+ *    修改内容：
+ * </pre>
+ */
 @Entity
 @Table(name="lsqt_resource")
 public class Resource implements ResourceType,Serializable{

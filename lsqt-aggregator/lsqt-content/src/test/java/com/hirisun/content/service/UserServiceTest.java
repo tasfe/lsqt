@@ -4,12 +4,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.lsqt.content.model.User;
 import org.lsqt.content.service.UserService;
+import org.lsqt.util.db.DataBaseUtil;
 
 import com.hirisun.AbstractTest;
 public class UserServiceTest extends AbstractTest{
 	private UserService userService=getBean(UserService.class);
 	@Test
 	public void testCRUDUser(){
+		
+		
 		System.out.println(Math.pow(2, 69)+"============");
 		User user=new User();
 		user.setEmail("yuanke52014中国人@sohu.com");

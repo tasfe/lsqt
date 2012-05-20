@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class AcessDBConnectionTest {
 	
-	@Test
+	//@Test
 	public  void getConnection(){
 		Connection con = null;
 		try {
