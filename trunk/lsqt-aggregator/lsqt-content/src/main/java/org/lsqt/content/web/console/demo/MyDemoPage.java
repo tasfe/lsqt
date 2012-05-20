@@ -35,6 +35,6 @@ public class MyDemoPage extends AbstractPage{
 		b.add(lName);
 		add(b);
 		
-		add(new Include("footer","foot.html"));
+		add(new Include("footer","foot.html"));  //只能包含静态文件，用WebMarkupContainer 和 Panel,Border 等
 	}
 }

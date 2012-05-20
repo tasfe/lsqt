@@ -20,7 +20,7 @@ public class ConsoleApplication extends WebApplication {
 
 	public Class<? extends Page> getHomePage() {
 		//return UserManage.class;
-		return MyDemoPage.class;
+		return UserManage.class;
 	}
 	
 	
