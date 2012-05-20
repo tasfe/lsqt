@@ -12,7 +12,7 @@ import org.lsqt.content.dao.UserDao;
 import org.lsqt.content.model.User;
 import org.lsqt.content.service.UserService;
 import org.lsqt.content.service.UserServiceImpl;
-import org.lsqt.content.web.console.UserManage;
+import org.lsqt.content.web.wicket.UserManage;
 import org.springframework.aop.support.annotation.AnnotationClassFilter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

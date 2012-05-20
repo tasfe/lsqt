@@ -7,7 +7,7 @@ import org.apache.wicket.markup.html.border.Border;
 import org.apache.wicket.markup.html.border.BoxBorder;
 import org.apache.wicket.markup.html.include.Include;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.lsqt.content.web.console.AbstractPage;
+import org.lsqt.content.web.wicket.AbstractPage;
 
 public class MyDemoPage extends AbstractPage{
 	/**

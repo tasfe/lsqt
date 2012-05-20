@@ -1,0 +1,14 @@
+package com.hirisun.content.service;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.lsqt.util.db.DataBaseUtil;
+
+public class OtherTest {
+	
+	@Test
+	public void otherTest(){
+		boolean isOk2=DataBaseUtil.executeConnection("com.mysql.jdbc.Driver","jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8", "mm", "mm");
+		Assert.assertTrue(isOk2);
+	}
+}

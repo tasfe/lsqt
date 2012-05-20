@@ -1,4 +1,4 @@
-package org.lsqt.content.web.console;
+package org.lsqt.content.web.wicket;
 
 
 import org.apache.wicket.Page;

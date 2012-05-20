@@ -33,6 +33,7 @@
 	</script>
 </head>
 <body>
+<%=new java.util.Date() %>
 <h2>Hello World!</h2>
 <button id="demo1">示例1</button><br>
 <button id="demo2">示例2</button><br>
