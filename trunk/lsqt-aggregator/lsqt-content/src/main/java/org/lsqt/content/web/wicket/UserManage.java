@@ -16,6 +16,7 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.EmailTextField;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -27,6 +28,7 @@ import org.lsqt.content.dao.UserDao;
 import org.lsqt.content.model.User;
 import org.lsqt.content.service.UserService;
 import org.lsqt.content.service.UserServiceImpl;
+import org.lsqt.content.web.console.demo.MyDemoPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -87,5 +89,9 @@ public class UserManage extends AbstractPage {
 				return String.valueOf("搜狐");
 			}
 		});
+		
+		//从用户管理页面，跳转到demo页面
+		BookmarkablePageLink<MyDemoPage> bookLink=new BookmarkablePageLink<MyDemoPage>("bookLink", MyDemoPage.class);
+		form.add(bookLink);
 	}
 }
