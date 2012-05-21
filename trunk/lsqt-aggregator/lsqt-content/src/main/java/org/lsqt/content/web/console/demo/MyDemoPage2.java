@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
+import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
@@ -17,7 +18,6 @@ public class MyDemoPage2 extends AbstractPage{
 		
 		PasswordTextField pwd=new PasswordTextField("userPwd");
 		final Label lblShowName=new Label("showName","密码明文：");
-		
 		
 		final User user = new User();
 		Form form=new Form("form",new CompoundPropertyModel<User>(user)){
@@ -58,7 +58,7 @@ public class MyDemoPage2 extends AbstractPage{
 				System.out.println("33333");
 			}
 		};
-		btn3.setDefaultFormProcessing(false);
+		btn3.setDefaultFormProcessing(false);  // 只扫行当前按钮的响应,会跳过调用 Form 的 onSubmit 事件
 		form.add(btn3);
 		
 		
@@ -71,6 +71,13 @@ public class MyDemoPage2 extends AbstractPage{
 		form.add(pwd);
 		add(form);
 		
-		
+		//用于提交表单的链接
+		SubmitLink subLink=new SubmitLink("submitLink",form){
+			public void onSubmit() {
+				System.out.println("444444");
+			}
+		};
+		subLink.setDefaultFormProcessing(false);
+		this.add(subLink );
 	}
 }
