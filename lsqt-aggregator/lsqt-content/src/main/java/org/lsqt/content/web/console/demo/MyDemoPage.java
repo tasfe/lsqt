@@ -81,7 +81,7 @@ public class MyDemoPage extends AbstractPage{
 		modelWin.setVisible(true);
 		modelWin.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
 			public void onClose(AjaxRequestTarget target) {
-
+				
 			}
 		});
 		this.add(modelWin);
