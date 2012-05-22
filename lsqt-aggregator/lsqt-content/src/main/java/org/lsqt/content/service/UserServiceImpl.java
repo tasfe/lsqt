@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService{
 		return this.userDao.findById(id);
 	}
 	
-	
 	public boolean validate(String id, String pwd) {
 		return this.userDao.validate(id, pwd);
 	}
