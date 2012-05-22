@@ -17,10 +17,11 @@ public abstract class Content {
 	protected String id;
 	/**内容名称**/
 	protected String name;
-	
-	protected String categoryId;
+	/**内空关键字(以逗号分隔)**/
+	protected String keys;
+	/**描述信息**/
 	protected String description;
-	protected Integer version;
+	/**创建时间戳**/
 	protected Long createTime;
 	
 	public String getId() {
@@ -35,28 +36,23 @@ public abstract class Content {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCategoryId() {
-		return categoryId;
-	}
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
+
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Integer getVersion() {
-		return version;
-	}
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
 	public Long getCreateTime() {
 		return createTime;
 	}
 	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
+	}
+	public String getKeys() {
+		return keys;
+	}
+	public void setKeys(String keys) {
+		this.keys = keys;
 	}
 }
