@@ -5,8 +5,6 @@ import org.lsqt.content.model.User;
 import org.springframework.stereotype.Repository;
 
 
-
-
 @Repository
 public class UserDaoImpl extends AbstractHibernateDaoSupport<User> implements UserDao{
 	
