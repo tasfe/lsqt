@@ -1,10 +1,6 @@
 package org.lsqt.content.service;
 
 
-
-
-import java.io.Serializable;
-
 import org.lsqt.content.model.News;
 
 public interface NewsService {
