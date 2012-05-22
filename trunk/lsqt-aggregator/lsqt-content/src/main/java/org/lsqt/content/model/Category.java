@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 @Entity(dynamicInsert=true,dynamicUpdate=true) 
 @Table(name="lsqt_category")
-public class Category implements ResourceType , Serializable{
+public class Category implements Serializable{
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
 	@GeneratedValue(generator="idGenerator")
