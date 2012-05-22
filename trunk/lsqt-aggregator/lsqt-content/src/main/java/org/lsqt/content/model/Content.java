@@ -1,9 +1,14 @@
 package org.lsqt.content.model;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.hibernate.annotations.GenericGenerator;
+
 /**
- *所有内容抽象
+ *所有内容抽象，如：新闻、贴子、招聘、文学等信息内容
  * @author 袁明敏
  * @version 1.1
  * @since 2012-05-18
@@ -13,16 +18,31 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public abstract class Content {
-	/**内容标识**/
+	/**标识ID**/
+	@Id
+	@GenericGenerator(name="idGenerator", strategy="uuid")
+	@GeneratedValue(generator="idGenerator")
 	protected String id;
+	
 	/**内容名称**/
+	@Column(name="name",length=500)
 	protected String name;
+	
+	/**内容**/
+	@Column(name="content",length=2000)
+	protected String content;
+	
 	/**内空关键字(以逗号分隔)**/
-	protected String keys;
+	@Column(name="keysStr",length=200)
+	protected String keysStr;
+	
 	/**描述信息**/
+	@Column(name="description",length=1000)
 	protected String description;
+	
 	/**创建时间戳**/
-	protected Long createTime;
+	@Column(name="createTime")
+	protected Long createTime=System.currentTimeMillis();
 	
 	public String getId() {
 		return id;
@@ -49,10 +69,16 @@ public abstract class Content {
 	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
 	}
-	public String getKeys() {
-		return keys;
+	public String getContent() {
+		return content;
 	}
-	public void setKeys(String keys) {
-		this.keys = keys;
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getKeysStr() {
+		return keysStr;
+	}
+	public void setKeysStr(String keysStr) {
+		this.keysStr = keysStr;
 	}
 }
