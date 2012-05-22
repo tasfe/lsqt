@@ -71,7 +71,7 @@ public class MyDemoPage extends AbstractPage{
 		booklink2.setPopupSettings(settings);
 		this.add(booklink2);
 		
-		//弹出模式窗口
+		//弹出模式窗口(有问题！)
 		ModalWindow modelWin=new ModalWindow("modelWin");
 		modelWin.setTitle("新增操作");
 		modelWin.setInitialHeight(341);
