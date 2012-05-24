@@ -1,6 +1,5 @@
 package com.hirisun.content.service;
 
-import org.hibernate.cache.EhCacheProvider;
 import org.junit.Assert;
 import org.junit.Test;
 import org.lsqt.content.model.Category;
@@ -10,7 +9,7 @@ import org.lsqt.content.service.CategoryServiceImpl;
 import com.hirisun.AbstractTest;
 
 public class CategoryServiceTest extends AbstractTest{
-	final CategoryServiceImpl service=	getBean(CategoryServiceImpl.class);
+	final CategoryService service=	getBean(CategoryServiceImpl.class);
 	
 	@Test
 	public void testGetRoot(){
