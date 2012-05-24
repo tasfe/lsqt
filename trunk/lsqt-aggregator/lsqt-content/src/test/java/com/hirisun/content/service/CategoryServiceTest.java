@@ -10,10 +10,18 @@ import org.lsqt.content.service.CategoryServiceImpl;
 import com.hirisun.AbstractTest;
 
 public class CategoryServiceTest extends AbstractTest{
+	final CategoryServiceImpl service=	getBean(CategoryServiceImpl.class);
+	
+	@Test
+	public void testGetRoot(){
+		Category categoryRoot=service.getRoot();
+		Assert.assertNotNull(categoryRoot);
+	}
+	
 	@Test
 	public void testCRUDCategory(){
-		CategoryServiceImpl service=	getBean(CategoryServiceImpl.class);
-		Assert.assertNotNull(service);
+		
+		
 		Category categoryRoot=service.getRoot();
 		if(categoryRoot!=null){
 			service.deleteById(categoryRoot.getId());
