@@ -13,15 +13,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Entity;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Entity;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="lsqt_category")
 public class Category implements Serializable{
+	/****/
+	private static final long serialVersionUID = 3897093806881654371L;
+
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
 	@GeneratedValue(generator="idGenerator")
@@ -33,7 +34,7 @@ public class Category implements Serializable{
 	@Column(name="name")
 	private String name;
 	
-	@ManyToOne(cascade = CascadeType.REFRESH, optional = false)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pid", referencedColumnName = "id")
 	private Category parentCategory;
 	
