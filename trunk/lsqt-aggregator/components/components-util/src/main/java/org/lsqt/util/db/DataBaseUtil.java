@@ -23,14 +23,21 @@ import java.sql.SQLException;
 public final class DataBaseUtil {
 	private DataBaseUtil(){}
 	
-	public static void testConnection(String driver,String url, String userName, String passwod ){
+	/**
+	 * 方法说明：执行数据库的连接
+	 * @param driver
+	 * @param url
+	 * @param userName
+	 * @param passwod
+	 */
+	public static boolean executeConnection(String driver,String url, String userName, String passwod ){
 		Connection con=null;
 		try{
 			Class.forName(driver);
 			con=DriverManager.getConnection(url,userName,passwod);
 			}catch(Exception e){
 				e.printStackTrace();
-				
+				return false;
 			}finally{
 				if(con!=null){
 					try {
@@ -40,5 +47,6 @@ public final class DataBaseUtil {
 					}
 				}
 			}
+		return con!=null;
 	}
 }
