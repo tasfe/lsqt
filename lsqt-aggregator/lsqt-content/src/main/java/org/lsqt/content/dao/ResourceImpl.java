@@ -2,7 +2,9 @@ package org.lsqt.content.dao;
 
 import org.lsqt.components.dao.hibernate.AbstractHibernateDaoSupport;
 import org.lsqt.content.model.Resource;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ResourceImpl extends AbstractHibernateDaoSupport<Resource> implements ResourceDao{
 	public Resource getRoot(){
 		final String hql="from Resource r where c.id=c.pid";
