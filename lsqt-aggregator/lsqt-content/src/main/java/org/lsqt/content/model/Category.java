@@ -22,6 +22,10 @@ import org.hibernate.annotations.GenericGenerator;
 public class Category implements Serializable{
 	/****/
 	private static final long serialVersionUID = 3897093806881654371L;
+	private static long OBJECT_COUNTER=0L;
+	public Category(){
+		OBJECT_COUNTER++;
+	}
 
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
@@ -33,6 +37,9 @@ public class Category implements Serializable{
 	
 	@Column(name="name")
 	private String name;
+	
+	@Column(name="createTime")
+	private Long createTime=System.currentTimeMillis()+OBJECT_COUNTER;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pid", referencedColumnName = "id")
@@ -75,5 +82,13 @@ public class Category implements Serializable{
 
 	public void setSubCategories(Set<Category> subCategories) {
 		this.subCategories = subCategories;
+	}
+
+	public Long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Long createTime) {
+		this.createTime = createTime;
 	}
 }
