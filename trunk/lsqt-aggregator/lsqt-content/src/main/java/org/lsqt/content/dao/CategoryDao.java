@@ -13,4 +13,8 @@ public interface CategoryDao {
 	public boolean deleteById(Serializable id);
 
 	public Category findById(Serializable id) ;
+	
+	public void deleteAll();
+	
+	public Category getRoot();
 }
