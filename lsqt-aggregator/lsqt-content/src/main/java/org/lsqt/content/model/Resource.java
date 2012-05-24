@@ -1,11 +1,18 @@
 package org.lsqt.content.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -26,6 +33,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name="lsqt_resource")
 public class Resource implements Serializable{
+	private static long OBJECT_COUNTER=0L;
+	public Resource(){
+		OBJECT_COUNTER++;
+	}
 	/****/
 	private static final long serialVersionUID = 2746748130837926699L;
 	@Id
@@ -35,7 +46,7 @@ public class Resource implements Serializable{
 	
 	
 	/**父类资源**/
-	@Column(name="pid",length=32)
+	@Column(name="pid",length=32,insertable=false,updatable=false)
 	private String pid;
 	
 	/**资源名称**/
@@ -77,7 +88,16 @@ public class Resource implements Serializable{
 	
 	/**资源创建时间**/
 	@Column(name="createTime")
-	private Long createTime=System.currentTimeMillis();
+	private Long createTime=System.currentTimeMillis()+OBJECT_COUNTER;
+	
+	/**上级结点**/
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pid", referencedColumnName = "id")
+	private Resource parentResource;
+	
+	/**下级结点**/
+	@OneToMany(mappedBy="parentResource",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Resource> subResources=new HashSet<Resource>();
 	
 	public String getId() {
 		return id;
@@ -150,6 +170,18 @@ public class Resource implements Serializable{
 	}
 	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
+	}
+	public Resource getParentResource() {
+		return parentResource;
+	}
+	public void setParentResource(Resource parentResource) {
+		this.parentResource = parentResource;
+	}
+	public Set<Resource> getSubResources() {
+		return subResources;
+	}
+	public void setSubResources(Set<Resource> subResources) {
+		this.subResources = subResources;
 	}
 
 }
