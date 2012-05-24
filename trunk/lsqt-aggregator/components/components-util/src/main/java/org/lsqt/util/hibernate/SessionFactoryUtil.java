@@ -3,8 +3,10 @@ package org.lsqt.util.hibernate;
 //import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 
 public class SessionFactoryUtil {
-	public void getSession(){
-		/*
+	private SessionFactoryUtil(){};
+	
+	public void getAnnotationSessionFactory(){
+	/*
 		AnnotationSessionFactoryBean annotationFactory=new  AnnotationSessionFactoryBean();
 		annotationFactory.getHibernateProperties().setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
 		
@@ -19,7 +21,7 @@ public class SessionFactoryUtil {
 		annotationFactory.getHibernateProperties().setProperty("hibernate.connection.url", "jdbc:hsqldb:mem:mydatabase");
 		annotationFactory.getHibernateProperties().setProperty("hibernate.connection.username", "sa");
 		annotationFactory.getHibernateProperties().setProperty("hibernate.connection.password", "");
+	
 		*/
-		
 	}
 }
