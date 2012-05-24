@@ -33,8 +33,8 @@ public abstract class Content {
 	protected String content;
 	
 	/**内空关键字(以逗号分隔)**/
-	@Column(name="keysStr",length=200)
-	protected String keysStr;
+	@Column(name="contentKeys",length=200)
+	protected String contentKeys;
 	
 	/**描述信息**/
 	@Column(name="description",length=1000)
@@ -75,10 +75,10 @@ public abstract class Content {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getKeysStr() {
-		return keysStr;
+	public String getContentKeys() {
+		return contentKeys;
 	}
-	public void setKeysStr(String keysStr) {
-		this.keysStr = keysStr;
+	public void setContentKeys(String contentKeys) {
+		this.contentKeys = contentKeys;
 	}
 }
