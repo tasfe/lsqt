@@ -32,4 +32,11 @@ public class CategoryServiceImpl implements CategoryService{
 		return this.categoryDao.findById(id);
 	}
 	
+	public void deleteAll() {
+		this.categoryDao.deleteAll();
+	}
+	
+	public Category getRoot(){
+		return this.categoryDao.getRoot();
+	}
 }

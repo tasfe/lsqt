@@ -12,4 +12,8 @@ public interface CategoryService {
 	public boolean deleteById(String id);
 
 	public Category findById(String id) ;
+	
+	public void deleteAll();
+	
+	public Category getRoot();
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.lsqt.content.model.Category;
 import org.lsqt.content.model.User;
 import org.lsqt.content.web.filter.VelocityUtil;
 import org.springframework.stereotype.Controller;
@@ -21,13 +22,16 @@ public class UserController extends AbstractBaseController{
 	
 	@RequestMapping(params = "method=userAdd")
 	public String userAdd(User user){
+		Category c=new Category();
+		c.setName("test");
+		categoryService.save(c);
+		
 		System.out.println(userService);
 		user.setEmail("袁明敏@sohu.com");
 		
 		userService.save(user);
 		User myu=userService.findById("ff8081813639b117013639b11bb60001");
 		
-		System.out.println("test........."+myu.getEmail());
 		return "userList";
 	}
 	
