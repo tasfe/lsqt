@@ -10,4 +10,5 @@ public class ResourceDaoImpl extends AbstractHibernateDaoSupport<Resource> imple
 		final String hql="from Resource c where c.id=c.pid";
 		return (Resource)super.uniqueResultByHql(hql);
 	}
+	
 }
