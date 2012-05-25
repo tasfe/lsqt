@@ -18,7 +18,7 @@ public class MyDemoPage3 extends AbstractPage{
 	
 		
 		TextField t2=new TextField( "integer", new Model(""),Integer. class);
-	
+		t2.setRequired(true);
 		form.add(t1);
 		form.add(t2);
 
