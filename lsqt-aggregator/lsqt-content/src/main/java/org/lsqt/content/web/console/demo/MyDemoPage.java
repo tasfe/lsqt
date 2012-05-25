@@ -90,9 +90,5 @@ public class MyDemoPage extends AbstractPage{
 		BookmarkablePageLink<UserManage> booklink4=new BookmarkablePageLink<UserManage>("formdemo", MyDemoPage4.class);
 		add(booklink4);
 		
-		
-		
-		BookmarkablePageLink<MyDemoPage5> book5=new BookmarkablePageLink<MyDemoPage5>("checkboxDemo", MyDemoPage5.class);
-		add(book5);
 	}
 }
