@@ -9,11 +9,21 @@
 		<span wicket:id="radios"></span> <br>
 		
 		<span wicket:id="group">
-			<table>
+			<table border="1">
 				<tr wicket:id="items">
 					<td><input wicket:id="itemCheck" type="radio"></input></td>
 					<td><span wicket:id="itemValue"></span></td>
 				</tr>
 			</table>
 		</span>
+		<br>
+		
+		<img wicket:id="staticImg"/>静态图片<br>
+		<img wicket:id="dynamicImg"/>动态图片<br>
+		<img wicket:id="dynamicImg2"/>动态图片<br>
+		
+		<form wicket:id="form">
+			<input type="file" wicket:id="file"/><br>
+			<input type="submit">
+		</form>
 </body>
