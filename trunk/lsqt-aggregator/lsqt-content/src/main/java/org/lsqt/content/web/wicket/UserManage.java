@@ -31,6 +31,8 @@ import org.lsqt.content.service.UserServiceImpl;
 import org.lsqt.content.web.console.demo.MyDemoPage;
 import org.lsqt.content.web.console.demo.MyDemoPage2;
 import org.lsqt.content.web.console.demo.MyDemoPage3;
+import org.lsqt.content.web.console.demo.MyDemoPage5;
+import org.lsqt.content.web.console.demo.MyDemoPage6;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -103,5 +105,11 @@ public class UserManage extends AbstractPage {
 		//表单输入控件页，跳转
 		BookmarkablePageLink<MyDemoPage3> myDemoPage3=new BookmarkablePageLink<MyDemoPage3>("toPage3", MyDemoPage3.class);
 		form.add(myDemoPage3 );
+		
+		BookmarkablePageLink<MyDemoPage5> book5=new BookmarkablePageLink<MyDemoPage5>("checkboxDemo", MyDemoPage5.class);
+		form.add(book5);
+		
+		BookmarkablePageLink<MyDemoPage6> book6=new BookmarkablePageLink<MyDemoPage6>("dropList", MyDemoPage6.class);
+		form.add(book6);
 	}
 }
