@@ -34,6 +34,7 @@ import org.lsqt.content.web.console.demo.MyDemoPage3;
 import org.lsqt.content.web.console.demo.MyDemoPage5;
 import org.lsqt.content.web.console.demo.MyDemoPage6;
 import org.lsqt.content.web.console.demo.MyDemoPage7;
+import org.lsqt.content.web.console.demo.MyDemoPage8;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -115,5 +116,8 @@ public class UserManage extends AbstractPage {
 		
 		BookmarkablePageLink<MyDemoPage7> book7=new BookmarkablePageLink<MyDemoPage7>("demo7", MyDemoPage7.class);
 		form.add(book7);
+		
+		BookmarkablePageLink<MyDemoPage8> book8=new BookmarkablePageLink<MyDemoPage8>("demo8", MyDemoPage8.class);
+		form.add(book8);
 	}
 }
