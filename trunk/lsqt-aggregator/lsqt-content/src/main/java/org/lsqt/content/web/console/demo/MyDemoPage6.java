@@ -9,11 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.ListChoice;
 import org.apache.wicket.markup.html.form.ListMultipleChoice;
+import org.apache.wicket.markup.html.form.RadioChoice;
+import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
@@ -39,6 +42,7 @@ public class MyDemoPage6 extends AbstractPage{
 		down.setRequired(true);
 		down.setNullValid(true);
 		*/
+		down.setNullValid(true);
 		down.setChoiceRenderer(render);
 		down.setEnabled(true);
 		add(down);
@@ -46,12 +50,36 @@ public class MyDemoPage6 extends AbstractPage{
 		ListChoice temp1=new ListChoice("temp1",SITE);
 		/*IModel model=new Model();
 		model.setObject(SITE);*/
+		temp1.setRequired(false);
 		temp1.setChoiceRenderer(render);
+		temp1.setEscapeModelStrings(true);
+		temp1.setNullValid(true);
 		add(temp1);
 		
 		ListMultipleChoice temp2=new ListMultipleChoice("temp2",SITE);
 		temp2.setChoiceRenderer(render);
 		add(temp2);
+		
+		RadioChoice radios=new RadioChoice("radios",SITE,render);
+		add(radios);
+		
+		RadioGroup group=new RadioGroup("group");
+		add(group);
+		
+		ListView listView=new ListView("items",SITE){
+			protected void populateItem(ListItem item) {
+				Object key=item.getModelObject();
+				System.out.println(key+"========");
+				
+				RadioChoice radio=new RadioChoice("itemCheck",new Model(map.get(key)));
+				item.add(radio);
+				
+				Label lbl=new Label("itemValue",new Model(key.toString()));
+				item.add(lbl);
+			}
+		};
+		
+		group.add(listView);
 	}
 
 }
