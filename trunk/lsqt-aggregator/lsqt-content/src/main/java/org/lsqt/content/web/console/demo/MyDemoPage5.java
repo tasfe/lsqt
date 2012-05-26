@@ -39,7 +39,7 @@ public class MyDemoPage5 extends AbstractPage{
 
 		ListView sites = new ListView("sites", SITES) {
 			
-			protected void populateItem(ListItem item) {
+			protected void populateItem(ListItem item) { //填充数据项
 				Object object = item.getModelObject();
 				item.add(new Check("check", new Model(Integer.toString(item.getIndex()))));
 				item.add(new Label("name", new Model((Serializable) NAMES.get(object))));
