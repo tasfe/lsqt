@@ -27,7 +27,6 @@ public class MyDemoPage5 extends AbstractPage{
 		NAMES.put("http://www.sina.com.cn", "新浪");
 		NAMES.put("http://www.sohu.com", "搜虎");
 		NAMES.put("http://www.163.com", "网易");
-
 	}
 	
 	public MyDemoPage5() {
