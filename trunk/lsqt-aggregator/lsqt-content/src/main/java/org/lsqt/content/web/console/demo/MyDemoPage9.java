@@ -3,6 +3,11 @@ package org.lsqt.content.web.console.demo;
 import org.apache.wicket.markup.html.basic.Label;
 import org.lsqt.content.web.wicket.AbstractPage;
 
+/**
+ * 模版国际化: MyDemoPage9_zh_CN.html
+ * @author mm
+ *
+ */
 public class MyDemoPage9 extends AbstractPage{
 	public MyDemoPage9(){
 		Label name=new Label("name","yuanmingmin");
