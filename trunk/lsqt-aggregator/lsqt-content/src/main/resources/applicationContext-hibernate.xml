@@ -30,18 +30,25 @@
 				<prop key="hibernate.autoReconnect">true</prop>
 				<prop key="hibernate.jdbc.batch_size">500</prop>
 				<prop key="hibernate.connection.release_mode">auto</prop>
-				<prop key="hibernate.cache.use_second_level_cache">false</prop>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<!--
-				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> 
-				<prop key="hibernate.generate_statistics">true</prop>
+				
+				<!-- Hibernate 3.0 - 3.2 
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
 				-->
-				 
+				
+				<!-- Hibernate 3.3 and higher 
+				<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</prop>
+				-->
+				
+				<!-- to force Hibernate to use a singleton of Ehcache CacheManager. -->
+				<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</prop>
+				<prop key="hibernate.generate_statistics">true</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				
 				<!--
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.OSCacheProvider</prop>
-				
 				<prop key="hibernate.cache_class" usage="read-only">com.hirisun.hea.rbac.model.User</prop>
-				<prop key="hibernate.cache_class" usage="read-only">com.hirisun.hea.rbac.model.Department</prop>
 				 -->
 			</props>
 		</property>
