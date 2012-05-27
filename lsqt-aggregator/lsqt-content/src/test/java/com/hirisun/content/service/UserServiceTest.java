@@ -27,7 +27,7 @@ public class UserServiceTest extends AbstractTest{
 		
 		user.setUserId("administrator");
 		user.setUserPwd("administrator");
-		userService.update(user);
+		user=userService.update(user);
 		
 		
 		String pk=user.getId();
