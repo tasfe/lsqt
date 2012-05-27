@@ -22,7 +22,7 @@ import org.lsqt.content.model.oto.Wife;
 
 @Entity
 @Table(name="lsqt_user")
-@Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements Serializable {
 	/****/
 	private static final long serialVersionUID = 6886626434521670211L;
