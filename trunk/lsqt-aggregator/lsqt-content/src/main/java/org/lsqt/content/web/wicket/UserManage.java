@@ -29,6 +29,7 @@ import org.lsqt.content.model.User;
 import org.lsqt.content.service.UserService;
 import org.lsqt.content.service.UserServiceImpl;
 import org.lsqt.content.web.console.demo.MyDemoPage;
+import org.lsqt.content.web.console.demo.MyDemoPage10;
 import org.lsqt.content.web.console.demo.MyDemoPage2;
 import org.lsqt.content.web.console.demo.MyDemoPage3;
 import org.lsqt.content.web.console.demo.MyDemoPage5;
@@ -123,5 +124,8 @@ public class UserManage extends AbstractPage {
 		
 		BookmarkablePageLink<MyDemoPage9> book9=new BookmarkablePageLink<MyDemoPage9>("demo9", MyDemoPage9.class);
 		form.add(book9);
+		
+		BookmarkablePageLink<MyDemoPage10> book10=new BookmarkablePageLink<MyDemoPage10>("demo10", MyDemoPage10.class);
+		form.add(book10);
 	}
 }
