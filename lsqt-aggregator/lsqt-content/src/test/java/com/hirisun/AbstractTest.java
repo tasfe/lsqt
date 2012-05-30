@@ -74,10 +74,7 @@ public class AbstractTest {
 	
 	@AfterClass
 	public static void destroy() {
-
 		
-
-		System.out.println("容器销毁...");
 	}
 
 	@Before
