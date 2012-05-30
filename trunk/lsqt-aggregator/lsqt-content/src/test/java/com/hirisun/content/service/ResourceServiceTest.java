@@ -1,6 +1,7 @@
 package com.hirisun.content.service;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.lsqt.content.model.Resource;
 import org.lsqt.content.service.ResourceService;
@@ -13,6 +14,7 @@ public class ResourceServiceTest extends AbstractTest{
 	
 	
 	@Test
+	//@Ignore
 	public void testCRUDCategory(){
 		
 		Resource resourceRoot=service.getRoot();
@@ -61,7 +63,7 @@ public class ResourceServiceTest extends AbstractTest{
 		c2_C=service.update(c2_C);
 		
 		c.setHasChildNode(true);
-		service.update(c);
+		c=service.update(c);
 	}
 	
 	
