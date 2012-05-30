@@ -1,6 +1,7 @@
 package com.hirisun.content.service;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.lsqt.content.model.Category;
 import org.lsqt.content.service.CategoryService;
@@ -12,15 +13,7 @@ public class CategoryServiceTest extends AbstractTest{
 	final CategoryService service=	getBean(CategoryServiceImpl.class);
 	
 	@Test
-	public void testGetRoot(){
-		Category categoryRoot=service.getRoot();
-		Assert.assertNotNull(categoryRoot);
-	}
-	
-	@Test
 	public void testCRUDCategory(){
-		
-		
 		Category categoryRoot=service.getRoot();
 		if(categoryRoot!=null){
 			service.deleteById(categoryRoot.getId());
@@ -70,5 +63,11 @@ public class CategoryServiceTest extends AbstractTest{
 		c5.setName("地方财经");
 		c5.setParentCategory(c2);
 		service.save(c5);
+	}
+	
+	@Test
+	public void testGetRoot(){
+		Category categoryRoot=service.getRoot();
+		Assert.assertNotNull(categoryRoot);
 	}
 }
