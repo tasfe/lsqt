@@ -14,7 +14,6 @@ public class ResourceServiceTest extends AbstractTest{
 	
 	
 	@Test
-	//@Ignore
 	public void testCRUDCategory(){
 		
 		Resource resourceRoot=service.getRoot();
@@ -64,12 +63,5 @@ public class ResourceServiceTest extends AbstractTest{
 		
 		c.setHasChildNode(true);
 		c=service.update(c);
-	}
-	
-	
-	@Test
-	public void testGetRoot(){
-		Resource resourceRoot=service.getRoot();
-		Assert.assertNotNull(resourceRoot);
 	}
 }
