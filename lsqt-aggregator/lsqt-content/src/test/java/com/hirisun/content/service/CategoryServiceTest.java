@@ -64,10 +64,4 @@ public class CategoryServiceTest extends AbstractTest{
 		c5.setParentCategory(c2);
 		service.save(c5);
 	}
-	
-	@Test
-	public void testGetRoot(){
-		Category categoryRoot=service.getRoot();
-		Assert.assertNotNull(categoryRoot);
-	}
 }
