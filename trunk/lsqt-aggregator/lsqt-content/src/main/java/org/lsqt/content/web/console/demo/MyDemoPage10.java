@@ -10,6 +10,7 @@ import org.apache.wicket.extensions.yui.calendar.DateField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 
 import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
+import org.apache.wicket.markup.html.form.CheckGroup;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -18,6 +19,7 @@ import org.apache.wicket.markup.html.form.NumberTextField;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.lsqt.content.web.wicket.AbstractPage;
 
@@ -62,8 +64,9 @@ public class MyDemoPage10 extends AbstractPage{
 		form.add(salary);
 		
 		// 职位
-		TextField<String> job=new TextField<String>("job");
-		form.add(job);
+		CheckGroup group=new CheckGroup("job");
+		form.add(group);
+	//	ListView listView=new ListView("");
 		
 		//工龄
 		NumberTextField<Double> workYear=new NumberTextField<Double>("workYear");
