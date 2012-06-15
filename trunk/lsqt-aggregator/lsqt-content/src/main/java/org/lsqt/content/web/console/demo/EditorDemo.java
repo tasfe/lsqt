@@ -7,6 +7,7 @@ import org.lsqt.content.web.wicket.AbstractPage;
 
 import wicket.contrib.tinymce.TinyMceBehavior;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
+import wicket.contrib.tinymce.settings.TinyMCESettings.Language;
 import wicket.contrib.tinymce.settings.TinyMCESettings.Theme;
 
 public class EditorDemo extends AbstractPage{
@@ -15,8 +16,7 @@ public class EditorDemo extends AbstractPage{
 		Form form=new Form("form");
 		TextArea contentTextArea = new TextArea("content");
 		// tinymce
-		contentTextArea.add(new TinyMceBehavior(new TinyMCESettings(Theme.simple)));
-		        
+		contentTextArea.add(new TinyMceBehavior(new TinyMCESettings(Theme.advanced)));
 		contentTextArea.add(StringValidator.maximumLength(4000));
 		
 		form.add(contentTextArea); 
