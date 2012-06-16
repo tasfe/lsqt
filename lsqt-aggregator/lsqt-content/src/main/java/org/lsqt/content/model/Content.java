@@ -8,12 +8,11 @@ import javax.persistence.MappedSuperclass;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- *所有内容抽象，如：新闻、贴子、招聘、文学等信息内容
+ *所有内容抽象，如：新闻、贴子、招聘、文学等信息内容抽象
  * @author 袁明敏
  * @version 1.1
  * @since 2012-05-18
  * 
- * @param <T>
  * 
  */
 @MappedSuperclass
