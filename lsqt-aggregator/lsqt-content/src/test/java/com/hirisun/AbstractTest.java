@@ -2,6 +2,8 @@ package com.hirisun;
 
 import java.util.UUID;
 
+import junit.framework.TestCase;
+
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,6 +12,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runners.model.TestClass;
 import org.lsqt.content.service.UserService;
 import org.lsqt.content.service.UserServiceImpl;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +23,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.hibernate.dialect.H2Dialect;
 import net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter;
 
-public class AbstractTest {
+public class AbstractTest{
 	/**
 	 * 
 	 */
@@ -65,11 +68,6 @@ public class AbstractTest {
 		
 		
 		
-	}
-
-	@Test
-	public void run(){
-		//System.out.println(configs.getBean(UserService.class).validate("22", "33"));
 	}
 	
 	@AfterClass
