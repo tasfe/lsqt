@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -15,6 +16,8 @@ import org.lsqt.content.web.wicket.AbstractPage;
 
 public class MyDemoPage4  extends AbstractPage{
 	public MyDemoPage4(){
+		//DataTable<String> a=null;
+		
 		TextArea textArea=new TextArea("textArea");
 		add(textArea);
 		
