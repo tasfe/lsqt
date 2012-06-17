@@ -13,4 +13,6 @@ public interface WorkIssueDao {
 	public boolean deleteById(Serializable id);
 
 	public  WorkIssue findById(Serializable id) ;
+	
+	public void deleteAll();
 }
