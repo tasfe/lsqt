@@ -1,10 +1,7 @@
 package com.hirisun.content.service;
 
-import junit.framework.TestSuite;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runners.model.TestClass;
 
 import org.lsqt.content.model.WorkIssue;
 import org.lsqt.content.model.WorkTask;
