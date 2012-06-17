@@ -13,4 +13,6 @@ public interface WorkTaskDao {
 	public boolean deleteById(Serializable id);
 
 	public WorkTask findById(Serializable id) ;
+	
+	public void deleteAll();
 }
