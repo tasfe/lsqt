@@ -27,7 +27,7 @@ public class MyDemoPage extends AbstractPage{
 	public MyDemoPage(){
 		Label l=new Label("birthday","<span>生日<br/>信息</span>");
 		Label l2=new Label("birthday2","<span>我是<br>中国人</span>");
-		add(l);
+		add(l);   
 		add(l2);
 		l2.setEscapeModelStrings(false);
 		
