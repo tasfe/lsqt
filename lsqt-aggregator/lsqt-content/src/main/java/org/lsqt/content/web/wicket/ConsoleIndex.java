@@ -16,43 +16,20 @@ import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.lsqt.content.web.console.demo.MyDemoPage11_Tree;
 
-import org.lsqt.content.web.wicket.component.SimpleTree;
+import org.lsqt.content.web.wicket.component.gridview.SimpleGridView;
+import org.lsqt.content.web.wicket.component.tree.SimpleTree;
 
 public class ConsoleIndex extends AbstractPage {
-	private static List counts = new ArrayList();
-	static {
-		for (int i = 0; i < 40; i++) {
-			counts.add(new Integer(i));
-		}
-	}
 
-	
 	public ConsoleIndex() {
-		super();
+		//初使化功能树状结构
 		SimpleTree tree = new SimpleTree("tree");
 		add(tree);
 
-		// -----------------------------------------------
-		IDataProvider dataProvider = new ListDataProvider(counts);
-		GridView gridView = new GridView("rows", dataProvider) {
-			protected void populateItem(Item item) {
-				final Integer integer = (Integer) item.getModelObject();
-				item.add(new Image("static", "images/" + integer + ".gif"));
-				item.add(new Label("label", "功能" + integer));
-			}
-
-			protected void populateEmptyItem(Item item) {
-				Image image = new Image("static", "images/null.gif");
-				image.setVisible(false);
-				item.add(image);
-				item.add(new Label("label", ""));
-				// 因为没有图片,所以将图片隐藏起来
-			}
-		};
-		gridView.setRows(10);
-		gridView.setColumns(5);
-		// 3列4行  
+		
+		SimpleGridView gridView=new SimpleGridView("gridView");
 		add(gridView);
+		
 	}
 
 
