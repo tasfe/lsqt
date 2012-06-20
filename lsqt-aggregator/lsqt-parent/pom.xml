@@ -15,13 +15,13 @@
 
 
 		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
-		<maven-svn-revision-number-plugin.version>1.7</maven-svn-revision-number-plugin.version>
 		<maven-jar-plugin.version>2.3.2</maven-jar-plugin.version>
+		<maven-surefire-plugin.version>2.5</maven-surefire-plugin.version>
 		<maven-war-plugin.version>2.1.1</maven-war-plugin.version>
 		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>2.8</maven-javadoc-plugin.version>
 		<maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
-
+		<maven-svn-revision-number-plugin.version>1.7</maven-svn-revision-number-plugin.version>
 
 		<maven-eclipse-plugin.version>2.8</maven-eclipse-plugin.version>
 
@@ -35,11 +35,30 @@
 		
 		<dbutils.version>1.4</dbutils.version>
 		<hibernate-core.version>3.3.2.GA</hibernate-core.version>
+		<hibernate-annotations.version>3.4.0.GA</hibernate-annotations.version>
 		<spring.version>3.0.3.RELEASE</spring.version>
+		
 		<commons-beanutils.version>1.7.0</commons-beanutils.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate-core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>${hibernate-annotations.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-oscache</artifactId>
+			<version>${hibernate-core.version}</version>
+		</dependency>
+		
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -118,11 +137,7 @@
 			<version>1.0.4</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate-core.version}</version>
-		</dependency>
+
 
 		
 		
@@ -182,7 +197,7 @@
 				<version>${com.icegreen.version}</version>
 				<scope>test</scope>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
@@ -195,13 +210,6 @@
 
 	<build>
 		<plugins>
-			<!-- jetty服务器支持 -->
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>5.1.12</version>
-			</plugin>
-
 			<!-- maven资源文件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -228,6 +236,13 @@
 				</configuration>
 			</plugin>
 
+			<!-- maven测试 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+			</plugin>
+			
 			<!-- eclipse工程生成 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
