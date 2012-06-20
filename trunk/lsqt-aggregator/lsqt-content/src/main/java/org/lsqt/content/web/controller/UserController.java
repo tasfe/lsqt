@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.transaction.aspectj.AnnotationTransactionAspect;
 //import  org.aspectj.lang.NoAspectBoundException;
 @Controller
-@RequestMapping("user.sp")
 public class UserController extends AbstractBaseController{
 	
-	@RequestMapping(params = "method=userAdd")
+	@RequestMapping("/user/userAdd")
 	public String userAdd(User user){
 		Category c=new Category();
 		c.setName("test");
@@ -35,7 +34,7 @@ public class UserController extends AbstractBaseController{
 		return "userList";
 	}
 	
-	@RequestMapping(params = "method=userInfo")
+	@RequestMapping("/user/userInfo")
 	public String userInfo(){
 		User user=new User();
 		
