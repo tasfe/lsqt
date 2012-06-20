@@ -13,7 +13,7 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 
 /**
  * <pre>
- * 功能说明: 表格框组件显示，如单点图标表格
+ * 功能说明: 表格框组件显示，例如：单点图标表格
  * 编写日期:	2011-6-13
  * 作者:	袁明敏
  * 
