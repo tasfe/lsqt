@@ -25,7 +25,7 @@ public class ConsoleIndex extends AbstractPage {
 		//初使化功能树状结构
 		SimpleTree tree = new SimpleTree("tree");
 		add(tree);
-
+   
 		
 		SimpleGridView gridView=new SimpleGridView("gridView");
 		add(gridView);
