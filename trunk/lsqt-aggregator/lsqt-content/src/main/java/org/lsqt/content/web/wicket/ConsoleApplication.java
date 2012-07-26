@@ -1,6 +1,5 @@
 package org.lsqt.content.web.wicket;
 
-
 import org.apache.wicket.Application;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.SecurePackageResourceGuard;
