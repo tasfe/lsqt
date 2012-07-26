@@ -69,7 +69,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>fragmentCache</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/spring/*</url-pattern>
 	</filter-mapping>
 	
 	 
@@ -104,7 +104,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>hibernateFilter</filter-name>
-		<url-pattern>/wicket/*</url-pattern>
+		<url-pattern>/console/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>hibernateFilter</filter-name>
@@ -209,7 +209,7 @@
 
 
 
-	
+	<!-- 
 	<jsp-config>
 		<taglib>
 			<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
@@ -226,14 +226,12 @@
 			<taglib-location>/WEB-INF/tld/sql.tld</taglib-location>
 		</taglib>
 
-		<!-- 
 		<taglib>
 			<taglib-uri>http://www.opensymphony.com/oscache</taglib-uri>
 			<taglib-location>/WEB-INF/oscache.tld</taglib-location>
 		</taglib>
-		 -->
 	</jsp-config>
-	
+	 -->
 	 <error-page>
 	 	<error-code>404</error-code>
 	 	<location>/404.jsp</location>
