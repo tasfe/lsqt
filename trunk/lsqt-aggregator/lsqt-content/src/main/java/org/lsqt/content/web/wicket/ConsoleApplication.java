@@ -8,11 +8,13 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.stereotype.Component;
 import org.apache.wicket.spring.SpringWebApplicationFactory;
+import org.springframework.web.context.ContextLoaderListener;
 
 @Component("consoleApplication")
 public class ConsoleApplication extends WebApplication {
 	@Override
 	protected void init() {
+		
 		 super.init(); 
 		 getComponentInstantiationListeners().add(new SpringComponentInjector(this)); //对于wicket1.5以下的版本应写成addComponentInstantiationListeners(new SpringComponentInjector(this));
 		 System.out.println("console application init");
@@ -20,9 +22,8 @@ public class ConsoleApplication extends WebApplication {
 		 //web编辑器使用
 		 SecurePackageResourceGuard guard = (SecurePackageResourceGuard) getResourceSettings().getPackageResourceGuard();
 		 guard.addPattern("+*.htm");
-		 
+		
 	 }
-	
 
 	public Class<? extends Page> getHomePage() {
 		//return UserManage.class;

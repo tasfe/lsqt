@@ -30,6 +30,7 @@ public class MyDemoPage10 extends AbstractPage{
 		
 		//账号
 		TextField account=	new TextField( "account",new Model(""));
+		
 		account.setRequired(true);
 		form.add(account);
 
