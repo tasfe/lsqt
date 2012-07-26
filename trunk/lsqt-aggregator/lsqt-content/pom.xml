@@ -48,11 +48,18 @@
 
 
 	<dependencies>
+	<!-- 
+		<dependency>
+			<groupId>com.googlecode.wicket-jquery-ui</groupId>
+			<artifactId>jquery-ui-core</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		 -->
 	<!-- 	-->
 		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-all</artifactId>
-			<version>1.1.0</version>
+		  <groupId>org.apache.shiro</groupId>
+		  <artifactId>shiro-core</artifactId>
+		  <version>1.2.0</version>
 		</dependency>
  
 		<!-- ehcache缓存 -->
@@ -336,4 +343,5 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	
 </project>
