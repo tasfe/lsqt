@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "t_student")
 public class Student {
-
+	
 	@Id
 	@GeneratedValue
 	private Integer id;

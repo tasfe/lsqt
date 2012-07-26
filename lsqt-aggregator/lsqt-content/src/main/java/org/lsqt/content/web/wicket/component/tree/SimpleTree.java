@@ -2,6 +2,7 @@ package org.lsqt.content.web.wicket.component.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 import org.apache.wicket.extensions.markup.html.tree.Tree;
 import org.apache.wicket.markup.html.link.Link;
@@ -36,6 +37,8 @@ public class SimpleTree extends Panel {
 				}
 				// 重载getNodeLabel方法以显示相应的字符串
 			}
+				
+			
 		};
 		
 		add(tree);

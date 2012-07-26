@@ -28,6 +28,10 @@ import org.lsqt.content.dao.UserDao;
 import org.lsqt.content.model.User;
 import org.lsqt.content.service.UserService;
 import org.lsqt.content.service.UserServiceImpl;
+import org.lsqt.content.web.console.demo.AjaxDemo_AutoCompleteTextField;
+import org.lsqt.content.web.console.demo.AjaxDemo_DropDownChoice;
+import org.lsqt.content.web.console.demo.AjaxDemo_ExternalLink;
+import org.lsqt.content.web.console.demo.AjaxDemo_Link;
 import org.lsqt.content.web.console.demo.EditorDemo;
 import org.lsqt.content.web.console.demo.MyDemoPage;
 import org.lsqt.content.web.console.demo.MyDemoPage10;
@@ -39,6 +43,8 @@ import org.lsqt.content.web.console.demo.MyDemoPage6;
 import org.lsqt.content.web.console.demo.MyDemoPage7;
 import org.lsqt.content.web.console.demo.MyDemoPage8;
 import org.lsqt.content.web.console.demo.MyDemoPage9;
+import org.lsqt.content.web.console.demo.MyDemoTabPanel;
+import org.lsqt.content.web.console.demo.MyTest_DropDownChoice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -135,5 +141,29 @@ public class UserManage extends AbstractPage {
 		
 		BookmarkablePageLink<EditorDemo> book12=new BookmarkablePageLink<EditorDemo>("demo12", MyDemoPage11_Tree.class);
 		form.add(book12);
+		
+		//-------------------Ajax demo---------------
+		BookmarkablePageLink<AjaxDemo_Link> ajaxLink=new BookmarkablePageLink<AjaxDemo_Link>("AjaxDemo_Link", AjaxDemo_Link.class);
+		form.add(ajaxLink);
+		
+		BookmarkablePageLink<AjaxDemo_ExternalLink> ajaxLink2=new BookmarkablePageLink<AjaxDemo_ExternalLink>("AjaxDemo_Link_validate", AjaxDemo_ExternalLink.class);
+		form.add(ajaxLink2);
+		
+		BookmarkablePageLink<AjaxDemo_DropDownChoice> ajaxSelect3=new BookmarkablePageLink<AjaxDemo_DropDownChoice>("ajaxSelect3", AjaxDemo_DropDownChoice.class);
+		form.add(ajaxSelect3);
+		
+		BookmarkablePageLink<AjaxDemo_AutoCompleteTextField> comp=new BookmarkablePageLink<AjaxDemo_AutoCompleteTextField>("tttttt", AjaxDemo_AutoCompleteTextField.class);
+		form.add(comp);
+		
+		//------------------my test ------------------------
+		BookmarkablePageLink<MyTest_DropDownChoice> t22=new BookmarkablePageLink<MyTest_DropDownChoice>("t22", MyTest_DropDownChoice.class);
+		form.add(t22);
+		
+		BookmarkablePageLink<MyDemoTabPanel> tab=new BookmarkablePageLink<MyDemoTabPanel>("tab", MyDemoTabPanel.class);
+		form.add(tab);
+		
+		
+		
+		//------------------------------------------------------------
 	}
 }
