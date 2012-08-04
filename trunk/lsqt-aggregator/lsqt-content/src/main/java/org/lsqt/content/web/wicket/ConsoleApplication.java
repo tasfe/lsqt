@@ -8,7 +8,6 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.stereotype.Component;
 import org.apache.wicket.spring.SpringWebApplicationFactory;
 import org.springframework.web.context.ContextLoaderListener;
-
 @Component("consoleApplication")
 public class ConsoleApplication extends WebApplication {
 	@Override
