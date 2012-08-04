@@ -23,6 +23,7 @@ public class AbstractHibernateDaoSupportTest extends AbstractHibernateDaoSupport
 	
 	
 	public AbstractHibernateDaoSupportTest(){
+		
 		AnnotationSessionFactoryBean annotationFactory=new  AnnotationSessionFactoryBean();
 		annotationFactory.getHibernateProperties().setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
 		
