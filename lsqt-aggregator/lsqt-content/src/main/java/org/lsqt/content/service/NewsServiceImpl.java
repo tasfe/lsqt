@@ -20,8 +20,27 @@ public class NewsServiceImpl implements NewsService{
 	}
 	
 	@Transactional(readOnly=false)
-	public boolean save(News news){
-		return newsDao.save(news);
+	public boolean save(News news2){
+		for(int i=0;i<100;i++){
+			News news=new News();
+			news.setContent("content");
+			news.setContentKeys("java");
+			news.setCreateTime(System.currentTimeMillis());
+			news.setDescription("desc");
+			news.setIsEnable(true);
+			news.setIsPublished(true);
+			news.setName("xxxx");
+			news.setOnlineTime(System.currentTimeMillis());
+			news.setPubTime(System.currentTimeMillis());
+			news.setSourceFrom("http://sohu.com");
+			news.setTitle("title");
+			newsDao.save(news);
+			if(i==20){
+			//	throw new RuntimeException("xxxxxxxxxxxxxxxxx");
+			}
+		}
+		
+		return true;
 	}
 	
 	@Transactional(readOnly=false)

@@ -13,6 +13,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.GridView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
+import org.lsqt.content.model.News;
 import org.lsqt.content.model.User;
 import org.lsqt.content.web.console.demo.MyDemoPage11_Tree;
 
@@ -23,6 +24,9 @@ import org.lsqt.content.web.wicket.component.tree.Tree;
 public class ConsoleIndex extends AbstractPage {
 
 	public ConsoleIndex() {
+		
+		newsService.save(null);
+		
 		//初使化功能树状结构
 		Tree tree = new Tree("my_tree");
 		add(tree);

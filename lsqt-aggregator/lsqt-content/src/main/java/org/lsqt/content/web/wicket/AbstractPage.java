@@ -2,6 +2,7 @@ package org.lsqt.content.web.wicket;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.lsqt.content.service.NewsService;
 import org.lsqt.content.service.UserService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
@@ -16,6 +17,8 @@ public abstract class AbstractPage extends WebPage {
 	@SpringBean(name="userServiceImpl")
 	protected UserService userService ;
 	
+	@SpringBean(name="newsServiceImpl")
+	protected NewsService newsService;
 	
 	/*
 	private ApplicationContext springApp;
