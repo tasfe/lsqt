@@ -19,21 +19,20 @@ import org.lsqt.content.web.console.demo.MyDemoPage11_Tree;
 
 import org.lsqt.content.web.wicket.component.datatable.SimpleDataTable;
 import org.lsqt.content.web.wicket.component.gridview.SimpleGridView;
+import org.lsqt.content.web.wicket.component.tree.SimpleTree;
 import org.lsqt.content.web.wicket.component.tree.Tree;
 
 public class ConsoleIndex extends AbstractPage {
 
 	public ConsoleIndex() {
-		
-		newsService.save(null);
-		
 		//初使化功能树状结构
-		Tree tree = new Tree("my_tree");
+		SimpleTree tree = new SimpleTree("simpleTree");
+		
 		add(tree);
    
 		
-		SimpleGridView gridView=new SimpleGridView("gridView");
-		add(gridView);
+	/*	SimpleGridView gridView=new SimpleGridView("gridView");
+		add(gridView);*/
 		
 		List<User> users=new ArrayList<User>();
 		for(int i=0;i<100;i++){
@@ -44,10 +43,12 @@ public class ConsoleIndex extends AbstractPage {
 			users.add(u);
 		}
 		
-		SimpleDataTable dt=new SimpleDataTable("simpleDataTable");
-		dt.bindData(users,10).displayOn(new String[] { "id", "userId", "userPwd" });
-		
+	/*	SimpleDataTable dt=new SimpleDataTable("simpleDataTable");
+		dt.bindData(users,10);
 		add(dt);
+		*/
+		
+		
 	}
 
 

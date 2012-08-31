@@ -22,7 +22,7 @@ import org.springframework.orm.hibernate3.SessionHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.hibernate.dialect.H2Dialect;
 import net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter;
-
+import  org.springframework.web.util.Log4jConfigListener;
 public class AbstractTest{
 	/**
 	 * 
