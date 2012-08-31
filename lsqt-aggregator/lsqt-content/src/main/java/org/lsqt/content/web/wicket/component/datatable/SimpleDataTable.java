@@ -33,16 +33,6 @@ public class SimpleDataTable extends Panel {
 	
 	public SimpleDataTable(String id) {
 		super(id);
-		/*ParameterizedType pt;
-		try {
-			pt = (ParameterizedType)SimpleDataTable.class.getField("beansData").getGenericType();
-			System.out.println(pt.getActualTypeArguments().length);   
-	        System.out.println(pt.getActualTypeArguments()[0]);   
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} */
 	}
 	
 	public SimpleDataTable bindData(Object[][] data,int rowsPerPage){
