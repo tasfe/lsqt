@@ -12,6 +12,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.tree.Tree;
@@ -19,10 +20,16 @@ import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.html.tree.BaseTree;
+import org.apache.wicket.markup.html.tree.LinkTree;
+import org.apache.wicket.markup.html.tree.LabelTree;
+import org.apache.wicket.model.IModel;
+
 import org.lsqt.components.dao.suport.BeanHelper;
 import org.lsqt.content.web.console.demo.MyDemoEmployee;
 import org.lsqt.content.web.console.demo.MyDemoPage;
 import org.lsqt.content.web.console.demo.MyDemoPage11_Tree;
+import org.lsqt.content.web.wicket.content.NewsContentPage;
 
 public class SimpleTree extends Panel {
 	private Integer  width;
@@ -136,11 +143,13 @@ public class SimpleTree extends Panel {
 	public SimpleTree(String id){
 		super(id);
 		final DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode();
-		rootNode.setUserObject(SimpleTree.this);
+		rootNode.setUserObject("系统");
 		
 		
 		for (int i = 0; i < 5; i++) {
 			DefaultMutableTreeNode parentNode = new DefaultMutableTreeNode("parent-" + i);
+			parentNode.setUserObject(i);
+			
 			for (int j = 0; j < 5; j++) {
 				DefaultMutableTreeNode childNode = new DefaultMutableTreeNode("child-" + j);
 				parentNode.add(childNode);
@@ -150,15 +159,40 @@ public class SimpleTree extends Panel {
 			
 		// 构建一个Model
 		DefaultTreeModel treeModel = new DefaultTreeModel( rootNode);
-		final Tree tree = new Tree( "tree", treeModel) {
+		final LinkTree tree = new LinkTree( "tree", treeModel) {
+			
+			//newContentComponent
 			@Override
+			protected Component newNodeComponent(String id, IModel<Object> model) {
+				return super.newNodeComponent(id, model);
+				
+			}
+			
+			/*@Override
 			protected void onNodeLinkClicked(AjaxRequestTarget target,
 					TreeNode node) {
 				super.onNodeLinkClicked(target, node);
-				setResponsePage(MyDemoPage.class);
+				System.out.println(node.toString());
+				setResponsePage(org.lsqt.content.web.wicket.content.NewsContentPage.class);
 			}
+			*/
+			protected void onJunctionLinkClicked(AjaxRequestTarget target, Object node) {
+				System.out.println( node.getClass()+"+++++++>");
+			};
 			
-			
+			@Override
+			protected void onNodeLinkClicked(Object node, BaseTree tree,
+					AjaxRequestTarget target) {
+				super.onNodeLinkClicked(node, tree, target);
+				DefaultMutableTreeNode d=(DefaultMutableTreeNode)node;
+				
+				System.out.println(node.getClass()+"======>"+d.getUserObject()+d.getDepth()+"  "+d.getUserObjectPath() );
+				for(Object i: d.getUserObjectPath() ){
+					System.out.println(i);
+				}
+				setResponsePage(NewsContentPage.class);
+			//	target.add(tree);
+			}/**/
 			
 			@Override
 			protected void onComponentTag(ComponentTag tag) {
@@ -180,6 +214,7 @@ public class SimpleTree extends Panel {
 				// TODO Auto-generated method stub
 				
 				super.populateTreeItem(item, level);
+				
 			}
 				
 			

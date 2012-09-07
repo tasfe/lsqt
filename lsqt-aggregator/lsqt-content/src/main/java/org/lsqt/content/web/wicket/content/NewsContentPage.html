@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+</head>
+<body>
+
+<div style="width:795px;height: 500px;overflow-y:auto;">
+	<form wicket:id="form">
+	新闻标题:<input type="text" name="title" wicket:id="title2"></input> <br/>
+	新闻前台在线日期:<input type="text" name="onlineTime" wicket:id="onlineTime" readonly="readonly"></input> <br/>
+	是否启用:<input type="checkbox" name="isEnable" wicket:id="isEnable"></input> <br/>
+	是否已发布: <span wicket:id="isPublished"></span> <br/>
+	后台发布日期:<input type="text" name="pubTime" readonly="readonly" wicket:id="pubTime"></input> <br/>
+	新闻来源内容（默认后台上报，其次有RSS来源、网页抓取分析等） <input type="text"  name="sourceFrom"></input> <br/>
+	内容名称:<input type="text" name="name"></input><br/>
+	内容关键字:<input type="text" name="contentKeys"></input><br/>
+	描述信息:<textarea type="text" name="description" wicket:id="description"></textarea><br/>
+	所属类别:<input type="text" name="categories" wicket:id="txtCategories" readonly="readonly"></input><br/>
+	内容:<textarea type="text" name="content" wicket:id="content"></textarea><br/>
+	<input type="submit" /> <span wicket:id="feedback"></span>
+	<div wicket:id="modalCategories"></div>
+	</form>
+</div>
+
+</body>
+</html>

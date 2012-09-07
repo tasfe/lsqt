@@ -78,7 +78,7 @@ public class SimpleDataTable extends Panel {
 	
 	@Override
 	protected void onInitialize() {
-		build();
 		super.onInitialize();
+		build();
 	}
 }
