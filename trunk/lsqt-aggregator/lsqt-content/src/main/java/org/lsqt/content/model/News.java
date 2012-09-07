@@ -1,13 +1,21 @@
 package org.lsqt.content.model;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.lsqt.content.model.mtm2.Course;
 
 @Entity
 @Table(name="lsqt_news")
@@ -18,7 +26,7 @@ public class News extends Content implements Serializable{
 	
 	/**新闻前台在线日期**/
 	@Column(name="onlineTime")
-	private Long onlineTime;
+	private Date onlineTime;
 	
 	/**是否启用**/
 	@Column(name="isEnable")
@@ -30,11 +38,24 @@ public class News extends Content implements Serializable{
 	
 	/**后台发布日期**/
 	@Column(name="pubTime")
-	private Long pubTime;
+	private Date pubTime;
 	
 	/**新闻来源内容（默认后台上报，其次有RSS来源、网页抓取分析等）**/
 	@Column(name="sourceFrom",length=1000)
 	private String sourceFrom;
+	
+	/**新闻所属的类别，一个新闻可以同时属于两个或多个类别**/
+	@ManyToMany(targetEntity = Category.class, cascade = { CascadeType.MERGE,CascadeType.PERSIST })
+	@JoinTable(name = "news_category", joinColumns = { @JoinColumn(name = "news_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })
+	private Set<Category> categories;
+	
+	public Set<Category> getCategories() {
+		return categories;
+	}
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
+	}
+	
 	
 	public String getTitle() {
 		return title;
@@ -42,10 +63,10 @@ public class News extends Content implements Serializable{
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Long getPubTime() {
+	public Date getPubTime() {
 		return pubTime;
 	}
-	public void setPubTime(Long pubTime) {
+	public void setPubTime(Date pubTime) {
 		this.pubTime = pubTime;
 	}
 	public String getSourceFrom() {
@@ -66,11 +87,22 @@ public class News extends Content implements Serializable{
 	public void setIsPublished(Boolean isPublished) {
 		this.isPublished = isPublished;
 	}
-	public Long getOnlineTime() {
+	public Date getOnlineTime() {
 		return onlineTime;
 	}
-	public void setOnlineTime(Long onlineTime) {
+	public void setOnlineTime(Date onlineTime) {
 		this.onlineTime = onlineTime;
 	}
+	@Override
+	public String toString() {
+		return "News [title=" + title + ", onlineTime=" + onlineTime
+				+ ", isEnable=" + isEnable + ", isPublished=" + isPublished
+				+ ", pubTime=" + pubTime + ", sourceFrom=" + sourceFrom
+				+ ", categories=" + categories + ", id=" + id + ", name="
+				+ name + ", content=" + content + ", contentKeys="
+				+ contentKeys + ", description=" + description
+				+ ", createTime=" + createTime + "]";
+	}
+	
 	
 }

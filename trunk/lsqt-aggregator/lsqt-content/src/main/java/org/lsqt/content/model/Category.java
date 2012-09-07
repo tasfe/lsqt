@@ -10,13 +10,20 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.lsqt.content.model.mtm2.Student;
 
+/**
+ * 
+ * @author 袁明敏
+ *用于产品、新闻、论坛贴等信息分类
+ */
 @Entity
 @Table(name="lsqt_category")
 public class Category implements Serializable{
@@ -38,6 +45,9 @@ public class Category implements Serializable{
 	@Column(name="name")
 	private String name;
 	
+	@Column(name="description")
+	private String description;
+	
 	@Column(name="createTime")
 	private Long createTime=System.currentTimeMillis()+OBJECT_COUNTER;
 	
@@ -47,6 +57,9 @@ public class Category implements Serializable{
 	
 	@OneToMany(mappedBy="parentCategory",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Category> subCategories=new HashSet<Category>();
+	
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "categories", targetEntity = News.class)
+	private Set<News> news;
 	
 	public String getId() {
 		return id;
@@ -90,5 +103,21 @@ public class Category implements Serializable{
 
 	public void setCreateTime(Long createTime) {
 		this.createTime = createTime;
+	}
+
+	public Set<News> getNews() {
+		return news;
+	}
+
+	public void setNews(Set<News> news) {
+		this.news = news;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

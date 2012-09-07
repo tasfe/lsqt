@@ -5,6 +5,8 @@ import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.SecurePackageResourceGuard;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.lsqt.content.web.wicket.content.CategoryPage;
+import org.lsqt.content.web.wicket.content.NewsContentPage;
 import org.springframework.stereotype.Component;
 import org.apache.wicket.spring.SpringWebApplicationFactory;
 import org.springframework.web.context.ContextLoaderListener;
@@ -25,7 +27,7 @@ public class ConsoleApplication extends WebApplication {
 
 	public Class<? extends Page> getHomePage() {
 		//return UserManage.class;
-		return ConsoleIndex.class;
+		return CategoryPage.class;
 	}
 	
 	

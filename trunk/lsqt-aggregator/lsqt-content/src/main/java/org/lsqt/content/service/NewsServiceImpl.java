@@ -2,6 +2,7 @@ package org.lsqt.content.service;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.annotation.Resource;
 
@@ -30,8 +31,8 @@ public class NewsServiceImpl implements NewsService{
 			news.setIsEnable(true);
 			news.setIsPublished(true);
 			news.setName("xxxx");
-			news.setOnlineTime(System.currentTimeMillis());
-			news.setPubTime(System.currentTimeMillis());
+			news.setOnlineTime(new Date());
+			news.setPubTime(new Date());
 			news.setSourceFrom("http://sohu.com");
 			news.setTitle("title");
 			newsDao.save(news);
