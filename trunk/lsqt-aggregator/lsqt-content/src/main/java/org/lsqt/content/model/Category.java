@@ -22,7 +22,7 @@ import org.lsqt.content.model.mtm2.Student;
 /**
  * 
  * @author 袁明敏
- *用于产品、新闻、论坛贴等信息分类
+ *用于产品、新闻、论坛贴、招聘、文学等信息分类
  */
 @Entity
 @Table(name="lsqt_category")
