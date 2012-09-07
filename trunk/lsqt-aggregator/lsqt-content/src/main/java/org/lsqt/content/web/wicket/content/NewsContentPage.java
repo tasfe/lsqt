@@ -37,7 +37,6 @@ import org.lsqt.content.model.News;
 import org.lsqt.content.web.wicket.AbstractPage;
 import org.lsqt.content.web.wicket.ConsoleIndex;
 import org.lsqt.content.web.wicket.component.tab.SimpleTab;
-import org.lsqt.content.web.wicket.component.tree.Tree;
 
 import wicket.contrib.tinymce.TinyMceBehavior;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
