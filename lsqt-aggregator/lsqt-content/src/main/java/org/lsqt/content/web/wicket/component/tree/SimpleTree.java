@@ -2,11 +2,7 @@ package org.lsqt.content.web.wicket.component.tree;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -24,6 +20,7 @@ import org.apache.wicket.markup.html.tree.BaseTree;
 import org.apache.wicket.markup.html.tree.LinkTree;
 import org.apache.wicket.markup.html.tree.LabelTree;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.validation.validator.StringValidator;
 
 import org.lsqt.components.dao.suport.BeanHelper;
 import org.lsqt.content.web.console.demo.MyDemoEmployee;
@@ -32,6 +29,7 @@ import org.lsqt.content.web.console.demo.MyDemoPage11_Tree;
 import org.lsqt.content.web.wicket.content.NewsContentPage;
 
 public class SimpleTree extends Panel {
+	private static final long serialVersionUID = 1L;
 	private Integer  width;
 	private Integer height;
 	
@@ -43,7 +41,6 @@ public class SimpleTree extends Panel {
 	 * @param displayProperty
 	 */
 	public void bindData(List<Object> beans,String idProperty, String pidProperty,String displayProperty){
-		
 		List<String[]> list=new ArrayList<String[]>();
 		try{
 			for(Object i: beans){
@@ -53,9 +50,12 @@ public class SimpleTree extends Panel {
 				
 				if(null != idPropertyValue && null!=pidPropertyValue){
 					
-					String[] row = new String[] { String.valueOf(idPropertyValue),
+					String[] row = new String[]{ 
+							String.valueOf(idPropertyValue),
 							String.valueOf(pidPropertyValue),
-							null == displayPropertyValue ? "":String.valueOf(displayPropertyValue) };
+							null == displayPropertyValue ? "":String.valueOf(displayPropertyValue) 
+					};
+					
 					list.add(row);
 				}else {
 					throw new NullPointerException("SimpleTree#bindData() error, parentId and childId must be not null,the root item must be pid=id !");
