@@ -20,7 +20,6 @@ import org.lsqt.content.web.console.demo.MyDemoPage11_Tree;
 import org.lsqt.content.web.wicket.component.datatable.SimpleDataTable;
 import org.lsqt.content.web.wicket.component.gridview.SimpleGridView;
 import org.lsqt.content.web.wicket.component.tree.SimpleTree;
-import org.lsqt.content.web.wicket.component.tree.Tree;
 
 public class ConsoleIndex extends AbstractPage {
 
