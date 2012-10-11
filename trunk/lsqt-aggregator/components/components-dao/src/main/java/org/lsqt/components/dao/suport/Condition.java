@@ -46,7 +46,7 @@ public final class Condition implements Serializable{
 	/**
 	 * 
 	 */
-	private static List<Criterion> expressions=new ArrayList<Criterion>();
+	private  List<Criterion> expressions=new ArrayList<Criterion>();
 	/**
 	 * 
 	 */
@@ -62,7 +62,7 @@ public final class Condition implements Serializable{
 	 *
 	 * @return 获取“条件”对象
 	 */
-	public static Condition getInstance(){
+	public  Condition getInstance(){
 		if(expressions.size()>0){
 			expressions=new ArrayList<Criterion>();
 		}
