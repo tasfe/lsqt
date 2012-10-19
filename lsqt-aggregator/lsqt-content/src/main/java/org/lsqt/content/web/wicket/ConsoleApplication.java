@@ -27,7 +27,7 @@ public class ConsoleApplication extends WebApplication {
 
 	public Class<? extends Page> getHomePage() {
 		//return UserManage.class;
-		return CategoryPage.class;
+		return ConsoleIndex.class;
 	}
 	
 	

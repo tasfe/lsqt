@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.event.IEvent;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.ajax.markup.html.tabs.AjaxTabbedPanel;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
@@ -16,6 +18,9 @@ import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tree.table.IRenderable;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
+import org.apache.wicket.feedback.FeedbackMessage;
+import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
@@ -42,11 +47,20 @@ import wicket.contrib.tinymce.TinyMceBehavior;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
 import wicket.contrib.tinymce.settings.TinyMCESettings.Theme;
 
-public class NewsContentPage extends AbstractPage {
+public class NewsContentPage extends ConsoleIndex {
 	public NewsContentPage(){
 		final FeedbackPanel panel=new FeedbackPanel("feedback");
+		panel.setMaxMessages(1);
+		/*panel.onEvent(new IEvent<T>() {
+		});*/
+		
 		final News news=new News();
 		final Form<News> form=new Form<News>("form"){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			protected void onSubmit() {
 				System.out.println(news);
@@ -57,7 +71,21 @@ public class NewsContentPage extends AbstractPage {
 		add(form);
 		
 		form.add(panel);
-		
+		/*panel.setFilter(new IFeedbackMessageFilter() {
+			
+			*//**
+			 * 
+			 *//*
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean accept(FeedbackMessage message) {
+				info(message);
+				System.out.println(message.getReporter());
+				return false;
+			}
+		});*/
+		panel.setFilter(new ContainerFeedbackMessageFilter(form));
 		
 		final ModalWindow modalCategories=new ModalWindow("modalCategories");
 		modalCategories.setTitle("新闻类别");

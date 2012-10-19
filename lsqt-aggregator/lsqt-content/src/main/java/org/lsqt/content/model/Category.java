@@ -45,6 +45,9 @@ public class Category implements Serializable{
 	@Column(name="name")
 	private String name;
 	
+	@Column(name="type")
+	private Integer type;
+	
 	@Column(name="description")
 	private String description;
 	
@@ -119,5 +122,17 @@ public class Category implements Serializable{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
 	}
 }

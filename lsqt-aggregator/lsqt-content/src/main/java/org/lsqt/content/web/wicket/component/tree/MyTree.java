@@ -1,33 +1,95 @@
 package org.lsqt.content.web.wicket.component.tree;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.extensions.markup.html.tree.Tree;
 import org.apache.wicket.markup.html.tree.BaseTree;
+import org.apache.wicket.markup.html.tree.DefaultTreeState;
+import org.apache.wicket.markup.html.tree.ITreeState;
 import org.apache.wicket.markup.html.tree.LinkTree;
+import org.apache.wicket.model.Model;
+import org.lsqt.content.web.wicket.content.NewsContentPage;
 
-public class SimpleTree extends Panel {
+public class MyTree extends Tree {
+	private static final String TREE_STATE_SESSION_KEY="_tree_state_session_key";
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
-	
+	public MyTree(String id) {
+		super(id);
+	}
+
 	private List<?> beans;
 	private String idProperty;
 	private String pidProperty;
 	private String displayProperty;
-	private String urlProperty;
+	
+	@Override
+	protected ITreeState newTreeState() {
+		Session session = this.getSession();
+		System.out.println(this.getSession().getId());
+		
+		System.out.println("session.size:" + session.getSizeInBytes());
+		ITreeState treeState = (ITreeState) session.getAttribute(TREE_STATE_SESSION_KEY);
+		if (treeState == null) {
+			treeState = new DefaultTreeState();
+			session.setAttribute(TREE_STATE_SESSION_KEY, treeState);
+		}
+		return treeState;
+	}
+	
+	
+	@Override
+	protected void onJunctionLinkClicked(AjaxRequestTarget target, TreeNode node) {
+		super.onJunctionLinkClicked(target, node);
+		if (getTreeState().isNodeExpanded(node)) {
+			getTreeState().collapseNode(node);
+		}else{
+			getTreeState().expandNode(node);
+		}
+		System.out.println(this.getSession().getId()+"  ===>"+getTreeState());
+		this.getSession().setAttribute(TREE_STATE_SESSION_KEY, getTreeState());
+	}
+	
+	@Override
+	protected void onNodeLinkClicked(AjaxRequestTarget target, TreeNode node) {
+		super.onNodeLinkClicked(target, node);
+		if (getTreeState().isNodeExpanded(node)) {
+			getTreeState().collapseNode(node);
+		}else{
+			getTreeState().expandNode(node);
+		}
+		System.out.println(this.getSession().getId());
+		System.out.println(this.getSession().getId()+"  ===>"+getTreeState());
+		this.getSession().setAttribute(TREE_STATE_SESSION_KEY, getTreeState());
+		setResponsePage(NewsContentPage.class);
+	}
+	
+/*	@Override
+	protected void onNodeLinkClicked(Object node, BaseTree tree,
+			AjaxRequestTarget target) {
+		super.onNodeLinkClicked(node, tree, target);
+		if (getTreeState().isNodeExpanded(node)) {
+			getTreeState().collapseNode(node);
+		}else{
+			getTreeState().expandNode(node);
+		}
+		setResponsePage(NewsContentPage.class);
+	}*/
 	
 	/**
 	 * 绑定实体对象到树，指定树控件要显示的Bean父子级属性和Lable属性.
@@ -44,19 +106,7 @@ public class SimpleTree extends Panel {
 		
 		
 	}
-	/**
-	 * 绑定实体对象到树，指定树控件要显示的Bean父子级属性和Label属性和点击页面时跳转的URL属性.
-	 * @param beans
-	 * @param idProperty
-	 * @param pidProperty
-	 * @param displayProperty
-	 * @param urlProperty
-	 */
-	public void bindData(List<?> beans,String idProperty, String pidProperty,String displayProperty,String urlProperty){
-		bindData( beans, idProperty, pidProperty,displayProperty);
-		this.urlProperty=urlProperty;
-		
-	}
+	
 	/**
 	 * 获取符合 id＝pid 的，或者符合pid为String.empt 或者null 的条件的结点为根结点.
 	 * @param items
@@ -82,13 +132,7 @@ public class SimpleTree extends Panel {
 		return map;
 	}
 	
-	/**
-	 * 构建结点,返回结点与结点上的数据映射.
-	 * @param rootMap
-	 * @param dataNodes
-	 * @return
-	 */
-	private  Map<DefaultMutableTreeNode,String[]>  buidTreeNodes(Map<DefaultMutableTreeNode,String []> rootMap, List<String []> dataNodes){
+	private  void  buidTreeNodes(Map<DefaultMutableTreeNode,String []> rootMap, List<String []> dataNodes){
 		String [] rootNode=rootMap.values().iterator().next();
 		DefaultMutableTreeNode uiRootNode=rootMap.keySet().iterator().next();
 		
@@ -102,7 +146,7 @@ public class SimpleTree extends Panel {
 		}
 		
 		for(String[] row: map.keySet()){
-			System.out.println(row[0]+"  "+row[1]+"  "+row[2]+" "+row[3]);
+			System.out.println(row[0]+"  "+row[1]+"  "+row[2]);
 			
 			DefaultMutableTreeNode p=map.get(row);
 			for(String [] r: map.keySet()){
@@ -118,18 +162,7 @@ public class SimpleTree extends Panel {
 				uiRootNode.add(p);
 			}
 		}
-		
-		//重新构造整棵树结点，并返回“结点上的数据(且包含根结点)”
-		LinkedHashMap<DefaultMutableTreeNode, String[]> treeNodeMap=new LinkedHashMap<DefaultMutableTreeNode, String[]>(map.size()+1);
-		treeNodeMap.put(uiRootNode, rootNode);
-		
-		Set<Entry<String[], DefaultMutableTreeNode>> set=map.entrySet();
-		for(Entry<String[], DefaultMutableTreeNode> e: set){
-			treeNodeMap.put(e.getValue(), e.getKey());
-		}
-		return treeNodeMap;
 	}
-	
 	
 	
 	
@@ -143,9 +176,7 @@ public class SimpleTree extends Panel {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	@SuppressWarnings("rawtypes")
 	private static Object getBeanPropertyValue(Object obj,String property) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
-		
 		Class clazz=obj.getClass();
 		Field field =clazz.getDeclaredField(property);
 		
@@ -155,18 +186,11 @@ public class SimpleTree extends Panel {
 		Object value=field.get(obj);
 		field.setAccessible(isAccess);
 		
-		System.out.println(property+" : "+value);
 		return value;
 	}
 	
 	
-	public SimpleTree(String id){
-		super(id);
-	}
-
-	private void build(){
-
-		
+private void build(){
 		try {
 			
 			List<String[]> list= convertBean(beans);
@@ -175,76 +199,12 @@ public class SimpleTree extends Panel {
 			DefaultMutableTreeNode dataRootNode = rootMap.keySet().iterator().next(); // find  data  root node
 			
 			 // 从跟结点开始构建树状结构
-			final Map<DefaultMutableTreeNode,String []> treeNodesMap=buidTreeNodes(rootMap, list);
+			buidTreeNodes(rootMap, list);
 
 			DefaultTreeModel treeModel = new DefaultTreeModel(dataRootNode);
 			
-			final LinkTree tree = new LinkTree("tree", treeModel){
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-				@Override
-				protected void onNodeLinkClicked(Object node, BaseTree tree,
-						AjaxRequestTarget target) {
-					super.onNodeLinkClicked(node, tree, target);
-					if (getTreeState().isNodeExpanded(node)) {
-						getTreeState().collapseNode(node);
-					}else{
-						getTreeState().expandNode(node);
-					}
-					
-					
-					try {
-						String[] nodeData= treeNodesMap.get(node);
-						if(StringUtils.isNotBlank(nodeData[3] )){
-							Class page = Class.forName(nodeData[3]);
-							setResponsePage(page );
-						}
-					} catch (ClassNotFoundException e) {
-						
-					}
-				}
-				@Override
-				protected void onJunctionLinkClicked(AjaxRequestTarget target,
-						Object node) {
-					super.onJunctionLinkClicked(target, node);
-					DefaultMutableTreeNode ele=(DefaultMutableTreeNode)node;
-					
-					getTreeState().expandNode(ele);
-					
-					
-					 
-					
-				}
-				
-			};
-			add(tree);
-
-			add(new AjaxLink<Void>("expandAll") {
-				/**   */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void onClick(AjaxRequestTarget target) {
-					tree.getTreeState().expandAll();
-					target.add(tree);
-					
-					
-				}
-			});
-
-			add(new AjaxLink<Void>("collapseAll") {
-				/**   */
-				private static final long serialVersionUID = 1L;
-
-				public void onClick(AjaxRequestTarget target) {
-					tree.getTreeState().collapseAll();
-					target.add(tree);
-					
-					
-				}
-			});
+			 
+			setModel(new Model(treeModel));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new RuntimeException(
@@ -268,16 +228,15 @@ public class SimpleTree extends Panel {
 			Object idPropertyValue = getBeanPropertyValue(i, idProperty); // parent
 			Object pidPropertyValue = getBeanPropertyValue(i, pidProperty); // child
 			Object displayPropertyValue = getBeanPropertyValue(i, displayProperty); // lable
-			Object urlPropertyValue=getBeanPropertyValue(i, urlProperty); // url
+	
 			if (null != idPropertyValue && null != pidPropertyValue) {
-
+	
 				String[] row = new String[] {
 						String.valueOf(idPropertyValue),
 						String.valueOf(pidPropertyValue),
-						null == displayPropertyValue ? "" : String.valueOf(displayPropertyValue),
-						null == urlPropertyValue ? "" : String.valueOf(urlPropertyValue)
-				};
-
+						null == displayPropertyValue ? "" : String
+								.valueOf(displayPropertyValue) };
+	
 				list.add(row);
 			} else {
 				throw new NullPointerException(
@@ -286,11 +245,11 @@ public class SimpleTree extends Panel {
 		}
 		return list;
 	}
-	
-	
+
 	@Override
 	protected void onInitialize() {
-		super.onInitialize();
 		build();
+		super.onInitialize();
+		
 	}
 }
