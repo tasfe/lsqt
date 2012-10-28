@@ -3,6 +3,7 @@ package org.lsqt.components.dao.hibernate;
 import java.io.Serializable;
 import java.util.List;
 
+import org.lsqt.components.dao.IDataAccess;
 import org.lsqt.components.dao.suport.DataSet;
 import org.lsqt.components.dao.suport.Page;
 
@@ -25,7 +26,7 @@ import org.lsqt.components.dao.suport.Page;
  * @param <T>
  *            模型对象
  */
-public interface EntityDao<T>
+public interface EntityDao<T> extends IDataAccess
 {
 
 	/**

@@ -5,6 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -61,7 +62,68 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 		super.setSessionFactory(sessionFactory);
 	}
 	
+	@Override
+	public int executeUpdate(final String sql, final Object... params) {
+		this.getSession().doWork(new Work() {
+			@Override
+			public void execute(Connection connection) throws SQLException {
+				PreparedStatement pstmt=null;
+				try{
+					pstmt= connection.prepareStatement(sql);
+				for(int i=0;i<params.length;i++){
+					pstmt.setObject(i+1, params[i]);
+				}
+				 pstmt.executeUpdate(sql);
+				}catch(Exception ex){
+					ex.printStackTrace();
+				}finally{
+					DbHelper.destroy(null, pstmt, null);
+				}
+			}
+		});
+		return 0;
+	}
 	
+	@Override
+	public Object executeQuery(final String sql, final Object... params) {
+		final DataSet DATASET = new DataSet();
+		this.getSession().doWork(new Work() {
+			@Override
+			public void execute(Connection connection) throws SQLException {
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				try {
+					pstmt = connection.prepareStatement(sql);
+					for (int i = 0; i < params.length; i++) {
+						pstmt.setObject(i + 1, params[i]);
+					}
+
+					boolean hasResults = pstmt.execute();
+
+					while (hasResults) {
+						DataTable dt = new DataTable();
+
+						rs = pstmt.getResultSet();
+						int colCount = rs.getMetaData().getColumnCount();
+						while (rs.next()) {
+							DataRow row = new DataRow();
+							for (int i = 0; i < colCount; i++) {
+								row.add(rs.getObject(i + 1));
+							}
+							dt.add(row);
+						}
+						DATASET.add(dt);
+						hasResults = pstmt.getMoreResults();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					DbHelper.destroy(null, pstmt, rs);
+				}
+			}
+		});
+		return DATASET;
+	}
 	
 	/** 日志对象 **/
 	private static final Logger logger = Logger.getLogger(AbstractHibernateDaoSupport.class);
