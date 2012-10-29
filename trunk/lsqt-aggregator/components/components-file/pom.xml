@@ -11,11 +11,14 @@
   
 	<artifactId>components-file</artifactId>
 	<name>components-file</name>
-		
+	
+	
 	<properties>
 		<poi.version>3.7</poi.version>
 		<itext.version>2.1.7</itext.version>
 	</properties>
+	
+	<dependencies>
 	<!-- 操作word文档必需 -->
 		<dependency>
 		  <groupId>com.lowagie</groupId>
@@ -63,4 +66,5 @@
 			<artifactId>poi-scratchpad</artifactId>
 			<version>${poi.version}</version>
 		</dependency>
+		</dependencies>
 </project>
