@@ -11,4 +11,56 @@
   
 	<artifactId>components-file</artifactId>
 	<name>components-file</name>
+		
+	<properties>
+		<poi.version>3.7</poi.version>
+		<itext.version>2.1.7</itext.version>
+	</properties>
+	<!-- 操作word文档必需 -->
+		<dependency>
+		  <groupId>com.lowagie</groupId>
+		  <artifactId>itext-rtf</artifactId>
+		  <version>${itext.version}</version>
+		  <exclusions>
+		  	<exclusion>
+		  		<artifactId>bcprov-jdk14</artifactId>
+		  		<groupId>org.bouncycastle</groupId>
+		  	</exclusion>
+		  	<exclusion>
+		  		<artifactId>bcmail-jdk14</artifactId>
+		  		<groupId>org.bouncycastle</groupId>
+		  	</exclusion>
+		  </exclusions>
+		</dependency>
+		<dependency>
+		  <groupId>com.lowagie</groupId>
+		  <artifactId>itext</artifactId>
+		  <version>${itext.version}</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>xml-apis</artifactId>
+					<groupId>xml-apis</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
 </project>
