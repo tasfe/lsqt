@@ -1,10 +1,11 @@
-package org.lsqt.content.service;
+package org.lsqt.content.service.impl;
 
 
 import javax.annotation.Resource;
 
 import org.lsqt.content.dao.ProjectDao;
 import org.lsqt.content.model.Project;
+import org.lsqt.content.service.ProjectService;
 import org.springframework.stereotype.Service;
 
 @Service

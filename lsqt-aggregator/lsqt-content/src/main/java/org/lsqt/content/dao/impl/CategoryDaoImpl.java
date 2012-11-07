@@ -1,6 +1,7 @@
-package org.lsqt.content.dao;
+package org.lsqt.content.dao.impl;
 
 import org.lsqt.components.dao.hibernate.AbstractHibernateDaoSupport;
+import org.lsqt.content.dao.CategoryDao;
 import org.lsqt.content.model.Category;
 import org.springframework.stereotype.Repository;
 

@@ -1,10 +1,11 @@
-package org.lsqt.content.service;
+package org.lsqt.content.service.impl;
 
 
 import javax.annotation.Resource;
 
 import org.lsqt.content.dao.WorkTaskDao;
 import org.lsqt.content.model.WorkTask;
+import org.lsqt.content.service.WorkTaskService;
 import org.springframework.stereotype.Service;
 
 /**

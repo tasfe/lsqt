@@ -1,4 +1,4 @@
-package org.lsqt.content.service;
+package org.lsqt.content.service.impl;
 
 
 import java.io.Serializable;
@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.lsqt.content.dao.NewsDao;
 import org.lsqt.content.model.News;
+import org.lsqt.content.service.NewsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
