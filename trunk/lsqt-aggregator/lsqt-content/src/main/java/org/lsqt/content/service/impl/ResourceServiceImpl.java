@@ -1,8 +1,9 @@
-package org.lsqt.content.service;
+package org.lsqt.content.service.impl;
 
 
 import javax.annotation.Resource;
 import org.lsqt.content.dao.ResourceDao;
+import org.lsqt.content.service.ResourceService;
 import org.springframework.stereotype.Service;
 
 @Service

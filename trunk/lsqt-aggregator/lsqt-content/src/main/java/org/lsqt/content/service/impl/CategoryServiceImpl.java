@@ -1,10 +1,11 @@
-package org.lsqt.content.service;
+package org.lsqt.content.service.impl;
 
 
 import javax.annotation.Resource;
 
 import org.lsqt.content.dao.CategoryDao;
 import org.lsqt.content.model.Category;
+import org.lsqt.content.service.CategoryService;
 import org.springframework.stereotype.Service;
 
 @Service

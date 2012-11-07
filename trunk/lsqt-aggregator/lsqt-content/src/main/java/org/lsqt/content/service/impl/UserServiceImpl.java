@@ -1,10 +1,11 @@
-package org.lsqt.content.service;
+package org.lsqt.content.service.impl;
 
 
 import javax.annotation.Resource;
 
 import org.lsqt.content.dao.UserDao;
 import org.lsqt.content.model.User;
+import org.lsqt.content.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

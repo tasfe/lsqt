@@ -27,7 +27,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.lsqt.content.dao.UserDao;
 import org.lsqt.content.model.User;
 import org.lsqt.content.service.UserService;
-import org.lsqt.content.service.UserServiceImpl;
+import org.lsqt.content.service.impl.UserServiceImpl;
 import org.lsqt.content.web.console.demo.AjaxDemo_AutoCompleteTextField;
 import org.lsqt.content.web.console.demo.AjaxDemo_DropDownChoice;
 import org.lsqt.content.web.console.demo.AjaxDemo_ExternalLink;
