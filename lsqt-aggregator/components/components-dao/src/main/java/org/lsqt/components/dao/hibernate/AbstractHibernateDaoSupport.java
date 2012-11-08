@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.StringValueExp;
+
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -398,56 +400,7 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 		return results;
 	}
 
-	/**
-	 * 加载分页对象
-	 * 
-	 * @param pageModel 初使化后不带数据的分页对象
-	 * @return 返回带数据的分页对象
-	 */
 	
-	public Page<T> loadPage(Page<T> pageModel) {
-		int firstResult = (pageModel.getCurrPageNum() - 1) * pageModel.getPerPageRecord();
-		int maxResult = pageModel.getPerPageRecord();
-
-		Criteria criteria = getSession().createCriteria(currClass);
-		Criteria criteria2 = getSession().createCriteria(currClass);
-
-		try {
-			// 按属性条件查询
-			Condition condition = pageModel.getConditions();
-			if (condition != null) {
-				List<Criterion> list = (List<Criterion>) BeanHelper.forceGetProperty(condition, "expressions");
-				for (Criterion i : list) {
-					criteria = criteria.add(i);
-					criteria2 = criteria2.add(i);
-				}
-			}
-			Object totalRecordObj = criteria2.setProjection(Projections.rowCount()).uniqueResult();
-			int totalRecord = 0;
-			if (totalRecordObj != null) {
-				totalRecord = Integer.valueOf(totalRecordObj.toString());
-				// System.out.println(totalRecord);
-			}
-			criteria.setFirstResult(firstResult);
-			criteria.setMaxResults(maxResult);
-
-			criteria = processPageBeanOrders(pageModel, criteria);
-
-			List list = criteria.list();
-
-			double temp = Double.valueOf(totalRecord) / Double.valueOf(pageModel.getPerPageRecord());
-
-			BeanHelper.forceSetProperty(pageModel, "totalRecord", totalRecord);
-			BeanHelper.forceSetProperty(pageModel, "totalPage", Double.valueOf(Math.ceil(temp)).intValue());
-			BeanHelper.forceSetProperty(pageModel, "data", list);
-
-			processPageBeanProperties(pageModel);
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
-		logger.debug("load successful");
-		return pageModel;
-	}
 
 	/***
 	 * 处理分页对象的排序字段
@@ -485,7 +438,7 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 	 */
 	private void processPageBeanProperties(Page pageModel) throws NoSuchFieldException {
 		if (pageModel.getCurrPageNum() >= pageModel.getTotalPage()) {
-			BeanHelper.forceSetProperty(pageModel, "currPageNum", pageModel.getTotalPage());// 页面上展现加了1，所以这要减1
+			BeanHelper.forceSetProperty(pageModel, "currPageNum", pageModel.getTotalPage());
 			BeanHelper.forceSetProperty(pageModel, "hasNextPage", false);
 		} else {
 			BeanHelper.forceSetProperty(pageModel, "hasNextPage", true);
@@ -631,21 +584,6 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 	 */
 	
 	public boolean executeSql(final String sql, final Object[] paramValue) {
-		/*
-		 * final Map<String ,Boolean> map=new HashMap<String,Boolean>();
-		 * map.put("isSuccess", Boolean.valueOf(false));
-		 * this.getSession().doWork(new Work() { public void execute(Connection
-		 * con) throws SQLException { PreparedStatement pstmt = null; //try{
-		 * pstmt=con.prepareStatement(sql); for(int i=0;i<
-		 * paramValue.length-1;i++){ pstmt.setObject(i+1, paramValue[i]); }
-		 * Boolean isSuccess = Boolean.valueOf(pstmt.execute());
-		 * map.put("isSuccess", isSuccess); //}catch(Exception e){ //
-		 * e.printStackTrace(); //}finally{ // DbHelper.destroy(con, pstmt,
-		 * null); //} } });
-		 * 
-		 * return map.get("isSuccess").booleanValue();
-		 */
-
 		Query query = this.getSession().createSQLQuery(sql);
 		query = processParamValues(paramValue, query);
 		return query.executeUpdate() > 0;
@@ -801,6 +739,58 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 
 	// ---------------------------------- background---------------------------------
 	/**
+	 * 加载分页对象
+	 * 
+	 * @param pageModel 初使化后不带数据的分页对象
+	 * @return 返回带数据的分页对象
+	 */
+	
+	public Page loadPage(Page pageModel) {
+		int firstResult = (pageModel.getCurrPageNum() - 1) * pageModel.getPerPageRecord();
+		int maxResult = pageModel.getPerPageRecord();
+
+		Criteria criteria = getSession().createCriteria(currClass);
+		Criteria criteria2 = getSession().createCriteria(currClass);
+
+		try {
+			// 按属性条件查询
+			Condition condition = pageModel.getConditions();
+			if (condition != null) {
+				List<Criterion> list = (List<Criterion>) BeanHelper.forceGetProperty(condition, "expressions");
+				for (Criterion i : list) {
+					criteria = criteria.add(i);
+					criteria2 = criteria2.add(i);
+				}
+			}
+			Object totalRecordObj = criteria2.setProjection(Projections.rowCount()).uniqueResult();
+			int totalRecord = 0;
+			if (totalRecordObj != null) {
+				totalRecord = Integer.valueOf(totalRecordObj.toString());
+				// System.out.println(totalRecord);
+			}
+			criteria.setFirstResult(firstResult);
+			criteria.setMaxResults(maxResult);
+
+			criteria = processPageBeanOrders(pageModel, criteria);
+
+			List list = criteria.list();
+
+			double temp = Double.valueOf(totalRecord) / Double.valueOf(pageModel.getPerPageRecord());
+
+			BeanHelper.forceSetProperty(pageModel, "totalRecord", totalRecord);
+			BeanHelper.forceSetProperty(pageModel, "totalPage", Double.valueOf(Math.ceil(temp)).intValue());
+			BeanHelper.forceSetProperty(pageModel, "data", list);
+
+			processPageBeanProperties(pageModel);
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+		logger.debug("load successful");
+		return pageModel;
+	}
+	
+	
+	/**
 	 * 跟据sql加载分页对象
 	 * 
 	 * @param sql
@@ -814,15 +804,18 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 		int maxResult = page.getPerPageRecord();
 
 		Query query = super.getSession().createSQLQuery(sql);
+		Query cntQuery = super.getSession().createSQLQuery("select count(*) from ( " +sql+" )" );
 		for (int i = 0; i < paramValues.length; i++) {
 			query.setParameter(i, paramValues[i], HibernateTypeHelper.filter(paramValues[i]));
+			cntQuery.setParameter(i, paramValues[i], HibernateTypeHelper.filter(paramValues[i]));
 		}
 		query.setFirstResult(firstResult);
 		query.setMaxResults(maxResult);
 
 		List list = query.list();
 
-		double temp = Double.valueOf(list.size()) / Double.valueOf(page.getPerPageRecord());
+		Object sizeObj=cntQuery.uniqueResult();
+		double temp = Double.valueOf(  sizeObj== null ? "0": sizeObj.toString() ) / Double.valueOf(page.getPerPageRecord());
 
 		try {
 			BeanHelper.forceSetProperty(page, "totalRecord", list.size());
@@ -845,31 +838,36 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 	 * @return Page<T>
 	 */
 	
-	public Page<T> loadPageByHql(String hql, Object[] paramValues, Page<T> pageModel) {
+	public Page loadPageByHql(String hql, Object[] paramValues, Page pageModel) {
 		int firstResult = (pageModel.getCurrPageNum() - 1) * pageModel.getPerPageRecord();
 		int maxResult = pageModel.getPerPageRecord();
 
 		// 构造查旬对象，并带查询条件
 		Query query = getSession().createQuery(hql);
+		Query cntQuery=getSession().createQuery("select count(*) "+hql);
 		for (int i = 0; i < paramValues.length; i++) {
 			query.setParameter(i, paramValues[i], HibernateTypeHelper.filter(paramValues[i]));
+			cntQuery.setParameter(i, paramValues[i], HibernateTypeHelper.filter(paramValues[i]));
 		}
-		List<T> list = query.list();
+	
 
 		query.setMaxResults(maxResult);
 		query.setFirstResult(firstResult);
-		List<T> pagedData = query.list();
-
+		
+		List pagedData = query.list();
+		
+		Object obj= cntQuery.uniqueResult();
+		
 		try {
-			double temp = Double.valueOf(list.size()) / Double.valueOf(pageModel.getPerPageRecord());
+			
+			double temp =Double.valueOf(obj==null ?  "0":obj.toString()) / Double.valueOf(pageModel.getPerPageRecord());
 
-			BeanHelper.forceSetProperty(pageModel, "totalRecord", list.size());
+			BeanHelper.forceSetProperty(pageModel, "totalRecord", Double.valueOf(obj==null ?  "0":obj.toString()).intValue());
 			BeanHelper.forceSetProperty(pageModel, "data", pagedData);
 			BeanHelper.forceSetProperty(pageModel, "totalPage", Double.valueOf(Math.ceil(temp)).intValue());
 
 			processPageBeanProperties(pageModel);
 
-			processPageBeanProperties(pageModel);
 		} catch (NoSuchFieldException e) {
 
 			e.printStackTrace();
