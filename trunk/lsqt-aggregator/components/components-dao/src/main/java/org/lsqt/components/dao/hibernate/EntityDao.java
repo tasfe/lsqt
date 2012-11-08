@@ -67,4 +67,13 @@ public interface EntityDao<T> extends IDataAccess
 
 	public T update(T obj);
 	
+	/**
+	 * 加载分页对象
+	 * 
+	 * @param initialPage 初使化的空数据分页对象
+	 * @return 返回含数据的分页对象
+	 */
+	@SuppressWarnings("rawtypes")
+	public Page loadPage(Page initialPage) ;
+	
 }

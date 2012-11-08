@@ -248,34 +248,4 @@ public final class BeanHelper extends BeanUtils {
 		   toStringInfo.append("}");
     	return toStringInfo.toString();
     }
-    
-    /**
-     * 
-     * 方法说明：判断javabean是否不为null 
-     *
-     * @param obj javabean对象
-     * @return 不为空，则返回真
-     */
-    public static boolean isNotNull(Object obj){
-    	if(obj != null){
-    		return true;
-    	}else{
-    		return false;
-    	}
-    }
-    
-    /**
-     * 
-     * 方法说明：判断javabean是否为空
-     *
-     * @param obj javabean对象
-     * @return 为空则返回真
-     */
-    public static boolean isNull(Object obj){
-    	if(obj == null){
-    		return true;
-    	}else{
-    		return false;
-    	}
-    }
 }

@@ -27,7 +27,6 @@ import org.hibernate.type.Type;
  *
  * @author 袁明敏
  * @since 1.0
- * @see org.hirisun.hea.common.model.Page
  *
  */
 @SuppressWarnings("unchecked")
@@ -50,7 +49,7 @@ public final class Condition implements Serializable{
 	/**
 	 * 
 	 */
-	private static Condition condition=null;
+	private  Condition condition=null;
 	
 	@SuppressWarnings("unused")
 	private List<Criterion> getExpressions(){
