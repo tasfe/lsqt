@@ -31,7 +31,7 @@ import org.hibernate.annotations.GenericGenerator;
  * </pre>
  */
 @Entity
-@Table(name="lsqt_resource")
+@Table(name="tb_resource")
 public class Resource implements Serializable{
 	private static long OBJECT_COUNTER=0L;
 	public Resource(){

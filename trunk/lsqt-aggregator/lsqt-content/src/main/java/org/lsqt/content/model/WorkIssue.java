@@ -20,7 +20,7 @@ import javax.persistence.Table;
  * </pre>
  */
 @Entity
-@Table(name="lsqt_issue")
+@Table(name="tb_issue")
 public class WorkIssue extends Content{
 
 	@Column(name="beginTime")
