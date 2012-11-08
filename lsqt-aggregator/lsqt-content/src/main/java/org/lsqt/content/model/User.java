@@ -21,7 +21,7 @@ import org.lsqt.content.model.oto.Wife;
 
 
 @Entity
-@Table(name="lsqt_user")
+@Table(name="tb_user")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements Serializable {
 	/****/

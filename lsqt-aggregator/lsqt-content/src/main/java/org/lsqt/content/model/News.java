@@ -18,7 +18,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.lsqt.content.model.mtm2.Course;
 
 @Entity
-@Table(name="lsqt_news")
+@Table(name="tb_news")
 public class News extends Content implements Serializable{
 	/**新闻标题**/
 	@Column(name="title",length=500)

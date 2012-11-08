@@ -25,7 +25,7 @@ import org.lsqt.content.model.mtm2.Student;
  *用于产品、新闻、论坛贴、招聘、文学等信息分类
  */
 @Entity
-@Table(name="lsqt_category")
+@Table(name="tb_category")
 public class Category implements Serializable{
 	/****/
 	private static final long serialVersionUID = 3897093806881654371L;

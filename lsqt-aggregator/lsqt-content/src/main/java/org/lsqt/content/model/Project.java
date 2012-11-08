@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * </pre>
  */
 @Entity
-@Table(name="lsqt_project")
+@Table(name="tb_project")
 public class Project extends Content{
 	
 }

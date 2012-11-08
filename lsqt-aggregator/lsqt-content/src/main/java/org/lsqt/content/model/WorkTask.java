@@ -23,7 +23,7 @@ import javax.persistence.Table;
  * </pre>
  */
 @Entity
-@Table(name="lsqt_task")
+@Table(name="tb_task")
 public class WorkTask extends Content {
 	/**任务关闭时间**/
 	@Column(name="closeTime")
