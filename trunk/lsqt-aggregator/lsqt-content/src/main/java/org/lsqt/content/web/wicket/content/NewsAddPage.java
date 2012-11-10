@@ -1,27 +1,15 @@
 package org.lsqt.content.web.wicket.content;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
-import org.apache.wicket.event.IEvent;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.extensions.ajax.markup.html.tabs.AjaxTabbedPanel;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
-import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
-import org.apache.wicket.extensions.markup.html.tabs.ITab;
-import org.apache.wicket.extensions.markup.html.tree.table.IRenderable;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
-import org.apache.wicket.feedback.FeedbackMessage;
-import org.apache.wicket.feedback.IFeedbackMessageFilter;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
@@ -30,25 +18,28 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.html.tree.LinkTree;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.Response;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.convert.ConversionException;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.lsqt.content.model.News;
-import org.lsqt.content.web.wicket.AbstractPage;
+import org.lsqt.content.service.NewsService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
-import org.lsqt.content.web.wicket.component.tab.SimpleTab;
 
 import wicket.contrib.tinymce.TinyMceBehavior;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
 import wicket.contrib.tinymce.settings.TinyMCESettings.Theme;
 
-public class NewsContentPage extends ConsoleIndex {
-	public NewsContentPage(){
+public class NewsAddPage extends ConsoleIndex {
+	
+	@SpringBean NewsService newsServ;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public NewsAddPage(){
 		final FeedbackPanel panel=new FeedbackPanel("feedback");
 		panel.setMaxMessages(1);
 		/*panel.onEvent(new IEvent<T>() {
@@ -63,9 +54,8 @@ public class NewsContentPage extends ConsoleIndex {
 
 			@Override
 			protected void onSubmit() {
-				System.out.println(news);
-			
-				//super.onSubmit();
+				newsServ.save(news);
+				setResponsePage(NewsListPage.class);
 			}
 		};
 		add(form);

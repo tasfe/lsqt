@@ -19,6 +19,17 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.html.tree.BaseTree;
 import org.apache.wicket.markup.html.tree.LinkTree;
 
+/**
+ * <pre>
+ * 
+ * SimpleTree tree = new SimpleTree(&quot;simpleTree&quot;);
+ * tree.bindData(list, &quot;id&quot;, &quot;pid&quot;, &quot;name&quot;, &quot;description&quot;);
+ * add(tree);
+ * </pre>
+ * 
+ * @author mm
+ * 
+ */
 public class SimpleTree extends Panel {
 	private static final long serialVersionUID = 1L;
 
@@ -102,7 +113,7 @@ public class SimpleTree extends Panel {
 		}
 		
 		for(String[] row: map.keySet()){
-			System.out.println(row[0]+"  "+row[1]+"  "+row[2]+" "+row[3]);
+		//	System.out.println(row[0]+"  "+row[1]+"  "+row[2]+" "+row[3]);
 			
 			DefaultMutableTreeNode p=map.get(row);
 			for(String [] r: map.keySet()){
@@ -155,7 +166,7 @@ public class SimpleTree extends Panel {
 		Object value=field.get(obj);
 		field.setAccessible(isAccess);
 		
-		System.out.println(property+" : "+value);
+		//System.out.println(property+" : "+value);
 		return value;
 	}
 	
@@ -202,7 +213,7 @@ public class SimpleTree extends Panel {
 							setResponsePage(page );
 						}
 					} catch (ClassNotFoundException e) {
-						
+						e.printStackTrace();
 					}
 				}
 				@Override

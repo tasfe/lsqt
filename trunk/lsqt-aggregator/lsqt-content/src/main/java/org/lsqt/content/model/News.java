@@ -20,6 +20,11 @@ import org.lsqt.content.model.mtm2.Course;
 @Entity
 @Table(name="tb_news")
 public class News extends Content implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**新闻标题**/
 	@Column(name="title",length=500)
 	private String title;
@@ -39,6 +44,14 @@ public class News extends Content implements Serializable{
 	/**后台发布日期**/
 	@Column(name="pubTime")
 	private Date pubTime;
+	
+	/**记录产生日期**/
+	@Column(name="createdDate")
+	private Date createdDate;
+	
+	/**记录修改日期**/
+	@Column(name="modifyDate")
+	private Date modifyDate;
 	
 	/**新闻来源内容（默认后台上报，其次有RSS来源、网页抓取分析等）**/
 	@Column(name="sourceFrom",length=1000)
@@ -93,16 +106,29 @@ public class News extends Content implements Serializable{
 	public void setOnlineTime(Date onlineTime) {
 		this.onlineTime = onlineTime;
 	}
+	
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+	
 	@Override
 	public String toString() {
 		return "News [title=" + title + ", onlineTime=" + onlineTime
 				+ ", isEnable=" + isEnable + ", isPublished=" + isPublished
-				+ ", pubTime=" + pubTime + ", sourceFrom=" + sourceFrom
+				+ ", pubTime=" + pubTime + ", createdDate=" + createdDate
+				+ ", modifyDate=" + modifyDate + ", sourceFrom=" + sourceFrom
 				+ ", categories=" + categories + ", id=" + id + ", name="
 				+ name + ", content=" + content + ", contentKeys="
 				+ contentKeys + ", description=" + description
 				+ ", createTime=" + createTime + "]";
 	}
-	
-	
 }
