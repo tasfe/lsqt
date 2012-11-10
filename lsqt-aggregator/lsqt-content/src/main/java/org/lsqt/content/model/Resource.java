@@ -38,7 +38,7 @@ public class Resource implements Serializable{
 		OBJECT_COUNTER++;
 	}
 	/****/
-	private static final long serialVersionUID = 2746748130837926699L;
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
 	@GeneratedValue(generator="idGenerator")

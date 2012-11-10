@@ -1,8 +1,11 @@
 package org.lsqt.content.web.wicket.component.datatable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractToolbar;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
@@ -10,8 +13,18 @@ import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.Model;
+
+/**
+ * 
+ * @author mm
+ *
+ */
 public class SimpleDataTable extends Panel {
-	protected List<?> beansData;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	protected Collection<?> beansData;
 	protected Object [] [] arrayData;
 	protected String [] displayProperties;
 	protected Integer[] displayColumnIndexs;
@@ -23,13 +36,9 @@ public class SimpleDataTable extends Panel {
 		super(id);
 	}
 	
-	public SimpleDataTable bindData(Object[][] data,int rowsPerPage){
-		this.arrayData=data;
-		this.rowsPerPage=rowsPerPage;
-		return this;
-	}
+
 	
-	public SimpleDataTable bindData(List<?> beans,int rowsPerPage){
+	public SimpleDataTable bindList(List<?> beans,int rowsPerPage){
 		this.beansData=beans;
 		this.rowsPerPage=rowsPerPage;
 		return this;
@@ -53,10 +62,21 @@ public class SimpleDataTable extends Panel {
 				for(String p: displayProperties){
 					columns.add(new PropertyColumn(new Model(p), p));
 				}
-				DataTable dataTable=new DataTable("dataTable", columns, new ListDataProvider(beansData),rowsPerPage);
+				DataTable dataTable=new DataTable("dataTable", columns, new ListDataProvider(new ArrayList(beansData)),rowsPerPage);
+				
+				
 				add(dataTable);
 				
-				PagingNavigator navigator=new PagingNavigator("pagingNavigator", dataTable);
+				AjaxPagingNavigator navigator=new AjaxPagingNavigator("pagingNavigator", dataTable){
+					@Override
+					public boolean isVisible() {
+						if(beansData==null || beansData.isEmpty()){
+							return false;
+						}else{
+							return true;
+						}
+					}
+				};
 				add(navigator);
 			}else{
 				

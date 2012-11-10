@@ -20,7 +20,7 @@ import org.apache.wicket.markup.html.tree.DefaultTreeState;
 import org.apache.wicket.markup.html.tree.ITreeState;
 import org.apache.wicket.markup.html.tree.LinkTree;
 import org.apache.wicket.model.Model;
-import org.lsqt.content.web.wicket.content.NewsContentPage;
+import org.lsqt.content.web.wicket.content.NewsAddPage;
 
 public class MyTree extends Tree {
 	private static final String TREE_STATE_SESSION_KEY="_tree_state_session_key";
@@ -76,7 +76,7 @@ public class MyTree extends Tree {
 		System.out.println(this.getSession().getId());
 		System.out.println(this.getSession().getId()+"  ===>"+getTreeState());
 		this.getSession().setAttribute(TREE_STATE_SESSION_KEY, getTreeState());
-		setResponsePage(NewsContentPage.class);
+		setResponsePage(NewsAddPage.class);
 	}
 	
 /*	@Override

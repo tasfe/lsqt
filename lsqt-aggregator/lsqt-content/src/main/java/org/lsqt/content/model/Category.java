@@ -28,7 +28,7 @@ import org.lsqt.content.model.mtm2.Student;
 @Table(name="tb_category")
 public class Category implements Serializable{
 	/****/
-	private static final long serialVersionUID = 3897093806881654371L;
+	private static final long serialVersionUID = 1L;
 	private static long OBJECT_COUNTER=0L;
 	public Category(){
 		OBJECT_COUNTER++;

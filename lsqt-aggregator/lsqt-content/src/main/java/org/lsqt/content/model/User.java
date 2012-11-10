@@ -25,7 +25,7 @@ import org.lsqt.content.model.oto.Wife;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements Serializable {
 	/****/
-	private static final long serialVersionUID = 6886626434521670211L;
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String userId;
 	private String userPwd;
