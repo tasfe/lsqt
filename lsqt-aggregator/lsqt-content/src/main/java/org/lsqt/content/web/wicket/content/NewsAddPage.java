@@ -17,6 +17,7 @@ import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -30,6 +31,14 @@ import wicket.contrib.tinymce.TinyMceBehavior;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
 import wicket.contrib.tinymce.settings.TinyMCESettings.Theme;
 
+/**
+ *新闻内容添加页面
+ * @author 袁明敏
+ * @version 1.1
+ * @since 2012-05-18
+ * 
+ * 
+ */
 public class NewsAddPage extends ConsoleIndex {
 	
 	@SpringBean NewsService newsServ;
@@ -169,6 +178,12 @@ public class NewsAddPage extends ConsoleIndex {
 		txtDescription.add(StringValidator.maximumLength(500));
 		form.add(txtDescription);
 		
-		
+		Link<Void> lnkBack=new Link<Void>("lnkBack") {
+			@Override
+			public void onClick() {
+				setResponsePage(NewsListPage.class);
+			}
+		};
+		form.add(lnkBack);
 	}
 }

@@ -2,6 +2,7 @@ package org.lsqt.content.service;
 
 import java.io.Serializable;
 
+import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Category;
 
 public interface CategoryService {
@@ -16,4 +17,6 @@ public interface CategoryService {
 	public void deleteAll();
 	
 	public Category getRoot();
+	
+	public Page loadPage(Page initialPage) ;
 }

@@ -3,6 +3,7 @@ package org.lsqt.content.service.impl;
 
 import javax.annotation.Resource;
 
+import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.dao.CategoryDao;
 import org.lsqt.content.model.Category;
 import org.lsqt.content.service.CategoryService;
@@ -39,5 +40,10 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	public Category getRoot(){
 		return this.categoryDao.getRoot();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public Page loadPage(Page initialPage) {
+		return this.categoryDao.loadPage(initialPage);
 	}
 }

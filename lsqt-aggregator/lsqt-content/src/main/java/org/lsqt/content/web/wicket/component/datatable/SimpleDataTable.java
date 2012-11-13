@@ -24,9 +24,9 @@ public class SimpleDataTable extends Panel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected Collection<?> beansData;
-	protected Object [] [] arrayData;
-	protected String [] displayProperties;
+	private Collection<?> beansData;
+	private Object [] [] arrayData;
+	private String [] displayProperties;
 	protected Integer[] displayColumnIndexs;
 
 	private List<IColumn> columns;
@@ -38,7 +38,7 @@ public class SimpleDataTable extends Panel {
 	
 
 	
-	public SimpleDataTable bindList(List<?> beans,int rowsPerPage){
+	public SimpleDataTable bindData(List<?> beans,int rowsPerPage){
 		this.beansData=beans;
 		this.rowsPerPage=rowsPerPage;
 		return this;

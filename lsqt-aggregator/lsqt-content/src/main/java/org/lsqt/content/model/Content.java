@@ -23,6 +23,10 @@ public abstract class Content {
 	@GeneratedValue(generator="idGenerator")
 	protected String id;
 	
+	/** 编号 **/
+	@Column(name="code",length=10)
+	protected String code;
+	
 	/**内容名称**/
 	@Column(name="name",length=500)
 	protected String name;
@@ -43,6 +47,9 @@ public abstract class Content {
 	@Column(name="createTime")
 	protected Long createTime=System.currentTimeMillis();
 	
+	/**排序号**/
+	@Column(name="orderNum")
+	protected Integer orderNum;
 	public String getId() {
 		return id;
 	}
@@ -79,5 +86,11 @@ public abstract class Content {
 	}
 	public void setContentKeys(String contentKeys) {
 		this.contentKeys = contentKeys;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
 	}
 }

@@ -1,24 +1,27 @@
-package org.lsqt.content.web.wicket.content;
+package org.lsqt.content.web.wicket.content.panel;
 
 import java.util.ArrayList;
 
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.lsqt.components.dao.suport.Page;
-import org.lsqt.content.model.News;
 import org.lsqt.content.service.NewsService;
-import org.lsqt.content.web.wicket.ConsoleIndex;
 import org.lsqt.content.web.wicket.component.datatable.SimpleDataTable;
+import org.lsqt.content.web.wicket.content.NewsAddPage;
 
-public class NewsListPage  extends ConsoleIndex{
-
-	@SpringBean NewsService newsServ;
-	/**
-	 * 
-	 */
+public class ContentPanel extends Panel{
+	/**  */
 	private static final long serialVersionUID = 1L;
+	@SpringBean NewsService newsServ;
 	
-	public NewsListPage(){
+	public ContentPanel(String id) {
+		super(id);
+		layout();
+	}
+
+
+	private void layout(){
 		SimpleDataTable table=new SimpleDataTable("newsList");
 		Page  initialPage=new Page(20,1);
 		initialPage.addOrderProperties("createdDate", false);
