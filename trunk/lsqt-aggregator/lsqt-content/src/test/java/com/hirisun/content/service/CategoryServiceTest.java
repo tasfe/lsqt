@@ -1,11 +1,9 @@
 package com.hirisun.content.service;
 
-import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.lsqt.content.model.Category;
 import org.lsqt.content.service.CategoryService;
-import org.lsqt.content.service.CategoryServiceImpl;
+import org.lsqt.content.service.impl.CategoryServiceImpl;
 
 import com.hirisun.AbstractTest;
 

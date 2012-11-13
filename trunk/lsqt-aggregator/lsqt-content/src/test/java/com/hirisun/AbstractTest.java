@@ -14,7 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runners.model.TestClass;
 import org.lsqt.content.service.UserService;
-import org.lsqt.content.service.UserServiceImpl;
+import org.lsqt.content.service.impl.UserServiceImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
