@@ -22,7 +22,7 @@ import org.lsqt.content.model.mtm2.Student;
 /**
  * 
  * @author 袁明敏
- *用于产品、新闻、论坛贴、招聘、文学等信息分类
+ *用于新闻、论坛贴、招聘、文学网、电商网的栏目分类
  */
 @Entity
 @Table(name="tb_category")
@@ -54,6 +54,23 @@ public class Category implements Serializable{
 	@Column(name="createTime")
 	private Long createTime=System.currentTimeMillis()+OBJECT_COUNTER;
 	
+	/**类别排序号**/
+	@Column(name="orderNum")
+	private Integer orderNum;
+	
+	/**是否有下级结点**/
+	@Column(name="hasChildNode")
+	private Boolean hasChildNode;
+	
+	
+	/**资源层级数**/
+	@Column(name="levelNum")
+	private Integer levelNum;
+	
+	/**子站编码**/
+	@Column(name="levelNum",insertable=false,updatable=false)
+	private String appId;
+	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pid", referencedColumnName = "id")
 	private Category parentCategory;
@@ -61,8 +78,14 @@ public class Category implements Serializable{
 	@OneToMany(mappedBy="parentCategory",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Category> subCategories=new HashSet<Category>();
 	
+	/**一个新闻可以属多个栏目（栏目与新闻的多对多关系）**/
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "categories", targetEntity = News.class)
 	private Set<News> news;
+	
+	/**一个应用下的栏目（栏目与应用的多对一关系）**/
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "app_id", referencedColumnName = "id")
+	private Application app;
 	
 	public String getId() {
 		return id;
@@ -134,5 +157,45 @@ public class Category implements Serializable{
 
 	public void setType(Integer type) {
 		this.type = type;
+	}
+
+	public Integer getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
+	}
+
+	public Boolean getHasChildNode() {
+		return hasChildNode;
+	}
+
+	public void setHasChildNode(Boolean hasChildNode) {
+		this.hasChildNode = hasChildNode;
+	}
+
+	public Integer getLevelNum() {
+		return levelNum;
+	}
+
+	public void setLevelNum(Integer levelNum) {
+		this.levelNum = levelNum;
+	}
+
+	public String getAppId() {
+		return appId;
+	}
+
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
+
+	public Application getApp() {
+		return app;
+	}
+
+	public void setApp(Application app) {
+		this.app = app;
 	}
 }

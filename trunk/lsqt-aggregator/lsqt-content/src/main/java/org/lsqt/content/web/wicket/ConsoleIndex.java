@@ -37,8 +37,8 @@ public class ConsoleIndex extends AbstractPage {
 		Category c2=new Category();
 		c2.setId("1");
 		c2.setPid("2");
-		c2.setName("新闻管理");
-		c2.setDescription("org.lsqt.content.web.wicket.content.NewsListPage");
+		c2.setName("内容管理");
+		c2.setDescription("org.lsqt.content.web.wicket.content.NewsMainPage");
 		
 		Category c3=new Category();
 		c3.setId("3");
