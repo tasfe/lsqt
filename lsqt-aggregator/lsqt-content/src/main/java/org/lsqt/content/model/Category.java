@@ -62,8 +62,19 @@ public class Category implements Serializable{
 	@Column(name="hasChildNode")
 	private Boolean hasChildNode;
 	
+	/**访问路径**/
+	@Column(name="accecssPath")
+	private String accecssPath;
 	
-	/**资源层级数**/
+	/**用于前台页是否显示**/
+	@Column(name="isVisible")
+	private Boolean isVisible;
+	
+	/**用于后台页是否显示**/
+	@Column(name="isEnable")
+	private Boolean isEnable;
+	
+	/**栏目层级数**/
 	@Column(name="levelNum")
 	private Integer levelNum;
 	
@@ -197,5 +208,29 @@ public class Category implements Serializable{
 
 	public void setApp(Application app) {
 		this.app = app;
+	}
+
+	public String getAccecssPath() {
+		return accecssPath;
+	}
+
+	public void setAccecssPath(String accecssPath) {
+		this.accecssPath = accecssPath;
+	}
+
+	public Boolean getIsVisible() {
+		return isVisible;
+	}
+
+	public void setIsVisible(Boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+
+	public Boolean getIsEnable() {
+		return isEnable;
+	}
+
+	public void setIsEnable(Boolean isEnable) {
+		this.isEnable = isEnable;
 	}
 }
