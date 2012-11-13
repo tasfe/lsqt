@@ -5,7 +5,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.lsqt.content.model.Resource;
 import org.lsqt.content.service.ResourceService;
-import org.lsqt.content.service.ResourceServiceImpl;
+import org.lsqt.content.service.impl.ResourceServiceImpl;
 
 import com.hirisun.AbstractTest;
 
