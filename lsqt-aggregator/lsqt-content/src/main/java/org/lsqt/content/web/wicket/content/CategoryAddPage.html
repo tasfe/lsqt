@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+</head>
+<body>
+<wicket:extend>
+	<form wicket:id="form">
+		上级栏目:<input wicket:id="parentCategoryName" type="text" ></input><br/>
+		类别名称*:<input wicket:id="name"  type="text"></input><br/>
+		访问路径*:<input wicket:id="accessPath" type="text"></input><br/>
+		排列顺序*:<input wicket:id="orderNum" type="text"></input><br/>
+		是否显示*:<input wicket:id="isVisible" type="checkbox"></input><br/>
+		打开目标:<br></br>
+		描述:<textarea wicket:id="description" ></textarea><br/>
+		<input type="submit"></input>
+		<input type="button" wicket:id="btnBack" value="返回列表"></input>
+	</form>
+</wicket:extend>
+</body>
+</html>

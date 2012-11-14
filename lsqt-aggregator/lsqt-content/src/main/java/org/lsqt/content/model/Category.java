@@ -17,7 +17,6 @@ import javax.persistence.Table;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.lsqt.content.model.mtm2.Student;
 
 /**
  * 
@@ -27,6 +26,8 @@ import org.lsqt.content.model.mtm2.Student;
 @Entity
 @Table(name="tb_category")
 public class Category implements Serializable{
+
+	
 	/****/
 	private static final long serialVersionUID = 1L;
 	private static long OBJECT_COUNTER=0L;
@@ -46,7 +47,7 @@ public class Category implements Serializable{
 	private String name;
 	
 	@Column(name="type")
-	private Integer type;
+	private CategoryType type;
 	
 	@Column(name="description")
 	private String description;
@@ -63,16 +64,27 @@ public class Category implements Serializable{
 	private Boolean hasChildNode;
 	
 	/**访问路径**/
-	@Column(name="accecssPath")
-	private String accecssPath;
+	@Column(name="accessPath")
+	private String accessPath;
 	
-	/**用于前台页是否显示**/
+	/**是否显示**/
 	@Column(name="isVisible")
 	private Boolean isVisible;
 	
-	/**用于后台页是否显示**/
-	@Column(name="isEnable")
-	private Boolean isEnable;
+	/**新窗口打开或其它目标窗口打开**/
+	@Column(name="target")
+	private String target;
+	
+	/**是否需要审核**/
+	@Column(name="hasAudit")
+	private Boolean hasAudit;
+	
+	/**审核后的操作（如已审核的新闻再进行修改会有何效果）**/
+	private Integer auditedOps;
+	
+	/**是否需要有评论**/
+	@Column(name="hasComment")
+	private Boolean hasComment;
 	
 	/**栏目层级数**/
 	@Column(name="levelNum")
@@ -162,11 +174,11 @@ public class Category implements Serializable{
 		this.pid = pid;
 	}
 
-	public Integer getType() {
+	public CategoryType getType() {
 		return type;
 	}
 
-	public void setType(Integer type) {
+	public void setType(CategoryType type) {
 		this.type = type;
 	}
 
@@ -210,14 +222,6 @@ public class Category implements Serializable{
 		this.app = app;
 	}
 
-	public String getAccecssPath() {
-		return accecssPath;
-	}
-
-	public void setAccecssPath(String accecssPath) {
-		this.accecssPath = accecssPath;
-	}
-
 	public Boolean getIsVisible() {
 		return isVisible;
 	}
@@ -226,11 +230,43 @@ public class Category implements Serializable{
 		this.isVisible = isVisible;
 	}
 
-	public Boolean getIsEnable() {
-		return isEnable;
+	public String getAccessPath() {
+		return accessPath;
 	}
 
-	public void setIsEnable(Boolean isEnable) {
-		this.isEnable = isEnable;
+	public void setAccessPath(String accessPath) {
+		this.accessPath = accessPath;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public Boolean getHasAudit() {
+		return hasAudit;
+	}
+
+	public void setHasAudit(Boolean hasAudit) {
+		this.hasAudit = hasAudit;
+	}
+
+	public Boolean getHasComment() {
+		return hasComment;
+	}
+
+	public void setHasComment(Boolean hasComment) {
+		this.hasComment = hasComment;
+	}
+
+	public Integer getAuditedOps() {
+		return auditedOps;
+	}
+
+	public void setAuditedOps(Integer auditedOps) {
+		this.auditedOps = auditedOps;
 	}
 }
