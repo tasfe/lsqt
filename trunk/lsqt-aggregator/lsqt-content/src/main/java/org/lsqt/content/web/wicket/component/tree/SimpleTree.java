@@ -230,6 +230,7 @@ public class SimpleTree extends Panel {
 				}
 				
 			};
+			tree.getTreeState().expandAll();
 			add(tree);
 
 			add(new AjaxLink<Void>("expandAll") {

@@ -5,7 +5,7 @@ import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.SecurePackageResourceGuard;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
-import org.lsqt.content.web.wicket.content.CategoryPage;
+import org.lsqt.content.web.wicket.content.CategoryAddPage;
 import org.lsqt.content.web.wicket.content.NewsAddPage;
 import org.springframework.stereotype.Component;
 import org.apache.wicket.spring.SpringWebApplicationFactory;

@@ -91,7 +91,7 @@ public class NewsAddPage extends ConsoleIndex {
 		modalCategories.setCookieName("modalCategories");
 		modalCategories.setPageCreator(new ModalWindow.PageCreator() {
 			public Page createPage() {
-				return new CategoryPage();
+				return new CategoryAddPage();
 			}
 		});
 		modalCategories.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
