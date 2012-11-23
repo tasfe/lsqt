@@ -14,11 +14,13 @@ import javax.swing.tree.TreeNode;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.markup.html.tree.DefaultTreeState;
+import org.apache.wicket.extensions.markup.html.tree.ITreeState;
 import org.apache.wicket.extensions.markup.html.tree.Tree;
-import org.apache.wicket.markup.html.tree.BaseTree;
+/*import org.apache.wicket.markup.html.tree.BaseTree;
 import org.apache.wicket.markup.html.tree.DefaultTreeState;
 import org.apache.wicket.markup.html.tree.ITreeState;
-import org.apache.wicket.markup.html.tree.LinkTree;
+import org.apache.wicket.markup.html.tree.LinkTree;*/
 import org.apache.wicket.model.Model;
 import org.lsqt.content.web.wicket.content.NewsAddPage;
 

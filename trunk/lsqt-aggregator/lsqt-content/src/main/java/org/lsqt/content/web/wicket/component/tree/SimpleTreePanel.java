@@ -15,9 +15,10 @@ import javax.swing.tree.DefaultTreeModel;
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.markup.html.tree.LinkTree;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.html.tree.BaseTree;
-import org.apache.wicket.markup.html.tree.LinkTree;
+//import org.apache.wicket.markup.html.tree.BaseTree;
+import org.apache.wicket.extensions.markup.html.tree.BaseTree;
 
 /**
  * <pre>
@@ -30,7 +31,7 @@ import org.apache.wicket.markup.html.tree.LinkTree;
  * @author mm
  * 
  */
-public class SimpleTree extends Panel {
+public class SimpleTreePanel extends Panel {
 	private static final long serialVersionUID = 1L;
 
 	
@@ -171,7 +172,7 @@ public class SimpleTree extends Panel {
 	}
 	
 	
-	public SimpleTree(String id){
+	public SimpleTreePanel(String id){
 		super(id);
 	}
 
@@ -191,6 +192,7 @@ public class SimpleTree extends Panel {
 			DefaultTreeModel treeModel = new DefaultTreeModel(dataRootNode);
 			
 			final LinkTree tree = new LinkTree("tree", treeModel){
+				
 				/**
 				 * 
 				 */
