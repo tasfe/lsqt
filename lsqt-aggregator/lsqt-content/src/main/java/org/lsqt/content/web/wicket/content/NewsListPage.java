@@ -8,6 +8,7 @@ import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.News;
 import org.lsqt.content.service.NewsService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
+import org.lsqt.content.web.wicket.component.datatable.RichDataTable;
 import org.lsqt.content.web.wicket.component.datatable.SimpleDataTable;
 
 public class NewsListPage  extends ConsoleIndex{
@@ -19,11 +20,22 @@ public class NewsListPage  extends ConsoleIndex{
 	private static final long serialVersionUID = 1L;
 	
 	public NewsListPage(){
+		/*
 		SimpleDataTable table=new SimpleDataTable("newsList");
 		Page  initialPage=new Page(20,1);
 		initialPage.addOrderProperties("createdDate", false);
 		newsServ.loadPage(initialPage);
 		table.bindData(new ArrayList( initialPage.getData()), 20).displayOn(new String[]{"name","title","sourceFrom"});
+		*/
+		
+		RichDataTable table=new RichDataTable("newsList");
+		Page  initialPage=new Page(20,1);
+		initialPage.addOrderProperties("createdDate", false);
+		newsServ.loadPage(initialPage);
+		table.bindData(initialPage.getData()).displayOn(new String[]{"title","content","description"});
+		
+		
+		
 		
 		
 		Link<Void> link=new Link<Void>("btnAdd") {

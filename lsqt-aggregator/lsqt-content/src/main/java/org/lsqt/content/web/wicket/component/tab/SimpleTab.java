@@ -11,36 +11,52 @@ import java.util.Map;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.HeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.html.internal.HtmlHeaderContainer;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.html.tree.BaseTree;
+//import org.apache.wicket.markup.html.tree.BaseTree;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 
 
 public class SimpleTab extends Panel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private List<ITab> tabs = new ArrayList<ITab>();
 	
-	// default stylesheet resource
-	private static final ResourceReference CSS = new PackageResourceReference(
+	// default style sheet resource
+	private static final CssResourceReference CSS = new CssResourceReference(
 			SimpleTab.class, "res/style.css");
 
 	/**
 	 * Returns the stylesheet reference
 	 * 
-	 * @return stylesheet reference
+	 * @return style sheet reference
 	 */
-	protected ResourceReference getCSS() {
+	protected CssResourceReference getCSS() {
 		return CSS;
 	}
-
+ 
+	@Override
+	public void renderHead(HtmlHeaderContainer container) {
+		// TODO Auto-generated method stub
+		super.renderHead(container);
+	}
+	
 	@Override
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);
 		ResourceReference css = getCSS();
 		if (css != null) {
-			response.renderCSSReference(css);
+			//response.renderCSSReference(css);
+			 response.render(CssHeaderItem.forReference(CSS));
 		}
 	}
 		
@@ -73,13 +89,10 @@ public class SimpleTab extends Panel{
 				} catch (SecurityException e) {
 					e.printStackTrace();
 				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				return null;

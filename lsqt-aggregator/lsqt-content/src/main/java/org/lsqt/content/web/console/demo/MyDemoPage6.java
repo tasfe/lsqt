@@ -99,7 +99,8 @@ public class MyDemoPage6 extends AbstractPage{
 		
 		//动态图片
 		Image img2 = new Image("dynamicImg", new RenderedDynamicImageResource(100, 100) {
-			protected boolean render(Graphics2D graphics) {
+			@Override
+			protected boolean render(Graphics2D graphics, Attributes attributes) {
 //				graphics.drawString("测试", 10, 10);
 				try {
 					graphics.drawBytes("测试".getBytes("UTF-8"), 0, "测试".getBytes("UTF-8").length, 10, 10);

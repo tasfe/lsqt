@@ -19,4 +19,7 @@ public interface CategoryService {
 	public Category getRoot();
 	
 	public Page loadPage(Page initialPage) ;
+	
+	public boolean hasRoot();
+	
 }

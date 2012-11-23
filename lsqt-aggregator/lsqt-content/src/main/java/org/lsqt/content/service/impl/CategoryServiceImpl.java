@@ -46,4 +46,8 @@ public class CategoryServiceImpl implements CategoryService{
 	public Page loadPage(Page initialPage) {
 		return this.categoryDao.loadPage(initialPage);
 	}
+	
+	public boolean hasRoot(){
+		return this.categoryDao.hasRoot();
+	}
 }

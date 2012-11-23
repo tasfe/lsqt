@@ -1,6 +1,13 @@
 package org.lsqt.content.web.wicket.content;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.model.Model;
 import org.lsqt.content.web.wicket.ConsoleIndex;
+import org.lsqt.content.web.wicket.component.tab.MyAbstractTab;
+import org.lsqt.content.web.wicket.component.tab.MyTabbedPanel;
 import org.lsqt.content.web.wicket.component.tab.SimpleTab;
 import org.lsqt.content.web.wicket.content.panel.CategoryListPanel;
 import org.lsqt.content.web.wicket.content.panel.ContentPanel;
@@ -26,5 +33,6 @@ public class NewsMainPage extends ConsoleIndex {
 		tab.addPanel(TmplPanel.class, "模板");
 		tab.addPanel(ContentPanel.class,"内容");
 		add(tab);
+		
 	}
 }

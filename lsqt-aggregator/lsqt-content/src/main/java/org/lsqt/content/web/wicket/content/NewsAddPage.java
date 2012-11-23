@@ -22,6 +22,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.convert.ConversionException;
+import org.apache.wicket.util.string.Strings;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.lsqt.content.model.News;
 import org.lsqt.content.service.NewsService;
@@ -64,6 +65,8 @@ public class NewsAddPage extends ConsoleIndex {
 			@Override
 			protected void onSubmit() {
 				newsServ.save(news);
+				System.out.println(news);
+				news.setContent(Strings.escapeMarkup(news.getContent()).toString());
 				setResponsePage(NewsListPage.class);
 			}
 		};
