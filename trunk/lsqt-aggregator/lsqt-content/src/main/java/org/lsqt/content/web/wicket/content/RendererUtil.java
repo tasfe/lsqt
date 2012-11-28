@@ -1,10 +1,8 @@
 package org.lsqt.content.web.wicket.content;
 
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import java.awt.Checkbox;
-import java.awt.peer.ButtonPeer;
-public class RendererUtil {
-	
+import org.apache.wicket.markup.html.form.IChoiceRenderer; 
+public final class RendererUtil {
+	private RendererUtil(){}
 	
 	public static  IChoiceRenderer<Boolean> getYesNoRenderer(){
 		IChoiceRenderer<Boolean> yesOrNo=new IChoiceRenderer<Boolean>() {
