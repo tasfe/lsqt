@@ -13,12 +13,13 @@
 
 	<properties>
 
-		
-		<wicket.version>1.5.5</wicket.version>
+		<wicket.version>6.3.0</wicket.version>
 
+		<!-- 
 		<velocity.version>1.7</velocity.version>
-		<velocity-tools.version>1.2</velocity-tools.version>
-
+ 		-->
+ 		<velocity-tools.version>1.2</velocity-tools.version>
+ 		
 		<ejb3-persistence.version>1.0.2.GA</ejb3-persistence.version>
 
 
@@ -95,21 +96,20 @@
 		<!-- <dependency> <groupId>javaee</groupId> <artifactId>javaee-api</artifactId> 
 			<version>${javaee.version}</version> <scope>provided</scope> </dependency> -->
 
-		<!-- velocity 网页静态化 -->
+		<!-- velocity 网页静态化
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
 			<version>${velocity.version}</version>
 		</dependency>
 
-
+ -->
 		<dependency>
 			<groupId>velocity-tools</groupId>
 			<artifactId>velocity-tools</artifactId>
 			<version>${velocity-tools.version}</version>
 		</dependency>
-
-
+		
 		<!-- oscache web缓存 <dependency> <groupId>opensymphony</groupId> <artifactId>oscache</artifactId> 
 			<version>${oscache.version}</version> </dependency> -->
 
@@ -147,9 +147,9 @@
 			<artifactId>spring-asm</artifactId>
 		</dependency>
 
-		<!-- aspect 支持 <dependency> <groupId>org.springframework</groupId> <artifactId>spring-aspects</artifactId> 
-			<version>${spring.version}</version> </dependency> <dependency> <groupId>org.aspectj</groupId> 
-			<artifactId>aspectjrt</artifactId> <version>1.6.11</version> </dependency> -->
+	<!-- aspect 支持 <dependency> <groupId>org.springframework</groupId> <artifactId>spring-aspects</artifactId> 
+		<version>${spring.version}</version> </dependency> <dependency> <groupId>org.aspectj</groupId> 
+		<artifactId>aspectjrt</artifactId> <version>1.6.11</version> </dependency> -->
 			
 		<!-- 持久层支持 -->
 		<dependency>
@@ -164,12 +164,12 @@
 
 
 
-
+<!-- 
 		<dependency>
 			<groupId>commons-dbutils</groupId>
 			<artifactId>commons-dbutils</artifactId>
 		</dependency>
-
+ -->
 		<!-- web层支持 -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
@@ -191,8 +191,32 @@
 
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-request</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-velocity</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-datetime</artifactId>
-			<version>1.5.3</version>
+			<version>${wicket.version}</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.wicketstuff</groupId>
+		  <artifactId>wicketstuff-tinymce</artifactId>
+		  <version>1.5.5</version>
+		</dependency>
+		<!-- 
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-datetime</artifactId>
+			<version>${wicket.version}</version>
 		</dependency>
 
 		<dependency>
@@ -200,7 +224,7 @@
 		  <artifactId>wicketstuff-tinymce</artifactId>
 		  <version>1.5.5</version>
 		</dependency>
-		
+		 -->
 
 
 		<dependency>
@@ -209,7 +233,7 @@
 			<version>${c3p0.version}</version>
 		</dependency>
 
-		<!-- 工具类支持 -->
+		<!-- 工具类支持 
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
@@ -219,7 +243,7 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 		</dependency>
-
+-->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
