@@ -210,8 +210,10 @@
 		<dependency>
 		  <groupId>org.wicketstuff</groupId>
 		  <artifactId>wicketstuff-tinymce</artifactId>
-		  <version>1.5.5</version>
+		  <version>6.2.1</version>
 		</dependency>
+		
+		
 		<!-- 
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
