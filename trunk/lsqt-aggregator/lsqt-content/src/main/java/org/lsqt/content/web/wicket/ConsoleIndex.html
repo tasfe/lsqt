@@ -12,7 +12,28 @@
   <div id="menu">This is the Menu</div>
   <div id="mainContent">
     <div id="sidebar">
-    	<div wicket:id="simpleTree"></div>
+    	<!-- <div wicket:id="simpleTree"></div> -->
+    	<wicket:link>
+    	<ul>
+    		<li>内容管理
+    			<ul>
+    				<li><a href="#">首页</a></li>
+    				<li><a href="">站点</a></li>
+    				<li><a href="">栏目</a></li>
+    				<li><a href="NewsListPage.html">内容</a></li>
+    				<li><a>模版</a></li>
+    				<li><a>辅助</a></li>
+    			</ul>
+    		</li>
+    		<li>
+    			论坛管理
+    			
+    		</li>
+    		<li>
+    			商城管理
+    		</li>
+    	</ul>
+    	</wicket:link>
     </div>
     <div id="content">
     	<wicket:child></wicket:child>

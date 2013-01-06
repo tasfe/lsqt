@@ -6,6 +6,12 @@ import java.util.Date;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.event.Broadcast;
+import org.apache.wicket.event.IEvent;
+import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
@@ -20,6 +26,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.protocol.https.RequireHttps;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.convert.ConversionException;
 import org.apache.wicket.util.string.Strings;
@@ -27,6 +34,7 @@ import org.apache.wicket.validation.validator.StringValidator;
 import org.lsqt.content.model.News;
 import org.lsqt.content.service.NewsService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
+import org.lsqt.content.web.wicket.component.form.SecureForm;
 
 import wicket.contrib.tinymce.TinyMceBehavior;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
@@ -40,6 +48,7 @@ import wicket.contrib.tinymce.settings.TinyMCESettings.Theme;
  * 
  * 
  */
+//@RequireHttps
 public class NewsAddPage extends ConsoleIndex {
 	
 	@SpringBean NewsService newsServ;
@@ -50,6 +59,8 @@ public class NewsAddPage extends ConsoleIndex {
 	private static final long serialVersionUID = 1L;
 
 	public NewsAddPage(){
+		//getPage().get("form");
+		
 		final FeedbackPanel panel=new FeedbackPanel("feedback");
 		panel.setMaxMessages(1);
 		/*panel.onEvent(new IEvent<T>() {
@@ -71,6 +82,7 @@ public class NewsAddPage extends ConsoleIndex {
 			}
 		};
 		add(form);
+		//form.hasFeedbackMessage();
 		
 		form.add(panel);
 		/*panel.setFilter(new IFeedbackMessageFilter() {
@@ -181,12 +193,31 @@ public class NewsAddPage extends ConsoleIndex {
 		txtDescription.add(StringValidator.maximumLength(500));
 		form.add(txtDescription);
 		
-		Link<Void> lnkBack=new Link<Void>("lnkBack") {
-			@Override
+		AjaxLink<Void> lnkBack=new AjaxLink<Void>("lnkBack") {
+		/*	@Override
 			public void onClick() {
 				setResponsePage(NewsListPage.class);
+			}*/
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				setResponsePage(NewsListPage.class);
+				//send(getPage(), Broadcast.BREADTH, target);
+				
 			}
+			
+		/*	@Override
+				public void onEvent(IEvent<?> event) {
+					super.onEvent(event);
+					if(event.get)
+				}*/
 		};
 		form.add(lnkBack);
+		
 	}
 }

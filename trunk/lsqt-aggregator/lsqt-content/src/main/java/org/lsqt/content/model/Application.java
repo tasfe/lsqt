@@ -16,7 +16,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 /**
  * 
- *应用名称 用于新闻系统或论坛，电子商务网站的站点应用定义
+ *应用名称 用于新闻系统或论坛，电子商务网站的站点应用定义。
+ *一个应用下有多个栏目，应用与栏目隶属于一对多的关系，多个栏目只可复制（复制多个栏目数据到一个应用下）到另一个应用，但不能多对多的关联
  * @author 袁明敏
  * @version 1.1
  * @since 2012-11-13
@@ -35,6 +36,7 @@ public class Application {
 	@Column(name="name",length=500)
 	protected String name;
 
+	/**一个应用下的栏目**/
 	@OneToMany(mappedBy="app",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Category> categories=new HashSet<Category>();
 	

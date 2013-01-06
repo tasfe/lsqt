@@ -33,6 +33,7 @@ public class NewsListPage  extends ConsoleIndex{
 		initialPage.addOrderProperties("createdDate", false);
 		newsServ.loadPage(initialPage);
 		table.bindData(initialPage.getData()).displayOn(new String[]{"title","content","description"});
+		table.addHeadLabel(new String[]{"标题","内容","描述","操作选项"});
 		
 		
 		
@@ -50,5 +51,6 @@ public class NewsListPage  extends ConsoleIndex{
 		
 		add(table);
 		add(link);
+		
 	}
 }

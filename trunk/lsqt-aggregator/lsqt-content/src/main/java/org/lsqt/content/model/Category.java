@@ -46,9 +46,6 @@ public class Category implements Serializable{
 	@Column(name="name")
 	private String name;
 	
-	@Column(name="type")
-	private CategoryType type;
-	
 	@Column(name="description")
 	private String description;
 	
@@ -174,13 +171,6 @@ public class Category implements Serializable{
 		this.pid = pid;
 	}
 
-	public CategoryType getType() {
-		return type;
-	}
-
-	public void setType(CategoryType type) {
-		this.type = type;
-	}
 
 	public Integer getOrderNum() {
 		return orderNum;

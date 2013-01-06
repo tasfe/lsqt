@@ -3,11 +3,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title></title>
+<wicket:head>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+</wicket:head>
 </head>
 <body>
 <wicket:extend>
-<div style="width:795px;height: 500px;overflow-y:auto;">
-	<form wicket:id="form">
+<div >
+	<form wicket:id="form" >
 	新闻标题:<input type="text" name="title" wicket:id="title2"></input> <br/>
 	新闻前台在线日期:<input type="text" name="onlineTime" wicket:id="onlineTime" readonly="readonly"></input> <br/>
 	是否启用:<input type="checkbox" name="isEnable" wicket:id="isEnable"></input> <br/>
@@ -19,8 +22,8 @@
 	描述信息:<textarea type="text" name="description" wicket:id="description"></textarea><br/>
 	所属类别:<input type="text" name="categories" wicket:id="txtCategories" readonly="readonly"></input><br/>
 	内容:<textarea type="text" name="content" wicket:id="content"></textarea><br/>
-	<input type="submit" /> 
-	<a wicket:id="lnkBack">返回列表</a>
+	<input type="submit"  value="提交"/> 
+	<input type="button" wicket:id="lnkBack" value="返回列表">
 	<span wicket:id="feedback"></span>
 	<div wicket:id="modalCategories"></div>
 	</form>

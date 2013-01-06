@@ -3,10 +3,12 @@ package org.lsqt.content.web.wicket;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.SecurePackageResourceGuard;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.https.HttpsConfig;
+import org.apache.wicket.protocol.https.HttpsMapper;
 import org.apache.wicket.response.filter.ServerAndClientTimeFilter;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
-import org.springframework.stereotype.Component;
-@Component("consoleApplication")
+import org.lsqt.content.web.wicket.content.NewsAddPage;
+
 public class ConsoleApplication extends WebApplication {
 	@Override
 	protected void init() {
@@ -21,6 +23,8 @@ public class ConsoleApplication extends WebApplication {
 		 
 		 
 		 addDebugsSetting();
+		 
+		 //setRootRequestMapper(new HttpsMapper(getRootRequestMapper(),new HttpsConfig()));
 	 }
 	
 	private void addDebugsSetting(){
@@ -29,8 +33,7 @@ public class ConsoleApplication extends WebApplication {
 	}
 
 	public Class<? extends Page> getHomePage() {
-		//return UserManage.class;
-		return ConsoleIndex.class;
+		return NewsAddPage.class;
 	}
 	
 	
