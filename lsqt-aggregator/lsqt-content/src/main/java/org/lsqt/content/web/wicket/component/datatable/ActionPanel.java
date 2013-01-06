@@ -5,7 +5,6 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.lsqt.content.web.console.demo.MyDemoPage10;
 
 public class ActionPanel extends Panel {
 	public ActionPanel(String id,Object entity){
@@ -33,7 +32,7 @@ public class ActionPanel extends Panel {
 				PageParameters param=new PageParameters();
 				param.add("userName", "test", 0);
 				
-				setResponsePage(MyDemoPage10.class,param);
+			
 			}
 		};
 		add(detailLink);

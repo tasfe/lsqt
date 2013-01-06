@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -15,9 +14,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.lsqt.content.model.Category;
-import org.lsqt.content.model.CategoryType;
 import org.lsqt.content.service.CategoryService;
-import org.lsqt.content.service.NewsService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
 
 public class CategoryAddPage extends ConsoleIndex {
@@ -42,7 +39,7 @@ public class CategoryAddPage extends ConsoleIndex {
 			private static final long serialVersionUID = 1L;
 
 			protected void onSubmit() {
-				category.setType(CategoryType.NEWS);
+				
 				
 			}
 		};

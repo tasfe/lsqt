@@ -1,12 +1,12 @@
 /* CONSOLE LAYOUT */
-#container {margin:0 auto; width:1024px;}
+#container {margin:0 auto; width:950px;}
 
 #header { height:60px; background:#6cf;}
 #menu { height:33px; background:#09c; }
 
 #mainContent { height:615px;}
-#sidebar { float:left; width:224px; height:615px; overflow:auto}
-#content { float:right; width:800px; height:615px; }
+#sidebar { float:left; width:200px; height:615px; overflow:auto}
+#content { float:right; width:750px; height:615px; }
 
 #footer { height:60px; background:#6cf;}
 

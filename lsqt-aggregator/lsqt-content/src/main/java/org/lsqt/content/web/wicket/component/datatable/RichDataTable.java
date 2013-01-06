@@ -15,8 +15,6 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.lsqt.components.dao.suport.BeanHelper;
-import org.lsqt.content.model.News;
 
 /**
  * 
@@ -109,14 +107,12 @@ public class RichDataTable extends Panel {
 		}
 		
 		//表格体
-		ListView<Object[]> tbBody=new ListView<Object[]>("tbBody",model) {
+		ListView<Object[]> tbBody=new ListView<Object[]>("tbRow",model) {
 			/**  */
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected void populateItem(ListItem<Object[]> item) {
-				WebMarkupContainer tbRow=new WebMarkupContainer("tbRow");
-				item.add(tbRow);
 				
 				ListView<Object> cells=new ListView<Object>("tbCell",Arrays.asList(item.getModelObject())){
 					/** 	 */
@@ -128,7 +124,7 @@ public class RichDataTable extends Panel {
 						item.add(lblValue);
 					}
 				};
-				tbRow.add(cells);
+				item.add(cells);
 			}
 		};
 		

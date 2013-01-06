@@ -1,21 +1,25 @@
 package com.hirisun.content.web.wicket;
 
+import org.apache.wicket.util.tester.FormTester;
+import org.apache.wicket.util.tester.WicketTester;
+import org.junit.Test;
+import org.lsqt.content.web.wicket.content.NewsAddPage;
 import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
 public class UserManageTest {
 
-	//@Test
+	@Test
 	public void init(){
 		
         
 		
-		/*WicketTester t=new WicketTester();
-		t.startPage(UserManage.class);
+		WicketTester t=new WicketTester();
+		t.startPage(NewsAddPage.class);
 		FormTester form=t.newFormTester("form");
-		form.setValue("email", "yuanke@sohu.com");
-		form.submit();*/
+		form.setValue("txtCategories", "yuanke@sohu.com");
+		form.submit();
 		//t.assertNoErrorMessage();
 		//t.assertModelValue("email", "yuanke@sohu.com");
 		//t.assertErrorMessages(expectedErrorMessages)
