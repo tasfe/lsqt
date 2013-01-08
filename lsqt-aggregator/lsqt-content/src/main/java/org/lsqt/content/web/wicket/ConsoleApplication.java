@@ -8,7 +8,11 @@ import org.apache.wicket.protocol.https.HttpsMapper;
 import org.apache.wicket.response.filter.ServerAndClientTimeFilter;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.lsqt.content.web.wicket.content.NewsAddPage;
-
+/**
+ * 
+ * @author mm
+ *
+ */
 public class ConsoleApplication extends WebApplication {
 	@Override
 	protected void init() {

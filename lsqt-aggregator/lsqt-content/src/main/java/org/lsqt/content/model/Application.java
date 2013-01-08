@@ -1,5 +1,6 @@
 package org.lsqt.content.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,8 +25,14 @@ import org.hibernate.annotations.GenericGenerator;
  * 
  */
 @Entity
-@Table(name="tb_appliation")
-public class Application {
+@Table(name="tb_application")
+public class Application  implements Serializable{
+	private static long OBJECT_COUNTER=0L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**标识ID**/
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
@@ -36,6 +43,16 @@ public class Application {
 	@Column(name="name",length=500)
 	protected String name;
 
+	@Column(name="createTime")
+	private Long createTime=System.currentTimeMillis()+(++OBJECT_COUNTER);
+	
+	@Column(name="description")
+	private String description;
+	
+	/**类别排序号**/
+	@Column(name="orderNum")
+	private Integer orderNum;
+	
 	/**一个应用下的栏目**/
 	@OneToMany(mappedBy="app",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Category> categories=new HashSet<Category>();
@@ -62,5 +79,29 @@ public class Application {
 
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
+	}
+
+	public Long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Long createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Integer getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
 	}
 }

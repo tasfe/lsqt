@@ -1,6 +1,8 @@
 package org.lsqt.content.service.impl;
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.lsqt.components.dao.suport.Page;
@@ -18,6 +20,16 @@ public class CategoryServiceImpl implements CategoryService{
 		this.categoryDao = categoryDaoImpl;
 	}
 	
+	/**
+	 * 获取某个应用下的栏目.
+	 * @param appID 应用ID
+	 * 
+	 * @return List 返回应用下的栏目
+	 */
+	public List<Category> getCategoryByApp(String appID){
+		return this.categoryDao.getCategoryByApp(appID);
+	}
+	
 	public boolean save(Category category){
 		return this.categoryDao.save(category);
 	}
@@ -33,21 +45,5 @@ public class CategoryServiceImpl implements CategoryService{
 	public Category findById(String id) {
 		return this.categoryDao.findById(id);
 	}
-	
-	public void deleteAll() {
-		this.categoryDao.deleteAll();
-	}
-	
-	public Category getRoot(){
-		return this.categoryDao.getRoot();
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public Page loadPage(Page initialPage) {
-		return this.categoryDao.loadPage(initialPage);
-	}
-	
-	public boolean hasRoot(){
-		return this.categoryDao.hasRoot();
-	}
+
 }

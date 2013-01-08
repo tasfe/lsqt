@@ -30,9 +30,9 @@ public class Category implements Serializable{
 	
 	/****/
 	private static final long serialVersionUID = 1L;
-	private static long OBJECT_COUNTER=0L;
+	
 	public Category(){
-		OBJECT_COUNTER++;
+		
 	}
 
 	@Id
@@ -50,45 +50,24 @@ public class Category implements Serializable{
 	private String description;
 	
 	@Column(name="createTime")
-	private Long createTime=System.currentTimeMillis()+OBJECT_COUNTER;
+	private Long createTime=System.currentTimeMillis();
 	
 	/**类别排序号**/
 	@Column(name="orderNum")
 	private Integer orderNum;
 	
-	/**是否有下级结点**/
-	@Column(name="hasChildNode")
-	private Boolean hasChildNode;
-	
-	/**访问路径**/
-	@Column(name="accessPath")
-	private String accessPath;
+  
 	
 	/**是否显示**/
 	@Column(name="isVisible")
 	private Boolean isVisible;
 	
-	/**新窗口打开或其它目标窗口打开**/
-	@Column(name="target")
-	private String target;
-	
-	/**是否需要审核**/
-	@Column(name="hasAudit")
-	private Boolean hasAudit;
-	
-	/**审核后的操作（如已审核的新闻再进行修改会有何效果）**/
-	private Integer auditedOps;
-	
-	/**是否需要有评论**/
-	@Column(name="hasComment")
-	private Boolean hasComment;
-	
-	/**栏目层级数**/
-	@Column(name="levelNum")
-	private Integer levelNum;
+ 
+ 
+ 
 	
 	/**子站编码**/
-	@Column(name="levelNum",insertable=false,updatable=false)
+	@Column(name="app_id",insertable=false,updatable=false)
 	private String appId;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -180,21 +159,6 @@ public class Category implements Serializable{
 		this.orderNum = orderNum;
 	}
 
-	public Boolean getHasChildNode() {
-		return hasChildNode;
-	}
-
-	public void setHasChildNode(Boolean hasChildNode) {
-		this.hasChildNode = hasChildNode;
-	}
-
-	public Integer getLevelNum() {
-		return levelNum;
-	}
-
-	public void setLevelNum(Integer levelNum) {
-		this.levelNum = levelNum;
-	}
 
 	public String getAppId() {
 		return appId;
@@ -218,45 +182,5 @@ public class Category implements Serializable{
 
 	public void setIsVisible(Boolean isVisible) {
 		this.isVisible = isVisible;
-	}
-
-	public String getAccessPath() {
-		return accessPath;
-	}
-
-	public void setAccessPath(String accessPath) {
-		this.accessPath = accessPath;
-	}
-
-	public String getTarget() {
-		return target;
-	}
-
-	public void setTarget(String target) {
-		this.target = target;
-	}
-
-	public Boolean getHasAudit() {
-		return hasAudit;
-	}
-
-	public void setHasAudit(Boolean hasAudit) {
-		this.hasAudit = hasAudit;
-	}
-
-	public Boolean getHasComment() {
-		return hasComment;
-	}
-
-	public void setHasComment(Boolean hasComment) {
-		this.hasComment = hasComment;
-	}
-
-	public Integer getAuditedOps() {
-		return auditedOps;
-	}
-
-	public void setAuditedOps(Integer auditedOps) {
-		this.auditedOps = auditedOps;
 	}
 }

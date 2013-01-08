@@ -3,7 +3,10 @@ package org.lsqt.content.web.wicket;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.repeater.tree.DefaultNestedTree;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.lsqt.content.dao.CategoryDao;
 import org.lsqt.content.model.Category;
@@ -14,10 +17,11 @@ import org.lsqt.content.web.wicket.component.tree.SimpleTreeProvider;
 import org.lsqt.content.web.wicket.content.bean.CategoryProvider;
 
 public class ConsoleIndex extends AbstractPage {
-	@SpringBean
-	private CategoryService CatService;
+	/**  */
+	private static final long serialVersionUID = 1L;
 	
-	@SuppressWarnings("unchecked")
+	@SpringBean private CategoryService CatService;
+	
 	public ConsoleIndex() {
 		List<Category> list=new ArrayList<Category>();
 		Category c=new Category();
@@ -72,20 +76,92 @@ public class ConsoleIndex extends AbstractPage {
 		list.add(c3);
 		list.add(c4);
 		list.add(c5);
-		
-
-		
-
-	/*	
-		try {
-			add(new DefaultNestedTree("simpleTree",new CategoryProvider())); 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}  */
 	
-	
+		layout();
 	}
 
+	private void layout(){
+		//WebMarkupContainer container = new WebMarkupContainer("container");
+		final WebMarkupContainer header = new WebMarkupContainer("header");
+		final WebMarkupContainer menu = new WebMarkupContainer("menu");
+		//WebMarkupContainer mainContent = new WebMarkupContainer("mainContent");
+		final WebMarkupContainer sidebar = new WebMarkupContainer("sidebar");
+		//WebMarkupContainer content = new WebMarkupContainer("content");
+		
+		//container.setOutputMarkupId(true);
+		header.setOutputMarkupId(true);
+		menu.setOutputMarkupId(true);
+		//mainContent.setOutputMarkupId(true);
+		sidebar.setOutputMarkupPlaceholderTag(true);
+		//content.setOutputMarkupId(true);
+		
+		AjaxLink<Void> btnTop=new AjaxLink<Void>("btnTop") {
+			/**  */
+			private static final long serialVersionUID = 1L;
 
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+			
+				
+			}
+		};
+		
+		AjaxLink<Void> btnLeft=new AjaxLink<Void>("btnLeft") {
+			/**  */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				StringBuffer js=new StringBuffer();
+				js.append("$(function(){" +
+						"            $('#content').css('width','950px');" +
+						"   	})");
+				
+				
+				target.appendJavaScript(js.toString());
+				if (sidebar.isVisible()) {
+					sidebar.setVisible(false);
+				}
+				target.add(sidebar);
+				
+			}
+		};
+		
+		AjaxLink<Void> btnRight=new AjaxLink<Void>("btnRight") {
+			/**  */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				StringBuffer js=new StringBuffer();
+				js.append("$(function(){" +
+						"            $('#content').css('width','750px');" +
+						"   	})");
+				
+				
+				target.appendJavaScript(js.toString());
+				if (sidebar.isVisible() == false) {
+					sidebar.setVisible(true);
+				}
+				target.add(sidebar);
+				
+			}
+		};
+		
+		//add(container);
+		//container.add(header);
+		//container.add(menu);
+		
+		//container.add(mainContent);
+		add(header);
+		add(menu);
+		add(sidebar);
+		//mainContent.add(sidebar);
+		//mainContent.add(content);
+		
+		menu.add(btnTop);
+		menu.add(btnLeft);
+		menu.add(btnRight);
+	}
 }
 

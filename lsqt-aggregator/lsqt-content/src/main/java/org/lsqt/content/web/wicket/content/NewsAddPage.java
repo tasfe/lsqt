@@ -110,12 +110,17 @@ public class NewsAddPage extends ConsoleIndex {
 			}
 		});
 		modalCategories.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
+			/**  */
+			private static final long serialVersionUID = 1L;
 			@Override
 			public void onClose(AjaxRequestTarget target) {
 				
 			}
 		});
 		modalCategories.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
+			/**  */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public boolean onCloseButtonClicked(AjaxRequestTarget target) {
 				

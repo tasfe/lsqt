@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+<wicket:head>
+	<style type="text/css">
+		.websiteSidebar { float:left; width:200px; height:615px;  OVERFLOW-y:auto;}
+		.websiteContent { float:left; width:550px; height:615px; }
+	</style>
+</wicket:head>
+
+</head>
+<body>
+<wicket:extend>
+		<div class="websiteSidebar cf" wicket:id="tree">
+	    	这里是树状结构
+	    </div>
+	    
+	     <div class="websiteContent">
+		<div>
+			<wicket:link>
+				<input type="text" ></input><a href="#">查询</a>
+				<a href="CategoryAddPage.html">添加</a>
+			</wicket:link>
+		</div>
+		<div wicket:id="categoryList">
+			<table >
+				<tr>
+					<td>序号</td>
+					<td>栏目名称</td>
+			  		<td>时间</td>  
+					<td>描述</td>
+					<td>操作</td>
+				</tr>
+				<tr wicket:id="rows">
+					<td><span wicket:id="seq">1</span></td>
+					<td><span wicket:id="name">2</span></td>
+				  	<td><span wicket:id="createTime">3</span></td> 
+					<td><span wicket:id="desc">4</span></td>
+					<td>
+						<a href="#" id="btnDelete" >删除</a>
+						<a href="#" id="btnUpdate">修改</a>
+						<a href="#" id="btnManage">进入</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		</div>
+</wicket:extend>
+</body>
+</html>

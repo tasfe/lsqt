@@ -46,14 +46,12 @@ public class CategoryAddPage extends ConsoleIndex {
 		
 		//父类
 		TextField<String> txtParentCategoryName=new RequiredTextField<String>("parentCategoryName",new PropertyModel<String>(parentCategory,"name"));
-		txtParentCategoryName.setVisible(!categoryServ.hasRoot());
+	 
 		
 		
 		//类别名称
 		TextField<String> txtName=new RequiredTextField<String>("name",new PropertyModel<String>(category,"name"));
 		
-		//访问路径
-		TextField<String> txtAccPath=new RequiredTextField<String>("accessPath",new PropertyModel<String>(category,"accessPath"));
 		
 		//排列顺序
 		TextField<String> txtOrderNum=new RequiredTextField<String>("orderNum",new PropertyModel<String>(category,"orderNum"));
@@ -73,7 +71,7 @@ public class CategoryAddPage extends ConsoleIndex {
 
 			@Override
 			public void onClick() {
-				setResponsePage(NewsMainPage.class);
+				setResponsePage(CategoryListPage.class);
 			}
 		};
 		
@@ -91,7 +89,6 @@ public class CategoryAddPage extends ConsoleIndex {
 		add(form);
 		form.add(txtParentCategoryName);
 		form.add(txtName);
-		form.add(txtAccPath);
 		form.add(txtOrderNum);
 		form.add(radVisible);
 		form.add(txtDescription);
