@@ -8,10 +8,7 @@ import org.lsqt.content.model.Category;
 import org.lsqt.content.service.CategoryService;
 
 public class CategoryProvider implements ITreeProvider<Category> {
-	private CategoryService CategorySer;
-	public void setCategorySer(CategoryService categorySer) {
-		CategorySer = categorySer;
-	}
+	
 	/**
 	 * 
 	 */
@@ -43,9 +40,8 @@ public class CategoryProvider implements ITreeProvider<Category> {
 
 	@Override
 	public IModel<Category> model(Category object) {
-		CategoryModel c=	 new CategoryModel(object);
-		c.setCategorySer(CategorySer);
-		return c;
+		
+		return null;
 	}
 
 }

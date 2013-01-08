@@ -8,18 +8,21 @@
 
 <body>
 <div id="container">
-  <div id="header">This is the Header</div>
-  <div id="menu">This is the Menu</div>
-  <div id="mainContent">
-    <div id="sidebar">
-    	<!-- <div wicket:id="simpleTree"></div> -->
+  <div id="header" wicket:id="header">This is the Header</div>
+  <div id="menu" wicket:id="menu">
+    <a href="#" wicket:id="btnLeft">左</a>
+  	<a href="#" wicket:id="btnTop">上</a>
+  	<a href="#" wicket:id="btnRight">右</a>
+  </div>
+  <div id="mainContent" >
+    <div id="sidebar" wicket:id="sidebar">
     	<wicket:link>
     	<ul>
     		<li>内容管理
     			<ul>
-    				<li><a href="#">首页</a></li>
-    				<li><a href="">站点</a></li>
-    				<li><a href="">栏目</a></li>
+    				<li><a href="AppListPage.html">应用</a></li>
+    				<li><a href="WebSitePage.html">站点</a></li>
+    				<li><a href="CategoryListPage.html">栏目</a></li>
     				<li><a href="NewsListPage.html">内容</a></li>
     				<li><a>模版</a></li>
     				<li><a>辅助</a></li>
