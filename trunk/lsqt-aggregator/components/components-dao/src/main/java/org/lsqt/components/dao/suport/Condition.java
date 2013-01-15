@@ -39,39 +39,10 @@ public final class Condition implements Serializable{
 	/**
 	 * 
 	 */
-	private Condition() {
-		
+	public Condition() {
 	}
-	/**
-	 * 
-	 */
-	private  List<Criterion> expressions=new ArrayList<Criterion>();
-	/**
-	 * 
-	 */
-	private  Condition condition=null;
-	
-	@SuppressWarnings("unused")
-	private List<Criterion> getExpressions(){
-		return expressions;
-	}
-	/**
-	 * 
-	 * 方法说明：获取“条件”单例对象
-	 *
-	 * @return 获取“条件”对象
-	 */
-	public  Condition getInstance(){
-		if(expressions.size()>0){
-			expressions=new ArrayList<Criterion>();
-		}
-		
-		if(condition==null){
-			condition=new Condition();
-			return condition;
-		} 
-		return condition;
-	}
+
+	private List expressions = new ArrayList();
 	
 	/**
 	 * 
