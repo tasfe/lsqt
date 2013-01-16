@@ -2,19 +2,17 @@ package org.lsqt.content.web.wicket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.extensions.markup.html.repeater.tree.DefaultNestedTree;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.lsqt.content.dao.CategoryDao;
+import org.apache.wicket.util.time.Duration;
 import org.lsqt.content.model.Category;
-import org.lsqt.content.model.User;
 import org.lsqt.content.service.CategoryService;
-import org.lsqt.content.web.wicket.component.tree.ModelUtil;
-import org.lsqt.content.web.wicket.component.tree.SimpleTreeProvider;
-import org.lsqt.content.web.wicket.content.bean.CategoryProvider;
+import org.lsqt.content.web.wicket.component.Clock;
 
 public class ConsoleIndex extends AbstractPage {
 	/**  */
@@ -148,20 +146,24 @@ public class ConsoleIndex extends AbstractPage {
 			}
 		};
 		
-		//add(container);
-		//container.add(header);
-		//container.add(menu);
 		
-		//container.add(mainContent);
 		add(header);
 		add(menu);
 		add(sidebar);
-		//mainContent.add(sidebar);
-		//mainContent.add(content);
-		
+		 
 		menu.add(btnTop);
 		menu.add(btnLeft);
 		menu.add(btnRight);
+		
+		
+		
+		//Clock clock = new Clock("clock", TimeZone.getTimeZone("China/beijing"));
+		
+
+		// add the ajax behavior which will keep updating the component every 5
+		// seconds
+		//clock.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(1)));
+		//menu.add(clock);
 	}
 }
 

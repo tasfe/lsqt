@@ -3,6 +3,8 @@ package org.lsqt.content.dao.impl;
 import java.util.List;
 
 import org.lsqt.components.dao.hibernate.AbstractHibernateDaoSupport;
+import org.lsqt.components.dao.suport.Condition;
+import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.dao.AppsDao;
 import org.lsqt.content.model.Application;
 import org.springframework.stereotype.Repository;
@@ -19,6 +21,15 @@ public class AppsDaoImpl extends AbstractHibernateDaoSupport<Application>  imple
 	}
 	
 	public List<Application> findAll(){
-		return super.findAll();
+		StringBuffer hql=new StringBuffer();
+		hql.append("from Application a order by createTime desc");
+		return super.executeHqlQuery(hql.toString());
+	}
+	
+	public Page<Application> loadPage(String key){
+		Page<Application> page=new Page<Application>(20,1);
+	//page.addConditions();
+		
+		return page;
 	}
 }

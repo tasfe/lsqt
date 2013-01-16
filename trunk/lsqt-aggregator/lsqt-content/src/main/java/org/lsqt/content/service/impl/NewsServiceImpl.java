@@ -2,6 +2,8 @@ package org.lsqt.content.service.impl;
 
 
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.lsqt.components.dao.suport.Page;
@@ -18,6 +20,11 @@ public class NewsServiceImpl implements NewsService{
 	@Resource
 	public void setNewsDao(NewsDao newsDaoImpl) {
 		this.newsDao = newsDaoImpl;
+	}
+	
+	@Override
+	public List<News> getNewsByApp(String appID) {
+		return newsDao.getNewsByApp(appID);
 	}
 	
 	@Transactional(readOnly=false)

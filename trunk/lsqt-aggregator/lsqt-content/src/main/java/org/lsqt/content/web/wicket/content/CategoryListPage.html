@@ -5,19 +5,19 @@
 <title></title>
 <wicket:head>
 	<style type="text/css">
-		.websiteSidebar { float:left; width:200px; height:615px;  OVERFLOW-y:auto;}
-		.websiteContent { float:left; width:550px; height:615px; }
+		.treeContent { float:left; width:200px; height:615px;  OVERFLOW-y:auto;}
+		.listContent { float:left; width:550px; height:615px; }
 	</style>
 </wicket:head>
 
 </head>
 <body>
 <wicket:extend>
-		<div class="websiteSidebar cf" wicket:id="tree">
+		<div class="treeContent cf" wicket:id="tree">
 	    	这里是树状结构
 	    </div>
 	    
-	     <div class="websiteContent">
+	     <div class=listContent>
 		<div>
 			<wicket:link>
 				<input type="text" ></input><a href="#">查询</a>

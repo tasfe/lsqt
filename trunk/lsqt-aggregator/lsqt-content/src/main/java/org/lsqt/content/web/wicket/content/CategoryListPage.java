@@ -5,23 +5,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.extensions.markup.html.repeater.tree.DefaultNestedTree;
+import org.apache.wicket.Component;
+import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.extensions.markup.html.repeater.tree.AbstractTree;
+import org.apache.wicket.extensions.markup.html.repeater.tree.NestedTree;
+import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RadioChoice;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.TextArea;
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.lsqt.content.model.Application;
 import org.lsqt.content.model.Category;
@@ -29,8 +27,11 @@ import org.lsqt.content.service.AppsService;
 import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
 import org.lsqt.content.web.wicket.content.bean.Node;
+import org.lsqt.content.web.wicket.content.bean.NodeExpansion;
+import org.lsqt.content.web.wicket.content.bean.NodeExpansionModel;
 import org.lsqt.content.web.wicket.content.bean.NodeProvider;
-
+import org.lsqt.content.web.wicket.content.bean.SelectableFolderContent;
+import org.lsqt.content.web.wicket.content.bean.Content;
 public class CategoryListPage extends ConsoleIndex {
 	
 	/**
@@ -49,6 +50,50 @@ public class CategoryListPage extends ConsoleIndex {
 	}
 
 	private void loadTree(){
+		List<Application> apps = initDataView();
+		
+		List<Node> nodes=new ArrayList<Node>();
+		Node root = new Node("网站列表");
+		
+		for(Application a: apps){
+			Node n=new Node(root, a.getName());
+		}
+		
+		nodes.add(root);
+
+		
+		
+		
+		NodeProvider nodeProvider = new NodeProvider(nodes);
+		
+		content = new SelectableFolderContent(nodeProvider);
+		
+		tree = (NestedTree<Node>) createTree(nodeProvider, new NodeExpansionModel());
+		
+		theme=new org.apache.wicket.extensions.markup.html.repeater.tree.theme.WindowsTheme();
+		
+		tree.add(new Behavior()
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onComponentTag(Component component, ComponentTag tag)
+			{
+				theme.onComponentTag(component, tag);
+			}
+
+			@Override
+			public void renderHead(Component component, IHeaderResponse response)
+			{
+				theme.renderHead(component, response);
+			}
+		});
+		
+		add(tree);
+		
+	}
+
+	private List<Application> initDataView() {
 		List<Application> apps= appsService.findAll();
 		
 		if(apps.size()>0){
@@ -80,21 +125,32 @@ public class CategoryListPage extends ConsoleIndex {
 			};
 			cntCategoryList.add(dataView); 
 		}
-		
-		List<Node> nodes=new ArrayList<Node>();
-		Node root = new Node("应用根目录");
-		{
-			for(Application a: apps){
-				Node n=new Node(root, a.getName());
-			}
-		}
-		nodes.add(root);
-
-		
-		 NodeProvider nodeProvider=new NodeProvider(nodes);
-		 
-		add(new DefaultNestedTree<Node>("tree", nodeProvider)) ;
+		return apps;
 	}
+	
+	private Behavior theme;
+	
+
+	private NestedTree<Node> tree;
+	private Content content;
+	protected AbstractTree<Node> createTree(NodeProvider provider, IModel<Set<Node>> state)
+	{
+		tree = new NestedTree<Node>("tree", provider, state)
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected Component newContentComponent(String id, IModel<Node> model)
+			{
+				return content.newContentComponent(id, tree, model);
+			}
+		};
+		return tree;
+	}
+	
+	
+	
+	
 	
 	private WebMarkupContainer cntCategoryList;
 	private void layout() {

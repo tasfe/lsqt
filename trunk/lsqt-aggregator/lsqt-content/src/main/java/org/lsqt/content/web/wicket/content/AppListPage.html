@@ -13,10 +13,9 @@
 <body>
 <wicket:extend>
 		<div wicket:id="search">
-			<wicket:link>
-				<input type="text" ></input><a href="#">查询</a>
-				<a href="AppAddPage.html">添加</a>
-			</wicket:link>
+				<input type="text" wicket:id="key"></input>
+				<a href="#" wicket:id="btnSearch">查询</a>
+				<a href="#"  wicket:id="btnAdd">添加</a>
 		</div>
 		<div wicket:id="appList">
 			<table >
@@ -51,6 +50,7 @@
 		 	当前第<span wicket:id="currPageNum"></span>页
 		 	转到<input type="text" wicket:id="jumpPage" class="pageNationBarText"></input>页<a href="#">转</a>
 		</div>
+		<div wicket:id="modalWin">应用添加弹出窗口</div>
 </wicket:extend>
 </body>
 </html>
