@@ -80,15 +80,15 @@ public class Page<T> implements Serializable{
 	 * @param currPageNum 当前页码,索引从1开始
 	 * */
 	public Page (Integer perPageRecord,Integer currPageNum){
-		if(perPageRecord<=0){
-			this.perPageRecord=20;
-		}else{
-			this.perPageRecord=perPageRecord;
+		if (perPageRecord <= 0) {
+			this.perPageRecord = 20;
+		} else {
+			this.perPageRecord = perPageRecord;
 		}
-		if(currPageNum<=0){
-			this.currPageNum=1;
-		}else{
-			this.currPageNum=currPageNum;
+		if (currPageNum <= 0) {
+			this.currPageNum = 1;
+		} else {
+			this.currPageNum = currPageNum;
 		}
 	}
 

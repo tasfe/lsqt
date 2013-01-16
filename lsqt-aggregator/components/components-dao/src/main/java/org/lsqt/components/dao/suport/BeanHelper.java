@@ -113,23 +113,25 @@ public final class BeanHelper extends BeanUtils {
 	 * @throws NoSuchFieldException 如果没有该Field时抛出.
 	 * @return 返回对象变量值
 	 */
-	public static Object forceGetProperty(Object object, String propertyName) throws NoSuchFieldException {
+	public static Object forceGetProperty(Object object, String propertyName) throws RuntimeException {
 		Assert.notNull(object);
 		Assert.hasText(propertyName);
-
-		Field field = getDeclaredField(object, propertyName);
-
-		boolean accessible = field.isAccessible();
-		field.setAccessible(true);
-
-		Object result = null;
+		
 		try {
+			Field field = getDeclaredField(object, propertyName);
+
+			boolean accessible = field.isAccessible();
+			field.setAccessible(true);
+
+			Object result = null;
+
 			result = field.get(object);
-		} catch (IllegalAccessException e) {
-			LOGGER.info("error wont' happen");
+			field.setAccessible(accessible);
+			return result;
+		} catch (Exception e) {
+			LOGGER.info("error  happened at #forceGetProperty");
+			throw new RuntimeException(e.getMessage());
 		}
-		field.setAccessible(accessible);
-		return result;
 	}
 
 	/**
@@ -139,20 +141,21 @@ public final class BeanHelper extends BeanUtils {
 	 * @param newValue 设置对应的对象属性新值
 	 * @throws NoSuchFieldException 如果没有该Field时抛出.
 	 */
-	public static void forceSetProperty(Object object, String propertyName, Object newValue)
-			throws NoSuchFieldException {
+	public static void forceSetProperty(Object object, String propertyName, Object newValue) {
 		Assert.notNull(object);
 		Assert.hasText(propertyName);
-
+		try {
 		Field field = getDeclaredField(object, propertyName);
 		boolean accessible = field.isAccessible();
 		field.setAccessible(true);
-		try {
-			field.set(object, newValue);
-		} catch (IllegalAccessException e) {
-			LOGGER.info("Error won't happen");
-		}
+		
+		field.set(object, newValue);
 		field.setAccessible(accessible);
+		} catch (Exception e) {
+			LOGGER.info("Error won't happen");
+			throw new RuntimeException(e.getMessage());
+		}
+		
 	}
 	
 	/**  
