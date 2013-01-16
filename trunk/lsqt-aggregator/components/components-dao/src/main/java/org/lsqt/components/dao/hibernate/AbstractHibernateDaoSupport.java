@@ -776,6 +776,12 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 	 * @param pageModel 分页模型
 	 */
 	private void processPageBeanProperties(Page page,int totalRecord,int totalPage,Collection data) {
+		BeanHelper.forceSetProperty(page, "totalRecord", totalRecord);
+		
+		BeanHelper.forceSetProperty(page, "totalPage",totalPage );
+		
+		BeanHelper.forceSetProperty(page, "data", data);
+		
 		
 		if (page.getCurrPageNum() >= page.getTotalPage()) {
 			BeanHelper.forceSetProperty(page, "currPageNum", page.getTotalPage());
@@ -791,12 +797,6 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 			BeanHelper.forceSetProperty(page, "hasPreviouPage", true);
 		}
 
-		
-		BeanHelper.forceSetProperty(page, "totalRecord", totalRecord);
-		
-		BeanHelper.forceSetProperty(page, "totalPage",totalPage );
-		
-		BeanHelper.forceSetProperty(page, "data", data);
 	}
 	
 	/**
