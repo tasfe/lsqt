@@ -839,6 +839,9 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 			
 			processPageBeanProperties(page, totalRecord, totalPage, list);
 		} catch (Exception e) {
+			logger.error(e.getMessage());
+			
+			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
 		logger.debug("load successful");
