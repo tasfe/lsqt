@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.wicket.Component;
+import org.apache.wicket.extensions.markup.html.repeater.tree.AbstractTree;
+import org.apache.wicket.model.IModel;
+
 public class Node implements Serializable
 {
 
@@ -72,4 +76,5 @@ public class Node implements Serializable
 	public void setParent(Node parent) {
 		this.parent = parent;
 	}
+
 }

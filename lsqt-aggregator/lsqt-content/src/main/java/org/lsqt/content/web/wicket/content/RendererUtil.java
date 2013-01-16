@@ -1,6 +1,7 @@
 package org.lsqt.content.web.wicket.content;
 
 import org.apache.wicket.markup.html.form.IChoiceRenderer; 
+import org.apache.wicket.model.StringResourceModel;
 public final class RendererUtil {
 	private RendererUtil(){}
 	
@@ -13,6 +14,7 @@ public final class RendererUtil {
 			@Override
 			public Object getDisplayValue(Boolean object) {
 				if(object.booleanValue()){
+					//StringResourceModel str=new 
 					return "是";
 				}else{
 					return "否";

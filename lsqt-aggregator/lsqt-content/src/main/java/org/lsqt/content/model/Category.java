@@ -52,11 +52,13 @@ public class Category implements Serializable{
 	@Column(name="createTime")
 	private Long createTime=System.currentTimeMillis();
 	
+	/**访问路径**/
+	@Column(name="accessPath")
+	private String accessPath;
+	
 	/**类别排序号**/
 	@Column(name="orderNum")
 	private Integer orderNum;
-	
-  
 	
 	/**是否显示**/
 	@Column(name="isVisible")
@@ -182,5 +184,13 @@ public class Category implements Serializable{
 
 	public void setIsVisible(Boolean isVisible) {
 		this.isVisible = isVisible;
+	}
+
+	public String getAccessPath() {
+		return accessPath;
+	}
+
+	public void setAccessPath(String accessPath) {
+		this.accessPath = accessPath;
 	}
 }
