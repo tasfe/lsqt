@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Component;
@@ -75,12 +76,15 @@ public class NewsListPage  extends ConsoleIndex{
 		List<Application> apps = appsService.findAll();
 		
 		List<Node> nodes=new ArrayList<Node>();
-		Node root=new Node("应用列表");
+		Node root=new Node();
+		root.setId(UUID.randomUUID().toString());
+		root.setName("网站列表");
+		
 		for(Application a: apps){
-			Node n=new Node(root,a.getName());
+			Node n=new Node(root,a.getId(), a.getName());
 			
 			for(Category c:a.getCategories()){
-				Node tmp=new Node(n, c.getName());
+				Node tmp=new Node(n,c.getId(), c.getName());
 				tmp.setId(c.getId());
 			}
 		}

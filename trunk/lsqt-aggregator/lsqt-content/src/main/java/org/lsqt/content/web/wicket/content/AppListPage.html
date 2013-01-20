@@ -12,32 +12,39 @@
 </head>
 <body>
 <wicket:extend>
+		
 		<div wicket:id="search">
 				<input type="text" wicket:id="key"></input>
 				<a href="#" wicket:id="btnSearch">查询</a>
 				<a href="#"  wicket:id="btnAdd">添加</a>
+				<a href="#" wicket:id="btnDeleteSels">钩选删除</a>
 		</div>
+		
 		<div wicket:id="appList">
-			<table >
-				<tr>
-					<td>序号</td>
-					<td>应用名称</td>
-					<td>时间</td>
-					<td>描述</td>
-					<td>操作</td>
-				</tr>
-				<tr wicket:id="rows">
-					<td><span wicket:id="seq"></span></td>
-					<td><span wicket:id="appName"></span></td>
-					<td><span wicket:id="createTime"></span></td>
-					<td><span wicket:id="desc"></span></td>
-					<td>
-						<a href="#" wicket:id="btnDelete" >删除</a>
-						<a href="#" wicket:id="btnUpdate">修改</a>
-						<a href="#" wicket:id="btnManage">进入</a>
-					</td>
-				</tr>
-			</table>
+				<form wicket:id="form">
+				<span wicket:id="group">
+				<table>
+						<tr>
+							<td><input type="checkbox" wicket:id="chbGroupSelector" >全选</input></td>
+							<td><span>应用名称</span></td>
+							<td><span>时间</span></td>
+							<td><span>描述</span></td>
+							<td>操作</td>
+						</tr>
+						<tr wicket:id="rows">
+								<td><input type="checkbox" wicket:id="chbItem" ></input><label wicket:id="seq" ></label></td>
+								<td><span wicket:id="appName"></span></td>
+								<td><span wicket:id="createTime"></span></td>
+								<td><span wicket:id="desc"></span></td>
+								<td>
+									<a href="#" wicket:id="btnDelete" >删除</a>
+									<a href="#" wicket:id="btnUpdate">修改</a>
+									<a href="#" wicket:id="btnManage">进入</a>
+								</td>
+						</tr>
+				</table>
+				</span>
+				</form>
 		</div>
 		<div wicket:id="pageBar">
 			共<span wicket:id="totalRecord"></span>条

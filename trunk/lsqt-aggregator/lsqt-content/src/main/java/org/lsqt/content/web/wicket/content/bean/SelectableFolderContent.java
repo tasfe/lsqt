@@ -64,6 +64,7 @@ public class SelectableFolderContent extends Content
 		}
 	}
 
+	
 	protected void select(Node foo, AbstractTree<Node> tree, final AjaxRequestTarget target)
 	{
 		if (selected != null)
@@ -78,6 +79,10 @@ public class SelectableFolderContent extends Content
 		tree.updateNode(foo, target);
 	}
 
+	public IModel<Node> getSeleted(){
+		return selected;
+	}
+	
 	@Override
 	public Component newContentComponent(String id, final AbstractTree<Node> tree, IModel<Node> model)
 	{
@@ -98,7 +103,6 @@ public class SelectableFolderContent extends Content
 			protected void onClick(AjaxRequestTarget target)
 			{
 				Node t = getModelObject();
-				
 				SelectableFolderContent.this.select(t, tree, target);
 				
 				
@@ -110,6 +114,8 @@ public class SelectableFolderContent extends Content
 				{
 					tree.expand(t);
 				}
+				
+				SelectableFolderContent.this.onClick(target);
 			}
 
 			@Override
@@ -120,6 +126,9 @@ public class SelectableFolderContent extends Content
 		};
 	}
 	
+	protected void onClick(AjaxRequestTarget target){
+		
+	}
 	//jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.0.81)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.0.82)(PORT=1521))(LOAD_BALANCE=YES)(FAILOVER=ON)(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=orcl)(FAILOVER_MODE=(TYPE=SELECT)(METHOD=BASIC))))
 	 
 }

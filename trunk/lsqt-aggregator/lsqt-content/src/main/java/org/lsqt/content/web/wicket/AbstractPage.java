@@ -29,4 +29,5 @@ public abstract class AbstractPage extends WebPage {
 		return springApp.getBean(requiredType);
 	}*/
 	
+
 }

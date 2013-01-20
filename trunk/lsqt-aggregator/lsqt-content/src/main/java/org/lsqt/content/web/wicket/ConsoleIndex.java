@@ -165,5 +165,6 @@ public class ConsoleIndex extends AbstractPage {
 		//clock.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(1)));
 		//menu.add(clock);
 	}
+	
 }
 

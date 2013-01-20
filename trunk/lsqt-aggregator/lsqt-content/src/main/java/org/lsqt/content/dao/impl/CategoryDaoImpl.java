@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.lsqt.components.dao.hibernate.AbstractHibernateDaoSupport;
+import org.lsqt.components.dao.suport.Condition;
+import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.dao.CategoryDao;
 import org.lsqt.content.model.Category;
 import org.springframework.stereotype.Repository;

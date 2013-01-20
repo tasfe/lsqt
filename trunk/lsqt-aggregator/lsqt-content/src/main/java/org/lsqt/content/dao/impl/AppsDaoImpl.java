@@ -1,5 +1,6 @@
 package org.lsqt.content.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.lsqt.components.dao.hibernate.AbstractHibernateDaoSupport;
@@ -26,10 +27,10 @@ public class AppsDaoImpl extends AbstractHibernateDaoSupport<Application>  imple
 		return super.executeHqlQuery(hql.toString());
 	}
 	
-	public Page<Application> loadPage(String key){
-		Page<Application> page=new Page<Application>(20,1);
-	//page.addConditions();
-		
-		return page;
+	@Override
+	public Page loadPage(Page page)
+	{
+		String hql="select id,name from tb_application  ";
+		return super.loadPageBySql(hql, page);
 	}
 }

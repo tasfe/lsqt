@@ -14,9 +14,12 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
 import org.lsqt.content.service.AppsService;
+import org.lsqt.content.web.wicket.AbstractPage;
 import org.lsqt.content.web.wicket.ConsoleIndex;
+import org.lsqt.content.web.wicket.content.bean.PagenationBean;
 
 public class AppAddPage extends WebPage {
 	private @SpringBean AppsService appsService;
@@ -25,11 +28,13 @@ public class AppAddPage extends WebPage {
 	 */
 	private static final long serialVersionUID = 1L;
 	private ModalWindow window;
-	private  PageReference modalWindowPage;
+	private  AppListPage parantPage;
 	public AppAddPage(final PageReference modalWindowPage, final ModalWindow window){
 		layout();
 		this.window=window;
-		this.modalWindowPage=modalWindowPage;
+		
+		
+		this.parantPage=((AppListPage)modalWindowPage.getPage());
 	}
 	
 	private void layout(){
@@ -53,8 +58,7 @@ public class AppAddPage extends WebPage {
 				super.onSubmit(target, form);
 				Application app=(Application)form.getModelObject();
 				appsService.save(app);
-				
-				window.close(target);
+				window.close(target);				
 			}
 		});
 			 

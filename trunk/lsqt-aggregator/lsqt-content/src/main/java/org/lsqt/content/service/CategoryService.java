@@ -2,9 +2,11 @@ package org.lsqt.content.service;
 
 import java.util.List;
 
+import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Category;
 
 public interface CategoryService {
+	public Page<Category> getCategoryByApp(String appID,Page<Category> initialPage);
 	
 	public List<Category> getCategoryByApp(String appID);
 	
