@@ -1,11 +1,15 @@
 package org.lsqt.content.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
 
 public interface AppsService {
+	
+	public void deleteByIds(Serializable [] ids);
+	
 	public List<Application> findAll();
 	
 	public int getMaxOrderNum();

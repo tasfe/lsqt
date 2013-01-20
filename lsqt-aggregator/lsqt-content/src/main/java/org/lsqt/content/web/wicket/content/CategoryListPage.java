@@ -6,9 +6,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.event.IEvent;
 import org.apache.wicket.extensions.markup.html.repeater.tree.AbstractTree;
 import org.apache.wicket.extensions.markup.html.repeater.tree.NestedTree;
 import org.apache.wicket.markup.ComponentTag;
@@ -21,6 +24,7 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
 import org.lsqt.content.model.Category;
 import org.lsqt.content.service.AppsService;
@@ -53,10 +57,12 @@ public class CategoryListPage extends ConsoleIndex {
 		List<Application> apps = initDataView();
 		
 		List<Node> nodes=new ArrayList<Node>();
-		Node root = new Node("网站列表");
+		Node root = new Node( );
+		root.setId(UUID.randomUUID().toString());
+		root.setName("网站列表");
 		
 		for(Application a: apps){
-			Node n=new Node(root, a.getName());
+			Node n=new Node(root, a.getId(),a.getName());
 		}
 		
 		nodes.add(root);
@@ -66,9 +72,31 @@ public class CategoryListPage extends ConsoleIndex {
 		
 		NodeProvider nodeProvider = new NodeProvider(nodes);
 		
-		content = new SelectableFolderContent(nodeProvider);
+		content = new SelectableFolderContent(nodeProvider){
+			@Override
+			protected void onClick(AjaxRequestTarget target) {
+				Node node=getSeleted().getObject();
+				System.out.println(node.getId()+"  "+node.getName());
+				Page<Category> page=new Page<Category>(20,1);
+				categoryServ.getCategoryByApp(node.getId(),page);
+			}
+		};
 		
-		tree = (NestedTree<Node>) createTree(nodeProvider, new NodeExpansionModel());
+		
+		int i=0;
+		tree = new NestedTree<Node>("tree", nodeProvider, new NodeExpansionModel())
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected Component newContentComponent(String id, IModel<Node> model)
+			{
+				System.out.println("================");
+				return content.newContentComponent(id, tree, model);
+			}
+		};
+		tree.expand(nodeProvider.getRoots().next());
+		 
 		
 		theme=new org.apache.wicket.extensions.markup.html.repeater.tree.theme.WindowsTheme();
 		
@@ -133,20 +161,7 @@ public class CategoryListPage extends ConsoleIndex {
 
 	private NestedTree<Node> tree;
 	private Content content;
-	protected AbstractTree<Node> createTree(NodeProvider provider, IModel<Set<Node>> state)
-	{
-		tree = new NestedTree<Node>("tree", provider, state)
-		{
-			private static final long serialVersionUID = 1L;
 
-			@Override
-			protected Component newContentComponent(String id, IModel<Node> model)
-			{
-				return content.newContentComponent(id, tree, model);
-			}
-		};
-		return tree;
-	}
 	
 	
 	

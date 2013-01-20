@@ -1,6 +1,10 @@
 package org.lsqt.content.web.wicket.content.bean;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 import org.apache.wicket.util.io.IClusterable;
 import org.lsqt.components.dao.suport.Page;
@@ -18,12 +22,12 @@ public class PagenationBean implements IClusterable {
 	/**
 	 * 一共多少条记录
 	 */
-	private Integer totalRecord;
+	private Integer totalRecord=0;
 	
 	/**
 	 * 一共有多少页
 	 */
-	private Integer totalPage;
+	private Integer totalPage=0;
 	
 	/**
 	 * 当前页码,默认索引从1开始*
@@ -33,29 +37,38 @@ public class PagenationBean implements IClusterable {
 	/**
 	 * 分页对象承载的数据对象(每一页的数据)
 	 */
-	private Collection data;
+	private Collection data=new ArrayList();
 	
 	
 	/**
 	 * 是否有下页
 	 */
-	private Boolean hasNextPage;
+	private Boolean hasNextPage=Boolean.FALSE;
 	
 	/**
 	 * 是否有上页
 	 */
-	private Boolean hasPreviouPage;
+	private Boolean hasPreviouPage=Boolean.FALSE;
 	
 	/**
 	 * 跳转到第几页
 	 */
-	private String jumpPage;
+	private Integer jumpPage=1;
 	
-
-	public String getJumpPage() {
+	/**
+	 * 用户所选项
+	 */
+	private Collection<Serializable> selectedItems=new HashSet<Serializable>();
+	
+	/**
+	 * 用户是否全选
+	 */
+	private Boolean isSelectedAll=Boolean.FALSE;
+	
+	public Integer getJumpPage() {
 		return jumpPage;
 	}
-	public void setJumpPage(String jumpPage) {
+	public void setJumpPage(Integer jumpPage) {
 		this.jumpPage = jumpPage;
 	}
 	public Integer getPerPageRecord() {
@@ -93,5 +106,24 @@ public class PagenationBean implements IClusterable {
 	}
 	public void setHasPreviouPage(Boolean hasPreviouPage) {
 		this.hasPreviouPage = hasPreviouPage;
+	}
+	public Collection<Serializable> getSelectedItems() {
+		return selectedItems;
+	}
+	public void setSelectedItems(Collection<Serializable> selectedItems) {
+		this.selectedItems = selectedItems;
+	}
+	public Boolean getIsSelectedAll() {
+		return isSelectedAll;
+	}
+	public void setIsSelectedAll(Boolean isSelectedAll) {
+		this.isSelectedAll = isSelectedAll;
+	}
+	public Collection getData() {
+		return data;
+	}
+	public void setData(Collection data) {
+		this.data.clear();
+		this.data.addAll(data);
 	}
 }

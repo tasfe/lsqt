@@ -1,6 +1,34 @@
-<html>
-	<head></head>
-	<body>
-		<table wicket:id="dataView"></table>
-	</body>
-</html>
+<wicket:panel>
+<div>
+		<div wicket:id="ctnList">
+			<table>
+				<thead>
+					<tr>
+						<td wicket:id="header"><span wicket:id="headCell"><span wicket:id="headerCellText">单元格内容</span></span></td>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr wicket:id="bodyer">
+						<td wicket:id="row"><span wicket:id="rowCell"><span wicket:id="headerCellText">单元格内容</span></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	
+		<div wicket:id="pageBar">
+			共<span wicket:id="totalRecord"></span>条
+			共<span wicket:id="totalPage"></span>页
+			每页显示<input type="text" wicket:id="perPageRecord" class="pageNationBarText"></input>条
+			<a href="#" wicket:id="firstPage">首页</a>
+			<a href="#" wicket:id="upPage">上一页</a>
+			<a href="#" wicket:id="nextPage">下一页</a>
+		 	<a href="#" wicket:id="lastPage">尾页</a>
+		 	当前第<span wicket:id="currPageNum"></span>页
+		 	转到<input type="text" wicket:id="jumpPage" class="pageNationBarText"></input>页<a href="#">转</a>
+		</div>
+		
+		<div id="modalWin">应用添加弹出窗口</div>
+</div>
+		
+</wicket:panel>

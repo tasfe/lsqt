@@ -37,7 +37,7 @@ public class ConsoleApplication extends WebApplication {
 	}
 
 	public Class<? extends Page> getHomePage() {
-		return NewsAddPage.class;
+		return TestPage.class;
 	}
 	
 	

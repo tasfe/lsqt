@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.lsqt.components.dao.suport.Condition;
 import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.dao.CategoryDao;
 import org.lsqt.content.model.Category;
@@ -18,6 +19,17 @@ public class CategoryServiceImpl implements CategoryService{
 	@Resource
 	public void setCategoryDao(CategoryDao categoryDaoImpl) {
 		this.categoryDao = categoryDaoImpl;
+	}
+	
+	/**
+	 * 获取某个应用下的栏目(分页).
+	 * @param appID 应用ID
+	 * 
+	 * @return List 返回应用下的栏目
+	 */
+	public Page<Category> getCategoryByApp(String appID,Page<Category> initialPage){
+		initialPage.addConditions(new Condition().eq("appId", appID));
+		return categoryDao.loadPage(initialPage);
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package org.lsqt.content.service.impl;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -36,6 +38,11 @@ public class AppsServiceImpl implements AppsService{
 	public void deleteById(String id){
 		appsDao.deleteById(id);
 	}
+	
+	@Transactional
+	 public void deleteByIds(Serializable [] ids){
+		 appsDao.deleteByIds(ids);
+	 }
 	
 	public Application findById(String id){
 		return appsDao.findById(id);

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -36,16 +37,25 @@ public class WebSitePage  extends ConsoleIndex{
 		loadTree();
 	}
 	
+	public static void main(String args[]){
+		System.out.println(UUID.randomUUID().toString());
+		System.out.println(UUID.randomUUID().toString());
+		System.out.println(UUID.randomUUID().toString());
+	}
+	
 	private void loadTree(){
 		
 		List<Node> nodes=new ArrayList<Node>();
-		Node root = new Node("站点根目录");
+		
+		Node root = new Node();
+		root.setId(UUID.randomUUID().toString());
+		root.setName("站点根目录");
 		{
 			for(Application a: appsService.findAll()){
-				Node n=new Node(root, a.getName());
-				Node css=new Node(n, "css");
-				Node img=new Node(n, "img");
-				Node js=new Node(n, "js");
+				Node n=new Node(root,a.getId(), a.getName());
+				Node css=new Node(n,UUID.randomUUID().toString(), "css");
+				Node img=new Node(n,UUID.randomUUID().toString(), "img");
+				Node js=new Node(n,UUID.randomUUID().toString(), "js");
 			}
 		}
 		nodes.add(root);
