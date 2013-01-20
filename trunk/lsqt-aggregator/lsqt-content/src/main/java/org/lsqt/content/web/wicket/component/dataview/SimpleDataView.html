@@ -5,12 +5,18 @@
 				<thead>
 					<tr>
 						<td wicket:id="header"><span wicket:id="headCell"><span wicket:id="headerCellText">单元格内容</span></span></td>
+						<td>操作</td>
 					</tr>
 				</thead>
 				
 				<tbody>
 					<tr wicket:id="bodyer">
 						<td wicket:id="row"><span wicket:id="rowCell"><span wicket:id="headerCellText">单元格内容</span></span></td>
+						<td wicket:id="operats">
+                                    <a href="#" id="btnDelete" >删除</a>
+                                    <a href="#" id="btnUpdate">修改</a>
+                                    <a href="#" id="btnManage">进入</a>
+                        </td>
 					</tr>
 				</tbody>
 			</table>
@@ -25,7 +31,7 @@
 			<a href="#" wicket:id="nextPage">下一页</a>
 		 	<a href="#" wicket:id="lastPage">尾页</a>
 		 	当前第<span wicket:id="currPageNum"></span>页
-		 	转到<input type="text" wicket:id="jumpPage" class="pageNationBarText"></input>页<a href="#">转</a>
+		 	转到<input type="text" wicket:id="jumpPage" class="pageNationBarText"></input>页<a wicket:id="jump" href="#">转</a>
 		</div>
 		
 		<div id="modalWin">应用添加弹出窗口</div>

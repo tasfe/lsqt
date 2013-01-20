@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -43,9 +44,11 @@ public class SimpleDataView extends Panel {
 		final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList").setOutputMarkupId(true);
 		
 		
-		ListView<String> header=new ListView<String>("header",headerData) {
+		ListView<String> header = new ListView<String>("header", headerData)
+		{
 			@Override
-			protected void populateItem(ListItem<String> item) {
+			protected void populateItem(ListItem<String> item)
+			{
 				WebMarkupContainer headCell = new WebMarkupContainer("headCell");
 				Label headerCellText =new Label("headerCellText",item.getModelObject()==null ? "": item.getModelObject().toString());
 				
@@ -56,9 +59,11 @@ public class SimpleDataView extends Panel {
 		
 		
 		
-		ListView<Object> bodyer=new ListView<Object>("bodyer",bodyerData) {
+		ListView<Object> bodyer = new ListView<Object>("bodyer", bodyerData)
+		{
 			@Override
-			protected void populateItem(ListItem<Object> item) {
+			protected void populateItem(ListItem<Object> item)
+			{
 				ListView<Object> row = null;
 				if (item.getModelObject().getClass().isArray() == false)
 				{
@@ -91,7 +96,8 @@ public class SimpleDataView extends Panel {
 					row=new ListView<Object>("row",list)
 					{
 						@Override
-						protected void populateItem(ListItem<Object> item) {
+						protected void populateItem(ListItem<Object> item)
+						{
 							WebMarkupContainer rowCell = new WebMarkupContainer("rowCell");
 							
 							Label headerCellText = new Label( 	"headerCellText",item.getModelObject()==null ? "":item.getModelObject().toString());
@@ -102,6 +108,8 @@ public class SimpleDataView extends Panel {
 					};
 				}
 
+				final WebMarkupContainer operats=(WebMarkupContainer) new WebMarkupContainer("operats").setOutputMarkupId(true);
+				item.add(operats);
 				item.add(row);
 			}
 		};
@@ -114,8 +122,26 @@ public class SimpleDataView extends Panel {
 		final Label  lblCurrPageNum=new Label("currPageNum", new PropertyModel<PagenationBean>(bean,"currPageNum"));
 		
 		final TextField<Integer>  txtJumpPage=new TextField<Integer>("jumpPage", new PropertyModel<Integer>(bean,"jumpPage"));
+		txtJumpPage.add(new AjaxFormComponentUpdatingBehavior("onblur")
+		{
+			@Override
+			protected void onUpdate(AjaxRequestTarget target) 
+			{
+				bean.setJumpPage(txtJumpPage.getModelObject());
+				Page initialPage = new Page(bean.getPerPageRecord(),bean.getJumpPage());
+				SimpleDataView.this.loadPage(initialPage);
+				refresh(initialPage);
+				target.add(txtJumpPage);
+				
+				target.add(ctnList);
+				target.add(ctnPageBar);
+			}
+			
+		});
 		
-		txtPerPageRecord.add(new AjaxFormComponentUpdatingBehavior("onblur") {
+		
+		txtPerPageRecord.add(new AjaxFormComponentUpdatingBehavior("onblur")
+		{
 			
 			/**	 */
 			private static final long serialVersionUID = 1L;
@@ -181,6 +207,18 @@ public class SimpleDataView extends Panel {
 			}
 		};
 		
+		final AjaxLink<Void> jumpPage=new AjaxLink<Void>("jump") {
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				
+				Page<Application> initialPage = new Page<Application>(bean.getPerPageRecord(),bean.getJumpPage());
+				SimpleDataView.this.loadPage(initialPage);
+				refresh(initialPage);
+				target.add(ctnList);
+				target.add(ctnPageBar);
+			}
+		};
+		
 		add(ctnList);
 		{
 			ctnList.add(header);
@@ -194,6 +232,7 @@ public class SimpleDataView extends Panel {
 			ctnPageBar.add(txtPerPageRecord.setOutputMarkupId(true));
 			ctnPageBar.add(lblCurrPageNum.setOutputMarkupId(true));
 			ctnPageBar.add(txtJumpPage.setOutputMarkupId(true));
+			ctnPageBar.add(jumpPage.setOutputMarkupId(true));
 			ctnPageBar.add(firstPage);
 			ctnPageBar.add(upPage);
 			ctnPageBar.add(nextPage);
