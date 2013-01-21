@@ -7,6 +7,7 @@ import org.apache.wicket.protocol.https.HttpsConfig;
 import org.apache.wicket.protocol.https.HttpsMapper;
 import org.apache.wicket.response.filter.ServerAndClientTimeFilter;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.lsqt.content.web.wicket.content.AppListPage;
 import org.lsqt.content.web.wicket.content.NewsAddPage;
 /**
  * 
@@ -37,7 +38,7 @@ public class ConsoleApplication extends WebApplication {
 	}
 
 	public Class<? extends Page> getHomePage() {
-		return TestPage.class;
+		return AppListPage.class;
 	}
 	
 	
