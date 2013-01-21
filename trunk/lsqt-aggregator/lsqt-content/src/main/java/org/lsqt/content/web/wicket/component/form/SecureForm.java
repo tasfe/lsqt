@@ -12,6 +12,12 @@ import org.apache.wicket.util.string.AppendingStringBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 表单重复提交组件.
+ * @author 袁明敏
+ *
+ * @param <T>
+ */
 public class SecureForm<T> extends Form<T>{
 	/**
 	 * 
