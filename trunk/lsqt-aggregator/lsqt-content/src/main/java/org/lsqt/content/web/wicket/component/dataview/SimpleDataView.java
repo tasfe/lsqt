@@ -18,7 +18,6 @@ import org.apache.wicket.model.PropertyModel;
 import org.lsqt.components.dao.suport.BeanHelper;
 import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
-import org.lsqt.content.web.wicket.content.bean.PagenationBean;
 
 public class SimpleDataView extends Panel {
 	/**
@@ -240,7 +239,7 @@ public class SimpleDataView extends Panel {
 		}
 	}
 	
-	private void refresh(Page page) {
+	public void refresh(Page page) {
 		this.bodyerData.clear();
 		this.bodyerData.addAll(page.getData());
 		
