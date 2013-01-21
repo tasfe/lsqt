@@ -14,7 +14,6 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.lsqt.content.model.Application;
 import org.lsqt.content.service.AppsService;
-import org.lsqt.content.web.wicket.TestPage;
 
 public class AppAddPage extends WebPage {
 	private @SpringBean AppsService appsService;
