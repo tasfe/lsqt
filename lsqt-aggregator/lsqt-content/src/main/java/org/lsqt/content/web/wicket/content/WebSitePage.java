@@ -20,8 +20,8 @@ import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
 import org.lsqt.content.service.AppsService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
-import org.lsqt.content.web.wicket.content.bean.Node;
-import org.lsqt.content.web.wicket.content.bean.NodeProvider;
+import org.lsqt.content.web.wicket.component.tree.Node;
+import org.lsqt.content.web.wicket.component.tree.NodeProvider;
 
 public class WebSitePage  extends ConsoleIndex{
 

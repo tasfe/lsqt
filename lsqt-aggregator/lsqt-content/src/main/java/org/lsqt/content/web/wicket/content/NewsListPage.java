@@ -33,12 +33,12 @@ import org.lsqt.content.service.NewsService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
 import org.lsqt.content.web.wicket.component.datatable.RichDataTable;
 import org.lsqt.content.web.wicket.component.datatable.SimpleDataTable;
+import org.lsqt.content.web.wicket.component.tree.Content;
+import org.lsqt.content.web.wicket.component.tree.Node;
+import org.lsqt.content.web.wicket.component.tree.NodeExpansionModel;
+import org.lsqt.content.web.wicket.component.tree.NodeProvider;
+import org.lsqt.content.web.wicket.component.tree.SelectableFolderContent;
 
-import org.lsqt.content.web.wicket.content.bean.Content;
-import org.lsqt.content.web.wicket.content.bean.Node;
-import org.lsqt.content.web.wicket.content.bean.NodeExpansionModel;
-import org.lsqt.content.web.wicket.content.bean.NodeProvider;
-import org.lsqt.content.web.wicket.content.bean.SelectableFolderContent;
 
 public class NewsListPage  extends ConsoleIndex{
 

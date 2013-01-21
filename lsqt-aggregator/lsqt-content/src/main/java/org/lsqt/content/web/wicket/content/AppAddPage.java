@@ -6,20 +6,15 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.NumberTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
 import org.lsqt.content.service.AppsService;
-import org.lsqt.content.web.wicket.AbstractPage;
-import org.lsqt.content.web.wicket.ConsoleIndex;
-import org.lsqt.content.web.wicket.content.bean.PagenationBean;
+import org.lsqt.content.web.wicket.TestPage;
 
 public class AppAddPage extends WebPage {
 	private @SpringBean AppsService appsService;
@@ -28,13 +23,13 @@ public class AppAddPage extends WebPage {
 	 */
 	private static final long serialVersionUID = 1L;
 	private ModalWindow window;
-	private  AppListPage parantPage;
+	private  AppAddPage parantPage;
 	public AppAddPage(final PageReference modalWindowPage, final ModalWindow window){
 		layout();
 		this.window=window;
 		
 		
-		this.parantPage=((AppListPage)modalWindowPage.getPage());
+		this.parantPage=(AppAddPage)modalWindowPage.getPage();
 	}
 	
 	private void layout(){
