@@ -13,9 +13,9 @@
 					<tr wicket:id="bodyer">
 						<td wicket:id="row"><span wicket:id="rowCell"><span wicket:id="headerCellText">单元格内容</span></span></td>
 						<td wicket:id="operats">
-                                    <a href="#" id="btnDelete" >删除</a>
-                                    <a href="#" id="btnUpdate">修改</a>
-                                    <a href="#" id="btnManage">进入</a>
+		                       <a href="#" wicket:id="btnCreate">新增</a>
+		                       <a href="#" wicket:id="btnUpdate">修改</a>
+		                       <a href="#" wicket:id="btnDelete" >删除</a>
                         </td>
 					</tr>
 				</tbody>
@@ -34,7 +34,7 @@
 		 	转到<input type="text" wicket:id="jumpPage" class="pageNationBarText"></input>页<a wicket:id="jump" href="#">转</a>
 		</div>
 		
-		<div id="modalWin">应用添加弹出窗口</div>
+		<div wicket:id="modalWin">应用添加弹出窗口</div>
 </div>
 		
 </wicket:panel>
