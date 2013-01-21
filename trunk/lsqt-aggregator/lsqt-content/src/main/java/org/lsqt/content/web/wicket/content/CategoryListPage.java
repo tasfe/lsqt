@@ -30,12 +30,12 @@ import org.lsqt.content.model.Category;
 import org.lsqt.content.service.AppsService;
 import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
-import org.lsqt.content.web.wicket.content.bean.Node;
-import org.lsqt.content.web.wicket.content.bean.NodeExpansion;
-import org.lsqt.content.web.wicket.content.bean.NodeExpansionModel;
-import org.lsqt.content.web.wicket.content.bean.NodeProvider;
-import org.lsqt.content.web.wicket.content.bean.SelectableFolderContent;
-import org.lsqt.content.web.wicket.content.bean.Content;
+import org.lsqt.content.web.wicket.component.tree.Content;
+import org.lsqt.content.web.wicket.component.tree.Node;
+import org.lsqt.content.web.wicket.component.tree.NodeExpansion;
+import org.lsqt.content.web.wicket.component.tree.NodeExpansionModel;
+import org.lsqt.content.web.wicket.component.tree.NodeProvider;
+import org.lsqt.content.web.wicket.component.tree.SelectableFolderContent;
 public class CategoryListPage extends ConsoleIndex {
 	
 	/**
