@@ -26,11 +26,4 @@ public class AppsDaoImpl extends AbstractHibernateDaoSupport<Application>  imple
 		hql.append("from Application a order by createTime desc");
 		return super.executeHqlQuery(hql.toString());
 	}
-	
-	@Override
-	public Page loadPage(Page page)
-	{
-		String hql="select id,name from tb_application  ";
-		return super.loadPageBySql(hql, page);
-	}
 }
