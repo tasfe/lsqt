@@ -11,7 +11,7 @@ import org.lsqt.content.web.wicket.content.AppListPage;
 import org.lsqt.content.web.wicket.content.NewsAddPage;
 /**
  * 
- * @author mm
+ * @author 袁明敏
  *
  */
 public class ConsoleApplication extends WebApplication {
