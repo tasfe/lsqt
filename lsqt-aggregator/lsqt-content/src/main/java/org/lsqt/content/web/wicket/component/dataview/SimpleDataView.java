@@ -8,12 +8,14 @@ import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.lsqt.components.dao.suport.BeanHelper;
 import org.lsqt.components.dao.suport.Page;
@@ -33,6 +35,12 @@ public class SimpleDataView extends Panel {
 	private List<String> headerProperty=new ArrayList<String>();
 	
 	private List<Object> bodyerData=new ArrayList<Object>();
+	
+	
+	final ModalWindow modalWindow=new ModalWindow("modalWin");
+	final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList").setOutputMarkupId(true);
+	final WebMarkupContainer ctnPageBar=(WebMarkupContainer)new WebMarkupContainer("pageBar").setOutputMarkupId(true);
+	
 	public SimpleDataView(String id){
 		super(id);
 		
@@ -40,7 +48,7 @@ public class SimpleDataView extends Panel {
 		loadPage(temp);
 		refresh(temp);
 		
-		final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList").setOutputMarkupId(true);
+		
 		
 		
 		ListView<String> header = new ListView<String>("header", headerData)
@@ -61,7 +69,7 @@ public class SimpleDataView extends Panel {
 		ListView<Object> bodyer = new ListView<Object>("bodyer", bodyerData)
 		{
 			@Override
-			protected void populateItem(ListItem<Object> item)
+			protected void populateItem(final ListItem<Object> item)
 			{
 				ListView<Object> row = null;
 				if (item.getModelObject().getClass().isArray() == false)
@@ -108,12 +116,44 @@ public class SimpleDataView extends Panel {
 				}
 
 				final WebMarkupContainer operats=(WebMarkupContainer) new WebMarkupContainer("operats").setOutputMarkupId(true);
-				item.add(operats);
+				AjaxLink<Void> btnDelete= new AjaxLink<Void>("btnDelete")
+				{
+					@Override
+					public void onClick(AjaxRequestTarget target)
+					{
+						onClickDelete(  target,  item.getModel());
+					}
+				};
+				
+				AjaxLink<Void> btnUpdate= new AjaxLink<Void>("btnUpdate")
+				{
+					@Override
+					public void onClick(AjaxRequestTarget target)
+					{
+						onClickUpdate(target, item.getModel());
+					}
+				};
+						
+				AjaxLink<Void> btnCreate= new AjaxLink<Void>("btnCreate")
+				{
+					@Override
+					public void onClick(AjaxRequestTarget target)
+					{
+						onClickCreate(target, item.getModel());
+					}
+				};
+				
 				item.add(row);
+				item.add(operats);
+				{
+					operats.add(btnDelete.setOutputMarkupId(true));
+					operats.add(btnCreate.setOutputMarkupId(true));
+					operats.add(btnUpdate.setOutputMarkupId(true));
+				}
 			}
 		};
 
-		final WebMarkupContainer ctnPageBar=(WebMarkupContainer)new WebMarkupContainer("pageBar").setOutputMarkupId(true);
+		
 		
 		final Label   lblTotalPage=new Label("totalPage", new PropertyModel<PagenationBean>(bean,"totalPage"));
 		final Label  lblTotalRecord=new Label("totalRecord", new PropertyModel<PagenationBean>(bean,"totalRecord"));
@@ -237,6 +277,7 @@ public class SimpleDataView extends Panel {
 			ctnPageBar.add(nextPage);
 			ctnPageBar.add(lastPage);
 		}
+		add(modalWindow);
 	}
 	
 	public void refresh(Page page) {
@@ -251,21 +292,43 @@ public class SimpleDataView extends Panel {
 		bean.setJumpPage(page.getCurrPageNum());
 	}
 	
-	public void addHeadLabel(String [] lable){
+	public SimpleDataView addHeadLabel(String [] lable){
 		headerData.clear();
 		for(String i: lable){
 			headerData.add(i);
 		}
+		return this;
 	}
 	
-	public void addHeadProp(String [] props){
+	public SimpleDataView addHeadProp(String [] props){
 		headerProperty.clear();
 		for(String i: props){
 			headerProperty.add(i);
 		}
+		return this;
 	}
 	 
+	
+	public ModalWindow getModalWindow(){
+		return modalWindow;
+	}
+	
 	protected void loadPage(Page page) {
 		
+	}
+	
+	protected void onClickDelete(AjaxRequestTarget target, IModel<Object> rowModel)
+	{
+
+	}
+
+	protected void onClickUpdate(AjaxRequestTarget target, IModel<Object> rowModel)
+	{
+
+	}
+
+	protected void onClickCreate(AjaxRequestTarget target, IModel<Object> rowModel)
+	{
+
 	}
 }
