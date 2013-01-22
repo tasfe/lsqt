@@ -30,12 +30,14 @@ import org.lsqt.content.model.Category;
 import org.lsqt.content.service.AppsService;
 import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
+import org.lsqt.content.web.wicket.component.dataview.SimpleDataView;
 import org.lsqt.content.web.wicket.component.tree.Content;
 import org.lsqt.content.web.wicket.component.tree.Node;
 import org.lsqt.content.web.wicket.component.tree.NodeExpansion;
 import org.lsqt.content.web.wicket.component.tree.NodeExpansionModel;
 import org.lsqt.content.web.wicket.component.tree.NodeProvider;
 import org.lsqt.content.web.wicket.component.tree.SelectableFolderContent;
+import org.lsqt.content.web.wicket.component.tree.SimpleTree;
 public class CategoryListPage extends ConsoleIndex {
 	
 	/**
@@ -46,132 +48,40 @@ public class CategoryListPage extends ConsoleIndex {
 	@SpringBean CategoryService categoryServ;
 	@SpringBean AppsService appsService;
 	
+	final SimpleDataView ctnCategoryList=(SimpleDataView) new SimpleDataView("categoryList").setOutputMarkupId(true);
+	
 	public CategoryListPage(){
 		
-		layout();
 		
-		loadTree();
-	}
-
-	private void loadTree(){
-		List<Application> apps = initDataView();
 		
-		List<Node> nodes=new ArrayList<Node>();
-		Node root = new Node( );
+		List<Node> nodes = new ArrayList<Node>();
+		Node root = new Node();
 		root.setId(UUID.randomUUID().toString());
 		root.setName("网站列表");
-		
-		for(Application a: apps){
-			Node n=new Node(root, a.getId(),a.getName());
+
+		for (Application a : appsService.findAll())
+		{
+			Node n = new Node(root, a.getId(), a.getName());
 		}
-		
 		nodes.add(root);
 
-		
-		
-		
-		NodeProvider nodeProvider = new NodeProvider(nodes);
-		
-		content = new SelectableFolderContent(nodeProvider){
-			@Override
-			protected void onClick(AjaxRequestTarget target) {
-				Node node=getSeleted().getObject();
-				System.out.println(node.getId()+"  "+node.getName());
-				Page<Category> page=new Page<Category>(20,1);
-				categoryServ.getCategoryByApp(node.getId(),page);
-			}
-		};
-		
-		
-		int i=0;
-		tree = new NestedTree<Node>("tree", nodeProvider, new NodeExpansionModel())
-		{
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected Component newContentComponent(String id, IModel<Node> model)
-			{
-				System.out.println("================");
-				return content.newContentComponent(id, tree, model);
-			}
-		};
-		tree.expand(nodeProvider.getRoots().next());
 		 
 		
-		theme=new org.apache.wicket.extensions.markup.html.repeater.tree.theme.WindowsTheme();
-		
-		tree.add(new Behavior()
+		SimpleTree tree = (SimpleTree) new SimpleTree("tree", nodes)
 		{
-			private static final long serialVersionUID = 1L;
-
 			@Override
-			public void onComponentTag(Component component, ComponentTag tag)
+			protected void onClickNode(AjaxRequestTarget target, Node node)
 			{
-				theme.onComponentTag(component, tag);
+				Page page=new Page(20,1);
+				categoryServ.getCategoryByApp(node.getId(), page) ;
+				ctnCategoryList.refresh(page);
+				target.add(ctnCategoryList);
 			}
-
-			@Override
-			public void renderHead(Component component, IHeaderResponse response)
-			{
-				theme.renderHead(component, response);
-			}
-		});
+		}.setOutputMarkupId(true);
+		
+		
 		
 		add(tree);
-		
-	}
-
-	private List<Application> initDataView() {
-		List<Application> apps= appsService.findAll();
-		
-		if(apps.size()>0){
-			Application firstApp=apps.get(0);
-			List<Category> list= categoryServ.getCategoryByApp(firstApp.getId());
-			ListDataProvider<Category> listDataProvider=new ListDataProvider<Category>(list);
-			
-			final SimpleDateFormat df=new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-		 	final DataView<Category> dataView=new DataView<Category>("rows",listDataProvider) {
-				 /**  */ 
-				private static final long serialVersionUID = 1L;
-				@Override
-				protected void populateItem(Item<Category> item) {
-					String seq=String.valueOf(item.getIndex()+1);
-					Label lblIndex=new Label("seq",seq.length()<2 ? "0".concat(seq): seq );
-					item.add(lblIndex);
-					
-					
-					Label lblName=new Label("name", item.getModelObject().getName());
-					item.add(lblName);
-					
-					Date dt=new Date(item.getModelObject().getCreateTime());
-					Label lblCreateTime=new Label("createTime",df.format(dt));
-					item.add(lblCreateTime); 
-					
-					Label lblDesc=new Label("desc", item.getModelObject().getDescription());
-					item.add(lblDesc);
-				}
-			};
-			cntCategoryList.add(dataView); 
-		}
-		return apps;
-	}
-	
-	private Behavior theme;
-	
-
-	private NestedTree<Node> tree;
-	private Content content;
-
-	
-	
-	
-	
-	
-	private WebMarkupContainer cntCategoryList;
-	private void layout() {
-		cntCategoryList=new WebMarkupContainer("categoryList");
-		cntCategoryList.setOutputMarkupId(true);
-		
-		add(cntCategoryList);
+		add(ctnCategoryList);
 	}
 }

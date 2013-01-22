@@ -41,7 +41,7 @@ public class AppListPage  extends ConsoleIndex{
 	{
 
 		@Override
-		protected void loadPage(Page page)
+		protected void onLoadPage(Page page)
 		{
 			appsService.loadPage(page);
 		}
