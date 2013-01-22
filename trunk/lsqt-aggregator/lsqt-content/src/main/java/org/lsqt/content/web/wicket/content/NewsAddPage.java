@@ -34,7 +34,6 @@ import org.apache.wicket.validation.validator.StringValidator;
 import org.lsqt.content.model.News;
 import org.lsqt.content.service.NewsService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
-import org.lsqt.content.web.wicket.component.form.SecureForm;
 
 import wicket.contrib.tinymce.TinyMceBehavior;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
@@ -104,11 +103,11 @@ public class NewsAddPage extends ConsoleIndex {
 		final ModalWindow modalCategories=new ModalWindow("modalCategories");
 		modalCategories.setTitle("新闻类别");
 		modalCategories.setCookieName("modalCategories");
-		modalCategories.setPageCreator(new ModalWindow.PageCreator() {
+		/*modalCategories.setPageCreator(new ModalWindow.PageCreator() {
 			public Page createPage() {
 				return new CategoryAddPage();
 			}
-		});
+		});*/
 		modalCategories.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
 			/**  */
 			private static final long serialVersionUID = 1L;

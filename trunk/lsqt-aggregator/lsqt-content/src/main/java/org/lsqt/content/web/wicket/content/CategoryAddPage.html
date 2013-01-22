@@ -5,7 +5,6 @@
 <title></title>
 </head>
 <body>
-<wicket:extend>
 	<form wicket:id="form">
 		上级栏目:<input wicket:id="parentCategoryName" type="text" ></input><a wicket:id="btnChoose">选择</a><br/>
 		栏目名称*:<input wicket:id="name"  type="text"></input><br/>
@@ -13,9 +12,8 @@
 		是否显示*:<span wicket:id="isVisible" type="checkbox"></span><br/>
 		打开目标: <input type="text" ></input><br/>
 		备注:<textarea wicket:id="description" ></textarea><br/>
-		<input type="submit"></input>
-		<input type="button" wicket:id="btnBack" value="返回列表"></input>
+		<input type="button" wicket:id="btnAdd" value="保存"></input>
+		<input type="button" wicket:id="btnCancel" value="取消"></input>
 	</form>
-</wicket:extend>
 </body>
 </html>

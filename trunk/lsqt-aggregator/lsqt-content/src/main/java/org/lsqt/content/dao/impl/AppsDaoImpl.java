@@ -23,7 +23,7 @@ public class AppsDaoImpl extends AbstractHibernateDaoSupport<Application>  imple
 	
 	public List<Application> findAll(){
 		StringBuffer hql=new StringBuffer();
-		hql.append("from Application a order by createTime desc");
+		hql.append("from Application a ");
 		return super.executeHqlQuery(hql.toString());
 	}
 }

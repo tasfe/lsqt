@@ -13,27 +13,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 表单重复提交组件.
+ * 阻止表单重复提交的form组件.
  * @author 袁明敏
  *
  * @param <T>
  */
-public class SecureForm<T> extends Form<T>{
+public class SimpleForm<T> extends Form<T>{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final transient Logger logger = LoggerFactory.getLogger(  SecureForm.class);
+	private final transient Logger logger = LoggerFactory.getLogger(  SimpleForm.class);
 	
 	private String actionToken;
 	
-	public SecureForm(String id) {
+	public SimpleForm(String id) {
 		super(id,null);
 	
 	}
 	
-	public SecureForm(String id, IModel<T> model) {
+	public SimpleForm(String id, IModel<T> model) {
 		super(id, model);
 		actionToken = UUID.randomUUID().toString();
 	}

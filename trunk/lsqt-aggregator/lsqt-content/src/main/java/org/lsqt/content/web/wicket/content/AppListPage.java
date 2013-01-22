@@ -35,9 +35,7 @@ public class AppListPage  extends ConsoleIndex{
 	
 	final WebMarkupContainer ctnSearch=(WebMarkupContainer) new WebMarkupContainer("search").setOutputMarkupId(true);
 	
-	final ModalWindow modalWin=new ModalWindow("modalWin");
-	
-	final SimpleDataView ctnAppList=new SimpleDataView("appList")
+	final SimpleDataView ctnAppList=(SimpleDataView) new SimpleDataView("appList")
 	{
 
 		@Override
@@ -51,14 +49,22 @@ public class AppListPage  extends ConsoleIndex{
 		{
 			Application temp=(Application)rowModel.getObject();
 			appsService.deleteById(temp.getId());
+			System.out.println(getCurrPage()+"  "+getPerPageRecord());
+			Page page=new Page(getPerPageRecord(),getCurrPage());
+			
+			appsService.loadPage(page);
+			refresh(page);
+			target.add(ctnAppList);
 		}
 	}
 	.addHeadLabel(new String[]{"名称","序号","描述","创建时间"})
-	.addHeadProp(new String[]{"name","orderNum","description","createTime"});
+	.addHeadProp(new String[]{"name","orderNum","description","createTime"})
+	.setOutputMarkupId(true);
+	
 	
 	
 	public AppListPage(){
-			
+		
 		/*	AjaxLazyLoadPanel ctnLazy=(AjaxLazyLoadPanel) new AjaxLazyLoadPanel("appList")
 			{
 				@Override
@@ -83,34 +89,7 @@ public class AppListPage  extends ConsoleIndex{
 		
 		
 		
-			modalWin.setTitle("应用添加");
-			modalWin.setCookieName("modalWin");
-			modalWin.setPageCreator(new ModalWindow.PageCreator() {
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-
-				public AppAddPage createPage() {
-					return new AppAddPage(AppListPage.this.getPageReference(),modalWin);
-				}
-			});
 			
-			modalWin.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
-				@Override
-				public boolean onCloseButtonClicked(AjaxRequestTarget target) {
-	
-					return true;
-				}
-			});
-			
-			modalWin.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
-				@Override
-			public void onClose(AjaxRequestTarget target){
-					
-				}
-			});
-		
 		
 
 
@@ -162,6 +141,38 @@ public class AppListPage  extends ConsoleIndex{
 
 				@Override
 				public void onClick(AjaxRequestTarget target) {
+					final ModalWindow modalWin=ctnAppList.getModalWindow();
+					modalWin.setTitle("应用添加");
+					modalWin.setCookieName("modalWin");
+					modalWin.setPageCreator(new ModalWindow.PageCreator()
+					{
+						public AppAddPage createPage() 
+						{
+							return new AppAddPage(getPageReference(),modalWin);
+						}
+					});
+					
+					modalWin.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
+						@Override
+						public boolean onCloseButtonClicked(AjaxRequestTarget target) {
+							
+							return true;
+						}
+					});
+					
+					modalWin.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
+						@Override
+					public void onClose(AjaxRequestTarget target){
+							
+							int perPageRecord=ctnAppList.getPerPageRecord();
+							int currPageNum=ctnAppList.getCurrPage();
+							Page page=new Page(perPageRecord,currPageNum);
+							appsService.loadPage(page);
+							ctnAppList.refresh(page);
+							
+							target.add(ctnAppList);
+						}
+					});
 					modalWin.show(target);
 				}
 			};
