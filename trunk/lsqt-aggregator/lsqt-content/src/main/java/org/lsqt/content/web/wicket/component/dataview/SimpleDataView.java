@@ -45,7 +45,7 @@ public class SimpleDataView extends Panel {
 		super(id);
 		
 		Page temp=new Page(20,1);
-		loadPage(temp);
+		onLoadPage(temp);
 		refresh(temp);
 		
 		
@@ -168,7 +168,7 @@ public class SimpleDataView extends Panel {
 			{
 				bean.setJumpPage(txtJumpPage.getModelObject());
 				Page initialPage = new Page(bean.getPerPageRecord(),bean.getJumpPage());
-				SimpleDataView.this.loadPage(initialPage);
+				SimpleDataView.this.onLoadPage(initialPage);
 				refresh(initialPage);
 				target.add(txtJumpPage);
 				
@@ -189,7 +189,7 @@ public class SimpleDataView extends Panel {
 			protected void onUpdate(AjaxRequestTarget target) {
 				bean.setPerPageRecord(txtPerPageRecord.getModel().getObject());
 				Page initialPage = new Page(bean.getPerPageRecord(),bean.getCurrPageNum());
-				SimpleDataView.this.loadPage(initialPage);
+				SimpleDataView.this.onLoadPage(initialPage);
 				refresh(initialPage);
 				target.add(ctnList);
 				target.add(ctnPageBar);
@@ -200,7 +200,7 @@ public class SimpleDataView extends Panel {
 			@Override
 			public void onClick(AjaxRequestTarget target) {
 				Page<Application> initialPage = new Page<Application>(bean.getPerPageRecord(), 1);
-				SimpleDataView.this.loadPage(initialPage);
+				SimpleDataView.this.onLoadPage(initialPage);
 				refresh(initialPage);
 				target.add(ctnList);
 				target.add(ctnPageBar);
@@ -214,7 +214,7 @@ public class SimpleDataView extends Panel {
 				bean.setCurrPageNum(bean.getCurrPageNum()-1);
 				
 				Page<Application> initialPage = new Page<Application>(bean.getPerPageRecord(),bean.getCurrPageNum() );
-				SimpleDataView.this.loadPage(initialPage);
+				SimpleDataView.this.onLoadPage(initialPage);
 				refresh(initialPage);
 				target.add(ctnList);
 				target.add(ctnPageBar);
@@ -227,7 +227,7 @@ public class SimpleDataView extends Panel {
 					bean.setCurrPageNum(bean.getCurrPageNum()+1);
 				
 					Page<Application> initialPage = new Page<Application>(bean.getPerPageRecord(),bean.getCurrPageNum());
-					SimpleDataView.this.loadPage(initialPage);
+					SimpleDataView.this.onLoadPage(initialPage);
 					refresh(initialPage);
 					target.add(ctnList);
 					target.add(ctnPageBar);
@@ -239,7 +239,7 @@ public class SimpleDataView extends Panel {
 			public void onClick(AjaxRequestTarget target) {
 				
 				Page<Application> initialPage = new Page<Application>(bean.getPerPageRecord(),bean.getTotalPage());
-				SimpleDataView.this.loadPage(initialPage);
+				SimpleDataView.this.onLoadPage(initialPage);
 				refresh(initialPage);
 				target.add(ctnList);
 				target.add(ctnPageBar);
@@ -251,7 +251,7 @@ public class SimpleDataView extends Panel {
 			public void onClick(AjaxRequestTarget target) {
 				
 				Page<Application> initialPage = new Page<Application>(bean.getPerPageRecord(),bean.getJumpPage());
-				SimpleDataView.this.loadPage(initialPage);
+				SimpleDataView.this.onLoadPage(initialPage);
 				refresh(initialPage);
 				target.add(ctnList);
 				target.add(ctnPageBar);
@@ -282,7 +282,9 @@ public class SimpleDataView extends Panel {
 	
 	public void refresh(Page page) {
 		this.bodyerData.clear();
-		this.bodyerData.addAll(page.getData());
+		if(page.getData()!=null){
+			this.bodyerData.addAll(page.getData());
+		}
 		
 		
 		bean.setTotalRecord(page.getTotalRecord());
@@ -313,7 +315,7 @@ public class SimpleDataView extends Panel {
 		return modalWindow;
 	}
 	
-	protected void loadPage(Page page) {
+	protected void onLoadPage(Page page) {
 		
 	}
 	
