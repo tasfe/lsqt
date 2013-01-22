@@ -18,11 +18,10 @@
 	    </div>
 	    
 	    <div>
-			<div>
-				<wicket:link>
-					<input type="text" ></input><a href="#">查询</a>
-					<a href="CategoryAddPage.html">添加</a>
-				</wicket:link>
+			<div wicket:id="ctnSearch">
+					<input type="text" wicket:id="key"></input>
+					<a href="#" wicket:id="btnSearch">查询</a>
+					<a href="#" wicket:id="btnAdd">添加</a>
 			</div>
 		
 			<div wicket:id="categoryList">

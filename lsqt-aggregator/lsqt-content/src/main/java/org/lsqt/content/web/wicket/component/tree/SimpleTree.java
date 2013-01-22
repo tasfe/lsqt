@@ -24,6 +24,12 @@ public class SimpleTree extends Panel
 		
 	}
 	
+	private Node selectedNode;
+	
+	public Node getSelectedNode(){
+		return this.selectedNode;
+	}
+	
 	/**
 	 * 构造函数.
 	 * @param id WebMarkup ID
@@ -43,8 +49,13 @@ public class SimpleTree extends Panel
 			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{
+				
 				Node node=getSeleted().getObject();
+				
+				SimpleTree.this.selectedNode=node;
+				
 				onClickNode(target,node);
+				
 			}
 		};
 		

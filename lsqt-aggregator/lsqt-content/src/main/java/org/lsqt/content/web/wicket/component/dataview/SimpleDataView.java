@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -22,6 +21,8 @@ import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
 
 public class SimpleDataView extends Panel {
+
+	
 	/**
 	 * 
 	 */
@@ -36,10 +37,10 @@ public class SimpleDataView extends Panel {
 	
 	private List<Object> bodyerData=new ArrayList<Object>();
 	
-	
-	final ModalWindow modalWindow=new ModalWindow("modalWin");
-	final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList").setOutputMarkupId(true);
-	final WebMarkupContainer ctnPageBar=(WebMarkupContainer)new WebMarkupContainer("pageBar").setOutputMarkupId(true);
+	// because the modal open to others,so ModalWindow#setOutputMarkupPlaceholderTag(true). 
+	final ModalWindow modalWindow=(ModalWindow) new ModalWindow("modalWin"); 
+	final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList").setOutputMarkupPlaceholderTag(true);
+	final WebMarkupContainer ctnPageBar=(WebMarkupContainer)new WebMarkupContainer("pageBar").setOutputMarkupPlaceholderTag(true);
 	
 	public SimpleDataView(String id){
 		super(id);
@@ -284,6 +285,7 @@ public class SimpleDataView extends Panel {
 		this.bodyerData.clear();
 		if(page.getData()!=null){
 			this.bodyerData.addAll(page.getData());
+			
 		}
 		
 		
@@ -292,6 +294,7 @@ public class SimpleDataView extends Panel {
 		bean.setPerPageRecord(page.getPerPageRecord());
 		bean.setCurrPageNum(page.getCurrPageNum());
 		bean.setJumpPage(page.getCurrPageNum());
+		
 	}
 	
 	public SimpleDataView addHeadLabel(String [] lable){
@@ -313,6 +316,14 @@ public class SimpleDataView extends Panel {
 	
 	public ModalWindow getModalWindow(){
 		return modalWindow;
+	}
+	
+	public Integer getCurrPage(){
+		return bean.getCurrPageNum();
+	}
+	
+	public Integer getPerPageRecord(){
+		return bean.getPerPageRecord();
 	}
 	
 	protected void onLoadPage(Page page) {

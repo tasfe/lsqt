@@ -12,8 +12,10 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
 import org.lsqt.content.service.AppsService;
+import org.lsqt.content.web.wicket.component.form.SimpleForm;
 
 public class AppAddPage extends WebPage {
 	private @SpringBean AppsService appsService;
@@ -22,20 +24,20 @@ public class AppAddPage extends WebPage {
 	 */
 	private static final long serialVersionUID = 1L;
 	private ModalWindow window;
-	private  AppAddPage parantPage;
+	private  AppListPage parantPage;
 	public AppAddPage(final PageReference modalWindowPage, final ModalWindow window){
 		layout();
 		this.window=window;
 		
 		
-		this.parantPage=(AppAddPage)modalWindowPage.getPage();
+		this.parantPage=(AppListPage)modalWindowPage.getPage();
 	}
 	
 	private void layout(){
 		Application app=new Application();
 		app.setOrderNum(appsService.getMaxOrderNum()+1);
 		Model<Application> appModel=new Model<Application>(app);
-		final Form<Application> form=new Form<Application>("form",appModel);
+		final SimpleForm<Application> form=new SimpleForm<Application>("form",appModel);
 		
 		final TextField<String> txtAppName=new TextField<String>("appName", new PropertyModel<String>(app, "name") );
 		final TextField<String> txtDesc=new TextField<String>("desc", new PropertyModel<String>(app, "description") );
@@ -52,7 +54,15 @@ public class AppAddPage extends WebPage {
 				super.onSubmit(target, form);
 				Application app=(Application)form.getModelObject();
 				appsService.save(app);
-				window.close(target);				
+				
+				/*int perPageRecord=parantPage.getAppListPanel().getPerPageRecord();
+				int currPageNum=parantPage.getAppListPanel().getCurrPage();
+				Page page=new Page(perPageRecord,currPageNum);
+				appsService.loadPage(page);
+				parantPage.getAppListPanel().refresh(page);
+				
+				target.add(parantPage.getAppListPanel());*/
+				window.close(target);			
 			}
 		});
 			 
