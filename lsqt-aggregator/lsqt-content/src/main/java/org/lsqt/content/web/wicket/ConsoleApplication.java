@@ -1,6 +1,9 @@
 package org.lsqt.content.web.wicket;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.ajax.AjaxChannel;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.markup.html.SecurePackageResourceGuard;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.https.HttpsConfig;
@@ -8,7 +11,6 @@ import org.apache.wicket.protocol.https.HttpsMapper;
 import org.apache.wicket.response.filter.ServerAndClientTimeFilter;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.lsqt.content.web.wicket.content.AppListPage;
-import org.lsqt.content.web.wicket.content.NewsAddPage;
 /**
  * 
  * @author 袁明敏
@@ -30,6 +32,8 @@ public class ConsoleApplication extends WebApplication {
 		 addDebugsSetting();
 		 
 		 //setRootRequestMapper(new HttpsMapper(getRootRequestMapper(),new HttpsConfig()));
+		 
+		 //test();
 	 }
 	
 	private void addDebugsSetting(){
@@ -41,5 +45,20 @@ public class ConsoleApplication extends WebApplication {
 		return AppListPage.class;
 	}
 	
-	
+	public void test()
+	{
+		getAjaxRequestTargetListeners().add(new AjaxRequestTarget.AbstractListener()
+		{
+			@Override
+			public void updateAjaxAttributes(AjaxRequestAttributes attributes)
+			{
+				super.updateAjaxAttributes(attributes);
+				System.out.println(attributes.getDataType());
+				System.out.println(attributes.getFormId());
+				System.out.println(attributes.getDynamicExtraParameters());
+				System.out.println(attributes.getChannel());
+				attributes.setChannel(new AjaxChannel("globalAjaxChannel", AjaxChannel.Type.ACTIVE));
+			}
+		});
+	}
 }

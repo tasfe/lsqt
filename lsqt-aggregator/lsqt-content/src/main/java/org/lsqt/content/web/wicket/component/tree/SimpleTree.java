@@ -1,5 +1,6 @@
 package org.lsqt.content.web.wicket.component.tree;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.Component;
@@ -30,6 +31,9 @@ public class SimpleTree extends Panel
 		return this.selectedNode;
 	}
 	
+	final List<Node> datas=new ArrayList<Node>();
+	final NodeProvider nodeProvider = new NodeProvider(datas);
+	
 	/**
 	 * 构造函数.
 	 * @param id WebMarkup ID
@@ -39,7 +43,9 @@ public class SimpleTree extends Panel
 	{
 		super(id);
 		
-		NodeProvider nodeProvider = new NodeProvider(rootList);
+		datas.clear();
+		datas.addAll(rootList);
+		
 		
 		final Content content = new SelectableFolderContent(nodeProvider)
 		{

@@ -20,13 +20,13 @@ public class CategoryDaoImpl extends AbstractHibernateDaoSupport<Category>  impl
 	}
 	
 	/**
-	 * 获取某个应用下的栏目.
+	 * 获取某个应用下的直接一级栏目(因栏目层级可嵌套).
 	 * @param appID 应用ID
 	 * 
 	 * @return List 返回应用下的栏目
 	 */
 	public List<Category> getCategoryByApp(String appID){
-		final StringBuffer hql=new StringBuffer("from Category c where c.appId=? order by c.createTime desc");
+		final StringBuffer hql=new StringBuffer("from Category c where c.appId=? and c.pid is null");
 		return super.executeHqlQuery(hql.toString(), new Object[]{appID});
 	}
 }

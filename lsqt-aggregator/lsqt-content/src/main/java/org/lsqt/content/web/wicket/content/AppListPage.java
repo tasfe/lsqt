@@ -1,10 +1,13 @@
 package org.lsqt.content.web.wicket.content;
 
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -41,7 +44,7 @@ public class AppListPage  extends ConsoleIndex{
 		@Override
 		protected void onLoadPage(Page page)
 		{
-			appsService.loadPage(page);
+			appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
 		}
 		
 		@Override
@@ -49,12 +52,13 @@ public class AppListPage  extends ConsoleIndex{
 		{
 			Application temp=(Application)rowModel.getObject();
 			appsService.deleteById(temp.getId());
-			System.out.println(getCurrPage()+"  "+getPerPageRecord());
+
 			Page page=new Page(getPerPageRecord(),getCurrPage());
 			
-			appsService.loadPage(page);
+			appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
 			refresh(page);
 			target.add(ctnAppList);
+			
 		}
 	}
 	.addHeadLabel(new String[]{"名称","序号","描述","创建时间"})
@@ -98,42 +102,47 @@ public class AppListPage  extends ConsoleIndex{
 		
 			final AutoCompleteTextField<String> txtKey=new AutoCompleteTextField<String>("key", new PropertyModel<String>(this, "key")){
 				@Override
-				protected Iterator<String> getChoices(String input) {
-					if (Strings.isEmpty(input)) {
+				protected Iterator<String> getChoices(String input)
+				{
+					if (Strings.isEmpty(input))
+					{
 						List<String> emptyList = Collections.emptyList();
 						return emptyList.iterator();
 					}
-
+	
 					List<String> choices = new ArrayList<String>(10);
-					Page<Application> page=new Page<Application>(20, 1);
-					page.addConditions(new Condition().like("name", input, MatchWay.ANYWHERE).like("description",  input, MatchWay.ANYWHERE));
-					page=appsService.loadPage(page);
-					for(Application a: page.getData()){
+	
+					Page<Application> page = new Page<Application>(20, 1);
+					appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
+	
+					for (Application a : page.getData())
+					{
 						choices.add(a.getName());
 					}
 					return choices.iterator();
 				}
 			};
-			txtKey.add(new AjaxFormComponentUpdatingBehavior("onblur")
+			txtKey.add(AttributeModifier.append("style","background:lightgreen;border-color:green"));
+			/*txtKey.add(new AjaxFormComponentUpdatingBehavior("onblur")
 			{
 				@Override
 				protected void onUpdate(AjaxRequestTarget target)
 				{
-					String key=txtKey.getModelObject();
-					Page page=new Page(20, 1);
-					
-					page.addConditions(new Condition().like("name", key,MatchWay.ANYWHERE).or("description", key));
-					appsService.loadPage(page);
-					ctnAppList.refresh(page);
-					
-					
-					target.add(ctnAppList);
-					
-					
-					setKey(txtKey.getModelObject());
-					target.add(txtKey);
+					String key = txtKey.getModelObject();
+					if (StringUtils.isNotEmpty(key))
+					{
+						Page page = new Page(20, 1);
+	
+						appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
+						ctnAppList.refresh(page);
+	
+						target.add(ctnAppList);
+	
+						setKey(txtKey.getModelObject());
+						target.add(txtKey);
+					}
 				}
-			});
+			});*/
 			
 			final AjaxLink<Void> btnAdd=new AjaxLink<Void>("btnAdd") {
 				/**  */
@@ -167,7 +176,7 @@ public class AppListPage  extends ConsoleIndex{
 							int perPageRecord=ctnAppList.getPerPageRecord();
 							int currPageNum=ctnAppList.getCurrPage();
 							Page page=new Page(perPageRecord,currPageNum);
-							appsService.loadPage(page);
+							appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
 							ctnAppList.refresh(page);
 							
 							target.add(ctnAppList);
@@ -183,19 +192,18 @@ public class AppListPage  extends ConsoleIndex{
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public void onClick(AjaxRequestTarget target) 
+				public void onClick(AjaxRequestTarget target)
 				{
-					String key=txtKey.getModelObject();
-					Page page=new Page(20, 1);
-					
-					page.addConditions(new Condition().like("name", key,
-						MatchWay.ANYWHERE).like("description", key,
-						MatchWay.ANYWHERE));
-					appsService.loadPage(page);
-					ctnAppList.refresh(page);
-					
-					
-					target.add(ctnAppList);
+						String key = txtKey.getModelObject();
+						if (StringUtils.isNotEmpty(key))
+						{
+							Page page = new Page(20, 1);
+		
+							appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
+							ctnAppList.refresh(page);
+							
+							target.add(ctnAppList);
+						}
 				}
 			};
 			
