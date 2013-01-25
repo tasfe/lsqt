@@ -2,7 +2,6 @@ package org.lsqt.content.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,10 +12,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.lsqt.content.model.mtm2.Course;
 
 @Entity
 @Table(name="tb_news")

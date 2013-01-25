@@ -5,8 +5,9 @@
 <title></title>
 </head>
 <body>
+<wicket:panel>
 	<form wicket:id="form">
-		上级栏目:<input wicket:id="parentCategoryName" type="text" ></input><a wicket:id="btnChoose">选择</a><br/>
+		上级栏目*:<input wicket:id="parentCategoryName" type="text" ></input><a wicket:id="btnChoose">选择</a><br/>
 		栏目名称*:<input wicket:id="name"  type="text"></input><br/>
 		排列顺序*:<input wicket:id="orderNum" type="text"></input><br/>
 		是否显示*:<span wicket:id="isVisible" type="checkbox"></span><br/>
@@ -15,5 +16,6 @@
 		<input type="button" wicket:id="btnAdd" value="保存"></input>
 		<input type="button" wicket:id="btnCancel" value="取消"></input>
 	</form>
+</wicket:panel>
 </body>
 </html>
