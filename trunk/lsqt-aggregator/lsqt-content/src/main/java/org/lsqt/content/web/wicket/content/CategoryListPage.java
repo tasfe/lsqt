@@ -9,8 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
-import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.PageCreator;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -41,6 +39,32 @@ public class CategoryListPage extends ConsoleIndex {
 	
 	final WebMarkupContainer ctnSearch=(WebMarkupContainer) new WebMarkupContainer("ctnSearch").setOutputMarkupId(true);
 	
+	final CategoryAddPanel categoryAddPanel=(CategoryAddPanel) new CategoryAddPanel("categoryAddPanel")
+	{
+		protected void onSaveAfter(AjaxRequestTarget target)
+		{
+			if(selectedNode!=null && selectedNode.getId()!=null){
+				Page page=new Page(20,1);
+				categoryServ.getCategoryByApp(selectedNode.getId(), page) ;
+				ctnCategoryList.refresh(page);
+				ctnCategoryList.setVisible(true);
+				categoryAddPanel.setVisible(false);
+				target.add(ctnCategoryList);
+				target.add(categoryAddPanel);
+			}
+		};
+		
+		protected void onCancelAfter(AjaxRequestTarget target)
+		{
+			ctnCategoryList.setVisible(true);
+			categoryAddPanel.setVisible(false);
+			target.add(ctnCategoryList);
+			target.add(categoryAddPanel);
+		};
+	}.setOutputMarkupPlaceholderTag(true).setVisible(false);
+	
+	
+	private Node selectedNode;
 	public CategoryListPage(){
 		
 		
@@ -66,14 +90,7 @@ public class CategoryListPage extends ConsoleIndex {
 				Page page=new Page(20,1);
 				categoryServ.getCategoryByApp(node.getId(), page) ;
 				ctnCategoryList.refresh(page);
-				
-			/*	if(page.getData()==null || page.getData().size()==0){
-					ctnCategoryList.setVisible(false);
-					ctnCategoryList.getModalWindow().setVisible(false);
-				}else{
-					ctnCategoryList.setVisible(true);
-					ctnCategoryList.getModalWindow().setVisible(true);
-				}*/
+				selectedNode=node;
 				target.add(ctnCategoryList);
 			}
 		}.setOutputMarkupPlaceholderTag(true);
@@ -110,7 +127,7 @@ public class CategoryListPage extends ConsoleIndex {
 			}
 		};
 		 
-		final CategoryAddWindowClosedCallback callBack=new CategoryAddWindowClosedCallback(tree);
+
 		AjaxLink<Void> btnAdd = new AjaxLink<Void>("btnAdd")
 		{
 			public void onClick(AjaxRequestTarget target)
@@ -119,21 +136,10 @@ public class CategoryListPage extends ConsoleIndex {
 					warn("请选择某一个应用");
 					return ;
 				}
-				
-				final ModalWindow modal=ctnCategoryList.getModalWindow();
-				modal.setTitle("添加栏目");
-				modal.setCookieName("categoryAdd");
-				modal.setWindowClosedCallback(callBack);
-				modal.setPageCreator(new PageCreator()
-				{
-					@Override
-					public org.apache.wicket.Page createPage()
-					{
-						return new CategoryAddPage(tree.getSelectedNode().getId(),getPageReference(),modal);
-					}
-				});
-				
-				modal.show(target);
+				ctnCategoryList.setVisible(false);
+				categoryAddPanel.setVisible(true);
+				target.add(ctnCategoryList);
+				target.add(categoryAddPanel);
 			};
 		};
 		
@@ -145,26 +151,10 @@ public class CategoryListPage extends ConsoleIndex {
 			ctnSearch.add(btnSearch);
 			ctnSearch.add(btnAdd);
 		}
+		add(categoryAddPanel);
 	}
 	
-	private class CategoryAddWindowClosedCallback implements ModalWindow.WindowClosedCallback{
-		private SimpleTree tree;
-		public CategoryAddWindowClosedCallback(final SimpleTree tree)
-		{
-			this.tree = tree;
-		}
-		
-		@Override
-		public void onClose(AjaxRequestTarget target)
-		{
-			Page page=new Page(ctnCategoryList.getPerPageRecord(), ctnCategoryList.getCurrPage());
-			page.addConditions(new Condition().like("name", getKeyWord(), MatchWay.ANYWHERE));
-			categoryServ.getCategoryByApp(tree.getSelectedNode().getId(), page);
-			ctnCategoryList.refresh(page);
-			
-			target.add(ctnCategoryList);
-		}
-	}
+	
 	
 	private String keyWord=StringUtils.EMPTY;
 
