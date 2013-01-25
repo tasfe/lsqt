@@ -3,6 +3,7 @@ package com.hirisun.content.web.wicket;
 import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Test;
+import org.lsqt.content.web.wicket.content.AppListPage;
 import org.lsqt.content.web.wicket.content.NewsAddPage;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,10 +17,10 @@ public class UserManageTest {
         
 		
 		WicketTester t=new WicketTester();
-		t.startPage(NewsAddPage.class);
-		FormTester form=t.newFormTester("form");
-		form.setValue("txtCategories", "yuanke@sohu.com");
-		form.submit();
+		t.startPage(AppListPage.class);
+		//FormTester form=t.newFormTester("form");
+		//form.setValue("txtCategories", "yuanke@sohu.com");
+		//form.submit();
 		//t.assertNoErrorMessage();
 		//t.assertModelValue("email", "yuanke@sohu.com");
 		//t.assertErrorMessages(expectedErrorMessages)
