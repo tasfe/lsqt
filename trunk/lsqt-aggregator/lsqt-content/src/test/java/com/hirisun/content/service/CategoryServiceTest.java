@@ -12,10 +12,7 @@ public class CategoryServiceTest extends AbstractTest{
 	
 	@Test
 	public void testCRUDCategory(){
-		Category categoryRoot=service.getRoot();
-		if(categoryRoot!=null){
-			service.deleteById(categoryRoot.getId());
-		}
+	
 		
 		/*＊
 		 * 添加类别,如下：
