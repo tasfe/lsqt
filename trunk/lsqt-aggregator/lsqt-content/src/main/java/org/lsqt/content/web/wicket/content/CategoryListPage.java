@@ -3,6 +3,7 @@ package org.lsqt.content.web.wicket.content;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,6 +17,7 @@ import org.lsqt.components.dao.suport.Condition;
 import org.lsqt.components.dao.suport.MatchWay;
 import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
+import org.lsqt.content.model.Category;
 import org.lsqt.content.service.AppsService;
 import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
@@ -33,7 +35,7 @@ public class CategoryListPage extends ConsoleIndex {
 	@SpringBean AppsService appsService;
 	
 	final SimpleDataView ctnCategoryList=(SimpleDataView) new SimpleDataView("categoryList")
-	.addHeadLabel(new String[]{"站点名称","描述","序号","创建时间"})
+	.addHeadLabel(new String[]{"栏目名称","访问路径","序号","创建时间"})
 	.addHeadProp(new String[]{"name","description","orderNum","createTime"})
 	.setOutputMarkupPlaceholderTag(true);
 	
@@ -65,9 +67,16 @@ public class CategoryListPage extends ConsoleIndex {
 	
 	
 	private Node selectedNode;
+	
+	
+	private void nestedCategory(Node n,Category c, Set<Category> subs){
+		Node node=new Node(n,c.getId(),c.getName());
+		for(Category t:subs)
+		{
+			nestedCategory(node,t,t.getSubCategories());
+		}
+	}
 	public CategoryListPage(){
-		
-		
 		
 		List<Node> nodes = new ArrayList<Node>();
 		Node root = new Node();
@@ -77,10 +86,14 @@ public class CategoryListPage extends ConsoleIndex {
 		for (Application a : appsService.findAll())
 		{
 			Node n = new Node(root, a.getId(), a.getName());
+			List<Category>list= categoryServ.getCategoryByApp(a.getId());
+			for(Category c: list)
+			{
+				nestedCategory(n,c,c.getSubCategories());
+			}
 		}
 		nodes.add(root);
 
-		 
 		
 		final SimpleTree tree = (SimpleTree) new SimpleTree("tree", nodes)
 		{

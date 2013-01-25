@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 	
 	/**
-	 * 获取某个应用下的栏目.
+	 * 获取某个应用下的直接一级栏目(因栏目层级可嵌套).
 	 * @param appID 应用ID
 	 * 
 	 * @return List 返回应用下的栏目

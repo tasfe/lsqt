@@ -35,6 +35,13 @@ public class Category implements Serializable{
 		
 	}
 
+	public Category(Category parent,String id,String name){
+		this.parentCategory=parent;
+		parentCategory.getSubCategories().add(this);
+		this.id=id;
+		this.name=name;
+	}
+	
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
 	@GeneratedValue(generator="idGenerator")
@@ -43,7 +50,7 @@ public class Category implements Serializable{
 	@Column(name="pid",insertable=false,updatable=false)
 	private String pid;
 	
-	@Column(name="name")
+	@Column(name="name" ,nullable=false)
 	private String name;
 	
 	@Column(name="description")
@@ -57,15 +64,16 @@ public class Category implements Serializable{
 	private String accessPath;
 	
 	/**类别排序号**/
-	@Column(name="orderNum")
+	@Column(name="orderNum",nullable=false)
 	private Integer orderNum;
 	
 	/**是否显示**/
-	@Column(name="isVisible")
+	@Column(name="isVisible",nullable=false)
 	private Boolean isVisible;
 	
- 
- 
+	/**类别类型:0应用,1栏目**/
+	@Column(name="type",nullable=false)
+	private Integer type;
  
 	
 	/**子站编码**/
@@ -192,5 +200,15 @@ public class Category implements Serializable{
 
 	public void setAccessPath(String accessPath) {
 		this.accessPath = accessPath;
+	}
+
+	public Integer getType()
+	{
+		return type;
+	}
+
+	public void setType(Integer type)
+	{
+		this.type = type;
 	}
 }

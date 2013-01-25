@@ -1,7 +1,9 @@
 package org.lsqt.content.dao.impl;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.lsqt.components.dao.hibernate.AbstractHibernateDaoSupport;
 import org.lsqt.components.dao.suport.Condition;
@@ -25,5 +27,16 @@ public class AppsDaoImpl extends AbstractHibernateDaoSupport<Application>  imple
 		StringBuffer hql=new StringBuffer();
 		hql.append("from Application a ");
 		return super.executeHqlQuery(hql.toString());
+	}
+	
+	public Page<Application> loadPage(String key,Page page){
+		StringBuffer hql=new StringBuffer("from Application a where a.name like  '%"+key+"%'  or a.description like  '%"+key+"%' ");
+		return super.loadPageByHql(hql.toString(), page);
+	}
+	
+	public Set<String> getAppsByKey(String key){
+		Set<String> set=new HashSet<String>();
+		StringBuffer hql=new StringBuffer("select distinct a.name from Application a where a.name like  '%"+key+"%'  or a.description like  '%"+key+"%' ");
+		return set;
 	}
 }

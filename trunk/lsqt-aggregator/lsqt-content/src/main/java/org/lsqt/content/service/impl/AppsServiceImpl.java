@@ -24,8 +24,13 @@ public class AppsServiceImpl implements AppsService{
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public Page loadPage(Page initialPage) {
-		return appsDao.loadPage(initialPage);
+	public Page loadPage(String key,Page initialPage) {
+		return appsDao.loadPage(key,initialPage);
+	}
+	
+	@Override
+	public Page<Application> loadPage(Page page){
+		return appsDao.loadPage(page);
 	}
 	
 	@Transactional

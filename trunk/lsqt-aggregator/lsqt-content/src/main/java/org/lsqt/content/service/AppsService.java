@@ -22,5 +22,7 @@ public interface AppsService {
 	
 	public void save(Application app);
 	
-	public Page loadPage(Page initialPage) ;
+	public Page<Application> loadPage(String key,Page initialPage) ;
+	
+	public Page<Application> loadPage(Page initialPage) ;
 }
