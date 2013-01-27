@@ -2,12 +2,16 @@ package org.lsqt.content.web.wicket.content;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
+import org.lsqt.content.model.Category;
 import org.lsqt.content.service.AppsService;
 import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.service.NewsService;
@@ -28,45 +32,122 @@ public class NewsListPage  extends ConsoleIndex{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public NewsListPage(){
-		List<Application> list=appsService.findAll();
-		Node root=new Node();
-		root.setName("应用");
-		root.setId(UUID.randomUUID().toString());
+	private static final String ROOT_TEXT="网站列表";
+	private static final String APPLICATION="_application";
+	private static final String CATEGORY="_category";
+	private static final String OTHER="_other";
+
+	
+	final List<Node> nodes = new ArrayList<Node>();
+	private void freshTree()
+	{
+		nodes.clear();
 		
-		List<Node> nodes=new ArrayList<Node>();
-		nodes.add(root);
-		for(Application a: list)
+		Node root = new Node();
+		root.setId(UUID.randomUUID().toString());
+		root.setName(ROOT_TEXT);
+		root.setTag(OTHER);
+
+		for (Application a : appsService.findAll())
 		{
-			Node n=new Node(root,a.getId(),a.getName());
+			Node n = new Node(root, a.getId(), a.getName());
+			n.setTag(APPLICATION);
+
+			List<Category> list = categoryServ.getCategoryByApp(a.getId());
+			for (Category c : list)
+			{
+				nestedCategory(n, c, c.getSubCategories());
+			}
+		}
+		nodes.add(root);
+	}
+	
+	private void nestedCategory(Node n, Category c, Set<Category> subs)
+	{
+		Node node = new Node(n, c.getId(), c.getName());
+		node.setTag(CATEGORY);
+		for (Category t : subs)
+		{
+			nestedCategory(node, t, t.getSubCategories());
+		}
+	}
+	
+	
+	final SimpleDataView dataView=(SimpleDataView) new SimpleDataView("newsList")
+	{
+		@Override
+		protected void onLoadPage(Page page)
+		{
 			
 		}
-		SimpleTree tree=(SimpleTree) new SimpleTree("tree", nodes).setOutputMarkupId(true);
-		
-		SimpleDataView dataView=(SimpleDataView) new SimpleDataView("newsList")
+	}
+	.addHeadLabel(new String[]{"名称","标题","摘要","排序号","创建日期","是否启用","是否已发布"})
+	.addHeadProp(new String[]{"name","title","shortContent","orderNum","createTime","isEnable","isPublished"})
+	.setOutputMarkupId(true);
+	
+	
+	
+	public NewsListPage(){
+		freshTree();
+		final SimpleTree tree=(SimpleTree) new SimpleTree("tree", nodes)
 		{
 			@Override
-			protected void onLoadPage(Page page)
+			protected void onClickNode(AjaxRequestTarget target, Node node)
 			{
+				super.onClickNode(target, node);
 				
 			}
-		}.setOutputMarkupId(true);
+		}.setOutputMarkupPlaceholderTag(true);
+		
+		final NewsAddPanel  newsAdd=(NewsAddPanel) new NewsAddPanel("newsAdd")
+		{
+			@Override
+			protected void onSaveAfter(AjaxRequestTarget target)
+			{
+				super.onSaveAfter(target);
+				
+			}
+		}.setOutputMarkupPlaceholderTag(true);
 		
 		
-		Link<Void> btnAdd=new Link<Void>("btnAdd") {
-			/** 	 */
-			private static final long serialVersionUID = 1L;
+		newsAdd.setVisible(false);
+		
+		AjaxLink<Void> btnAdd = new AjaxLink<Void>("btnAdd")
+		{
 
 			@Override
-			public void onClick() {
-				setResponsePage(NewsAddPage.class);
+			public void onClick(AjaxRequestTarget target)
+			{
+				if(tree.getSelectedNode()==null)
+				{
+					target.appendJavaScript("alert('请选择一个栏目再进行添加新闻!')");
+					return ;
+				}
+				
+				newsAdd.setParentCategoryID(tree.getSelectedNode().getId());
+				
+				if (!newsAdd.isVisible())
+				{
+					newsAdd.setVisible(true);
+					target.add(newsAdd);
+				}
+
+				if (dataView.isVisible())
+				{
+					dataView.setVisible(false);
+					target.add(dataView);
+				}
 			}
 		};
+		
+
+		
+		
 		add(btnAdd);
-		
-		
 		add(tree);
 		add(dataView);
+		add(newsAdd);
+		
 	}
 	
 }

@@ -85,7 +85,7 @@ public class Category implements Serializable{
 	
 	/**一个新闻可以属多个栏目（栏目与新闻的多对多关系）**/
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "categories", targetEntity = News.class)
-	private Set<News> news;
+	private Set<News> news=new HashSet<News>();
 	
 	/**一个应用下的栏目（栏目与应用的多对一关系）**/
 	@ManyToOne(cascade = CascadeType.ALL)
