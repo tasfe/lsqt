@@ -2,6 +2,7 @@ package org.lsqt.content.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -31,7 +32,7 @@ public class News extends Content implements Serializable{
 	
 	/**新闻前台在线日期**/
 	@Column(name="onlineTime")
-	private Date onlineTime;
+	private Long onlineTime;
 	
 	/**(状态)是否启用**/
 	@Column(name="isEnable")
@@ -67,7 +68,7 @@ public class News extends Content implements Serializable{
 	/**新闻所属的类别，一个新闻可以同时属于两个或多个类别**/
 	@ManyToMany(targetEntity = Category.class, cascade = { CascadeType.MERGE,CascadeType.PERSIST })
 	@JoinTable(name = "tb_news_category", joinColumns = { @JoinColumn(name = "news_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })
-	private Set<Category> categories;
+	private Set<Category> categories=new HashSet<Category>();
 	
 	
 	/**当前新闻所属的应用（应用与新闻的多对一关系）**/
@@ -113,13 +114,6 @@ public class News extends Content implements Serializable{
 	public void setIsPublished(Boolean isPublished) {
 		this.isPublished = isPublished;
 	}
-	public Date getOnlineTime() {
-		return onlineTime;
-	}
-	public void setOnlineTime(Date onlineTime) {
-		this.onlineTime = onlineTime;
-	}
-	
 	public Date getCreatedDate() {
 		return createdDate;
 	}

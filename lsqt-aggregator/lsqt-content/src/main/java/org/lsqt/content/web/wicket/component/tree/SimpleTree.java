@@ -82,7 +82,10 @@ public class SimpleTree extends Panel
 				return content.newContentComponent(id, this, model);
 			}
 		};
-		tree.expand(nodeProvider.getRoots().next());
+		if(nodeProvider.getRoots().hasNext())
+		{
+			tree.expand(nodeProvider.getRoots().next());
+		}
 		 
 		
 		final Behavior theme=new org.apache.wicket.extensions.markup.html.repeater.tree.theme.WindowsTheme();

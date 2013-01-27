@@ -193,13 +193,16 @@ public class CategoryListPage extends ConsoleIndex {
 		};
 		 
 		
-		@SuppressWarnings("unchecked")
-		AjaxLink  btnAddSub =(AjaxLink) new AjaxLink("btnAddSub")
+		AjaxLink<Void>  btnAddSub =(AjaxLink) new AjaxLink<Void>("btnAddSub")
 		{
 			@Override
 			public void onClick(AjaxRequestTarget target)
 			{
-
+				if(tree.getSelectedNode()==null)
+				{
+					target.appendJavaScript("alert('请选择某个应用或父级栏目!')");
+					return ;
+				}
 				ModalWindow modal=ctnCategoryList.getModalWindow();
 				modal.setWindowClosedCallback(new WindowClosedCallback()
 				{
