@@ -34,6 +34,12 @@ public class SimpleTree extends Panel
 	final List<Node> datas=new ArrayList<Node>();
 	final NodeProvider nodeProvider = new NodeProvider(datas);
 	
+	public void refresh(List<Node> nodes)
+	{
+		datas.clear();
+		datas.addAll(nodes);
+	}
+	
 	/**
 	 * 构造函数.
 	 * @param id WebMarkup ID

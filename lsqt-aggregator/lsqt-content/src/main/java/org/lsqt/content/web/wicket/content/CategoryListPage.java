@@ -8,9 +8,18 @@ import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormChoiceComponentUpdatingBehavior;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.PageCreator;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
+import org.apache.wicket.extensions.markup.html.form.select.SelectOption;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.ListChoice;
+import org.apache.wicket.markup.html.form.ListMultipleChoice;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.lsqt.components.dao.suport.Condition;
@@ -40,60 +49,74 @@ public class CategoryListPage extends ConsoleIndex {
 	.setOutputMarkupPlaceholderTag(true);
 	
 	final WebMarkupContainer ctnSearch=(WebMarkupContainer) new WebMarkupContainer("ctnSearch").setOutputMarkupId(true);
-	
-	final CategoryAddPanel categoryAddPanel=(CategoryAddPanel) new CategoryAddPanel("categoryAddPanel")
-	{
-		protected void onSaveAfter(AjaxRequestTarget target)
-		{
-			if(selectedNode!=null && selectedNode.getId()!=null){
-				Page page=new Page(20,1);
-				categoryServ.getCategoryByApp(selectedNode.getId(), page) ;
-				ctnCategoryList.refresh(page);
-				ctnCategoryList.setVisible(true);
-				categoryAddPanel.setVisible(false);
-				target.add(ctnCategoryList);
-				target.add(categoryAddPanel);
-			}
-		};
-		
-		protected void onCancelAfter(AjaxRequestTarget target)
-		{
-			ctnCategoryList.setVisible(true);
-			categoryAddPanel.setVisible(false);
-			target.add(ctnCategoryList);
-			target.add(categoryAddPanel);
-		};
-	}.setOutputMarkupPlaceholderTag(true).setVisible(false);
+/*	final DropDownChoice<Category> addSub = (DropDownChoice<Category>) new DropDownChoice<Category>("addSub", 
+			new PropertyModel(this, "selects"),
+			new PropertyModel(this, "displays"),
+			RendererUtil.getLabelRenderer())
+			.setOutputMarkupId(true)
+			.setOutputMarkupPlaceholderTag(true);*/
 	
 	
 	private Node selectedNode;
 	
 	
+	private static final String ROOT_TEXT="网站列表";
+	private static final String APPLICATION="_application";
+	private static final String CATEGORY="_category";
+	private static final String OTHER="_other";
+	
+	
+	private static final String DEF_ITEM_LABEL="---添加子栏目---";
+	
+	private Category selects = new Category();
+	private List<Category> displays = new ArrayList<Category>();
+	
+	private final static Category defItem = new Category();
+	{
+		defItem.setId(UUID.randomUUID().toString());
+		defItem.setName(DEF_ITEM_LABEL);
+		displays.add(defItem);
+	}
+	
 	private void nestedCategory(Node n,Category c, Set<Category> subs){
 		Node node=new Node(n,c.getId(),c.getName());
+		node.setTag(CATEGORY);
 		for(Category t:subs)
 		{
 			nestedCategory(node,t,t.getSubCategories());
 		}
 	}
-	public CategoryListPage(){
+	
+	
+	final List<Node> nodes = new ArrayList<Node>();
+	private void freshTree()
+	{
+		nodes.clear();
 		
-		List<Node> nodes = new ArrayList<Node>();
 		Node root = new Node();
 		root.setId(UUID.randomUUID().toString());
-		root.setName("网站列表");
+		root.setName(ROOT_TEXT);
+		root.setTag(OTHER);
 
 		for (Application a : appsService.findAll())
 		{
 			Node n = new Node(root, a.getId(), a.getName());
-			List<Category>list= categoryServ.getCategoryByApp(a.getId());
-			for(Category c: list)
+			n.setTag(APPLICATION);
+
+			List<Category> list = categoryServ.getCategoryByApp(a.getId());
+			for (Category c : list)
 			{
-				nestedCategory(n,c,c.getSubCategories());
+				nestedCategory(n, c, c.getSubCategories());
 			}
 		}
 		nodes.add(root);
-
+	}
+	
+	public CategoryListPage()
+	{
+		
+		
+		freshTree();
 		
 		final SimpleTree tree = (SimpleTree) new SimpleTree("tree", nodes)
 		{
@@ -101,10 +124,39 @@ public class CategoryListPage extends ConsoleIndex {
 			protected void onClickNode(AjaxRequestTarget target, Node node)
 			{
 				Page page=new Page(20,1);
-				categoryServ.getCategoryByApp(node.getId(), page) ;
-				ctnCategoryList.refresh(page);
 				selectedNode=node;
-				target.add(ctnCategoryList);
+				if (APPLICATION.equals(node.getTag()))
+				{
+					categoryServ.getCategoryByApp(node.getId(), page);
+					ctnCategoryList.refresh(page);
+					
+					displays.clear();
+					displays.add(defItem);
+					displays.addAll(page.getData());
+					
+					
+					
+					target.add(ctnSearch);
+					target.add(ctnCategoryList);
+					
+				} else if (CATEGORY.equals( node.getTag()))
+				{
+					categoryServ.getCategoryByPID(node.getId(), page);
+					ctnCategoryList.refresh(page);
+					
+					displays.clear();
+					displays.add(defItem);
+					displays.addAll(page.getData());
+					
+				
+					
+					target.add(ctnSearch);
+					target.add(ctnCategoryList);
+				}else if(OTHER.equals(node.getTag() ))
+				{
+					
+					
+				}
 			}
 		}.setOutputMarkupPlaceholderTag(true);
 		
@@ -140,21 +192,40 @@ public class CategoryListPage extends ConsoleIndex {
 			}
 		};
 		 
-
-		AjaxLink<Void> btnAdd = new AjaxLink<Void>("btnAdd")
+		
+		@SuppressWarnings("unchecked")
+		AjaxLink  btnAddSub =(AjaxLink) new AjaxLink("btnAddSub")
 		{
+			@Override
 			public void onClick(AjaxRequestTarget target)
 			{
-				if(tree.getSelectedNode()==null){
-					warn("请选择某一个应用");
-					return ;
+
+				ModalWindow modal=ctnCategoryList.getModalWindow();
+				modal.setWindowClosedCallback(new WindowClosedCallback()
+				{
+					@Override
+					public void onClose(AjaxRequestTarget target)
+					{
+						freshTree();
+						tree.refresh(nodes);
+						target.add(tree);
+					}
+				});
+				
+				if (APPLICATION.equals(tree.getSelectedNode().getTag()))
+				{
+					modal.setContent(new CategoryAddPanel(modal.getContentId(),tree.getSelectedNode().getId(),null,modal));
+					modal.show(target);
+				} else if (CATEGORY.equals(tree.getSelectedNode().getTag()))
+				{
+					modal.setContent(new CategoryAddPanel(modal.getContentId(),null,tree.getSelectedNode().getId(),modal));
+					modal.show(target);
 				}
-				ctnCategoryList.setVisible(false);
-				categoryAddPanel.setVisible(true);
-				target.add(ctnCategoryList);
-				target.add(categoryAddPanel);
-			};
-		};
+				
+			}
+		}.setOutputMarkupId(true);
+	
+		
 		
 		add(tree);
 		add(ctnCategoryList);
@@ -162,9 +233,8 @@ public class CategoryListPage extends ConsoleIndex {
 		{
 			ctnSearch.add(key);
 			ctnSearch.add(btnSearch);
-			ctnSearch.add(btnAdd);
+			ctnSearch.add(btnAddSub);
 		}
-		add(categoryAddPanel);
 	}
 	
 	
@@ -179,5 +249,25 @@ public class CategoryListPage extends ConsoleIndex {
 	public void setKeyWord(String key)
 	{
 		this.keyWord = key;
+	}
+
+	public Category getSelects()
+	{
+		return selects;
+	}
+
+	public void setSelects(Category selects)
+	{
+		this.selects = selects;
+	}
+
+	public List<Category> getDisplays()
+	{
+		return displays;
+	}
+
+	public void setDisplays(List<Category> displays)
+	{
+		this.displays = displays;
 	}
 }

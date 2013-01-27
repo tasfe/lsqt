@@ -5,11 +5,11 @@
 <title></title>
 <wicket:head>
 	<style type="text/css">
+	     .pageNationBarText{width:50px;}
 		.treeContent { float:left; width:200px; height:615px;  OVERFLOW-y:auto;}
 		.listContent { float:left; width:550px; height:615px; }
 	</style>
 </wicket:head>
-
 </head>
 <body>
 <wicket:extend>
@@ -21,11 +21,12 @@
 			<div wicket:id="ctnSearch">
 					<input type="text" wicket:id="key"></input>
 					<a href="#" wicket:id="btnSearch">查询</a>
-					<a href="#" wicket:id="btnAdd">添加</a>
+					<input wicket:id="btnAddSub" type="button" value="添加子栏目"/>
+					
 			</div>
 		
 			<div wicket:id="categoryList"></div>
-			<div wicket:id="categoryAddPanel"></div>
+			
 		</div>
 </wicket:extend>
 </body>

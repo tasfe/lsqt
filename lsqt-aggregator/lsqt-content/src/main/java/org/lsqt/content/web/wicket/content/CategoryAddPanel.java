@@ -5,6 +5,8 @@ import java.util.Arrays;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -14,6 +16,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.lsqt.content.model.Application;
 import org.lsqt.content.model.Category;
 import org.lsqt.content.service.AppsService;
 import org.lsqt.content.service.CategoryService;
@@ -30,25 +33,22 @@ public class CategoryAddPanel extends Panel
 	@SpringBean CategoryService categoryServ;
 	@SpringBean AppsService appsService;
 	
-	final Category category = new Category();
-	final Category parentCategory = new Category();
+	 Category category = new Category();
+	 Category parentCategory = new Category();
 	final SimpleForm<Category> form = new SimpleForm<Category>("form", 	new Model<Category>(category));
-	public CategoryAddPanel(String id)
+	
+	private String appID;
+	private String parentCategoryID;
+	private ModalWindow modal;
+	public CategoryAddPanel(String id,String appID,String parentCategoryID,ModalWindow modal)
 	{
 		super(id);
 
-		// 父类
-		TextField<String> txtParentCategoryName = new TextField<String>( "parentCategoryName", new PropertyModel<String>(parentCategory, "name"));
+		this.appID=appID;
+		this.parentCategoryID=parentCategoryID;
+		this.modal=modal;
+		
 
-		// 父栏目选择
-		AjaxLink<Void> btnChoose = new AjaxLink<Void>("btnChoose")
-		{
-			@Override
-			public void onClick(AjaxRequestTarget target)
-			{
-
-			}
-		};
 
 		// 类别名称
 		TextField<String> txtName = new RequiredTextField<String>("name", new PropertyModel<String>(category, "name"));
@@ -56,9 +56,7 @@ public class CategoryAddPanel extends Panel
 		// 排列顺序
 		TextField<String> txtOrderNum = new RequiredTextField<String>( "orderNum", new PropertyModel<String>(category, "orderNum"));
 
-		// 是否显示
-		// CheckBox chbVisible=new CheckBox("isVisible",new
-		// PropertyModel<Boolean>(category,"isVisible"));
+		
 		RadioChoice<Boolean> radVisible = new RadioChoice<Boolean>("isVisible", new PropertyModel(category,"isVisible"), Arrays.asList(new Boolean[]{Boolean.TRUE, Boolean.FALSE}), RendererUtil.getYesNoRenderer());
 		radVisible.setSuffix(" &nbsp; ");
 
@@ -70,11 +68,23 @@ public class CategoryAddPanel extends Panel
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
 			{
-				/*Category obj = (Category) form.getModelObject();
-				Application app = appsService.findById(appID);
-				obj.setApp(app);
-				categoryServ.save(obj);*/
-				 
+				//Category obj = (Category) form.getModelObject();
+				if (CategoryAddPanel.this.appID != null)
+				{
+					
+					Application app = appsService.findById(CategoryAddPanel.this.appID);
+					category.setApp(app);
+					categoryServ.save(category);
+				}
+				if(CategoryAddPanel.this.parentCategoryID!=null)
+				{
+					Category parent=categoryServ.findById(CategoryAddPanel.this.parentCategoryID);
+					category.setParentCategory(parent);
+					category.setApp(parent.getApp());
+					categoryServ.save(category);
+				}
+				CategoryAddPanel.this.modal.close(target);
+				
 				onSaveAfter(target);
 				
 			}
@@ -94,13 +104,11 @@ public class CategoryAddPanel extends Panel
 
 		add(form);
 		{
-			form.add(txtParentCategoryName);
-			form.add(btnChoose);
 			form.add(txtName);
 			form.add(txtOrderNum);
 			form.add(radVisible);
 			form.add(txtDescription);
-
+			
 			form.add(btnCancel);
 			form.add(btnAdd);
 		}

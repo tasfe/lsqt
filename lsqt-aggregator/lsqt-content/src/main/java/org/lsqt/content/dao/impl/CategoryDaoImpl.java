@@ -19,14 +19,21 @@ public class CategoryDaoImpl extends AbstractHibernateDaoSupport<Category>  impl
 		return (Category)super.uniqueResultByHql(hql.toString(), new Object[]{id});
 	}
 	
-	/**
-	 * 获取某个应用下的直接一级栏目(因栏目层级可嵌套).
-	 * @param appID 应用ID
-	 * 
-	 * @return List 返回应用下的栏目
-	 */
+	@Override
 	public List<Category> getCategoryByApp(String appID){
 		final StringBuffer hql=new StringBuffer("from Category c where c.appId=? and c.pid is null");
 		return super.executeHqlQuery(hql.toString(), new Object[]{appID});
+	}
+	
+	@Override
+	public Page<Category> getCategoryByApp(String appID,Page page){
+		final StringBuffer hql=new StringBuffer("from Category c where c.appId=? and c.pid is null");
+		return super.loadPageByHql(hql.toString(), new Object[]{appID}, page);
+	}
+	
+	@Override
+	public Page<Category> getCategoryByPID(String categoryID,Page page){
+		final StringBuffer hql=new StringBuffer("from Category c where  c.pid = ? ");
+		return super.loadPageByHql(hql.toString(), new Object[]{categoryID}, page);
 	}
 }

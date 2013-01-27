@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.GenericGenerator;
-
+import  com.p6spy.engine.spy.P6SpyDriver;
 /**
  * 
  * @author 袁明敏
@@ -71,10 +71,6 @@ public class Category implements Serializable{
 	@Column(name="isVisible",nullable=false)
 	private Boolean isVisible;
 	
-	/**类别类型:0应用,1栏目**/
-	@Column(name="type",nullable=false)
-	private Integer type;
- 
 	
 	/**子站编码**/
 	@Column(name="app_id",insertable=false,updatable=false)
@@ -200,15 +196,5 @@ public class Category implements Serializable{
 
 	public void setAccessPath(String accessPath) {
 		this.accessPath = accessPath;
-	}
-
-	public Integer getType()
-	{
-		return type;
-	}
-
-	public void setType(Integer type)
-	{
-		this.type = type;
 	}
 }
