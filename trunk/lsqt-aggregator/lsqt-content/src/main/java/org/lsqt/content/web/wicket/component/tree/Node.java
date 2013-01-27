@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.wicket.Component;
-import org.apache.wicket.extensions.markup.html.repeater.tree.AbstractTree;
-import org.apache.wicket.model.IModel;
 
 public class Node implements Serializable
 {
@@ -22,6 +19,8 @@ public class Node implements Serializable
 
 	private List<Node> subNodes = new ArrayList<Node>();
 
+	private Object tag;
+	
 	public Node(){}
 
 
@@ -70,6 +69,15 @@ public class Node implements Serializable
 		this.parent = parent;
 	}
 
+	public Object getTag(){
+		return tag;
+	}
+
+
+	public void setTag(Object tag){
+		this.tag = tag;
+	}
+	
 	@Override
 	public String toString() {
 		return name;
@@ -105,5 +113,8 @@ public class Node implements Serializable
 			return false;
 		return true;
 	}
+
+
+
 
 }
