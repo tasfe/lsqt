@@ -4,17 +4,22 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.string.Strings;
@@ -60,12 +65,50 @@ public class AppListPage  extends ConsoleIndex{
 			target.add(ctnAppList);
 			
 		}
+		
+		protected void onClickUpdate(AjaxRequestTarget target, final org.apache.wicket.model.IModel<Object> rowModel) 
+		{
+			final ModalWindow window=getModalWindow();
+			window.setTitle("更新应用");
+			window.setPageCreator(new ModalWindow.PageCreator()
+			{
+				public AppUpdatePage createPage() 
+				{
+					Application entity=(Application)rowModel.getObject();
+					return new AppUpdatePage(getPageReference(),window,entity.getId());
+				}
+			});
+			window.setWindowClosedCallback(new ModalWindow.WindowClosedCallback()
+			{
+				
+				@Override
+				public void onClose(AjaxRequestTarget target)
+				{
+					refreshPage();
+					target.add(ctnAppList);
+				}
+			});
+			window.show(target);
+			
+			
+		};
 	}
 	.addHeadLabel(new String[]{"名称","序号","描述","创建时间"})
 	.addHeadProp(new String[]{"name","orderNum","description","createTime"})
+	.setCreateButtonVisible(false)
 	.setOutputMarkupId(true);
 	
 	
+	
+	private void refreshPage()
+	{
+		int perPageRecord=ctnAppList.getPerPageRecord();
+		int currPageNum=ctnAppList.getCurrPage();
+		Page page=new Page(perPageRecord,currPageNum);
+		appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
+		ctnAppList.refresh(page);
+		
+	}
 	
 	public AppListPage(){
 		
@@ -97,10 +140,8 @@ public class AppListPage  extends ConsoleIndex{
 		
 
 
-		
-		
-		
 			final AutoCompleteTextField<String> txtKey=new AutoCompleteTextField<String>("key", new PropertyModel<String>(this, "key")){
+				
 				@Override
 				protected Iterator<String> getChoices(String input)
 				{
@@ -109,40 +150,22 @@ public class AppListPage  extends ConsoleIndex{
 						List<String> emptyList = Collections.emptyList();
 						return emptyList.iterator();
 					}
-	
-					List<String> choices = new ArrayList<String>(10);
-	
-					Page<Application> page = new Page<Application>(20, 1);
+					
+					Page page = new Page(20, 1);
 					appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
-	
-					for (Application a : page.getData())
-					{
-						choices.add(a.getName());
+					
+					Set<String> set=new LinkedHashSet<String>();
+					for(Application a:  appsService.loadPage(input, page).getData()){
+						set.add(a.getName());
 					}
-					return choices.iterator();
+					return set.iterator();
 				}
+
 			};
-			txtKey.add(AttributeModifier.append("style","background:lightgreen;border-color:green"));
-			/*txtKey.add(new AjaxFormComponentUpdatingBehavior("onblur")
-			{
-				@Override
-				protected void onUpdate(AjaxRequestTarget target)
-				{
-					String key = txtKey.getModelObject();
-					if (StringUtils.isNotEmpty(key))
-					{
-						Page page = new Page(20, 1);
-	
-						appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
-						ctnAppList.refresh(page);
-	
-						target.add(ctnAppList);
-	
-						setKey(txtKey.getModelObject());
-						target.add(txtKey);
-					}
-				}
-			});*/
+			//txtKey.add(AttributeModifier.append("style","background:lightgreen;border-color:green"));
+		
+			/*;*/
+			
 			
 			final AjaxLink<Void> btnAdd=new AjaxLink<Void>("btnAdd") {
 				/**  */
@@ -173,14 +196,12 @@ public class AppListPage  extends ConsoleIndex{
 						@Override
 					public void onClose(AjaxRequestTarget target){
 							
-							int perPageRecord=ctnAppList.getPerPageRecord();
-							int currPageNum=ctnAppList.getCurrPage();
-							Page page=new Page(perPageRecord,currPageNum);
-							appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
-							ctnAppList.refresh(page);
+							refreshPage();
 							
 							target.add(ctnAppList);
 						}
+
+						
 					});
 					modalWin.show(target);
 				}
@@ -194,7 +215,10 @@ public class AppListPage  extends ConsoleIndex{
 				@Override
 				public void onClick(AjaxRequestTarget target)
 				{
+					
 						String key = txtKey.getModelObject();
+						key=getKey();
+						key=	txtKey.getInput();
 						if (StringUtils.isNotEmpty(key))
 						{
 							Page page = new Page(20, 1);

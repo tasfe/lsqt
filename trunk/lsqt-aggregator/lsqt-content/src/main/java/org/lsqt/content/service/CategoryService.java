@@ -8,22 +8,29 @@ import org.lsqt.content.model.Category;
 public interface CategoryService {
 	
 	/**
-	 * 获取某个栏目的一级下级栏目(因栏目层级可嵌套).
+	 * 获取某个栏目的一级栏目.
 	 * @param parentCategoryID 父栏目ID
-	 * @return Page 返回应用下的栏目
+	 * @return Page 返回应用下的栏目数据
 	 */
-	public Page<Category> getCategoryByPID(String categoryID,Page page);
+	public Page<Category> getPageByPID(String categoryID,Page initPage);
 	
 	/**
-	 * 获取某个应用下的直接一级栏目分页(因栏目层级可嵌套).
+	 * 获取某个应用下的一级栏目.
 	 * @param appID 应用ID
 	 * 
-	 * @return Page 返回某应用下的(一级)栏目分页
+	 * @return Page 返回某应用下的(一级)栏目数据
 	 */
-	public Page<Category> getCategoryByApp(String appID,Page page);
+	public Page<Category> getPageByApp(String appID,Page initPage);
 	
 	/**
-	 * 获取某个应用下的(一级)栏目.
+	 * 获取匹配关键字的栏目.
+	 * @param keyWord 关键字
+	 * @return 返回栏目分页
+	 */
+	public Page<Category> getPageByKey(String keyWord,Page initPage);
+	
+	/**
+	 * 获取某个应用下的栏目(一级).
 	 * @param appID 应用ID
 	 * 
 	 * @return List 返回应用下的栏目

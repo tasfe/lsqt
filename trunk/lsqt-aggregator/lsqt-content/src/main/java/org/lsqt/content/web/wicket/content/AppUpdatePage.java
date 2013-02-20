@@ -1,7 +1,12 @@
 package org.lsqt.content.web.wicket.content;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.wicket.PageReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.NumberTextField;
@@ -15,41 +20,33 @@ import org.lsqt.content.model.Application;
 import org.lsqt.content.service.AppsService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
 
-public class AppUpdatePage extends ConsoleIndex {
+public class AppUpdatePage extends WebPage {
 	private @SpringBean AppsService appsService;
 	private Application app=new Application();
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public AppUpdatePage(){
+	
+	private ModalWindow window;
+	private  AppListPage parantPage;
+	public AppUpdatePage(final PageReference modalWindowPage, final ModalWindow window,String id){
+		this.window=window;
 		
-		StringValue idStr= getRequest().getRequestParameters().getParameterValue("appId");
-		if ((!idStr.isNull()) && (!idStr.isEmpty())) {
-			app = appsService.findById(idStr.toString());
+		this.parantPage=(AppListPage)modalWindowPage.getPage();
+		
+		if (StringUtils.isNotEmpty(id)) 
+		{
+			app = appsService.findById(id);
+			
 		}
-		
 		layout();
-	}
-	
-	
+	}	
 	
 	private void layout(){
 		
 		Model<Application> appModel=new Model<Application>(app);
-		Form<Application> form=new Form<Application>("form",appModel){
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void onSubmit() {
-				appsService.update(getModelObject());
-				setResponsePage(AppListPage.class);
-			}
-		};
+		Form<Application> form=new Form<Application>("form",appModel);
 		
 		TextField<String> txtAppName=new TextField<String>("appName", new PropertyModel<String>(app, "name") );
 		TextField<String> txtDesc=new TextField<String>("desc", new PropertyModel<String>(app, "description") );
@@ -63,14 +60,27 @@ public class AppUpdatePage extends ConsoleIndex {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-				setResponsePage(AppListPage.class);
+				
+			}
+		};
+		
+		AjaxSubmitLink btnSubmit=new AjaxSubmitLink("btnSubmit",form)
+		{
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
+			{
+				appsService.update((Application)form.getModelObject());
+				window.close(target);
 			}
 		};
 		
 		add(form);
-		form.add(txtAppName);
-		form.add(txtDesc);
-		form.add(txtOrderNum);
-		form.add(btnBack);
+		{
+			form.add(txtAppName);
+			form.add(txtDesc);
+			form.add(txtOrderNum);
+			form.add(btnSubmit);
+			form.add(btnBack);
+		}
 	}
 }

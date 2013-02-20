@@ -33,10 +33,4 @@ public class AppsDaoImpl extends AbstractHibernateDaoSupport<Application>  imple
 		StringBuffer hql=new StringBuffer("from Application a where a.name like  '%"+key+"%'  or a.description like  '%"+key+"%' ");
 		return super.loadPageByHql(hql.toString(), page);
 	}
-	
-	public Set<String> getAppsByKey(String key){
-		Set<String> set=new HashSet<String>();
-		StringBuffer hql=new StringBuffer("select distinct a.name from Application a where a.name like  '%"+key+"%'  or a.description like  '%"+key+"%' ");
-		return set;
-	}
 }

@@ -26,14 +26,22 @@ public class CategoryDaoImpl extends AbstractHibernateDaoSupport<Category>  impl
 	}
 	
 	@Override
-	public Page<Category> getCategoryByApp(String appID,Page page){
-		final StringBuffer hql=new StringBuffer("from Category c where c.appId=? and c.pid is null");
+	public Page<Category> getPageByApp(String appID,Page page){
+		final StringBuffer hql=new StringBuffer("from Category c where c.appId=? ");
+		
 		return super.loadPageByHql(hql.toString(), new Object[]{appID}, page);
 	}
 	
 	@Override
-	public Page<Category> getCategoryByPID(String categoryID,Page page){
+	public Page<Category> getPageByPID(String categoryID,Page page){
 		final StringBuffer hql=new StringBuffer("from Category c where  c.pid = ? ");
 		return super.loadPageByHql(hql.toString(), new Object[]{categoryID}, page);
+	}
+	
+	@Override
+	public Page<Category> getPageByKey(String keyWord,Page page){
+		final StringBuffer hql=new StringBuffer();
+		hql.append("from Category c where c.name like '%"+keyWord+"%' or c.description like '%"+keyWord+"%'");
+		return super.loadPageByHql(hql.toString(), page);
 	}
 }

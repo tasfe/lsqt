@@ -22,7 +22,7 @@ import org.lsqt.content.service.AppsService;
 import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.web.wicket.component.form.SimpleForm;
 
-public class CategoryAddPanel extends Panel
+public class CategoryUpdatePanel extends Panel
 {
 
 	/**
@@ -33,23 +33,12 @@ public class CategoryAddPanel extends Panel
 	@SpringBean CategoryService categoryServ;
 	@SpringBean AppsService appsService;
 	
-	 Category category = new Category();
-	 Category parentCategory = new Category();
-	final SimpleForm<Category> form = new SimpleForm<Category>("form", 	new Model<Category>(category));
-	
-	private String appID;
-	private String parentCategoryID;
-	private ModalWindow modal;
-	public CategoryAddPanel(String id,String appID,String parentCategoryID,final ModalWindow modal)
+	public CategoryUpdatePanel(String id,String categoryID)
 	{
 		super(id);
 
-		this.appID=appID;
-		this.parentCategoryID=parentCategoryID;
-		this.modal=modal;
-		
-
-
+		Category category=categoryServ.findById(categoryID);
+		final SimpleForm<Category> form = new SimpleForm<Category>("form", 	new Model<Category>(category));
 		// 类别名称
 		TextField<String> txtName = new RequiredTextField<String>("name", new PropertyModel<String>(category, "name"));
 
@@ -68,25 +57,10 @@ public class CategoryAddPanel extends Panel
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
 			{
-				//Category obj = (Category) form.getModelObject();
-				if (CategoryAddPanel.this.appID != null)
-				{
-					
-					Application app = appsService.findById(CategoryAddPanel.this.appID);
-					category.setApp(app);
-					categoryServ.save(category);
-				}
-				if(CategoryAddPanel.this.parentCategoryID!=null)
-				{
-					Category parent=categoryServ.findById(CategoryAddPanel.this.parentCategoryID);
-					category.setParentCategory(parent);
-					category.setApp(parent.getApp());
-					categoryServ.save(category);
-				}
-				
-				
-			onSaveAfter(target);
-				
+
+				Category pojo = (Category) form.getModelObject();
+				categoryServ.update(pojo);
+				onUpdateAfter(target);
 			}
 		};
 
@@ -114,7 +88,7 @@ public class CategoryAddPanel extends Panel
 		}
 	}
 	
-	protected void onSaveAfter(AjaxRequestTarget target){
+	protected void onUpdateAfter(AjaxRequestTarget target){
 		
 	}
 	

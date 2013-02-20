@@ -42,7 +42,29 @@ public class SimpleDataView extends Panel {
 	final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList").setOutputMarkupPlaceholderTag(true);
 	final WebMarkupContainer ctnPageBar=(WebMarkupContainer)new WebMarkupContainer("pageBar").setOutputMarkupPlaceholderTag(true);
 	
+	boolean  isVisibleForCreate=true;
+	public SimpleDataView setCreateButtonVisible(boolean isVisible)
+	{
+		isVisibleForCreate=isVisible;
+		return this;
+	}
+	
+	boolean isVisibleForUpdate=true;
+	public SimpleDataView setUpdateButtonVisible(boolean isVisible)
+	{
+		isVisibleForUpdate=isVisible;
+		return this;
+	}
+	
+	boolean isVisibleForDelete=true;
+	public SimpleDataView setDeleteButtonVisible(boolean isVisible)
+	{
+		isVisibleForDelete=isVisible;
+		return this;
+	}
+	
 	public SimpleDataView(String id){
+		
 		super(id);
 		
 		Page temp=new Page(20,1);
@@ -125,6 +147,7 @@ public class SimpleDataView extends Panel {
 						onClickDelete(  target,  item.getModel());
 					}
 				};
+				btnDelete.setVisible(isVisibleForDelete);
 				
 				AjaxLink<Void> btnUpdate= new AjaxLink<Void>("btnUpdate")
 				{
@@ -134,7 +157,8 @@ public class SimpleDataView extends Panel {
 						onClickUpdate(target, item.getModel());
 					}
 				};
-						
+				btnUpdate.setVisible(isVisibleForUpdate);
+				
 				AjaxLink<Void> btnCreate= new AjaxLink<Void>("btnCreate")
 				{
 					@Override
@@ -143,6 +167,7 @@ public class SimpleDataView extends Panel {
 						onClickCreate(target, item.getModel());
 					}
 				};
+				btnCreate.setVisible(isVisibleForCreate);
 				
 				item.add(row);
 				item.add(operats);
@@ -281,6 +306,10 @@ public class SimpleDataView extends Panel {
 		add(modalWindow);
 	}
 	
+	/**
+	 * 表格控件必须调用的数据刷新方法,UI才会更新.
+	 * @param page 
+	 */
 	public void refresh(Page page) {
 		this.bodyerData.clear();
 		if(page.getData()!=null){
@@ -336,6 +365,10 @@ public class SimpleDataView extends Panel {
 		return bean.getPerPageRecord();
 	}
 	
+	/**
+	 * 必须实现的方法.
+	 * @param page 不带数据的初使分页对象
+	 */
 	protected void onLoadPage(Page page) {
 		
 	}

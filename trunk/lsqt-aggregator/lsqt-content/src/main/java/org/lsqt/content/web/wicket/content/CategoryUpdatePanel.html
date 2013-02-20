@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+</head>
+<body>
+<wicket:panel>
+	<form wicket:id="form">
+		栏目名称*:<input wicket:id="name"  type="text"></input><br/>
+		排列顺序*:<input wicket:id="orderNum" type="text"></input><br/>
+		是否显示*:<span wicket:id="isVisible" type="checkbox"></span><br/>
+		打开目标: <input type="text" ></input><br/>
+		备注:<textarea wicket:id="description" ></textarea><br/>
+		<input type="button" wicket:id="btnAdd" value="保存"></input>
+		<input type="button" wicket:id="btnCancel" value="取消"></input>
+	</form>
+</wicket:panel>
+</body>
+</html>
