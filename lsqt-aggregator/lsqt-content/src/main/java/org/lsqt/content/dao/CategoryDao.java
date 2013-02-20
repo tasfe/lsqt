@@ -11,27 +11,35 @@ import org.lsqt.content.model.Category;
 public interface CategoryDao extends EntityDao<Category>{
 	
 	/**
-	 * 获取某个栏目的一级下级栏目(因栏目层级可嵌套).
+	 * 获取某个栏目的下级栏目(一级).
 	 * @param parentCategoryID 父栏目ID
 	 * @return Page 返回应用下的栏目
 	 */
-	public Page<Category> getCategoryByPID(String parentCategoryID,Page page);
+	public Page<Category> getPageByPID(String parentCategoryID,Page page);
 	
 	/**
-	 * 获取某个应用下的直接一级栏目分页(因栏目层级可嵌套).
+	 * 获取某个应用下的栏目.
 	 * @param appID 应用ID
+	 * @param page 不带数据的分页
 	 * 
-	 * @return Page 返回应用下的栏目
+	 * @return Page 返回一个应用下的栏目分页
 	 */
-	public Page<Category> getCategoryByApp(String appID,Page page);
+	public Page<Category> getPageByApp(String appID,Page page);
 	
 	/**
-	 * 获取某个应用下的(一级)栏目.
+	 * 获取某个应用下的栏目.
 	 * @param appID 应用ID
 	 * 
-	 * @return List 返回应用下的栏目
+	 * @return List 返回一个应用下所有栏目
 	 */
 	public List<Category> getCategoryByApp(String appID);
+	
+	/**
+	 * 获到匹配关键字的栏目.
+	 * @param keyWord 关键字
+	 * @return 返回栏目分页
+	 */
+	public Page<Category> getPageByKey(String keyWord,Page page);
 	
 	public Category findById(Serializable id) ;
 	

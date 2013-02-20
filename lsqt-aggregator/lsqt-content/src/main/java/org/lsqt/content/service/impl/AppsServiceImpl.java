@@ -3,6 +3,7 @@ package org.lsqt.content.service.impl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -27,12 +28,7 @@ public class AppsServiceImpl implements AppsService{
 	public Page loadPage(String key,Page initialPage) {
 		return appsDao.loadPage(key,initialPage);
 	}
-	
-	@Override
-	public Page<Application> loadPage(Page page){
-		return appsDao.loadPage(page);
-	}
-	
+
 	@Transactional
 	@Override
 	public void save(Application app) {

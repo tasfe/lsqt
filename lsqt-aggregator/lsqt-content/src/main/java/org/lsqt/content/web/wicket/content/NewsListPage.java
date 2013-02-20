@@ -33,9 +33,9 @@ public class NewsListPage  extends ConsoleIndex{
 	private static final long serialVersionUID = 1L;
 	
 	private static final String ROOT_TEXT="网站列表";
-	private static final String APPLICATION="_application";
-	private static final String CATEGORY="_category";
-	private static final String OTHER="_other";
+	private static final String NODE_TYPE_APPLICATION="_application";
+	private static final String NODE_TYPE_CATEGORY="_category";
+	private static final String NODE_TYPE_OTHER="_other";
 
 	
 	final List<Node> nodes = new ArrayList<Node>();
@@ -46,12 +46,12 @@ public class NewsListPage  extends ConsoleIndex{
 		Node root = new Node();
 		root.setId(UUID.randomUUID().toString());
 		root.setName(ROOT_TEXT);
-		root.setTag(OTHER);
+		root.setTag(NODE_TYPE_OTHER);
 
 		for (Application a : appsService.findAll())
 		{
 			Node n = new Node(root, a.getId(), a.getName());
-			n.setTag(APPLICATION);
+			n.setTag(NODE_TYPE_APPLICATION);
 
 			List<Category> list = categoryServ.getCategoryByApp(a.getId());
 			for (Category c : list)
@@ -65,7 +65,7 @@ public class NewsListPage  extends ConsoleIndex{
 	private void nestedCategory(Node n, Category c, Set<Category> subs)
 	{
 		Node node = new Node(n, c.getId(), c.getName());
-		node.setTag(CATEGORY);
+		node.setTag(NODE_TYPE_CATEGORY);
 		for (Category t : subs)
 		{
 			nestedCategory(node, t, t.getSubCategories());
@@ -81,23 +81,25 @@ public class NewsListPage  extends ConsoleIndex{
 			
 		}
 	}
-	.addHeadLabel(new String[]{"名称","标题","摘要","排序号","创建日期","是否启用","是否已发布"})
-	.addHeadProp(new String[]{"name","title","shortContent","orderNum","createTime","isEnable","isPublished"})
+	.addHeadLabel(new String[]{"标题","作者","排序号","创建日期","是否启用","是否已发布"})
+	.addHeadProp(new String[]{"title","shortContent","orderNum","createTime","isEnable","isPublished"})
 	.setOutputMarkupId(true);
 	
 	
-	
+	SimpleTree tree;
+	@SuppressWarnings("serial")
 	public NewsListPage(){
 		freshTree();
-		final SimpleTree tree=(SimpleTree) new SimpleTree("tree", nodes)
+		
+		tree=(SimpleTree) new SimpleTree("tree", nodes)
 		{
 			@Override
 			protected void onClickNode(AjaxRequestTarget target, Node node)
 			{
-				super.onClickNode(target, node);
+				
 				
 			}
-		}.setOutputMarkupPlaceholderTag(true);
+		}.setOutputMarkupId(true);
 		
 		final NewsAddPanel  newsAdd=(NewsAddPanel) new NewsAddPanel("newsAdd")
 		{

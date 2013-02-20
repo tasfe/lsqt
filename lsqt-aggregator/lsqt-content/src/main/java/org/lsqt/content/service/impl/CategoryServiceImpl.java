@@ -18,10 +18,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region="categoryCache")
 public class CategoryServiceImpl implements CategoryService{
+	public CategoryDao categoryDao;
+
+	@Resource
+	public void setCategoryDao(CategoryDao categoryDaoImpl) {
+		this.categoryDao = categoryDaoImpl;
+	}
+	
 	
 	@Override
-	public Page<Category> getCategoryByPID(String parentCategoryID,Page page){
-		return this.categoryDao.getCategoryByPID(parentCategoryID, page);
+	public Page<Category> getPageByPID(String parentCategoryID,Page initPage){
+		return this.categoryDao.getPageByPID(parentCategoryID, initPage);
 	}
 	
 	@Override
@@ -30,8 +37,8 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 	
 	@Override
-	public Page<Category> getCategoryByApp(String appID,Page page){
-		return this.categoryDao.getCategoryByApp(appID,page);
+	public Page<Category> getPageByApp(String appID,Page initPage){
+		return this.categoryDao.getPageByApp(appID,initPage);
 	}
 	
 	@Override
@@ -56,12 +63,10 @@ public class CategoryServiceImpl implements CategoryService{
 	public Category findById(String id) {
 		return this.categoryDao.findById(id);
 	}
-	
-	
-	public CategoryDao categoryDao;
 
-	@Resource
-	public void setCategoryDao(CategoryDao categoryDaoImpl) {
-		this.categoryDao = categoryDaoImpl;
+	@Override
+	public Page<Category> getPageByKey(String keyWord, Page initPage)
+	{
+		return categoryDao.getPageByKey(keyWord, initPage);
 	}
 }

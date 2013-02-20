@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -16,6 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
  * 
  */
 @MappedSuperclass
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public abstract class Content {
 	/**标识ID**/
 	@Id
@@ -92,5 +96,11 @@ public abstract class Content {
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return ToStringBuilder.reflectionToString(this);
 	}
 }

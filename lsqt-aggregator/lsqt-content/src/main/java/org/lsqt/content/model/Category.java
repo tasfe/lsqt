@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Entity;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import  com.p6spy.engine.spy.P6SpyDriver;
 /**
@@ -25,6 +27,7 @@ import  com.p6spy.engine.spy.P6SpyDriver;
  */
 @Entity
 @Table(name="tb_category")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class Category implements Serializable{
 
 	
@@ -76,7 +79,7 @@ public class Category implements Serializable{
 	@Column(name="app_id",insertable=false,updatable=false)
 	private String appId;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "pid", referencedColumnName = "id")
 	private Category parentCategory;
 	
@@ -88,7 +91,7 @@ public class Category implements Serializable{
 	private Set<News> news=new HashSet<News>();
 	
 	/**一个应用下的栏目（栏目与应用的多对一关系）**/
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "app_id", referencedColumnName = "id")
 	private Application app;
 	

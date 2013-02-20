@@ -26,9 +26,21 @@ public class News extends Content implements Serializable{
 	@Column(name="title",length=500)
 	private String title;
 	
-	/**新闻摘要**/
-	@Column(name="shortContent",length=2000)
+	/**标签**/
+	@Column(name="tag",length=200)
+	private String tag;
+	
+	/**摘要**/
+	@Column(name="shortContent",length=500)
 	private String shortContent;
+	
+	/**作者**/
+	@Column(name="author",length=50)
+	private String author;
+	
+	
+	
+	
 	
 	/**新闻前台在线日期**/
 	@Column(name="onlineTime")
@@ -46,7 +58,7 @@ public class News extends Content implements Serializable{
 	@Column(name="pubTime")
 	private Long pubTime;
 	
-	/**是否生成静态页**/
+	/**是否已生成静态页**/
 	private Boolean isStatic;
 	
 	/**记录产生日期**/
@@ -57,9 +69,6 @@ public class News extends Content implements Serializable{
 	@Column(name="modifyDate")
 	private Date modifyDate;
 	
-	/**新闻来源内容（默认后台上报，其次有RSS来源、网页抓取分析等）**/
-	@Column(name="sourceFrom",length=1000)
-	private String sourceFrom;
 	
 	/**当前新闻所属的应用(ID)**/
 	@Column(name="app_id",insertable=false,updatable=false)
@@ -96,12 +105,6 @@ public class News extends Content implements Serializable{
 	public void setPubTime(Long pubTime) {
 		this.pubTime = pubTime;
 	}
-	public String getSourceFrom() {
-		return sourceFrom;
-	}
-	public void setSourceFrom(String sourceFrom) {
-		this.sourceFrom = sourceFrom;
-	}
 	public Boolean getIsEnable() {
 		return isEnable;
 	}
@@ -126,18 +129,6 @@ public class News extends Content implements Serializable{
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-	
-	@Override
-	public String toString() {
-		return "News [title=" + title + ", onlineTime=" + onlineTime
-				+ ", isEnable=" + isEnable + ", isPublished=" + isPublished
-				+ ", pubTime=" + pubTime + ", createdDate=" + createdDate
-				+ ", modifyDate=" + modifyDate + ", sourceFrom=" + sourceFrom
-				+ ", categories=" + categories + ", id=" + id + ", name="
-				+ name + ", content=" + content + ", contentKeys="
-				+ contentKeys + ", description=" + description
-				+ ", createTime=" + createTime + "]";
-	}
 	public Boolean getIsStatic() {
 		return isStatic;
 	}
@@ -161,5 +152,29 @@ public class News extends Content implements Serializable{
 	}
 	public void setAppId(String appId) {
 		this.appId = appId;
+	}
+	public String getContentKeys()
+	{
+		return contentKeys;
+	}
+	public void setContentKeys(String contentKeys)
+	{
+		this.contentKeys = contentKeys;
+	}
+	public String getAuthor()
+	{
+		return author;
+	}
+	public void setAuthor(String author)
+	{
+		this.author = author;
+	}
+	public Long getOnlineTime()
+	{
+		return onlineTime;
+	}
+	public void setOnlineTime(Long onlineTime)
+	{
+		this.onlineTime = onlineTime;
 	}
 }

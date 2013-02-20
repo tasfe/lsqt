@@ -20,7 +20,7 @@ public class Node implements Serializable
 	private List<Node> subNodes = new ArrayList<Node>();
 
 	private Object tag;
-	
+	private String type;
 	public Node(){}
 
 
@@ -112,6 +112,18 @@ public class Node implements Serializable
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+
+	public String getType()
+	{
+		return type;
+	}
+
+
+	public void setType(String type)
+	{
+		this.type = type;
 	}
 
 

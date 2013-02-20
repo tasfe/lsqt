@@ -106,14 +106,14 @@ public class SelectableFolderContent extends Content
 				SelectableFolderContent.this.select(t, tree, target);
 				
 				
-				/*if (tree.getState(t) == State.EXPANDED)
+				if (tree.getState(t) == State.EXPANDED)
 				{
-					tree.collapse(t);
+					//tree.collapse(t);
 				}
 				else
 				{
 					tree.expand(t);
-				}*/
+				}
 				
 				SelectableFolderContent.this.onClick(target);
 			}

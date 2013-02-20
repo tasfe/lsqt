@@ -7,6 +7,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.extensions.markup.html.repeater.tree.NestedTree;
+import org.apache.wicket.extensions.markup.html.repeater.tree.AbstractTree.State;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -20,6 +21,26 @@ public class SimpleTree extends Panel
 	/** */
 	private static final long serialVersionUID = 1L;
 
+	
+	private NestedTree<Node> tree;
+	public void expand(Node node)
+	{
+		if(tree!=null)
+		{
+			if(tree.getState(node)==State.COLLAPSED)
+			{
+				tree.expand(node);
+			}
+		}
+	}
+	public void collapse(Node node)
+	{
+		if(tree!=null)
+		{
+			tree.collapse(node);
+		}
+	}
+	
 
 	protected void onClickNode(AjaxRequestTarget target,Node node){
 		
@@ -30,6 +51,8 @@ public class SimpleTree extends Panel
 	public Node getSelectedNode(){
 		return this.selectedNode;
 	}
+	
+	
 	
 	final List<Node> datas=new ArrayList<Node>();
 	final NodeProvider nodeProvider = new NodeProvider(datas);
@@ -66,13 +89,15 @@ public class SimpleTree extends Panel
 				
 				SimpleTree.this.selectedNode=node;
 				
+				
+				
 				onClickNode(target,node);
 				
 			}
 		};
 		
 		
-		final NestedTree<Node> tree = new NestedTree<Node>("tree", nodeProvider, new NodeExpansionModel())
+		tree = new NestedTree<Node>("tree", nodeProvider, new NodeExpansionModel())
 		{
 			private static final long serialVersionUID = 1L;
 
@@ -82,10 +107,10 @@ public class SimpleTree extends Panel
 				return content.newContentComponent(id, this, model);
 			}
 		};
-		if(nodeProvider.getRoots().hasNext())
+		/*if(nodeProvider.getRoots().hasNext())
 		{
 			tree.expand(nodeProvider.getRoots().next());
-		}
+		}*/
 		 
 		
 		final Behavior theme=new org.apache.wicket.extensions.markup.html.repeater.tree.theme.WindowsTheme();
