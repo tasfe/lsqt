@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -26,6 +28,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name="tb_application")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Application  implements Serializable{
 	private static long OBJECT_COUNTER=0L;
 	/**

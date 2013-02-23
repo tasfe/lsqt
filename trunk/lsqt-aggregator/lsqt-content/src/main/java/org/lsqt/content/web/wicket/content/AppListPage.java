@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 public class AppListPage  extends ConsoleIndex{
 	private static final Logger log = LoggerFactory.getLogger(AppListPage.class);
 	
-	@SpringBean AppsService appsService;
+	@SpringBean(name="appsServiceImpl") AppsService appsService;
 	
 	/**  */
 	private static final long serialVersionUID = 1L;

@@ -24,14 +24,14 @@ import org.lsqt.content.web.wicket.component.form.SimpleForm;
 
 public class CategoryUpdatePanel extends Panel
 {
-
+	@SpringBean(name="categoryServiceImpl") CategoryService categoryServ;
+	@SpringBean(name="appsServiceImpl") AppsService appsService;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@SpringBean CategoryService categoryServ;
-	@SpringBean AppsService appsService;
+
 	
 	public CategoryUpdatePanel(String id,String categoryID)
 	{
