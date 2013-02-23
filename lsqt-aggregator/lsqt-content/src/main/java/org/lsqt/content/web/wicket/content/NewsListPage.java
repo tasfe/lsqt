@@ -22,10 +22,9 @@ import org.lsqt.content.web.wicket.component.tree.SimpleTree;
 
 
 public class NewsListPage  extends ConsoleIndex{
-
-	@SpringBean NewsService newsServ;
-	@SpringBean CategoryService categoryServ;
-	@SpringBean AppsService appsService;
+	@SpringBean(name="newsServiceImpl") NewsService newsServ;
+	@SpringBean(name="categoryServiceImpl") CategoryService categoryServ;
+	@SpringBean(name="appsServiceImpl") AppsService appsService;
 	
 	/**
 	 * 

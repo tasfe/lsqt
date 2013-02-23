@@ -47,10 +47,9 @@ import wicket.contrib.tinymce.settings.TinyMCESettings.Theme;
  * 
  */
 public class NewsAddPanel extends Panel {
-	
-	@SpringBean NewsService newsServ;
-	@SpringBean CategoryService categoryServ;
-	@SpringBean AppsService appsServ;
+	@SpringBean(name="categoryServiceImpl") CategoryService categoryServ;
+	@SpringBean(name="appsServiceImpl") AppsService appsServ;
+	@SpringBean(name="newsServiceImpl") NewsService newsServ;
 	
 	private String parentCategoryID;
 	/**

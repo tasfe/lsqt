@@ -25,7 +25,7 @@ import org.lsqt.content.web.wicket.component.tree.NodeProvider;
 
 public class WebSitePage  extends ConsoleIndex{
 
-	@SpringBean AppsService appsService;
+	@SpringBean(name="appsServiceImpl") AppsService appsService;
 	
 	/**
 	 * 

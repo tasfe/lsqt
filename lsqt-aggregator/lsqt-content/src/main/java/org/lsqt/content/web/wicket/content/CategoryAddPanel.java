@@ -30,8 +30,8 @@ public class CategoryAddPanel extends Panel
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@SpringBean CategoryService categoryServ;
-	@SpringBean AppsService appsService;
+	@SpringBean(name="categoryServiceImpl") CategoryService categoryServ;
+	@SpringBean(name="appsServiceImpl") AppsService appsService;
 	
 	 Category category = new Category();
 	 Category parentCategory = new Category();

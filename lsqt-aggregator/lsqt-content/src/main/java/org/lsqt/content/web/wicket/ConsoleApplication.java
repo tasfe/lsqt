@@ -24,10 +24,8 @@ public class ConsoleApplication extends WebApplication {
 		 getComponentInstantiationListeners().add(new SpringComponentInjector(this)); //对于wicket1.5以下的版本应写成addComponentInstantiationListeners(new SpringComponentInjector(this));
 		 
 		 //web编辑器使用
-		 SecurePackageResourceGuard guard = (SecurePackageResourceGuard) getResourceSettings().getPackageResourceGuard();
-		 guard.addPattern("+*.htm");
-		
-		 
+		// SecurePackageResourceGuard guard = (SecurePackageResourceGuard) getResourceSettings().getPackageResourceGuard();
+		 //guard.addPattern("+*.htm");
 		 
 		 addDebugsSetting();
 		 

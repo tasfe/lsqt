@@ -1,5 +1,7 @@
 package org.lsqt.content.web.wicket.content;
 
+import javax.inject.Named;
+
 import org.apache.wicket.PageReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -18,7 +20,7 @@ import org.lsqt.content.service.AppsService;
 import org.lsqt.content.web.wicket.component.form.SimpleForm;
 
 public class AppAddPage extends WebPage {
-	private @SpringBean AppsService appsService;
+	@SpringBean(name="appsServiceImpl") AppsService appsService;
 	/**
 	 * 
 	 */

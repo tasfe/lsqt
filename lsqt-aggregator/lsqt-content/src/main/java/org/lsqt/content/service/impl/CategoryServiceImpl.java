@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Cache(usage=CacheConcurrencyStrategy.READ_ONLY,region="categoryCache")
 public class CategoryServiceImpl implements CategoryService{
 	public CategoryDao categoryDao;
 

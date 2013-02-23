@@ -36,14 +36,14 @@ import org.lsqt.content.web.wicket.component.dataview.SimpleDataView;
 import org.lsqt.content.web.wicket.component.tree.Node;
 import org.lsqt.content.web.wicket.component.tree.SimpleTree;
 public class CategoryListPage extends ConsoleIndex {
+	@SpringBean(name="categoryServiceImpl") CategoryService categoryServ;
+	@SpringBean(name="appsServiceImpl") AppsService appsService;
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@SpringBean CategoryService categoryServ;
-	@SpringBean AppsService appsService;
 	
 	private SimpleTree tree=null; 
 	

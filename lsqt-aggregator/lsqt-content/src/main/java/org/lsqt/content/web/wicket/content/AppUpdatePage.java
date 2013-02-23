@@ -21,7 +21,8 @@ import org.lsqt.content.service.AppsService;
 import org.lsqt.content.web.wicket.ConsoleIndex;
 
 public class AppUpdatePage extends WebPage {
-	private @SpringBean AppsService appsService;
+	@SpringBean(name="appsServiceImpl") AppsService appsService;
+	
 	private Application app=new Application();
 	/**
 	 * 
