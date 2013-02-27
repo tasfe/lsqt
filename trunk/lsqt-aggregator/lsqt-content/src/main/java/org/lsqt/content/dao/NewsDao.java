@@ -15,6 +15,22 @@ import org.lsqt.content.model.User;
  */
 public interface NewsDao extends EntityDao<News> {
 	/**
+	 * 获取栏目下的内容.
+	 * @param categoryID 栏目ID
+	 * @param page 初使化分页
+	 * @return 返回内容列表分页
+	 */
+	public Page getPageByCategoryID(String categoryID, Page page)	;
+	
+	/**
+	 *  获取某个应用下的所有新闻分页
+	 * @param appID
+	 * @param page
+	 * @return
+	 */
+	public Page getPageByAppID(String appID, Page page);
+	
+	/**
 	 * 获取某个应用下的所有新闻.
 	 * @param appID 应用ID
 	 * @return List 返回新闻列表

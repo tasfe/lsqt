@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.lsqt.components.dao.hibernate.AbstractHibernateDaoSupport;
 import org.lsqt.components.dao.suport.Condition;
 import org.lsqt.components.dao.suport.Page;
@@ -30,7 +31,7 @@ public class AppsDaoImpl extends AbstractHibernateDaoSupport<Application>  imple
 	}
 	
 	public Page<Application> loadPage(String key,Page page){
-		StringBuffer hql=new StringBuffer("from Application a where a.name like  '%"+key+"%'  or a.description like  '%"+key+"%' ");
+		StringBuffer hql=new StringBuffer("from Application a where a.name like  '%"+StringEscapeUtils.escapeSql(key)+"%'  or a.description like  '%"+StringEscapeUtils.escapeSql(key)+"%' ");
 		return super.loadPageByHql(hql.toString(), page);
 	}
 }

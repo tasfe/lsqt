@@ -50,4 +50,14 @@ public class NewsServiceImpl implements NewsService{
 	public Page loadPage(Page initialPage) {
 		return newsDao.loadPage(initialPage);
 	}
+	
+	@Override
+	public Page getPageByAppID(String appID, Page page){
+		return newsDao.getPageByAppID(appID, page);
+	}
+	
+	@Override
+	public Page getPageByCategoryID(String categoryID, Page page)	{
+		return newsDao.getPageByCategoryID(categoryID, page);
+	}
 }

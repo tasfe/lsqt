@@ -21,6 +21,7 @@ import org.lsqt.content.model.Category;
 import org.lsqt.content.service.AppsService;
 import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.web.wicket.component.form.SimpleForm;
+import org.lsqt.content.web.wicket.util.RendererUtil;
 
 public class CategoryAddPanel extends Panel
 {

@@ -38,13 +38,9 @@ public class News extends Content implements Serializable{
 	@Column(name="author",length=50)
 	private String author;
 	
-	
-	
-	
-	
 	/**新闻前台在线日期**/
 	@Column(name="onlineTime")
-	private Long onlineTime;
+	private String onlineTime;
 	
 	/**(状态)是否启用**/
 	@Column(name="isEnable")
@@ -56,18 +52,10 @@ public class News extends Content implements Serializable{
 	
 	/**后台发布日期**/
 	@Column(name="pubTime")
-	private Long pubTime;
+	private String pubTime;
 	
 	/**是否已生成静态页**/
 	private Boolean isStatic;
-	
-	/**记录产生日期**/
-	@Column(name="createdDate")
-	private Date createdDate;
-	
-	/**记录修改日期**/
-	@Column(name="modifyDate")
-	private Date modifyDate;
 	
 	
 	/**当前新闻所属的应用(ID)**/
@@ -81,7 +69,7 @@ public class News extends Content implements Serializable{
 	
 	
 	/**当前新闻所属的应用（应用与新闻的多对一关系）**/
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
 	@JoinColumn(name = "app_id", referencedColumnName = "id")
 	private Application app;
 	
@@ -99,10 +87,10 @@ public class News extends Content implements Serializable{
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Long getPubTime() {
+	public String getPubTime() {
 		return pubTime;
 	}
-	public void setPubTime(Long pubTime) {
+	public void setPubTime(String pubTime) {
 		this.pubTime = pubTime;
 	}
 	public Boolean getIsEnable() {
@@ -116,18 +104,6 @@ public class News extends Content implements Serializable{
 	}
 	public void setIsPublished(Boolean isPublished) {
 		this.isPublished = isPublished;
-	}
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-	public Date getModifyDate() {
-		return modifyDate;
-	}
-	public void setModifyDate(Date modifyDate) {
-		this.modifyDate = modifyDate;
 	}
 	public Boolean getIsStatic() {
 		return isStatic;
@@ -169,11 +145,11 @@ public class News extends Content implements Serializable{
 	{
 		this.author = author;
 	}
-	public Long getOnlineTime()
+	public String getOnlineTime()
 	{
 		return onlineTime;
 	}
-	public void setOnlineTime(Long onlineTime)
+	public void setOnlineTime(String onlineTime)
 	{
 		this.onlineTime = onlineTime;
 	}
