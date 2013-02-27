@@ -9,6 +9,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
+import org.joda.time.DateTime;
+import org.lsqt.content.web.wicket.util.VarUtil;
 
 /**
  *所有内容抽象，如：新闻、贴子、招聘、文学等信息内容抽象
@@ -49,7 +51,11 @@ public abstract class Content {
 	
 	/**创建时间戳**/
 	@Column(name="createTime")
-	protected Long createTime=System.currentTimeMillis();
+	protected String createTime=new DateTime().toString(VarUtil.DEFAULT_DATA_PATTERN);
+	
+	/**记录修改日期**/
+	@Column(name="modifyDate")
+	private String modifyDate=new DateTime().toString(VarUtil.DEFAULT_DATA_PATTERN);
 	
 	/**排序号**/
 	@Column(name="orderNum")
@@ -73,10 +79,10 @@ public abstract class Content {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Long getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 	public String getContent() {

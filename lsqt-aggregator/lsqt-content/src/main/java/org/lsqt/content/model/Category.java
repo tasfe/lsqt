@@ -19,6 +19,9 @@ import javax.persistence.Entity;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
+import org.joda.time.DateTime;
+import org.lsqt.content.web.wicket.util.VarUtil;
+
 import  com.p6spy.engine.spy.P6SpyDriver;
 /**
  * 
@@ -60,7 +63,7 @@ public class Category implements Serializable{
 	private String description;
 	
 	@Column(name="createTime")
-	private Long createTime=System.currentTimeMillis();
+	private String createTime=new DateTime().toString(VarUtil.DEFAULT_DATA_PATTERN);
 	
 	/**访问路径**/
 	@Column(name="accessPath")
@@ -131,11 +134,11 @@ public class Category implements Serializable{
 		this.subCategories = subCategories;
 	}
 
-	public Long getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 

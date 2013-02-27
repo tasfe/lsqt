@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
+import org.joda.time.DateTime;
+import org.lsqt.content.web.wicket.util.VarUtil;
 
 /**
  * 
@@ -27,6 +29,7 @@ import org.hibernate.annotations.GenericGenerator;
  * 
  */
 @Entity
+@org.hibernate.annotations.Entity(dynamicInsert=true,dynamicUpdate=true)
 @Table(name="tb_application")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Application  implements Serializable{
@@ -47,7 +50,7 @@ public class Application  implements Serializable{
 	protected String name;
 
 	@Column(name="createTime")
-	private Long createTime=System.currentTimeMillis()+(++OBJECT_COUNTER);
+	private String createTime=new DateTime().toString(VarUtil.DEFAULT_DATA_PATTERN);
 	
 	@Column(name="description")
 	private String description;
@@ -84,11 +87,11 @@ public class Application  implements Serializable{
 		this.categories = categories;
 	}
 
-	public Long getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Long createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 

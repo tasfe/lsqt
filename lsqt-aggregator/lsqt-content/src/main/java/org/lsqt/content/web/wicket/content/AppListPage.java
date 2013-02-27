@@ -165,7 +165,16 @@ public class AppListPage  extends ConsoleIndex{
 			//txtKey.add(AttributeModifier.append("style","background:lightgreen;border-color:green"));
 		
 			/*;*/
-			
+			txtKey.add(new AjaxFormComponentUpdatingBehavior("onchange")
+			{
+				
+				@Override
+				protected void onUpdate(AjaxRequestTarget target)
+				{
+					setKey(txtKey.getModelObject());
+					target.add(txtKey);
+				}
+			});
 			
 			final AjaxLink<Void> btnAdd=new AjaxLink<Void>("btnAdd") {
 				/**  */

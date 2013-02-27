@@ -19,7 +19,11 @@ import org.apache.wicket.model.PropertyModel;
 import org.lsqt.components.dao.suport.BeanHelper;
 import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
-
+/**
+ * 小子，我还想安静的过一段日子呢，可是，这个世界实在是不让我安静啊...
+ * @author mm
+ *
+ */
 public class SimpleDataView extends Panel {
 
 	
@@ -38,7 +42,7 @@ public class SimpleDataView extends Panel {
 	private List<Object> bodyerData=new ArrayList<Object>();
 	
 	// because the modal open to others,so ModalWindow#setOutputMarkupPlaceholderTag(true). 
-	final ModalWindow modalWindow=(ModalWindow) new ModalWindow("modalWin"); 
+	final ModalWindow modalWindow=(ModalWindow) new ModalWindow("modalWin").setOutputMarkupPlaceholderTag(true); 
 	final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList").setOutputMarkupPlaceholderTag(true);
 	final WebMarkupContainer ctnPageBar=(WebMarkupContainer)new WebMarkupContainer("pageBar").setOutputMarkupPlaceholderTag(true);
 	
@@ -138,7 +142,7 @@ public class SimpleDataView extends Panel {
 					};
 				}
 
-				final WebMarkupContainer operats=(WebMarkupContainer) new WebMarkupContainer("operats").setOutputMarkupId(true);
+				final WebMarkupContainer operats=(WebMarkupContainer) new WebMarkupContainer("operats").setOutputMarkupPlaceholderTag(true);
 				AjaxLink<Void> btnDelete= new AjaxLink<Void>("btnDelete")
 				{
 					@Override
@@ -147,7 +151,9 @@ public class SimpleDataView extends Panel {
 						onClickDelete(  target,  item.getModel());
 					}
 				};
-				btnDelete.setVisible(isVisibleForDelete);
+				
+				
+			
 				
 				AjaxLink<Void> btnUpdate= new AjaxLink<Void>("btnUpdate")
 				{
@@ -157,7 +163,8 @@ public class SimpleDataView extends Panel {
 						onClickUpdate(target, item.getModel());
 					}
 				};
-				btnUpdate.setVisible(isVisibleForUpdate);
+				
+				
 				
 				AjaxLink<Void> btnCreate= new AjaxLink<Void>("btnCreate")
 				{
@@ -167,18 +174,37 @@ public class SimpleDataView extends Panel {
 						onClickCreate(target, item.getModel());
 					}
 				};
+				
+				
+				//设置ajax占位
+				if(isVisibleForDelete==false)
+				{
+					btnDelete.setOutputMarkupPlaceholderTag(true);
+				}
+				btnDelete.setVisible(isVisibleForDelete);
+				
+				if(isVisibleForUpdate==false)
+				{
+					btnUpdate.setOutputMarkupPlaceholderTag(true);
+				}
+				btnUpdate.setVisible(isVisibleForUpdate);
+				
+				if(isVisibleForCreate==false)
+				{
+					btnCreate.setOutputMarkupPlaceholderTag(true);
+				}
 				btnCreate.setVisible(isVisibleForCreate);
 				
 				item.add(row);
 				item.add(operats);
 				{
-					operats.add(btnDelete.setOutputMarkupId(true));
-					operats.add(btnCreate.setOutputMarkupId(true));
-					operats.add(btnUpdate.setOutputMarkupId(true));
+					operats.add(btnDelete);
+					operats.add(btnCreate);
+					operats.add(btnUpdate);
 				}
 			}
-		};
-
+		}; //.setReuseItems(true)
+		
 		
 		
 		final Label   lblTotalPage=new Label("totalPage", new PropertyModel<PagenationBean>(bean,"totalPage"));
@@ -292,12 +318,12 @@ public class SimpleDataView extends Panel {
 		
 		add(ctnPageBar);
 		{
-			ctnPageBar.add(lblTotalRecord.setOutputMarkupId(true));
-			ctnPageBar.add(lblTotalPage.setOutputMarkupId(true));
-			ctnPageBar.add(txtPerPageRecord.setOutputMarkupId(true));
-			ctnPageBar.add(lblCurrPageNum.setOutputMarkupId(true));
-			ctnPageBar.add(txtJumpPage.setOutputMarkupId(true));
-			ctnPageBar.add(jumpPage.setOutputMarkupId(true));
+			ctnPageBar.add(lblTotalRecord);
+			ctnPageBar.add(lblTotalPage);
+			ctnPageBar.add(txtPerPageRecord);
+			ctnPageBar.add(lblCurrPageNum);
+			ctnPageBar.add(txtJumpPage);
+			ctnPageBar.add(jumpPage);
 			ctnPageBar.add(firstPage);
 			ctnPageBar.add(upPage);
 			ctnPageBar.add(nextPage);

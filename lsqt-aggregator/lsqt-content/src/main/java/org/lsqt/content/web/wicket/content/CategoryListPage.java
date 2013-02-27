@@ -283,8 +283,9 @@ public class CategoryListPage extends ConsoleIndex {
 		
 		
 		//AutoCompleteTextField
-		final TextField<String> key=new TextField<String>("key",new PropertyModel<String>(this, "keyWord")){
-			/*
+		
+		final TextField<String> key=new AutoCompleteTextField<String>("key",new PropertyModel<String>(this, "keyWord")){
+			
 			@Override
 			protected Iterator<String> getChoices(String input)
 			{
@@ -293,20 +294,20 @@ public class CategoryListPage extends ConsoleIndex {
 				{
 					Page page=new Page(20, 1);
 					page.addConditions(new Condition().like("name", input, MatchWay.ANYWHERE));
-					categoryServ.getCategoryByApp(tree.getSelectedNode().getId(), page);
+					categoryServ.getPageByApp(tree.getSelectedNode().getId(), page);
 					list.addAll(page.getData());
 				}
 				return list.iterator();
 			}
-			*/
+			
 		};
-		key.add(new AjaxFormComponentUpdatingBehavior("onblur")
+		key.add(new AjaxFormComponentUpdatingBehavior("onchange")
 		{
 			
 			@Override
 			protected void onUpdate(AjaxRequestTarget target)
 			{
-				//keyWord=key.getModelObject();
+				keyWord=key.getModelObject();
 				if(StringUtils.isEmpty(key.getModelObject()))
 				{
 					keyWord=StringUtils.EMPTY;
@@ -350,6 +351,7 @@ public class CategoryListPage extends ConsoleIndex {
 						rebuildTreeData();
 						tree.refresh(nodes);
 						target.add(tree);
+						modal.close(target);
 					}
 				});
 			
@@ -361,25 +363,29 @@ public class CategoryListPage extends ConsoleIndex {
 						@Override
 						protected void onSaveAfter(AjaxRequestTarget target)
 						{
-							modal.close(target);
+							modal.close(target);   
 						}
-					});
+					}.setOutputMarkupId(true));
 					modal.show(target);
 				} else if (NODE_TYPE_CATEGORY.equals(tree.getSelectedNode().getType()))
 				{
 					modal.setContent(new CategoryAddPanel(modal.getContentId(),null,tree.getSelectedNode().getId(),modal)
-					{
+					{ 
 						@Override
 						protected void onSaveAfter(AjaxRequestTarget target)
 						{
 							modal.close(target);
 						}
-					});
-					modal.show(target);
+						
+					}.setOutputMarkupId(true));
+					if(modal.isShown()==false)
+					{
+						modal.show(target);
+					}
 				}
 				
 			}
-		}.setOutputMarkupId(true);
+		};
 	
 		
 		

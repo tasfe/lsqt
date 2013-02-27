@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+<wicket:head>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<style>
+    #p1{margin: 0; width: 200px; float: left;  height: 100px;}
+    #p2{margin-left: 200px; height: 100px;}
+</style>
+</wicket:head>
+</head>
+<body>
+
+<div >
+	<form wicket:id="form" >
+		<div wicket:id="feedback"></div>
+		<div id="p1">
+				标题:<input type="text" name="title" wicket:id="title"></input> <br/>
+				关键:<input type="text" name="contentKeys" wicket:id="contentKeys"></input><br/>
+				作者:<input type="text" wicket:id="author" ></input> <br/>
+		</div>
+		<div id="p2">
+		      摘要:<textarea wicket:id="shortContent" rows="5" ></textarea><br/>
+		</div>
+		发布日期:<input type="text" name="pubTime" readonly="readonly"  wicket:id="pubTime"></input> <br/>
+		显示日期:<input type="text" name="onlineTime" wicket:id="onlineTime" readonly="readonly"></input> <br/>
+		是否启用:<input type="checkbox" name="isEnable" wicket:id="isEnable"></input> <br/>
+		是否已发布: <span wicket:id="isPublished"></span> <br/>
+
+		内容:<textarea  name="content" wicket:id="content"  rows="15"></textarea><br/>
+		描述信息:<textarea  name="description" wicket:id="description"></textarea><br/>
+		<div wicket:id="uploadPanel" ></div>
+		<input type="button"  value="保存" wicket:id="btnAdd"/>
+		<input type="reset" value="重置"/>
+	</form>
+	
+</div>
+
+</body>
+</html>

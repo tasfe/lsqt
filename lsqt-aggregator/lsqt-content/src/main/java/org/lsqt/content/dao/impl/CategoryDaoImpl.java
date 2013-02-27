@@ -3,6 +3,7 @@ package org.lsqt.content.dao.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.lsqt.components.dao.hibernate.AbstractHibernateDaoSupport;
 import org.lsqt.components.dao.suport.Condition;
 import org.lsqt.components.dao.suport.Page;
@@ -41,7 +42,7 @@ public class CategoryDaoImpl extends AbstractHibernateDaoSupport<Category>  impl
 	@Override
 	public Page<Category> getPageByKey(String keyWord,Page page){
 		final StringBuffer hql=new StringBuffer();
-		hql.append("from Category c where c.name like '%"+keyWord+"%' or c.description like '%"+keyWord+"%'");
+		hql.append("from Category c where c.name like '%"+StringEscapeUtils.escapeSql(keyWord)+"%' or c.description like '%"+StringEscapeUtils.escapeSql(keyWord)+"%'");
 		return super.loadPageByHql(hql.toString(), page);
 	}
 }

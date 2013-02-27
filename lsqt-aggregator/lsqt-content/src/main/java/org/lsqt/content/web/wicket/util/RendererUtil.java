@@ -1,4 +1,4 @@
-package org.lsqt.content.web.wicket.content;
+package org.lsqt.content.web.wicket.util;
 
 import org.apache.wicket.markup.html.form.IChoiceRenderer; 
 import org.apache.wicket.model.StringResourceModel;
