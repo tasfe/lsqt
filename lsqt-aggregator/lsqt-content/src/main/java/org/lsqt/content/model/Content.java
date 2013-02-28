@@ -23,35 +23,18 @@ import org.lsqt.content.web.wicket.util.VarUtil;
 @MappedSuperclass
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public abstract class Content {
-	/**标识ID**/
-	@Id
-	@GenericGenerator(name="idGenerator", strategy="uuid")
-	@GeneratedValue(generator="idGenerator")
-	protected String id;
 	
 	/** 编号 **/
 	@Column(name="code",length=10)
-	protected String code;
+	private String code;
 	
 	/**内容名称**/
 	@Column(name="name",length=500)
-	protected String name;
-	
-	/**内容**/
-	@Column(name="content",length=2000)
-	protected String content;
-	
-	/**内空关键字(以逗号分隔)**/
-	@Column(name="contentKeys",length=200)
-	protected String contentKeys;
-	
-	/**描述信息**/
-	@Column(name="description",length=1000)
-	protected String description;
+	private String name;
 	
 	/**创建时间戳**/
 	@Column(name="createTime")
-	protected String createTime=new DateTime().toString(VarUtil.DEFAULT_DATA_PATTERN);
+	private String createTime=new DateTime().toString(VarUtil.DEFAULT_DATA_PATTERN);
 	
 	/**记录修改日期**/
 	@Column(name="modifyDate")
@@ -60,24 +43,13 @@ public abstract class Content {
 	/**排序号**/
 	@Column(name="orderNum")
 	protected Integer orderNum;
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
+	
+	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
 	}
 	public String getCreateTime() {
 		return createTime;
@@ -85,23 +57,27 @@ public abstract class Content {
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public String getContentKeys() {
-		return contentKeys;
-	}
-	public void setContentKeys(String contentKeys) {
-		this.contentKeys = contentKeys;
-	}
 	public String getCode() {
 		return code;
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public String getModifyDate()
+	{
+		return modifyDate;
+	}
+	public void setModifyDate(String modifyDate)
+	{
+		this.modifyDate = modifyDate;
+	}
+	public Integer getOrderNum()
+	{
+		return orderNum;
+	}
+	public void setOrderNum(Integer orderNum)
+	{
+		this.orderNum = orderNum;
 	}
 	
 	@Override

@@ -114,7 +114,7 @@ public class NewsListPage  extends ConsoleIndex{
 		target.add(dataView);
 	}
 	
-	SimpleTree tree;
+	private SimpleTree tree;
 	@SuppressWarnings("serial")
 	public NewsListPage(){
 		freshTree();

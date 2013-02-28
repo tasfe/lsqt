@@ -7,7 +7,9 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.lsqt.components.dao.suport.Page;
+import org.lsqt.content.dao.LobContentDao;
 import org.lsqt.content.dao.NewsDao;
+import org.lsqt.content.model.LobContent;
 import org.lsqt.content.model.News;
 import org.lsqt.content.service.NewsService;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class NewsServiceImpl implements NewsService{
 	private NewsDao newsDao;
-
+	private LobContentDao lobContentDao;
+	
+	@Resource
+	public void setLobContentDao(LobContentDao lobContentDaoImpl){
+		this.lobContentDao=lobContentDaoImpl;
+	}
 	@Resource
 	public void setNewsDao(NewsDao newsDaoImpl) {
 		this.newsDao = newsDaoImpl;
@@ -28,8 +35,16 @@ public class NewsServiceImpl implements NewsService{
 	}
 	
 	@Transactional(readOnly=false)
-	public boolean save(News news){
-		return newsDao.save(news);
+	public boolean save(News news,String content){
+		boolean flag= newsDao.save(news);
+		
+		LobContent t=new LobContent();
+		//t.setId(news.getId());
+		t.setValue(content);
+		t.setNews(news);
+		lobContentDao.save(t);
+		
+		return flag;
 	}
 	
 	@Transactional(readOnly=false)

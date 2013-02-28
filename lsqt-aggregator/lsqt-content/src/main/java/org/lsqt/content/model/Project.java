@@ -1,7 +1,11 @@
 package org.lsqt.content.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * <pre>
@@ -18,5 +22,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name="tb_project")
 public class Project extends Content{
-	
+	/**标识ID**/
+	@Id
+	@GenericGenerator(name="idGenerator", strategy="uuid")
+	@GeneratedValue(generator="idGenerator")
+	private String id;
 }

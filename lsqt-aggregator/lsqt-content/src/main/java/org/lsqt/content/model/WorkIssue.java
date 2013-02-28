@@ -3,9 +3,13 @@ package org.lsqt.content.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * <pre>
@@ -22,7 +26,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name="tb_issue")
 public class WorkIssue extends Content{
-
+	/**标识ID**/
+	@Id
+	@GenericGenerator(name="idGenerator", strategy="uuid")
+	@GeneratedValue(generator="idGenerator")
+	private String id;
+	
 	@Column(name="beginTime")
 	private Long beginTime;
 	
@@ -67,5 +76,15 @@ public class WorkIssue extends Content{
 
 	public void setPriority(String priority) {
 		this.priority = priority;
+	}
+
+	public String getId()
+	{
+		return id;
+	}
+
+	public void setId(String id)
+	{
+		this.id = id;
 	}
 }
