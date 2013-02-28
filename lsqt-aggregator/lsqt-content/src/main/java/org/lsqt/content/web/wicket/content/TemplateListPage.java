@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.lsqt.content.model.Application;
 import org.lsqt.content.model.Category;
@@ -38,9 +39,24 @@ public class TemplateListPage extends ConsoleIndex
 	public TemplateListPage()
 	{
 		freshTree();
-		tree=new SimpleTree("tree", treeNodes);
+		tree=new SimpleTree("tree", treeNodes)
+		{
+			@Override
+			protected void onClickNode(AjaxRequestTarget target, Node node)
+			{
+				
+			}
+		};
 		
-		table =new SimpleDataView("table");
+		table =(SimpleDataView)new SimpleDataView("table")
+		{
+			
+		}.addHeadLabel(new String[]{"文件名","文件别名","描述","大小"})
+		
+		.setOutputMarkupId(true);
+		
+		add(tree);
+		add(table);
 	}
 	
 	

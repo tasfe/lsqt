@@ -5,47 +5,26 @@
 <title></title>
 <wicket:head>
 	<style type="text/css">
-		.websiteSidebar { float:left; width:200px; height:615px;  OVERFLOW-y:auto;}
-		.websiteContent { float:left; width:550px; height:615px; }
+		#websiteSidebar { float:left; width:200px; height:615px;  OVERFLOW-y:auto;}
+		#websiteContent { float:left; width:550px; height:615px; }
 	</style>
 </wicket:head>
 
 </head>
 <body>
 <wicket:extend>
-    <div class="websiteSidebar cf" wicket:id="tree">
+    <div id="websiteSidebar" wicket:id="tree">
     	这里是树状结构
     </div>
-    <div class="websiteContent">
+    <div id="websiteContent">
     	<div wicket:id="search">
 			<wicket:link>
 				<input type="text"></input><a href="#">查询</a>
-				<a href="AppAddPage.html">添加</a>
+				<a href="#">添加</a>
 			</wicket:link>
 		</div>
-		<div wicket:id="appList">
-		<!-- 
-			<table >
-				<tr>
-					<td>序号</td>
-					<td>应用名称</td>
-					<td>时间</td>
-					<td>描述</td>
-					<td>操作</td>
-				</tr>
-				<tr wicket:id="rows">
-					<td><span wicket:id="seq"></span></td>
-					<td><span wicket:id="appName"></span></td>
-					<td><span wicket:id="createTime"></span></td>
-					<td><span wicket:id="desc"></span></td>
-					<td>
-						<a href="#" wicket:id="btnDelete" >删除</a>
-						<a href="#" wicket:id="btnUpdate">修改</a>
-						<a href="#" wicket:id="btnManage">进入</a>
-					</td>
-				</tr>
-			</table>
-			 -->
+		<div wicket:id="table">
+		
 		</div>
     </div>
 
