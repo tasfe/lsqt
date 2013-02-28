@@ -8,59 +8,82 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
+@org.hibernate.annotations.Entity(dynamicInsert=true,dynamicUpdate=true)
 @Table(name="tb_news")
 public class News extends Content implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	/**标识ID**/
+	@Id
+	@GenericGenerator(name="idGenerator", strategy="uuid")
+	@GeneratedValue(generator="idGenerator")
+	private String id;
+	
 	/**新闻标题**/
 	@Column(name="title",length=500)
 	private String title;
-	
-	/**标签**/
-	@Column(name="tag",length=200)
-	private String tag;
-	
-	/**摘要**/
-	@Column(name="shortContent",length=500)
-	private String shortContent;
 	
 	/**作者**/
 	@Column(name="author",length=50)
 	private String author;
 	
-	/**新闻前台在线日期**/
+	/**内空关键字(以逗号分隔)**/
+	@Column(name="contentKeys",length=200)
+	private String contentKeys;
+	
+	/**摘要**/
+	@Column(name="shortContent",length=500)
+	private String shortContent;
+	
+	/**描述信息**/
+	@Column(name="description",length=1000)
+	protected String description;
+	
+	/**新闻前台显示日期**/
 	@Column(name="onlineTime")
 	private String onlineTime;
-	
-	/**(状态)是否启用**/
-	@Column(name="isEnable")
-	private Boolean isEnable;
-	
-	/**是否已发布**/
-	@Column(name="isPublished")
-	private Boolean isPublished;
 	
 	/**后台发布日期**/
 	@Column(name="pubTime")
 	private String pubTime;
 	
-	/**是否已生成静态页**/
-	private Boolean isStatic;
+	/**(状态)是否启用**/
+	@Column(name="isEnable")
+	private Boolean isEnable;
 	
+	/**是否已发布,发布后将会跟据模板生成静态页**/
+	@Column(name="isPublished")
+	private Boolean isPublished;
 	
 	/**当前新闻所属的应用(ID)**/
 	@Column(name="app_id",insertable=false,updatable=false)
 	private String appId;
+	
+	/**新闻的内容ID**/
+	@Column(name="content_id",length=32,insertable=false,updatable=false)
+	private String contentId;
+	
+	/**新闻的内容值**/
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private LobContent lobContent;
 	
 	/**新闻所属的类别，一个新闻可以同时属于两个或多个类别**/
 	@ManyToMany(targetEntity = Category.class, cascade = { CascadeType.MERGE,CascadeType.PERSIST })
@@ -105,12 +128,6 @@ public class News extends Content implements Serializable{
 	public void setIsPublished(Boolean isPublished) {
 		this.isPublished = isPublished;
 	}
-	public Boolean getIsStatic() {
-		return isStatic;
-	}
-	public void setIsStatic(Boolean isStatic) {
-		this.isStatic = isStatic;
-	}
 	public String getShortContent() {
 		return shortContent;
 	}
@@ -152,5 +169,37 @@ public class News extends Content implements Serializable{
 	public void setOnlineTime(String onlineTime)
 	{
 		this.onlineTime = onlineTime;
+	}
+	public String getDescription()
+	{
+		return description;
+	}
+	public void setDescription(String description)
+	{
+		this.description = description;
+	}
+	public String getContentId()
+	{
+		return contentId;
+	}
+	public void setContentId(String contentId)
+	{
+		this.contentId = contentId;
+	}
+	public LobContent getLobContent()
+	{
+		return lobContent;
+	}
+	public void setLobContent(LobContent lobContent)
+	{
+		this.lobContent = lobContent;
+	}
+	public String getId()
+	{
+		return id;
+	}
+	public void setId(String id)
+	{
+		this.id = id;
 	}
 }

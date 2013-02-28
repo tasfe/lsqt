@@ -14,6 +14,11 @@ import org.lsqt.content.model.Category;
 import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.web.wicket.component.Clock;
 
+/**
+ *后台管理首页.
+ * @author 袁明敏
+ *
+ */
 public class ConsoleIndex extends AbstractPage {
 	/**  */
 	private static final long serialVersionUID = 1L;

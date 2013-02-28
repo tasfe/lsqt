@@ -13,7 +13,7 @@ import org.lsqt.content.web.wicket.ConsoleIndex;
 import org.lsqt.content.web.wicket.component.tree.Node;
 import org.lsqt.content.web.wicket.component.tree.NodeProvider;
 
-public class WebSitePage  extends ConsoleIndex{
+public class ResourceListPage  extends ConsoleIndex{
 
 	@SpringBean(name="appsServiceImpl") AppsService appsService;
 	
@@ -22,7 +22,7 @@ public class WebSitePage  extends ConsoleIndex{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public WebSitePage(){
+	public ResourceListPage(){
 		layout();
 		loadTree();
 	}
@@ -51,8 +51,7 @@ public class WebSitePage  extends ConsoleIndex{
 		nodes.add(root);
 
 		
-		 NodeProvider nodeProvider=new NodeProvider(nodes);
-		 
+		NodeProvider nodeProvider=new NodeProvider(nodes);
 		add(new DefaultNestedTree<Node>("tree", nodeProvider)) ;
 	}
 	

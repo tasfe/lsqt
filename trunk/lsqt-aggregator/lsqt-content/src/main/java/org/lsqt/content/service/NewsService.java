@@ -30,7 +30,7 @@ public interface NewsService {
 	 */
 	public List<News> getNewsByApp(String appID);
 	
-	public boolean save( News  news);
+	public boolean save( News  news,String content);
 
 	public News update(News news);
 

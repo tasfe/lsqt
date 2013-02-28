@@ -32,10 +32,8 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name="tb_resource")
-public class Resource implements Serializable{
-	private static long OBJECT_COUNTER=0L;
+public class Resource extends Content implements Serializable{
 	public Resource(){
-		OBJECT_COUNTER++;
 	}
 	/****/
 	private static final long serialVersionUID = 1L;
@@ -49,46 +47,14 @@ public class Resource implements Serializable{
 	@Column(name="pid",length=32,insertable=false,updatable=false)
 	private String pid;
 	
-	/**资源名称**/
-	@Column(name="resourceName",length=100)
-	private String resourceName;
-	
-	/**资源小图标,如指定用户人物图标**/
-	@Column(name="resourceIcon",length=1000)
-	private String resourceIcon;
-	
 	/**资源类型**/
-	@Column(name="resourceType",length=4)
-	private String resourceType;
+	@Column(name="type",length=4)
+	private String type;
 	
 	/**是否启用**/
 	@Column(name="isEnable")
 	private Boolean isEnable;
 	
-	/**资源描述**/
-	@Column(name="description",length=2000)
-	private String description;
-	
-	/**是否有下级结点**/
-	@Column(name="hasChildNode")
-	private Boolean hasChildNode;
-	
-	
-	/**资源层级数**/
-	@Column(name="levelNum")
-	private Integer levelNum;
-	
-	/**资源管理地址**/
-	@Column(name="manageUrl",length=2000)
-	private String manageUrl;
-	
-	/**资源管理地址打开的目标**/
-	@Column(name="openTarget",length=50)
-	private String openTarget;
-	
-	/**资源创建时间**/
-	@Column(name="createTime")
-	private Long createTime=System.currentTimeMillis()+OBJECT_COUNTER;
 	
 	/**上级结点**/
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -111,65 +77,11 @@ public class Resource implements Serializable{
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-	public String getResourceName() {
-		return resourceName;
-	}
-	public void setResourceName(String resourceName) {
-		this.resourceName = resourceName;
-	}
-	public String getResourceIcon() {
-		return resourceIcon;
-	}
-	public void setResourceIcon(String resourceIcon) {
-		this.resourceIcon = resourceIcon;
-	}
-	public String getResourceType() {
-		return resourceType;
-	}
-	public void setResourceType(String resourceType) {
-		this.resourceType = resourceType;
-	}
 	public Boolean getIsEnable() {
 		return isEnable;
 	}
 	public void setIsEnable(Boolean isEnable) {
 		this.isEnable = isEnable;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public Boolean getHasChildNode() {
-		return hasChildNode;
-	}
-	public void setHasChildNode(Boolean hasChildNode) {
-		this.hasChildNode = hasChildNode;
-	}
-	public Integer getLevelNum() {
-		return levelNum;
-	}
-	public void setLevelNum(Integer levelNum) {
-		this.levelNum = levelNum;
-	}
-	public String getManageUrl() {
-		return manageUrl;
-	}
-	public void setManageUrl(String manageUrl) {
-		this.manageUrl = manageUrl;
-	}
-	public String getOpenTarget() {
-		return openTarget;
-	}
-	public void setOpenTarget(String openTarget) {
-		this.openTarget = openTarget;
-	}
-	public Long getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(Long createTime) {
-		this.createTime = createTime;
 	}
 	public Resource getParentResource() {
 		return parentResource;
@@ -182,6 +94,14 @@ public class Resource implements Serializable{
 	}
 	public void setSubResources(Set<Resource> subResources) {
 		this.subResources = subResources;
+	}
+	public String getType()
+	{
+		return type;
+	}
+	public void setType(String type)
+	{
+		this.type = type;
 	}
 
 }

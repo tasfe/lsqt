@@ -30,12 +30,14 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.convert.IConverter;
 import org.apache.wicket.util.file.File;
 import org.lsqt.content.model.Category;
+import org.lsqt.content.model.LobContent;
 import org.lsqt.content.model.News;
 import org.lsqt.content.service.AppsService;
 import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.service.NewsService;
 import org.lsqt.content.web.wicket.component.form.SimpleForm;
 import org.lsqt.content.web.wicket.component.tree.Node;
+import org.lsqt.content.web.wicket.content.bean.NewsBean;
 import org.lsqt.content.web.wicket.content.bean.TimeInMillisConverter;
 import org.lsqt.content.web.wicket.util.RendererUtil;
 import org.lsqt.content.web.wicket.util.VarUtil;
@@ -89,7 +91,7 @@ public class NewsAddPage extends WebPage {
 		
 	}
 	
-	private News news=new News();
+	private NewsBean newsBean=new NewsBean();
 	public NewsAddPage(Node selectedNode){
 		//super(id);
 		this.selectedNode=selectedNode;
@@ -99,12 +101,12 @@ public class NewsAddPage extends WebPage {
 		
 		
 		
-		final SimpleForm<News> form =new SimpleForm<News>("form",new PropertyModel(this,"news"))
+		final SimpleForm<News> form =new SimpleForm<News>("form",new PropertyModel(this,"newsBean"))
 		{
 			@Override
 			protected void onSubmit()
 			{
-				System.out.println(news.getContent());
+			
 				
 			}
 		};
@@ -115,8 +117,7 @@ public class NewsAddPage extends WebPage {
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
 			{
-				News news = (News) form.getModelObject();
-				System.out.println(news.getContent());
+				NewsBean bean = (NewsBean) form.getModelObject();
 				if (NewsAddPage.this.selectedNode != null)
 				{
 					
@@ -125,10 +126,11 @@ public class NewsAddPage extends WebPage {
 						Category category = categoryServ.findById(NewsAddPage.this.selectedNode.getId());
 						if(category!=null)
 						{
-							StringEscapeUtils.escapeHtml((news.getContent() == null ? StringUtils.EMPTY : news.getContent()).toString()) ;
-							news.setApp(category.getApp());
-							news.getCategories().add(category);
-							newsServ.save(news);
+							StringEscapeUtils.escapeHtml((newsBean.getContent() == null ? StringUtils.EMPTY : newsBean.getContent()).toString()) ;
+							bean.getNews().setApp(category.getApp());
+							bean.getNews().getCategories().add(category);
+							
+							newsServ.save(newsBean.getNews(),newsBean.getContent());
 						}
 					}else 
 					{
@@ -147,7 +149,7 @@ public class NewsAddPage extends WebPage {
 	//	StyleDateConverter converter=new 
 		//后台发布日期
 		
-		DateTextField dtfPubTime = new DateTextField("pubTime",new PropertyModel(news,"pubTime"),dateFmtStr)
+		DateTextField dtfPubTime = new DateTextField("pubTime",new PropertyModel(newsBean,"news.pubTime"),dateFmtStr)
 		{
 			
 			@Override
@@ -167,7 +169,7 @@ public class NewsAddPage extends WebPage {
 		
 		//在线时间
 		
-		DateTextField dtfOnlineTime = new DateTextField("onlineTime",new PropertyModel(news,"onlineTime"),dateFmtStr)
+		DateTextField dtfOnlineTime = new DateTextField("onlineTime",new PropertyModel(newsBean,"news.onlineTime"),dateFmtStr)
 		{
 		@Override
 			public <C> IConverter<C> getConverter(Class<C> type)
@@ -187,32 +189,32 @@ public class NewsAddPage extends WebPage {
 		
 		
 		//新闻标题
-		TextField<String> txtTitle=new RequiredTextField<String>("title",new PropertyModel(news,"title"));
+		TextField<String> txtTitle=new RequiredTextField<String>("title",new PropertyModel(newsBean,"news.title"));
 		
 		//关键字
-		TextField<String> txtContentKeys=new TextField<String>("contentKeys",new PropertyModel(news,"contentKeys"));
+		TextField<String> txtContentKeys=new TextField<String>("contentKeys",new PropertyModel(newsBean,"news.contentKeys"));
 		
 		//摘要
-		TextArea<String> txtShortContent=new TextArea<String>("shortContent",new PropertyModel(news,"shortContent"));
+		TextArea<String> txtShortContent=new TextArea<String>("shortContent",new PropertyModel(newsBean,"news.shortContent"));
 		
 		//作者
-		TextField<String> txtAuthor=new TextField<String>("author",new PropertyModel(news,"author"));
+		TextField<String> txtAuthor=new TextField<String>("author",new PropertyModel(newsBean,"news.author"));
 		
 		//是否启用
-		CheckBox cbxIsEnable=new CheckBox("isEnable",new PropertyModel(news,"isEnable"));
+		CheckBox cbxIsEnable=new CheckBox("isEnable",new PropertyModel(newsBean,"news.isEnable"));
 	
 		
 		
 		//是否发布
-		RadioChoice<Boolean> radIsPublished = new RadioChoice<Boolean>("isPublished", new PropertyModel(news,"isPublished"),Arrays.asList(true,false),RendererUtil.getYesNoRenderer()).setSuffix("");
+		RadioChoice<Boolean> radIsPublished = new RadioChoice<Boolean>("isPublished", new PropertyModel(newsBean,"news.isPublished"),Arrays.asList(true,false),RendererUtil.getYesNoRenderer()).setSuffix("");
 
 		
 		//内容
-		TextArea<News> txtContent = new TextArea<News>("content",new PropertyModel(news,"content"));
+		TextArea<News> txtContent = new TextArea<News>("content",new PropertyModel(newsBean,"content"));
 		InitSettings.initSetting(txtContent,form);
 
 		//描述信息
-		TextArea<String> txtDescription = new TextArea<String>("description",new PropertyModel(news,"description"));
+		TextArea<String> txtDescription = new TextArea<String>("description",new PropertyModel(newsBean,"news.description"));
 		//txtDescription.add(StringValidator.maximumLength(500));
 		
 
@@ -248,15 +250,17 @@ public class NewsAddPage extends WebPage {
 		this.selectedNode = selectedNode;
 	}
 
-	public News getNews()
+	public NewsBean getNewsBean()
 	{
-		return news;
+		return newsBean;
 	}
 
-	public void setNews(News news)
+	public void setNewsBean(NewsBean newsBean)
 	{
-		this.news = news;
+		this.newsBean = newsBean;
 	}
+
+	
 }
 class InitSettings{
 	public static void initSetting(TextArea textArea,Form form){
