@@ -1,6 +1,7 @@
 package com.hirisun.content.service;
 
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import org.lsqt.content.model.WorkIssue;
@@ -22,10 +23,10 @@ public class WorkTaskServiceTest extends AbstractTest{
 		
 		WorkTask workTask=new WorkTask();
 		workTask.setCloseTime(System.currentTimeMillis());
-		workTask.setContent("任务内容");
-		workTask.setContentKeys("abc,def,efg");
-		workTask.setCreateTime(System.currentTimeMillis());
-		workTask.setDescription("描述");
+		
+		
+		workTask.setCreateTime(new DateTime().toString("yyyy-MM-dd hh:mm:ss S"));
+		
 		workTask.setIsEmailTo(true);
 		workTask.setName("华润N31项目");
 		workTask.setPriority("高");
@@ -50,10 +51,10 @@ public class WorkTaskServiceTest extends AbstractTest{
 		
 		WorkTask workTask=new WorkTask();
 		workTask.setCloseTime(System.currentTimeMillis());
-		workTask.setContent("河南电力公司项目任务内容");
-		workTask.setContentKeys("abc,def,efg");
-		workTask.setCreateTime(System.currentTimeMillis());
-		workTask.setDescription("描述");
+		
+		
+		workTask.setCreateTime(new DateTime().toString("yyyy-MM-dd hh:mm:ss S"));
+		
 		workTask.setIsEmailTo(true);
 		workTask.setName("河南四期项目");
 		workTask.setPriority("高");
@@ -61,10 +62,9 @@ public class WorkTaskServiceTest extends AbstractTest{
 		
 		WorkIssue IssueOne=new WorkIssue();
 		IssueOne.setBeginTime(System.currentTimeMillis());
-		IssueOne.setContent("需求分析");
-		IssueOne.setContentKeys("河南需求分析");
-		IssueOne.setCreateTime(System.currentTimeMillis());
-		IssueOne.setDescription("河南需求分析描述");
+		
+		IssueOne.setCreateTime(new DateTime().toString("yyyy-MM-dd hh:mm:ss S"));
+		
 		IssueOne.setEndTime(System.currentTimeMillis());
 		IssueOne.setName("河南四期需求分析");
 		IssueOne.setPriority("高");
