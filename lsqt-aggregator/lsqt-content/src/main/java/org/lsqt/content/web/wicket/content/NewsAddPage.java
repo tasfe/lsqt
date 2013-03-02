@@ -30,7 +30,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.convert.IConverter;
 import org.apache.wicket.util.file.File;
 import org.lsqt.content.model.Category;
-import org.lsqt.content.model.LobContent;
+import org.lsqt.content.model.NewsContent;
 import org.lsqt.content.model.News;
 import org.lsqt.content.service.AppsService;
 import org.lsqt.content.service.CategoryService;

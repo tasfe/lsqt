@@ -20,7 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 /**
  * <pre>
- * 功能说明: 
+ * 功能说明: 资源包括有:vm模板文件、css、img、目录、可见的实体。如页面的访问URL、页面的元素将不在此定义
  * 编写日期:	2011-5-13
  * 作者:	袁明敏
  * 
@@ -47,14 +47,17 @@ public class Resource extends Content implements Serializable{
 	@Column(name="pid",length=32,insertable=false,updatable=false)
 	private String pid;
 	
-	/**资源类型**/
-	@Column(name="type",length=4)
-	private String type;
-	
 	/**是否启用**/
 	@Column(name="isEnable")
 	private Boolean isEnable;
 	
+	/**资源的路径**/
+	@Column(name="path",length=2000)
+	private String path;
+	
+	/**资源类型:主要有cms页面模板、js、img、css、目录等**/
+	@Column(name="type",length=4)
+	private String type;
 	
 	/**上级结点**/
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -64,6 +67,9 @@ public class Resource extends Content implements Serializable{
 	/**下级结点**/
 	@OneToMany(mappedBy="parentResource",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Resource> subResources=new HashSet<Resource>();
+	
+	
+	
 	
 	public String getId() {
 		return id;
@@ -95,13 +101,25 @@ public class Resource extends Content implements Serializable{
 	public void setSubResources(Set<Resource> subResources) {
 		this.subResources = subResources;
 	}
+
+
 	public String getType()
 	{
 		return type;
 	}
+
 	public void setType(String type)
 	{
 		this.type = type;
 	}
 
+	public String getPath()
+	{
+		return path;
+	}
+
+	public void setPath(String path)
+	{
+		this.path = path;
+	}
 }

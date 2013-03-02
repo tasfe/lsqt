@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -22,7 +23,7 @@ import org.hibernate.annotations.Parameter;
  */
 @Entity
 @Table(name="tb_lobcontent")
-public class LobContent implements java.io.Serializable //extends Content
+public class NewsContent implements java.io.Serializable //extends Content
 {
 	
 	/**
@@ -43,7 +44,10 @@ public class LobContent implements java.io.Serializable //extends Content
 	
 	@OneToOne
 	@PrimaryKeyJoinColumn
+	/**当前的内容所属的新闻**/
 	private News news;
+	
+
 	
 	public String getValue()
 	{
