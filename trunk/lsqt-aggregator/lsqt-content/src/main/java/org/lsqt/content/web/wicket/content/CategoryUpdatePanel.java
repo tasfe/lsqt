@@ -34,8 +34,7 @@ public class CategoryUpdatePanel extends Panel
 
 
 	
-	public CategoryUpdatePanel(String id,String categoryID)
-	{
+	public CategoryUpdatePanel(String id,String categoryID){
 		super(id);
 
 		Category category=categoryServ.findById(categoryID);
