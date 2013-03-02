@@ -43,6 +43,9 @@ public class CategoryUpdatePanel extends Panel
 		// 类别名称
 		TextField<String> txtName = new RequiredTextField<String>("name", new PropertyModel<String>(category, "name"));
 
+		// 栏目英文名称
+		TextField<String> txtEngName = new RequiredTextField<String>("engName", new PropertyModel<String>(category, "engName"));
+				
 		// 排列顺序
 		TextField<String> txtOrderNum = new RequiredTextField<String>( "orderNum", new PropertyModel<String>(category, "orderNum"));
 
@@ -80,6 +83,7 @@ public class CategoryUpdatePanel extends Panel
 		add(form);
 		{
 			form.add(txtName);
+			form.add(txtEngName);
 			form.add(txtOrderNum);
 			form.add(radVisible);
 			form.add(txtDescription);

@@ -53,6 +53,10 @@ public class Category implements Serializable{
 	@GeneratedValue(generator="idGenerator")
 	private String id;
 	
+	/**英文名称,用于创建栏目目录**/
+	@Column(name="engName" ,nullable=false)
+	private String engName;
+	
 	@Column(name="pid",insertable=false,updatable=false)
 	private String pid;
 	
@@ -202,5 +206,15 @@ public class Category implements Serializable{
 
 	public void setAccessPath(String accessPath) {
 		this.accessPath = accessPath;
+	}
+
+	public String getEngName()
+	{
+		return engName;
+	}
+
+	public void setEngName(String engName)
+	{
+		this.engName = engName;
 	}
 }

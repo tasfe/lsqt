@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.dao.LobContentDao;
 import org.lsqt.content.dao.NewsDao;
-import org.lsqt.content.model.LobContent;
+import org.lsqt.content.model.NewsContent;
 import org.lsqt.content.model.News;
 import org.lsqt.content.service.NewsService;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class NewsServiceImpl implements NewsService{
 	public boolean save(News news,String content){
 		boolean flag= newsDao.save(news);
 		
-		LobContent t=new LobContent();
+		NewsContent t=new NewsContent();
 		//t.setId(news.getId());
 		t.setValue(content);
 		t.setNews(news);

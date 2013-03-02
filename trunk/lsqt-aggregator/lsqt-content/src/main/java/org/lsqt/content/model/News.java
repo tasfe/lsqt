@@ -83,7 +83,7 @@ public class News extends Content implements Serializable{
 	/**新闻的内容值**/
 	@OneToOne(cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
-	private LobContent lobContent;
+	private NewsContent lobContent;
 	
 	/**新闻所属的类别，一个新闻可以同时属于两个或多个类别**/
 	@ManyToMany(targetEntity = Category.class, cascade = { CascadeType.MERGE,CascadeType.PERSIST })
@@ -186,11 +186,11 @@ public class News extends Content implements Serializable{
 	{
 		this.contentId = contentId;
 	}
-	public LobContent getLobContent()
+	public NewsContent getLobContent()
 	{
 		return lobContent;
 	}
-	public void setLobContent(LobContent lobContent)
+	public void setLobContent(NewsContent lobContent)
 	{
 		this.lobContent = lobContent;
 	}
