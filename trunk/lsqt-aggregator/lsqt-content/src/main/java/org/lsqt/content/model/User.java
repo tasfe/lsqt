@@ -18,8 +18,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.lsqt.content.model.oto.Wife;
 
-
-
 @Entity
 @Table(name="tb_user")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

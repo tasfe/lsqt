@@ -9,31 +9,33 @@
 
 <body>
 <wicket:panel>
+
 <div>
-		<div wicket:id="ctnList">
-			<table>
-				<thead>
-					<tr>
-					   <td><input  type="checkbox"/>全选</td>
-						<td wicket:id="header"><span wicket:id="headCell"><span wicket:id="headerCellText">单元格内容</span></span></td>
-						<td>操作</td>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<tr wicket:id="bodyer">
-					   <td> <a><input type="checkbox" /></a></td>
-						<td wicket:id="row"><span wicket:id="rowCell"><span wicket:id="headerCellText">单元格内容</span></span></td>
-						<td wicket:id="operats">
-		                       <a href="#" wicket:id="btnCreate">新增</a>
-		                       <a href="#" wicket:id="btnUpdate">修改</a>
-		                       <a href="#" wicket:id="btnDelete" >删除</a>
-                        </td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	
+        <div wicket:id="ctnList">
+			<div wicket:id="group">
+				<table>
+					<thead>
+						<tr>
+						   <td><input type="checkbox" wicket:id="groupSelector"/> 全选</td>
+							<td wicket:id="header"><span wicket:id="headCell"><span wicket:id="headerCellText">单元格内容</span></span></td>
+							<td>操作</td>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr wicket:id="bodyer">
+						   <td><input type="checkbox" wicket:id="itemCheck"/></td>
+							<td wicket:id="row"><span wicket:id="rowCell"><span wicket:id="headerCellText">单元格内容</span></span></td>
+							<td wicket:id="operats">
+			                       <a href="#" wicket:id="btnCreate">新增</a>
+			                       <a href="#" wicket:id="btnUpdate">修改</a>
+			                       <a href="#" wicket:id="btnDelete" >删除</a>
+	                        </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+	   </div>
 		<div wicket:id="pageBar">
 			共<span wicket:id="totalRecord"></span>条
 			共<span wicket:id="totalPage"></span>页
@@ -47,6 +49,8 @@
 		</div>
 		
 		<div wicket:id="modalWin" class="test">应用添加弹出窗口</div>
+		
+		
 </div>
 		
 </wicket:panel>

@@ -33,7 +33,6 @@ import org.lsqt.content.web.wicket.util.VarUtil;
 @Table(name="tb_application")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Application  implements Serializable{
-	private static long OBJECT_COUNTER=0L;
 	/**
 	 * 
 	 */
@@ -43,11 +42,15 @@ public class Application  implements Serializable{
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
 	@GeneratedValue(generator="idGenerator")
-	protected String id;
+	private String id;
 	
 	/**应用名称**/
 	@Column(name="name",length=500)
-	protected String name;
+	private String name;
+	
+	/**应用的英文名称**/
+	@Column(name="engName",length=50)
+	private String engName;
 
 	@Column(name="createTime")
 	private String createTime=new DateTime().toString(VarUtil.DEFAULT_DATA_PATTERN);
@@ -109,5 +112,13 @@ public class Application  implements Serializable{
 
 	public void setOrderNum(Integer orderNum) {
 		this.orderNum = orderNum;
+	}
+
+	public String getEngName(){
+		return engName;
+	}
+
+	public void setEngName(String engName){
+		this.engName = engName;
 	}
 }

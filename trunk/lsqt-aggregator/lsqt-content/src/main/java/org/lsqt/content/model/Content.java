@@ -20,9 +20,10 @@ import org.lsqt.content.web.wicket.util.VarUtil;
  * 
  * 
  */
+@SuppressWarnings("serial")
 @MappedSuperclass
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-public abstract class Content {
+public abstract class Content implements java.io.Serializable {
 	
 	/** 编号 **/
 	@Column(name="code",length=10)

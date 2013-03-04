@@ -17,6 +17,7 @@ import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSe
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -95,7 +96,7 @@ public class AppListPage  extends ConsoleIndex{
 	}
 	.addHeadLabel(new String[]{"名称","序号","描述","创建时间"})
 	.addHeadProp(new String[]{"name","orderNum","description","createTime"})
-	.setCreateButtonVisible(false)
+	.setVisibleForCreateButton(false)
 	.setOutputMarkupId(true);
 	
 	
@@ -111,6 +112,16 @@ public class AppListPage  extends ConsoleIndex{
 	}
 	
 	public AppListPage(){
+		Form form=new Form("form")
+		{
+			@SuppressWarnings("unused")
+			@Override
+			protected void onSubmit()
+			{
+				@SuppressWarnings("rawtypes")
+				List list=ctnAppList.getSelectedItems();
+			}
+		};
 		
 		/*	AjaxLazyLoadPanel ctnLazy=(AjaxLazyLoadPanel) new AjaxLazyLoadPanel("appList")
 			{
@@ -245,8 +256,11 @@ public class AppListPage  extends ConsoleIndex{
 			
 		
 
+		add(form);
+		{
+			form.add(ctnAppList.setOutputMarkupId(true));
+		}
 		
-		add(ctnAppList.setOutputMarkupId(true));
 		add(ctnSearch);
 		{
 			ctnSearch.add(txtKey.setOutputMarkupId(true));

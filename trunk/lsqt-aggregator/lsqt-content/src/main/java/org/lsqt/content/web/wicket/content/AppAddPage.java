@@ -42,6 +42,8 @@ public class AppAddPage extends WebPage {
 		final SimpleForm<Application> form=new SimpleForm<Application>("form",appModel);
 		
 		final TextField<String> txtAppName=new TextField<String>("appName", new PropertyModel<String>(app, "name") );
+		final TextField<String> txtEngName=new TextField<String>("engName", new PropertyModel<String>(app, "engName") );
+		
 		final TextField<String> txtDesc=new TextField<String>("desc", new PropertyModel<String>(app, "description") );
 		final TextField<String> txtOrderNum=new RequiredTextField<String>("orderNum",new PropertyModel<String>(app,"orderNum"));
 		 
@@ -81,6 +83,7 @@ public class AppAddPage extends WebPage {
 		
 		add(form);
 		form.add(txtAppName);
+		form.add(txtEngName);
 		form.add(txtDesc);
 		form.add(txtOrderNum);
 		form.add(btnBack);
