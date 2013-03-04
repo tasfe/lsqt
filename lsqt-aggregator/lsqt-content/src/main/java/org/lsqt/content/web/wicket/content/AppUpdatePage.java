@@ -1,5 +1,7 @@
 package org.lsqt.content.web.wicket.content;
 
+import javax.servlet.ServletContext;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -14,7 +16,9 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.file.File;
 import org.apache.wicket.util.string.StringValue;
 import org.lsqt.content.model.Application;
 import org.lsqt.content.service.AppsService;
@@ -42,6 +46,11 @@ public class AppUpdatePage extends WebPage {
 			
 		}
 		layout();
+		
+		String appFolder=this.getRequestCycle().getRequest().getContextPath();
+		ServletContext context = ((WebApplication) getApplication()).getServletContext(); 
+		String path=context.getRealPath(File.separator);
+		System.out.println(path);
 	}	
 	
 	private void layout(){
@@ -50,6 +59,7 @@ public class AppUpdatePage extends WebPage {
 		Form<Application> form=new Form<Application>("form",appModel);
 		
 		TextField<String> txtAppName=new TextField<String>("appName", new PropertyModel<String>(app, "name") );
+		final TextField<String> txtEngName=new TextField<String>("engName", new PropertyModel<String>(app, "engName") );
 		TextField<String> txtDesc=new TextField<String>("desc", new PropertyModel<String>(app, "description") );
 		TextField<String> txtOrderNum=new RequiredTextField<String>("orderNum",new PropertyModel<String>(app,"orderNum"));
 		
@@ -78,6 +88,7 @@ public class AppUpdatePage extends WebPage {
 		add(form);
 		{
 			form.add(txtAppName);
+			form.add(txtEngName);
 			form.add(txtDesc);
 			form.add(txtOrderNum);
 			form.add(btnSubmit);

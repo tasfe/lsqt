@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,9 +22,10 @@ import org.hibernate.annotations.GenericGenerator;
  * @author 袁明敏
  *
  */
+@SuppressWarnings("serial")
 @Entity
 @Table(name="tb_template")
-public class Template extends Content{
+public class Template extends Content {
 	/**标识ID**/
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
@@ -30,20 +33,31 @@ public class Template extends Content{
 	private String id;
 	
 	/**模板别名,因模板文件都是英文取名,加了一个别名专门用于中文显示意思**/
-	@Column(name="alias",length=20)
+	@Column(name="alias",length=1000)
 	private String alias;
 	
 	/**栏目名称,用于显示该模板是用于哪个栏目**/
-	@Column(name="cateName",length=20)
+	@Column(name="cateName",length=50)
 	private String cateName;
+	
+	/**当前模板所属的栏目id**/
+	@Column(name="cateId",insertable=false,updatable=false)
+	private String cateId;
+	
+	@ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.MERGE})	
+	@JoinColumn(name = "cateId", referencedColumnName = "id")
+	private Category category;
 	
 	/**模板类型,用于签定是velocity模板还是jsp模板，或者其它**/
 	@Column(name="type",length=20)
 	private String type;
 	
 	/**模板的访问路径:模板文件存于数据库或磁盘都可,path为磁盘路径,默认行为是即上传到数据库又上传到磁盘**/
-	private String path;
+	@Column(name="diskPath",length=2000)
+	private String diskPath;
 
+	/**模板文件上传时:记录模板基本信息,并把模板类容写入数据库,也同时按栏目类别存储在磁盘上**/
+	/**因性能考虑,获到模板时,系统将优先从磁盘获到，如果没有再从数据库获取**/
 	@OneToMany(mappedBy = "template", cascade = CascadeType.ALL, fetch = FetchType.LAZY)// mappedBy与books中的studnet映射
 	private Set<TmplContent> tmplContentSet=new HashSet<TmplContent>();
 	public String getId(){
@@ -92,13 +106,34 @@ public class Template extends Content{
 		this.cateName = cateName;
 	}
 
-	public String getPath()
+	public String getDiskPath()
 	{
-		return path;
+		return diskPath;
 	}
 
-	public void setPath(String path)
+	public void setDiskPath(String diskPath)
 	{
-		this.path = path;
+		this.diskPath = diskPath;
 	}
+
+	public String getCateId()
+	{
+		return cateId;
+	}
+
+	public void setCateId(String cateId)
+	{
+		this.cateId = cateId;
+	}
+
+	public Category getCategory()
+	{
+		return category;
+	}
+
+	public void setCategory(Category category)
+	{
+		this.category = category;
+	}
+
 }

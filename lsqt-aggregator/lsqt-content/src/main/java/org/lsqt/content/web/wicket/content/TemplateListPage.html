@@ -19,7 +19,12 @@
         <div>
             <div>
                 <div> 当前目录:xxxxxxx</div>
-                <div><input type="file"/><input type="button" value="上传"/></div>
+                <div>
+                    <form wicket:id="form">
+                        <input type="file" wicket:id="file"/><a href="#" wicket:id="btnUpload">上传</a>
+                        <span wicket:id="progress">进度条</span>
+                    </form>
+                 </div>
             </div>
 	        <div wicket:id="table">
 	            这里是表格

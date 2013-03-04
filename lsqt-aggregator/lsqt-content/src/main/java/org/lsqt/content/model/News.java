@@ -1,7 +1,5 @@
 package org.lsqt.content.model;
 
-import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -24,7 +21,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @org.hibernate.annotations.Entity(dynamicInsert=true,dynamicUpdate=true)
 @Table(name="tb_news")
-public class News extends Content implements Serializable{
+public class News extends Content {
 	/**
 	 * 
 	 */

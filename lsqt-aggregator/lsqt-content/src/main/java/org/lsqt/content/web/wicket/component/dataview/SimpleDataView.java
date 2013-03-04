@@ -2,26 +2,42 @@ package org.lsqt.content.web.wicket.component.dataview;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
+import org.apache.wicket.event.IEvent;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Check;
+import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.CheckGroup;
+import org.apache.wicket.markup.html.form.CheckGroupSelector;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.lsqt.components.dao.suport.BeanHelper;
 import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
 /**
- * 小子，我还想安静的过一段日子呢，可是，这个世界实在是不让我安静啊...
- * @author mm
+ * 表格分页控件,该控件要放在form表单内才支持全选.
+ * 如: 
+ * <pre>
+ * Form form=new Form("form");
+ * form.add(simpleDataView);
+ * </pre>
+ * @author 袁明敏
  *
  */
 public class SimpleDataView extends Panel {
@@ -41,27 +57,46 @@ public class SimpleDataView extends Panel {
 	
 	private List<Object> bodyerData=new ArrayList<Object>();
 	
+	
 	// because the modal open to others,so ModalWindow#setOutputMarkupPlaceholderTag(true). 
 	final ModalWindow modalWindow=(ModalWindow) new ModalWindow("modalWin").setOutputMarkupPlaceholderTag(true); 
 	final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList").setOutputMarkupPlaceholderTag(true);
 	final WebMarkupContainer ctnPageBar=(WebMarkupContainer)new WebMarkupContainer("pageBar").setOutputMarkupPlaceholderTag(true);
 	
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////
+	private final  List<Object> selectedItems=new ArrayList<Object>();
+	public List<Object> getSelectedItems()
+	{
+		return this.selectedItems;
+	}
+
+	public void setSelectedItems(List<Object> selectedItems)
+	{
+		this.selectedItems.clear();
+		this.selectedItems.addAll(selectedItems);
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	boolean  isVisibleForCreate=true;
-	public SimpleDataView setCreateButtonVisible(boolean isVisible)
+	public SimpleDataView setVisibleForCreateButton(boolean isVisible)
 	{
 		isVisibleForCreate=isVisible;
 		return this;
 	}
 	
 	boolean isVisibleForUpdate=true;
-	public SimpleDataView setUpdateButtonVisible(boolean isVisible)
+	public SimpleDataView setVisibleForUpdateButton(boolean isVisible)
 	{
 		isVisibleForUpdate=isVisible;
 		return this;
 	}
 	
 	boolean isVisibleForDelete=true;
-	public SimpleDataView setDeleteButtonVisible(boolean isVisible)
+	public SimpleDataView setVisibleForDeleteButton(boolean isVisible)
 	{
 		isVisibleForDelete=isVisible;
 		return this;
@@ -77,7 +112,7 @@ public class SimpleDataView extends Panel {
 		
 		
 		
-		
+		//表格头部制造
 		ListView<String> header = new ListView<String>("header", headerData)
 		{
 			@Override
@@ -91,13 +126,35 @@ public class SimpleDataView extends Panel {
 			}
 		};
 		
+		final CheckGroup<Object> group=new CheckGroup<Object>("group",new PropertyModel(this, "selectedItems"));
+		CheckGroupSelector groupSelector=new CheckGroupSelector("groupSelector", group);
+		ctnList.add(group);
 		
 		
+		
+		//表格身体制造
 		ListView<Object> bodyer = new ListView<Object>("bodyer", bodyerData)
 		{
 			@Override
 			protected void populateItem(final ListItem<Object> item)
 			{
+				
+				final Check itemCheck=(Check)new Check("itemCheck",item.getModel(),group).setOutputMarkupId(true);
+				
+				itemCheck.add(new AjaxEventBehavior("onclick")
+				{
+					@Override
+					protected void onEvent(AjaxRequestTarget target)
+					{
+						Object o=itemCheck.getModelObject();
+						
+						target.appendJavaScript("$(function(){$('#"+itemCheck.getMarkupId()+"')[0].checked='';})");
+						System.out.println(o);
+					}
+				});
+				item.add(itemCheck);
+				
+				
 				ListView<Object> row = null;
 				if (item.getModelObject().getClass().isArray() == false)
 				{
@@ -195,6 +252,10 @@ public class SimpleDataView extends Panel {
 				}
 				btnCreate.setVisible(isVisibleForCreate);
 				
+				
+				
+				
+				
 				item.add(row);
 				item.add(operats);
 				{
@@ -205,7 +266,23 @@ public class SimpleDataView extends Panel {
 			}
 		}; //.setReuseItems(true)
 		
+		/*CheckGroup group=new CheckGroup("btnSelectAll", new PropertyModel(this, "selectedItems"));
+		CheckGroupSelector selector=new CheckGroupSelector("btnSelectAll",group);*/
 		
+	/*	final CheckBox btnSelectAll=new CheckBox("btnSelectAll",new Model(Boolean.FALSE));
+		btnSelectAll.add(new AjaxEventBehavior("click")
+		{
+			
+			@Override
+			protected void onEvent(AjaxRequestTarget target)
+			{
+				btnSelectAll.setModelObject(!btnSelectAll.getModelObject() );
+				System.out.println(btnSelectAll.getModelObject());
+				target.add(btnSelectAll);
+				
+			}
+		});*/
+	 
 		
 		final Label   lblTotalPage=new Label("totalPage", new PropertyModel<PagenationBean>(bean,"totalPage"));
 		final Label  lblTotalRecord=new Label("totalRecord", new PropertyModel<PagenationBean>(bean,"totalRecord"));
@@ -310,10 +387,15 @@ public class SimpleDataView extends Panel {
 			}
 		};
 		
+		
 		add(ctnList);
 		{
-			ctnList.add(header);
-			ctnList.add(bodyer);
+			ctnList.add(group);
+			group.add(groupSelector);
+			{
+				group.add(header);
+				group.add(bodyer);
+			}
 		}
 		
 		add(ctnPageBar);
@@ -413,43 +495,6 @@ public class SimpleDataView extends Panel {
 	{
 
 	}
+
+
 }
-/***
-[WICKET-4976](https://issues.apache.org/jira/browse/WICKET-4976) - WicketTester#startComponent(Component) doesn't detach the component and request cycle
-Bug
-
-* [WICKET-4906](https://issues.apache.org/jira/browse/WICKET-4906) - Form#visitFormComponents can cause ClassCastException
-* [WICKET-4925](https://issues.apache.org/jira/browse/WICKET-4925) - AbstractAjaxBehavior should clean stored reference to a component on unbind
-* [WICKET-4927](https://issues.apache.org/jira/browse/WICKET-4927) - Header can not be set from IRequestCycleListener#onEndRequest()
-* [WICKET-4928](https://issues.apache.org/jira/browse/WICKET-4928) - Error adding links to WebSocketRequestHandler
-* [WICKET-4935](https://issues.apache.org/jira/browse/WICKET-4935) - Rendered URL is resulting with double slash when using AuthenticatedWebApplication
-* [WICKET-4939](https://issues.apache.org/jira/browse/WICKET-4939) - AbstractAjaxTimerBehavior never triggers if attached to WebPage
-* [WICKET-4948](https://issues.apache.org/jira/browse/WICKET-4948) - Modal window does not center correctly when window is scrolled in safari
-* [WICKET-4950](https://issues.apache.org/jira/browse/WICKET-4950) - ResourceStreamLocator#newResourceNameIterator isn't a factory method anymore
-* [WICKET-4953](https://issues.apache.org/jira/browse/WICKET-4953) - RangeValidator#decorate mixes error keys
-* [WICKET-4954](https://issues.apache.org/jira/browse/WICKET-4954) - Issue with file upload with progress bar via AJAX and Firefox
-* [WICKET-4955](https://issues.apache.org/jira/browse/WICKET-4955) - SessionData violates comparison contract
-* [WICKET-4956](https://issues.apache.org/jira/browse/WICKET-4956) - compareTo methods of Actions in BufferedWebResponse violate Comparable contract
-* [WICKET-4959](https://issues.apache.org/jira/browse/WICKET-4959) - Notify behaviors when a component is removed from the tree
-* [WICKET-4961](https://issues.apache.org/jira/browse/WICKET-4961) - wicket ajax submit does not serialize elements of parental forms
-* [WICKET-4962](https://issues.apache.org/jira/browse/WICKET-4962) - AjaxFormChoiceComponentUpdatingBehavior cannot be triggered with BaseWicketTester#executeAjaxEvent()
-* [WICKET-4965](https://issues.apache.org/jira/browse/WICKET-4965) - NPE when stopping Tomcat
-* [WICKET-4968](https://issues.apache.org/jira/browse/WICKET-4968) - NPE in FencedFeedbackPanel#onRemove
-* [WICKET-4971](https://issues.apache.org/jira/browse/WICKET-4971) - AtmosphereEventSubscriptionCollector is slow
-* [WICKET-4973](https://issues.apache.org/jira/browse/WICKET-4973) - AbstractRequestLogger - infinite ArrayIndexOutOfBoundsException when requestWindow size is 0
-* [WICKET-4975](https://issues.apache.org/jira/browse/WICKET-4975) - client side memory leak on  date picker
-* [WICKET-4986](https://issues.apache.org/jira/browse/WICKET-4986) - wicket-ajax-jquery.js fails with 'member not found' on IE for delayed ajax requests
-Improvement
-
-* [WICKET-4919](https://issues.apache.org/jira/browse/WICKET-4919) - AjaxLazyLoadPanel needs a method to add components to the AjaxRequestTarget when the component is rendered
-* [WICKET-4933](https://issues.apache.org/jira/browse/WICKET-4933) - Palette does not handle disabled choices correctly
-* [WICKET-4937](https://issues.apache.org/jira/browse/WICKET-4937) - Add IResponseFilter that can filter out invalid XML characters
-* [WICKET-4940](https://issues.apache.org/jira/browse/WICKET-4940) - Make MountedMapper#getMatchedSegmentSizes(url) protected
-* [WICKET-4957](https://issues.apache.org/jira/browse/WICKET-4957) - Listener needed for registration and removal of pages
-* [WICKET-4958](https://issues.apache.org/jira/browse/WICKET-4958) - It should be possible to manipulate AjaxRequestAttributes globally
-* [WICKET-4963](https://issues.apache.org/jira/browse/WICKET-4963) - ComponentModel "setObject" methods should take generic "T" type instead of "Object"
-* [WICKET-4970](https://issues.apache.org/jira/browse/WICKET-4970) - Move the logic for creating the proper PackageResource from PackageResourceReference to ResourceReferenceRegistry
-* [WICKET-4982](https://issues.apache.org/jira/browse/WICKET-4982) - StatelessChecker: add helpful information to find stateful behavior (patch included)
-* [WICKET-4983](https://issues.apache.org/jira/browse/WICKET-4983) - extra recursion on Wicket.DOM.get
- * */
- 
