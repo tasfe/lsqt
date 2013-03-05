@@ -93,12 +93,17 @@ public class Category implements Serializable{
 	@OneToMany(mappedBy="parentCategory",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Category> subCategories=new HashSet<Category>();
 	
-	/**一个新闻可以属多个栏目（栏目与新闻的多对多关系）**/
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "categories", targetEntity = News.class)
-	private Set<News> news=new HashSet<News>();
+	/**一个新闻可以属多个栏目（栏目与新闻的多对多关系,已做成两个一对多关系）**/
+	@OneToMany(mappedBy="category",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	private Set<MidCateNews> midCateNewInfoSet=new HashSet<MidCateNews>();
+	
+	/**一个栏目可以由多个栏目展现(栏目与模板的一对多关系)**/
+	@OneToMany(mappedBy="category",cascade=CascadeType.ALL)
+	private Set<Template> templates=new HashSet<Template>();
+	
 	
 	/**一个应用下的栏目（栏目与应用的多对一关系）**/
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(cascade = CascadeType.MERGE,optional=true)
 	@JoinColumn(name = "app_id", referencedColumnName = "id")
 	private Application app;
 	
@@ -145,15 +150,6 @@ public class Category implements Serializable{
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
-
-	public Set<News> getNews() {
-		return news;
-	}
-
-	public void setNews(Set<News> news) {
-		this.news = news;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -216,5 +212,25 @@ public class Category implements Serializable{
 	public void setEngName(String engName)
 	{
 		this.engName = engName;
+	}
+
+	public Set<Template> getTemplates()
+	{
+		return templates;
+	}
+
+	public void setTemplates(Set<Template> templates)
+	{
+		this.templates = templates;
+	}
+
+	public Set<MidCateNews> getMidCateNewInfoSet()
+	{
+		return midCateNewInfoSet;
+	}
+
+	public void setMidCateNewInfoSet(Set<MidCateNews> midCateNewInfoSet)
+	{
+		this.midCateNewInfoSet = midCateNewInfoSet;
 	}
 }
