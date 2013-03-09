@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormChoiceComponentUpdatingBehavior;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
@@ -126,8 +127,20 @@ public class SimpleDataView extends Panel {
 			}
 		};
 		
-		final CheckGroup<Object> group=new CheckGroup<Object>("group",new PropertyModel(this, "selectedItems"));
-		CheckGroupSelector groupSelector=new CheckGroupSelector("groupSelector", group);
+		final CheckGroup<Object> group=new CheckGroup<Object>("group",selectedItems);
+		final	CheckGroupSelector groupSelector=new CheckGroupSelector("groupSelector", group);
+		/*
+		groupSelector.add(new  AjaxFormChoiceComponentUpdatingBehavior(){
+
+			@Override
+			protected void onUpdate(AjaxRequestTarget target)
+			{
+				
+				
+			}
+			
+		});
+		*/
 		ctnList.add(group);
 		
 		
@@ -140,7 +153,7 @@ public class SimpleDataView extends Panel {
 			{
 				
 				final Check itemCheck=(Check)new Check("itemCheck",item.getModel(),group).setOutputMarkupId(true);
-				
+				/*
 				itemCheck.add(new AjaxEventBehavior("onclick")
 				{
 					@Override
@@ -148,10 +161,11 @@ public class SimpleDataView extends Panel {
 					{
 						Object o=itemCheck.getModelObject();
 						
-						target.appendJavaScript("$(function(){$('#"+itemCheck.getMarkupId()+"')[0].checked='';})");
+						//target.appendJavaScript("$(function(){$('#"+itemCheck.getMarkupId()+"')[0].checked='';})");
 						System.out.println(o);
 					}
 				});
+				*/
 				item.add(itemCheck);
 				
 				

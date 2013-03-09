@@ -30,7 +30,14 @@ public interface NewsService {
 	 */
 	public List<News> getNewsByApp(String appID);
 	
-	public boolean save( News  news,String content);
+	/**
+	 * 保存一条新闻,以及新的内容和新闻所属的栏目
+	 * @param news 新闻基本信息
+	 * @param content 新闻内容
+	 * @param cate 新闻所属的栏目
+	 * @return boolean
+	 */
+	public boolean save(News news,String content,Category cate);
 
 	public News update(News news);
 

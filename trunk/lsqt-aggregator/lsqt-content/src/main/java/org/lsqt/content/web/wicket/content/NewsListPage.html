@@ -13,18 +13,17 @@
 </head>
 <body>
 <wicket:extend>
-		<div class="treeContent cf" wicket:id="tree">
-			
-	    </div>
+    <form wicket:id="form">
+		<div class="treeContent cf" wicket:id="tree"></div>
 	    
 	     <div class="listContent">
 			<div>
 					<input type="text" ></input><a href="#">查询</a>
 					<input type="button" wicket:id="btnAdd" value="添加内容"/>
-					
 			</div>
 			<div wicket:id="newsList"></div>
 		</div>
+	</form>
 </wicket:extend>
 </body>
 </html>

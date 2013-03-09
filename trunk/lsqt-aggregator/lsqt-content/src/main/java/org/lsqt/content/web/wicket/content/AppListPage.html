@@ -33,20 +33,15 @@
 </head>
 <body>
 <wicket:extend>
-		
-		<div wicket:id="search">
-		         <div>当前位置:应用管理 - 应用列表 <a href="#"  wicket:id="btnAdd">添加应用</a></div>
-				<input type="text" wicket:id="key" style="background:lightgreen;border-color:green"></input>
-				<a href="#" wicket:id="btnSearch">查询</a>
-				<a href="#" id="btnDeleteSels">全选删除</a>
-		</div>
-		
-		
 		<form wicket:id="form">
-		      <div wicket:id="appList"></div>
-		      <div><input type="submit"></input></div>
+			<div wicket:id="search">
+			         <div>当前位置:应用管理 - 应用列表 <a href="#"  wicket:id="btnAdd">添加应用</a></div>
+					<input type="text" wicket:id="key" style="background:lightgreen;border-color:green" onclick="function(){this.value='';}"></input>
+					<a href="#" wicket:id="btnSearch">查询</a>
+					<a href="#" wicket:id="btnDeleteSels">批量删除</a>
+			</div>
+			<div wicket:id="appList"></div>
 		</form>
-		
 </wicket:extend>
 </body>
 </html>

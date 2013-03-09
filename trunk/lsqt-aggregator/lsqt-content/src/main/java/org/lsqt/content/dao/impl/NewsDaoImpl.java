@@ -30,7 +30,7 @@ public class NewsDaoImpl extends AbstractHibernateDaoSupport<News> implements Ne
 	@Override
 	public Page getPageByCategoryID(String categoryID, Page page){
 		StringBuffer hql=new StringBuffer();
-		hql.append("select n from News n left join n.categories  c where c.id= ?   ");
+		hql.append("select n from News n inner join n.midCateNewInfoSet  c where c.cateId= ?   ");
 		return super.loadPageByHql(hql.toString(), new Object[]{categoryID}, page);
 	}
 }

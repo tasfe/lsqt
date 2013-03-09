@@ -12,21 +12,17 @@
 </head>
 <body>
 <wicket:extend>
-		<div class="treeContent cf" wicket:id="tree">
-	    	这里是树状结构
-	    </div>
-	    
-	    <div>
+    <form wicket:id="form">
+			<div class="treeContent cf" wicket:id="tree">
+		    	这里是树状结构
+		    </div>
 			<div wicket:id="ctnSearch">
 					<input type="text" wicket:id="key"></input>
 					<a href="#" wicket:id="btnSearch">查询</a>
 					<input wicket:id="btnAddSub" type="button" value="添加子栏目"/>
-					
 			</div>
-		
 			<div wicket:id="categoryList"></div>
-			
-		</div>
+	</form>
 </wicket:extend>
 </body>
 </html>

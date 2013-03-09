@@ -12,24 +12,21 @@
 </head>
 <body>
 <wicket:extend>
+    <form wicket:id="form">
         <div class="treeContent cf" wicket:id="tree">
             这里是树状结构
         </div>
-        
-        <div>
-            <div>
-                <div> 当前目录:xxxxxxx</div>
-                <div>
-                    <form wicket:id="form">
-                        <input type="file" wicket:id="file"/><a href="#" wicket:id="btnUpload">上传</a>
-                        <span wicket:id="progress">进度条</span>
-                    </form>
-                 </div>
-            </div>
-	        <div wicket:id="table">
-	            这里是表格
-	        </div>
-        </div>
+
+		<div>
+			<div>
+				<div>当前目录:xxxxxxx</div>
+				<div>
+						<input type="file" wicket:id="file" /><a href="#"wicket:id="btnUpload">上传</a> <span wicket:id="progress">进度条</span>
+				</div>
+			</div>
+			<div wicket:id="table">这里是表格</div>
+		</div>
+    </form>
 </wicket:extend>
 </body>
 </html>

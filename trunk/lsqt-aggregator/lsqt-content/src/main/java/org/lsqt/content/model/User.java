@@ -1,22 +1,17 @@
 package org.lsqt.content.model;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
-import org.lsqt.content.model.oto.Wife;
 
 @Entity
 @Table(name="tb_user")
@@ -28,7 +23,10 @@ public class User implements Serializable {
 	private String userId;
 	private String userPwd;
 	private String email;
-
+	
+	@Embedded
+	private Address address;
+	
 	@Id
 	@GenericGenerator(name="idGenerator", strategy="uuid")
 	@GeneratedValue(generator="idGenerator")
@@ -60,5 +58,14 @@ public class User implements Serializable {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public Address getAddress()
+	{
+		return address;
+	}
+	public void setAddress(Address address)
+	{
+		this.address = address;
 	}
 }
