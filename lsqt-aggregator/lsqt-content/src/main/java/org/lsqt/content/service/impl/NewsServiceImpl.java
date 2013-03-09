@@ -8,7 +8,10 @@ import javax.annotation.Resource;
 
 import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.dao.LobContentDao;
+import org.lsqt.content.dao.MidCatNewDao;
 import org.lsqt.content.dao.NewsDao;
+import org.lsqt.content.model.Category;
+import org.lsqt.content.model.MidCateNews;
 import org.lsqt.content.model.NewsContent;
 import org.lsqt.content.model.News;
 import org.lsqt.content.service.NewsService;
@@ -19,6 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class NewsServiceImpl implements NewsService{
 	private NewsDao newsDao;
 	private LobContentDao lobContentDao;
+	private MidCatNewDao midCatNewDao;
+	
+	@Resource
+	public void setMidCatNewDao(MidCatNewDao midCatNewDao){
+		this.midCatNewDao = midCatNewDao;
+	}
 	
 	@Resource
 	public void setLobContentDao(LobContentDao lobContentDaoImpl){
@@ -35,11 +44,15 @@ public class NewsServiceImpl implements NewsService{
 	}
 	
 	@Transactional(readOnly=false)
-	public boolean save(News news,String content){
+	public boolean save(News news,String content,Category cate){
 		boolean flag= newsDao.save(news);
 		
+		MidCateNews midInfo=new MidCateNews();
+		midInfo.setCategory(cate);
+		midInfo.setNews(news);
+		midCatNewDao.save(midInfo);
+		
 		NewsContent t=new NewsContent();
-		//t.setId(news.getId());
 		t.setValue(content);
 		t.setNews(news);
 		lobContentDao.save(t);

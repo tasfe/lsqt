@@ -19,6 +19,7 @@ import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClo
 import org.apache.wicket.extensions.markup.html.form.select.SelectOption;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.ListChoice;
 import org.apache.wicket.markup.html.form.ListMultipleChoice;
 import org.apache.wicket.markup.html.form.TextField;
@@ -266,7 +267,7 @@ public class CategoryListPage extends ConsoleIndex {
 	@SuppressWarnings({"rawtypes", "serial"})
 	public CategoryListPage()
 	{
-		
+		Form form=new Form("form");
 		
 		rebuildTreeData();
 		
@@ -388,14 +389,16 @@ public class CategoryListPage extends ConsoleIndex {
 		};
 	
 		
-		
-		add(tree);
-		add(ctnCategoryList);
-		add(ctnSearch);
+		add(form);
 		{
-			ctnSearch.add(key);
-			ctnSearch.add(btnSearch);
-			ctnSearch.add(btnAddSub);
+			form.add(tree);
+			form.add(ctnSearch);
+			{
+				ctnSearch.add(key);
+				ctnSearch.add(btnSearch);
+				ctnSearch.add(btnAddSub);
+			}
+			form.add(ctnCategoryList);
 		}
 	}
 	

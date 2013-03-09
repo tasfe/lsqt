@@ -30,6 +30,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.convert.IConverter;
 import org.apache.wicket.util.file.File;
 import org.lsqt.content.model.Category;
+import org.lsqt.content.model.MidCateNews;
 import org.lsqt.content.model.NewsContent;
 import org.lsqt.content.model.News;
 import org.lsqt.content.service.AppsService;
@@ -128,9 +129,8 @@ public class NewsAddPage extends WebPage {
 						{
 							StringEscapeUtils.escapeHtml((newsBean.getContent() == null ? StringUtils.EMPTY : newsBean.getContent()).toString()) ;
 							bean.getNews().setApp(category.getApp());
-							bean.getNews().getCategories().add(category);
-							
-							newsServ.save(newsBean.getNews(),newsBean.getContent());
+						
+							newsServ.save(newsBean.getNews(),newsBean.getContent(),category);
 						}
 					}else 
 					{

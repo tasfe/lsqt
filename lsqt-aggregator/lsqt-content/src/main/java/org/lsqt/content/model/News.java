@@ -6,12 +6,14 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -83,23 +85,14 @@ public class News extends Content {
 	private NewsContent lobContent;
 	
 	/**新闻所属的类别，一个新闻可以同时属于两个或多个类别**/
-	@ManyToMany(targetEntity = Category.class, cascade = { CascadeType.MERGE,CascadeType.PERSIST })
-	@JoinTable(name = "tb_news_category", joinColumns = { @JoinColumn(name = "news_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })
-	private Set<Category> categories=new HashSet<Category>();
+	@OneToMany(mappedBy="news",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	private Set<MidCateNews> midCateNewInfoSet=new HashSet<MidCateNews>();
 	
 	
 	/**当前新闻所属的应用（应用与新闻的多对一关系）**/
 	@ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
 	@JoinColumn(name = "app_id", referencedColumnName = "id")
 	private Application app;
-	
-	public Set<Category> getCategories() {
-		return categories;
-	}
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
-	
 	
 	public String getTitle() {
 		return title;
@@ -198,5 +191,13 @@ public class News extends Content {
 	public void setId(String id)
 	{
 		this.id = id;
+	}
+	public Set<MidCateNews> getMidCateNewInfoSet()
+	{
+		return midCateNewInfoSet;
+	}
+	public void setMidCateNewInfoSet(Set<MidCateNews> midCateNewInfoSet)
+	{
+		this.midCateNewInfoSet = midCateNewInfoSet;
 	}
 }

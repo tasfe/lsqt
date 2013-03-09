@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.lsqt.components.dao.suport.Page;
@@ -119,6 +120,8 @@ public class NewsListPage  extends ConsoleIndex{
 	public NewsListPage(){
 		freshTree();
 		
+		Form form=new Form("form");
+		
 		tree=(SimpleTree) new SimpleTree("tree", nodes)
 		{
 			@Override
@@ -184,10 +187,12 @@ public class NewsListPage  extends ConsoleIndex{
 		
 
 		
-		
-		add(btnAdd);
-		add(tree);
-		add(dataView);
+		add(form);
+		{
+		form.add(btnAdd);
+		form.add(tree);
+		form.add(dataView);
+		}
 	}
 	
 }

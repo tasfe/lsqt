@@ -1,5 +1,6 @@
 package org.lsqt.content.web.wicket.content;
 
+import java.io.Serializable;
 import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +14,7 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteSettings;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
@@ -112,17 +114,7 @@ public class AppListPage  extends ConsoleIndex{
 	}
 	
 	public AppListPage(){
-		Form form=new Form("form")
-		{
-			@SuppressWarnings("unused")
-			@Override
-			protected void onSubmit()
-			{
-				@SuppressWarnings("rawtypes")
-				List list=ctnAppList.getSelectedItems();
-			}
-		};
-		
+		Form form=new Form("form");
 		/*	AjaxLazyLoadPanel ctnLazy=(AjaxLazyLoadPanel) new AjaxLazyLoadPanel("appList")
 			{
 				@Override
@@ -193,6 +185,8 @@ public class AppListPage  extends ConsoleIndex{
 
 				@Override
 				public void onClick(AjaxRequestTarget target) {
+					System.out.println(ctnAppList.getSelectedItems());
+					
 					final ModalWindow modalWin=ctnAppList.getModalWindow();
 					modalWin.setTitle("应用添加");
 					modalWin.setCookieName("modalWin");
@@ -200,7 +194,7 @@ public class AppListPage  extends ConsoleIndex{
 					{
 						public AppAddPage createPage() 
 						{
-							return new AppAddPage(getPageReference(),modalWin);
+							return new AppAddPage(getPageReference(),modalWin,ctnAppList);
 						}
 					});
 					
@@ -215,7 +209,7 @@ public class AppListPage  extends ConsoleIndex{
 					modalWin.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
 						@Override
 					public void onClose(AjaxRequestTarget target){
-							
+							System.out.println(ctnAppList.getSelectedItems());
 							refreshPage();
 							
 							target.add(ctnAppList);
@@ -251,22 +245,42 @@ public class AppListPage  extends ConsoleIndex{
 				}
 			};
 			
-
+			final AjaxSubmitLink btnDeleteSels=new  AjaxSubmitLink("btnDeleteSels") 
+			{
+				/**  */
+				private static final long serialVersionUID = 1L;
+			
+				@Override
+				protected void onSubmit(AjaxRequestTarget target, Form<?> form)
+				{
+					String [] ids=new String [ctnAppList.getSelectedItems().size()]; 
+					for(int i=0;i<ctnAppList.getSelectedItems().size();i++)
+					{
+						Application apps=(Application) ctnAppList.getSelectedItems().get(i);
+						ids[i]= apps.getId();
+					}
+					appsService.deleteByIds(ids);
+					
+				}
+			};
 			
 			
 		
-
+		
 		add(form);
 		{
+			form.add(ctnSearch);
 			form.add(ctnAppList.setOutputMarkupId(true));
+			form.add(ctnSearch);
+			{
+				ctnSearch.add(txtKey.setOutputMarkupId(true));
+				ctnSearch.add(btnAdd);
+				ctnSearch.add(btnSearch);
+				ctnSearch.add(btnDeleteSels);
+			}
 		}
 		
-		add(ctnSearch);
-		{
-			ctnSearch.add(txtKey.setOutputMarkupId(true));
-			ctnSearch.add(btnAdd);
-			ctnSearch.add(btnSearch);
-		}
+		
 	}
 
 	private String key;

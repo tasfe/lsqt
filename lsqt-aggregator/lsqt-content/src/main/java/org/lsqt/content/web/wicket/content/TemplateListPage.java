@@ -203,15 +203,19 @@ public class TemplateListPage extends ConsoleIndex
 		
 		UploadProgressBar	progress=new UploadProgressBar("progress", form,fileUploadFiled);
 		
+		
+		
 		add(form);
 		{
 			form.add(btnUpload);
 			form.add(fileUploadFiled);
 			form.add(progress);
-			
+			form.add(tree);
+			form.add(table);
 		}
-		add(tree);
-		add(table);
+		
+		
+		
 	}
 	
 	public static void main(String args[])

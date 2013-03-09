@@ -63,7 +63,7 @@ public class AppUpdatePage extends WebPage {
 		TextField<String> txtDesc=new TextField<String>("desc", new PropertyModel<String>(app, "description") );
 		TextField<String> txtOrderNum=new RequiredTextField<String>("orderNum",new PropertyModel<String>(app,"orderNum"));
 		
-		AjaxLink<Void> btnBack=new AjaxLink<Void>("btnBack"){
+		AjaxLink<Void> btnBack=new AjaxLink<Void>("btnClose"){
 			/**
 			 * 
 			 */
@@ -71,7 +71,7 @@ public class AppUpdatePage extends WebPage {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-				
+				window.close(target);
 			}
 		};
 		
