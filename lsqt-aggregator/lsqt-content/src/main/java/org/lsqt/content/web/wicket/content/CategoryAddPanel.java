@@ -89,7 +89,7 @@ public class CategoryAddPanel extends Panel
 				}
 				
 				
-			onSaveAfter(target);
+				onSaveAfter(target);
 				
 			}
 		};

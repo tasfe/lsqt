@@ -70,7 +70,7 @@ public class TemplateListPage extends ConsoleIndex
 	public TemplateListPage()
 	{
 		freshTree();
-		tree=new SimpleTree("tree", treeNodes)
+		tree=new SimpleTree("tree")
 		{
 			@Override
 			protected void onClickNode(AjaxRequestTarget target, Node node)

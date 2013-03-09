@@ -59,10 +59,9 @@ public class SimpleDataView extends Panel {
 	private List<Object> bodyerData=new ArrayList<Object>();
 	
 	
-	// because the modal open to others,so ModalWindow#setOutputMarkupPlaceholderTag(true). 
 	final ModalWindow modalWindow=(ModalWindow) new ModalWindow("modalWin").setOutputMarkupPlaceholderTag(true); 
-	final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList").setOutputMarkupPlaceholderTag(true);
-	final WebMarkupContainer ctnPageBar=(WebMarkupContainer)new WebMarkupContainer("pageBar").setOutputMarkupPlaceholderTag(true);
+	final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList");
+	final WebMarkupContainer ctnPageBar=(WebMarkupContainer)new WebMarkupContainer("pageBar");
 	
 	
 	
@@ -152,7 +151,7 @@ public class SimpleDataView extends Panel {
 			protected void populateItem(final ListItem<Object> item)
 			{
 				
-				final Check itemCheck=(Check)new Check("itemCheck",item.getModel(),group).setOutputMarkupId(true);
+				final Check itemCheck=(Check)new Check("itemCheck",item.getModel(),group);
 				/*
 				itemCheck.add(new AjaxEventBehavior("onclick")
 				{
@@ -213,7 +212,7 @@ public class SimpleDataView extends Panel {
 					};
 				}
 
-				final WebMarkupContainer operats=(WebMarkupContainer) new WebMarkupContainer("operats").setOutputMarkupPlaceholderTag(true);
+				final WebMarkupContainer operats=(WebMarkupContainer) new WebMarkupContainer("operats");
 				AjaxLink<Void> btnDelete= new AjaxLink<Void>("btnDelete")
 				{
 					@Override

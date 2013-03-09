@@ -122,7 +122,7 @@ public class NewsListPage  extends ConsoleIndex{
 		
 		Form form=new Form("form");
 		
-		tree=(SimpleTree) new SimpleTree("tree", nodes)
+		tree=(SimpleTree) new SimpleTree("tree")
 		{
 			@Override
 			protected void onClickNode(AjaxRequestTarget target, Node node)
