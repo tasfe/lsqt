@@ -6,22 +6,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormChoiceComponentUpdatingBehavior;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.PageCreator;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
-import org.apache.wicket.extensions.markup.html.form.select.SelectOption;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.ListChoice;
-import org.apache.wicket.markup.html.form.ListMultipleChoice;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -46,10 +39,44 @@ public class CategoryListPage extends ConsoleIndex {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private SimpleTree tree=null; 
+	@SuppressWarnings("serial")
+	private SimpleTree tree=(SimpleTree) new SimpleTree("tree")
+	{
+		public java.util.List<Node> onLoadTree() 
+		{
+			List<Node> nodes=new ArrayList<Node>();
+			
+			Node root = new Node();
+			root.setId(UUID.randomUUID().toString());
+			root.setName(ROOT_TEXT);
+			root.setType(NODE_TYPE_OTHER);
+
+			for (Application a : appsService.findAll())
+			{
+				Node n = new Node(root, a.getId(), a.getName()==null ? "":"[应用]".concat(a.getName()));
+				n.setType(NODE_TYPE_APPLICATION);
+
+				List<Category> list = categoryServ.getCategoryByApp(a.getId());
+				for (Category c : list)
+				{
+					c.setName(c.getName());
+					nestedCategory(n, c, c.getSubCategories());
+				}
+			}
+			nodes.add(root);
+			return nodes;
+		};
+		
+		@Override
+		protected void onClickNode(AjaxRequestTarget target, Node node)
+		{
+			rebuildViewData(target,node);
+			target.add(table);
+		}
+	}.setOutputMarkupId(true);
 	
 	@SuppressWarnings("serial")
-	final SimpleDataView ctnCategoryList=(SimpleDataView) new SimpleDataView("categoryList")
+	final SimpleDataView table=(SimpleDataView) new SimpleDataView("table")
 	{
 		protected void onLoadPage(Page page) 
 		{
@@ -77,14 +104,7 @@ public class CategoryListPage extends ConsoleIndex {
 				
 				protected void onUpdateAfter(AjaxRequestTarget target) 
 				{
-					rebuildTreeData();
-					tree.refresh(nodes);
-					rebuildViewData(target, selectedNode);
 					
-					target.add(ctnCategoryList);
-					target.add(tree);
-					
-					window.close(target);
 				};
 			});
 			
@@ -104,7 +124,7 @@ public class CategoryListPage extends ConsoleIndex {
 					/*rebuildTreeData();
 					rebuildViewData(target, selectedNode);
 					
-					target.add(ctnCategoryList);
+					target.add(table);
 					target.add(tree);*/
 					window.close(target);
 				};
@@ -119,11 +139,10 @@ public class CategoryListPage extends ConsoleIndex {
 				@Override
 				public void onClose(AjaxRequestTarget target)
 				{
-					rebuildTreeData();
-					tree.refresh(nodes);
-					rebuildViewData(target, selectedNode);
 					
-					target.add(ctnCategoryList);
+					rebuildViewData(target, tree.getSelectedNode());
+					
+					target.add(table);
 					target.add(tree);
 				}
 			});
@@ -134,11 +153,11 @@ public class CategoryListPage extends ConsoleIndex {
 		{
 			Category app=(Category)rowModel.getObject();
 			categoryServ.deleteById(app.getId());
-			rebuildTreeData();
+		
 			
-			rebuildViewData(target,selectedNode);
+			rebuildViewData(target, tree.getSelectedNode());
 			
-			target.add(ctnCategoryList);
+			target.add(table);
 			target.add(tree);
 		};
 	}
@@ -150,7 +169,6 @@ public class CategoryListPage extends ConsoleIndex {
 
 	
 	
-	private Node selectedNode;
 	
 	
 	private static final String ROOT_TEXT="网站列表";
@@ -158,18 +176,7 @@ public class CategoryListPage extends ConsoleIndex {
 	private static final String NODE_TYPE_CATEGORY="_category";
 	private static final String NODE_TYPE_OTHER="_other";
 	
-	
-	private static final String DEF_ITEM_LABEL="---添加子栏目---";
-	
-	private Category selects = new Category();
-	private List<Category> displays = new ArrayList<Category>();
-	
-	private final static Category defItem = new Category();
-	{
-		defItem.setId(UUID.randomUUID().toString());
-		defItem.setName(DEF_ITEM_LABEL);
-		displays.add(defItem);
-	}
+
 	
 	/**
 	 * 递归构建上下级关系.
@@ -188,35 +195,7 @@ public class CategoryListPage extends ConsoleIndex {
 	}
 	
 	
-	final List<Node> nodes = new ArrayList<Node>();
-	/**
-	 * 重新加载树所承载的数据.
-	 */
-	private void rebuildTreeData()
-	{
-		nodes.clear();
-		
-		Node root = new Node();
-		root.setId(UUID.randomUUID().toString());
-		root.setName(ROOT_TEXT);
-		root.setType(NODE_TYPE_OTHER);
 
-		for (Application a : appsService.findAll())
-		{
-			Node n = new Node(root, a.getId(), a.getName()==null ? "":"[应用]".concat(a.getName()));
-			n.setType(NODE_TYPE_APPLICATION);
-
-			List<Category> list = categoryServ.getCategoryByApp(a.getId());
-			for (Category c : list)
-			{
-				c.setName(c.getName());
-				nestedCategory(n, c, c.getSubCategories());
-			}
-		}
-		nodes.add(root);
-		
-	}
-	
 	
 	
 
@@ -229,35 +208,17 @@ public class CategoryListPage extends ConsoleIndex {
 	 */
 	private void rebuildViewData(AjaxRequestTarget target,Node node)
 	{
-		Page page=new Page(20,1);
-		selectedNode=node;
+		Page page=new Page(table.getPerPageRecord(),table.getCurrPage());
 		if (NODE_TYPE_APPLICATION.equals(node.getType()))
 		{
 			categoryServ.getPageByApp(node.getId(), page);
-			ctnCategoryList.refresh(page);
-			
-			displays.clear();
-			displays.add(defItem);
-			displays.addAll(page.getData());
-			
-			
-			
-			target.add(ctnSearch);
-			target.add(ctnCategoryList);
+			table.refresh(page);
 			
 		} else if (NODE_TYPE_CATEGORY.equals( node.getType()))
 		{
 			categoryServ.getPageByPID(node.getId(), page);
-			ctnCategoryList.refresh(page);
+			table.refresh(page);
 			
-			displays.clear();
-			displays.add(defItem);
-			displays.addAll(page.getData());
-			
-		
-			
-			target.add(ctnSearch);
-			target.add(ctnCategoryList);
 		}else if(NODE_TYPE_OTHER.equals(node.getType()))
 		{
 			//target.appendJavaScript("alert('请选择要添加的应用或父栏目！')");
@@ -268,19 +229,6 @@ public class CategoryListPage extends ConsoleIndex {
 	public CategoryListPage()
 	{
 		Form form=new Form("form");
-		
-		rebuildTreeData();
-		
-		
-		tree = (SimpleTree) new SimpleTree("tree", nodes)
-		{
-			@Override
-			protected void onClickNode(AjaxRequestTarget target, Node node)
-			{
-				rebuildViewData(target,node);
-			}
-		}.setOutputMarkupPlaceholderTag(true);
-		
 		
 		
 		//AutoCompleteTextField
@@ -323,11 +271,11 @@ public class CategoryListPage extends ConsoleIndex {
 			@Override
 			public void onClick(AjaxRequestTarget target)
 			{
-				Page page=new Page(ctnCategoryList.getPerPageRecord(), ctnCategoryList.getCurrPage());
+				Page page=new Page(table.getPerPageRecord(), table.getCurrPage());
 				categoryServ.getPageByKey(keyWord, page);
-				ctnCategoryList.refresh(page);
+				table.refresh(page);
 				
-				target.add(ctnCategoryList);
+				target.add(table);
 			}
 		};
 		 
@@ -343,14 +291,12 @@ public class CategoryListPage extends ConsoleIndex {
 					target.appendJavaScript("alert('请选择某个应用或父级栏目!')");
 					return ;
 				}
-				final ModalWindow modal=ctnCategoryList.getModalWindow();
+				final ModalWindow modal=table.getModalWindow();
 				modal.setWindowClosedCallback(new WindowClosedCallback()
 				{
 					@Override
 					public void onClose(AjaxRequestTarget target)
 					{
-						rebuildTreeData();
-						tree.refresh(nodes);
 						target.add(tree);
 						modal.close(target);
 					}
@@ -366,7 +312,13 @@ public class CategoryListPage extends ConsoleIndex {
 						{
 							modal.close(target);   
 						}
-					}.setOutputMarkupId(true));
+						
+						protected void onCancelAfter(AjaxRequestTarget target) 
+						{
+							modal.close(target);
+						};
+						
+					});
 					modal.show(target);
 				} else if (NODE_TYPE_CATEGORY.equals(tree.getSelectedNode().getType()))
 				{
@@ -378,13 +330,15 @@ public class CategoryListPage extends ConsoleIndex {
 							modal.close(target);
 						}
 						
-					}.setOutputMarkupId(true));
-					if(modal.isShown()==false)
-					{
-						modal.show(target);
-					}
+						protected void onCancelAfter(AjaxRequestTarget target) 
+						{
+							modal.close(target);
+						};
+						
+					});
+					
+					modal.show(target);
 				}
-				
 			}
 		};
 	
@@ -398,7 +352,7 @@ public class CategoryListPage extends ConsoleIndex {
 				ctnSearch.add(btnSearch);
 				ctnSearch.add(btnAddSub);
 			}
-			form.add(ctnCategoryList);
+			form.add(table);
 		}
 	}
 	
@@ -414,25 +368,5 @@ public class CategoryListPage extends ConsoleIndex {
 	public void setKeyWord(String key)
 	{
 		this.keyWord = key;
-	}
-
-	public Category getSelects()
-	{
-		return selects;
-	}
-
-	public void setSelects(Category selects)
-	{
-		this.selects = selects;
-	}
-
-	public List<Category> getDisplays()
-	{
-		return displays;
-	}
-
-	public void setDisplays(List<Category> displays)
-	{
-		this.displays = displays;
 	}
 }

@@ -261,6 +261,8 @@ public class AppListPage  extends ConsoleIndex{
 					}
 					appsService.deleteByIds(ids);
 					
+					refreshPage();
+					target.add(ctnAppList);
 				}
 			};
 			

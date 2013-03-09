@@ -96,7 +96,7 @@ public class ResourceListPage  extends ConsoleIndex{
 	public ResourceListPage(){
 		freshTree();
 		
-		tree=(SimpleTree) new SimpleTree("tree", nodes)
+		tree=(SimpleTree) new SimpleTree("tree")
 		{
 			@Override
 			protected void onClickNode(AjaxRequestTarget target, Node node)

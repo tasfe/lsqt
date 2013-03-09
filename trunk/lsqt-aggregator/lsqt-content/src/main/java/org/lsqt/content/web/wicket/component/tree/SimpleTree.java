@@ -57,6 +57,10 @@ public class SimpleTree extends Panel
 	final List<Node> datas=new ArrayList<Node>();
 	final NodeProvider nodeProvider = new NodeProvider(datas);
 	
+	/**
+	 * 刷新UI所承载的数据.
+	 * @param nodes
+	 */
 	public void refresh(List<Node> nodes)
 	{
 		datas.clear();
@@ -64,16 +68,26 @@ public class SimpleTree extends Panel
 	}
 	
 	/**
+	 * 初使化时,加载UI所承载的数据.
+	 * @return
+	 */
+	public List<Node> onLoadTree()
+	{
+		return new ArrayList<Node>(0);
+	}
+	
+	/**
 	 * 构造函数.
 	 * @param id WebMarkup ID
 	 * @param rootList 多个根结点list
 	 */
-	public SimpleTree(String id,List<Node> rootList)
+	public SimpleTree(String id)
 	{
 		super(id);
 		
 		datas.clear();
-		datas.addAll(rootList);
+		datas.addAll(onLoadTree());
+	
 		
 		
 		final Content content = new SelectableFolderContent(nodeProvider)

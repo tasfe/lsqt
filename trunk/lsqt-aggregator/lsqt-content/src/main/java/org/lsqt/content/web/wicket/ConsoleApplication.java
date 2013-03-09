@@ -1,5 +1,7 @@
 package org.lsqt.content.web.wicket;
 
+import net.ftlines.wicketsource.WicketSource;
+
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxChannel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -32,6 +34,8 @@ public class ConsoleApplication extends WebApplication {
 		 //setRootRequestMapper(new HttpsMapper(getRootRequestMapper(),new HttpsConfig()));
 		 
 		 //test();
+		 
+		 WicketSource.configure(this);
 	 }
 	
 	private void addDebugsSetting(){
