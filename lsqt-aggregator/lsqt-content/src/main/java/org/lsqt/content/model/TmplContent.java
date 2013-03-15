@@ -8,9 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 /**
  * 模板内容
@@ -23,12 +25,11 @@ import org.hibernate.annotations.GenericGenerator;
 public class TmplContent extends Content{
 	/**标识ID**/
 	@Id
-	@GenericGenerator(name="idGenerator", strategy="uuid")
-	@GeneratedValue(generator="idGenerator")
+	@GenericGenerator(name = "pkGenerator", strategy = "foreign", parameters = { @Parameter(name = "property", value = "template") })
+	@GeneratedValue(generator = "pkGenerator")
 	private String id;
 	
-	@ManyToOne(cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "tmpl_id", referencedColumnName = "id")
+	@OneToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, mappedBy = "tmplContent") //mappedBy ,定义在被控方
 	private Template template;
 
 	@Lob

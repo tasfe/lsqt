@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+</head>
+<body>
+    <form wicket:id="form">
+        模板内容: <a href="#">编辑器视图</a>&nbsp;&nbsp;<a href="#">文本视图</a>
+        <span wicket:id="progress">进度条</span>
+        <input type="file" wicket:id="file"></input> 
+        <a wicket:id="btnUpload">上传内容</a>
+        <a wicket:id="btnDelete">删除内容</a>
+        <div wicket:id="tmplInfo">
+	        模板(英文)名称*:<input wicket:id="name"  type="text"></input><br />
+	        模板(中文)名称*:<input wicket:id="alias"  type="text"></input><br/>
+	        模板栏目*:<span wicket:id="cateName" ></span><br />
+	        模板类型:<span wicket:id="type"></span><br/>
+	        模板路径: <span wicket:id="diskPath" ></span><br/>
+	        <textarea wicket:id="content" ></textarea>
+        </div>
+        <div wicket:id="uploadPanel" ></div>
+        
+        <input type="button" wicket:id="btnAdd" value="保存"></input>
+      
+        
+        <input type="button" wicket:id="btnCancel" value="取消"></input>
+    </form>
+</body>
+</html>

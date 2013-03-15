@@ -34,6 +34,7 @@ public class CategoryUpdatePanel extends Panel
 
 
 	
+	@SuppressWarnings("serial")
 	public CategoryUpdatePanel(String id,String categoryID){
 		super(id);
 

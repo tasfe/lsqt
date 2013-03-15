@@ -6,6 +6,10 @@ import org.lsqt.content.model.Category;
 public final class RendererUtil {
 	private RendererUtil(){}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static  IChoiceRenderer<Boolean> getYesNoRenderer(){
 		IChoiceRenderer<Boolean> yesOrNo=new IChoiceRenderer<Boolean>() {
 
@@ -30,6 +34,10 @@ public final class RendererUtil {
 		return yesOrNo;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static  IChoiceRenderer<Category> getLabelRenderer(){
 		IChoiceRenderer<Category> label=new IChoiceRenderer<Category>() {
 
@@ -48,4 +56,29 @@ public final class RendererUtil {
 		};
 		return label;
 	}
+	
+	/**
+	 * 资源管理页,用于呈现全局资源和模板资源选项.
+	 * @return
+	 */
+	/*
+	public static  IChoiceRenderer<String> getResourceRenderer(){
+		IChoiceRenderer<String> label=new IChoiceRenderer<String>() {
+
+			*//**  *//*
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Object getDisplayValue(String object) {
+				return object;
+			}
+
+			@Override
+			public String getIdValue(String object, int index) {
+				return object.getId();
+			}
+		};
+		return label;
+	}
+	*/
 }

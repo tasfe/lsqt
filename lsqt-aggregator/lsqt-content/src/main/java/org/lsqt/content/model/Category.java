@@ -29,6 +29,7 @@ import  com.p6spy.engine.spy.P6SpyDriver;
  *用于新闻、论坛贴、招聘、文学网、电商网的栏目分类
  */
 @Entity
+@org.hibernate.annotations.Entity(dynamicInsert=true,dynamicUpdate=true)
 @Table(name="tb_category")
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class Category implements Serializable{
@@ -97,9 +98,10 @@ public class Category implements Serializable{
 	@OneToMany(mappedBy="category",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private Set<MidCateNews> midCateNewInfoSet=new HashSet<MidCateNews>();
 	
-	/**一个栏目可以由多个栏目展现(栏目与模板的一对多关系)**/
+
+	/**一个栏目可以由多个模板展现(栏目与模板的一对多关系),但一个栏目只能有一个模板启用**/
 	@OneToMany(mappedBy="category",cascade=CascadeType.ALL)
-	private Set<Template> templates=new HashSet<Template>();
+	private Set<Template> templateSet=new HashSet<Template>();
 	
 	
 	/**一个应用下的栏目（栏目与应用的多对一关系）**/
@@ -214,15 +216,6 @@ public class Category implements Serializable{
 		this.engName = engName;
 	}
 
-	public Set<Template> getTemplates()
-	{
-		return templates;
-	}
-
-	public void setTemplates(Set<Template> templates)
-	{
-		this.templates = templates;
-	}
 
 	public Set<MidCateNews> getMidCateNewInfoSet()
 	{
@@ -232,5 +225,15 @@ public class Category implements Serializable{
 	public void setMidCateNewInfoSet(Set<MidCateNews> midCateNewInfoSet)
 	{
 		this.midCateNewInfoSet = midCateNewInfoSet;
+	}
+	
+	public Set<Template> getTemplateSet()
+	{
+		return templateSet;
+	}
+
+	public void setTemplateSet(Set<Template> templateSet)
+	{
+		this.templateSet = templateSet;
 	}
 }

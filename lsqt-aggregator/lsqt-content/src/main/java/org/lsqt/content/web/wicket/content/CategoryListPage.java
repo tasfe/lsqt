@@ -12,6 +12,7 @@ import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.PageCreator;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
@@ -44,33 +45,14 @@ public class CategoryListPage extends ConsoleIndex {
 	{
 		public java.util.List<Node> onLoadTree() 
 		{
-			List<Node> nodes=new ArrayList<Node>();
-			
-			Node root = new Node();
-			root.setId(UUID.randomUUID().toString());
-			root.setName(ROOT_TEXT);
-			root.setType(NODE_TYPE_OTHER);
-
-			for (Application a : appsService.findAll())
-			{
-				Node n = new Node(root, a.getId(), a.getName()==null ? "":"[应用]".concat(a.getName()));
-				n.setType(NODE_TYPE_APPLICATION);
-
-				List<Category> list = categoryServ.getCategoryByApp(a.getId());
-				for (Category c : list)
-				{
-					c.setName(c.getName());
-					nestedCategory(n, c, c.getSubCategories());
-				}
-			}
-			nodes.add(root);
+			List<Node> nodes = rebuildTreeData();
 			return nodes;
 		};
 		
 		@Override
 		protected void onClickNode(AjaxRequestTarget target, Node node)
 		{
-			rebuildViewData(target,node);
+			table.refresh(rebuildTableData());
 			target.add(table);
 		}
 	}.setOutputMarkupId(true);
@@ -105,6 +87,13 @@ public class CategoryListPage extends ConsoleIndex {
 				protected void onUpdateAfter(AjaxRequestTarget target) 
 				{
 					
+					table.refresh(rebuildTableData());
+					tree.refresh(rebuildTreeData());
+					
+					target.add(table);
+					target.add(tree);
+					
+					window.close(target);
 				};
 			});
 			
@@ -121,11 +110,11 @@ public class CategoryListPage extends ConsoleIndex {
 			{
 				protected void onSaveAfter(AjaxRequestTarget target) 
 				{
-					/*rebuildTreeData();
-					rebuildViewData(target, selectedNode);
+					table.refresh(rebuildTableData());
+					tree.refresh(rebuildTreeData());
 					
 					target.add(table);
-					target.add(tree);*/
+					target.add(tree);
 					window.close(target);
 				};
 				
@@ -139,8 +128,8 @@ public class CategoryListPage extends ConsoleIndex {
 				@Override
 				public void onClose(AjaxRequestTarget target)
 				{
-					
-					rebuildViewData(target, tree.getSelectedNode());
+					table.refresh(rebuildTableData());
+					tree.refresh(rebuildTreeData());
 					
 					target.add(table);
 					target.add(tree);
@@ -155,7 +144,8 @@ public class CategoryListPage extends ConsoleIndex {
 			categoryServ.deleteById(app.getId());
 		
 			
-			rebuildViewData(target, tree.getSelectedNode());
+			table.refresh(rebuildTableData());
+			tree.refresh(rebuildTreeData());
 			
 			target.add(table);
 			target.add(tree);
@@ -206,23 +196,24 @@ public class CategoryListPage extends ConsoleIndex {
 	 * @param target
 	 * @param node
 	 */
-	private void rebuildViewData(AjaxRequestTarget target,Node node)
+	private Page rebuildTableData()
 	{
 		Page page=new Page(table.getPerPageRecord(),table.getCurrPage());
-		if (NODE_TYPE_APPLICATION.equals(node.getType()))
+		if (NODE_TYPE_APPLICATION.equals(tree.getSelectedNode().getType()))
 		{
-			categoryServ.getPageByApp(node.getId(), page);
-			table.refresh(page);
+			categoryServ.getPageByApp(tree.getSelectedNode().getId(), page);
 			
-		} else if (NODE_TYPE_CATEGORY.equals( node.getType()))
+			
+		} else if (NODE_TYPE_CATEGORY.equals( tree.getSelectedNode().getType()))
 		{
-			categoryServ.getPageByPID(node.getId(), page);
-			table.refresh(page);
+			categoryServ.getPageByPID(tree.getSelectedNode().getId(), page);
 			
-		}else if(NODE_TYPE_OTHER.equals(node.getType()))
+			
+		}else if(NODE_TYPE_OTHER.equals(tree.getSelectedNode().getType()))
 		{
 			//target.appendJavaScript("alert('请选择要添加的应用或父栏目！')");
 		}
+		return page;
 	}
 	
 	@SuppressWarnings({"rawtypes", "serial"})
@@ -291,53 +282,63 @@ public class CategoryListPage extends ConsoleIndex {
 					target.appendJavaScript("alert('请选择某个应用或父级栏目!')");
 					return ;
 				}
-				final ModalWindow modal=table.getModalWindow();
-				modal.setWindowClosedCallback(new WindowClosedCallback()
-				{
-					@Override
-					public void onClose(AjaxRequestTarget target)
-					{
-						target.add(tree);
-						modal.close(target);
-					}
-				});
+				
+				
+				final ModalWindow window=table.getModalWindow();
+				
 			
 				
 				if (NODE_TYPE_APPLICATION.equals(tree.getSelectedNode().getType()))
 				{
-					modal.setContent(new CategoryAddPanel(modal.getContentId(),tree.getSelectedNode().getId(),null,modal)
+					
+					window.setContent(new CategoryAddPanel(window.getContentId(),tree.getSelectedNode().getId(),null,window)
 					{
 						@Override
 						protected void onSaveAfter(AjaxRequestTarget target)
 						{
-							modal.close(target);   
+							table.refresh(rebuildTableData());
+							tree.refresh(rebuildTreeData());
+							
+							target.add(table);
+							target.add(tree);
+							
+							window.close(target);   
 						}
 						
 						protected void onCancelAfter(AjaxRequestTarget target) 
 						{
-							modal.close(target);
+							window.close(target);
 						};
 						
+						
 					});
-					modal.show(target);
+					 
+					window.show(target);
 				} else if (NODE_TYPE_CATEGORY.equals(tree.getSelectedNode().getType()))
 				{
-					modal.setContent(new CategoryAddPanel(modal.getContentId(),null,tree.getSelectedNode().getId(),modal)
+					
+					window.setContent(new CategoryAddPanel(window.getContentId(),null,tree.getSelectedNode().getId(),window)
 					{ 
 						@Override
 						protected void onSaveAfter(AjaxRequestTarget target)
 						{
-							modal.close(target);
+							table.refresh(rebuildTableData());
+							tree.refresh(rebuildTreeData());
+							
+							target.add(table);
+							target.add(tree);
+							
+							window.close(target);
 						}
 						
 						protected void onCancelAfter(AjaxRequestTarget target) 
 						{
-							modal.close(target);
+							window.close(target);
 						};
 						
 					});
-					
-					modal.show(target);
+					/**/
+					window.show(target);
 				}
 			}
 		};
@@ -368,5 +369,37 @@ public class CategoryListPage extends ConsoleIndex {
 	public void setKeyWord(String key)
 	{
 		this.keyWord = key;
+	}
+
+
+
+
+
+
+
+
+	private List<Node> rebuildTreeData()
+	{
+		List<Node> nodes=new ArrayList<Node>();
+		
+		Node root = new Node();
+		root.setId(UUID.randomUUID().toString());
+		root.setName(ROOT_TEXT);
+		root.setType(NODE_TYPE_OTHER);
+
+		for (Application a : appsService.findAll())
+		{
+			Node n = new Node(root, a.getId(), a.getName()==null ? "":"[应用]".concat(a.getName()));
+			n.setType(NODE_TYPE_APPLICATION);
+
+			List<Category> list = categoryServ.getCategoryByApp(a.getId());
+			for (Category c : list)
+			{
+				c.setName(c.getName());
+				nestedCategory(n, c, c.getSubCategories());
+			}
+		}
+		nodes.add(root);
+		return nodes;
 	}
 }

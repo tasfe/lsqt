@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -24,6 +26,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @SuppressWarnings("serial")
 @Entity
+@org.hibernate.annotations.Entity(dynamicInsert=true,dynamicUpdate=true)
 @Table(name="tb_template")
 public class Template extends Content {
 	/**标识ID**/
@@ -56,10 +59,16 @@ public class Template extends Content {
 	@Column(name="diskPath",length=2000)
 	private String diskPath;
 
+	/** 是否启用.(注:一个栏目只有一个模板启用 )*/
+	@Column(name="isEnable")
+	private Boolean isEnable;
+	
+
 	/**模板文件上传时:记录模板基本信息,并把模板类容写入数据库,也同时按栏目类别存储在磁盘上**/
 	/**因性能考虑,获到模板时,系统将优先从磁盘获到，如果没有再从数据库获取**/
-	@OneToMany(mappedBy = "template", cascade = CascadeType.ALL, fetch = FetchType.LAZY)// mappedBy与books中的studnet映射
-	private Set<TmplContent> tmplContentSet=new HashSet<TmplContent>();
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private TmplContent tmplContent;
 	public String getId(){
 		return id;
 	}
@@ -74,16 +83,6 @@ public class Template extends Content {
 
 	public void setType(String type){
 		this.type = type;
-	}
-
-	public Set<TmplContent> getTmplContentSet()
-	{
-		return tmplContentSet;
-	}
-
-	public void setTmplContentSet(Set<TmplContent> tmplContentSet)
-	{
-		this.tmplContentSet = tmplContentSet;
 	}
 
 	public String getAlias()
@@ -136,4 +135,23 @@ public class Template extends Content {
 		this.category = category;
 	}
 
+	public Boolean getIsEnable()
+	{
+		return isEnable;
+	}
+
+	public void setIsEnable(Boolean isEnable)
+	{
+		this.isEnable = isEnable;
+	}
+	
+	public TmplContent getTmplContent()
+	{
+		return tmplContent;
+	}
+
+	public void setTmplContent(TmplContent tmplContent)
+	{
+		this.tmplContent = tmplContent;
+	}
 }

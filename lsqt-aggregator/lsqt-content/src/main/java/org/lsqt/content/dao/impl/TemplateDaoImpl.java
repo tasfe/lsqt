@@ -1,5 +1,7 @@
 package org.lsqt.content.dao.impl;
 
+import java.io.Serializable;
+
 import org.lsqt.components.dao.hibernate.AbstractHibernateDaoSupport;
 import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.dao.TemplateDao;
@@ -13,6 +15,14 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class TemplateDaoImpl  extends AbstractHibernateDaoSupport<Template> implements TemplateDao{
+	
+	@Override
+	public Template findById(Serializable id)
+	{
+		StringBuffer hql=new StringBuffer();
+		hql.append("select a from Template a where a.id= ? ");
+		return (Template)super.uniqueResultByHql(hql.toString(), new Object[]{id});
+	}
 	
 	@Override
 	public int getMaxOrderNum(String cateId){

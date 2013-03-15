@@ -56,12 +56,12 @@ public class SimpleDataView extends Panel {
 	private List<String> headerData=new ArrayList<String>();
 	private List<String> headerProperty=new ArrayList<String>();
 	
-	private List<Object> bodyerData=new ArrayList<Object>();
+	final private List<Object> bodyerData=new ArrayList<Object>();
 	
 	
 	final ModalWindow modalWindow=(ModalWindow) new ModalWindow("modalWin").setOutputMarkupPlaceholderTag(true); 
-	final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList");
-	final WebMarkupContainer ctnPageBar=(WebMarkupContainer)new WebMarkupContainer("pageBar");
+	final WebMarkupContainer ctnList=(WebMarkupContainer) new WebMarkupContainer("ctnList").setOutputMarkupPlaceholderTag(true);
+	final WebMarkupContainer ctnPageBar=(WebMarkupContainer)new WebMarkupContainer("pageBar").setOutputMarkupPlaceholderTag(true);
 	
 	
 	
@@ -490,7 +490,8 @@ public class SimpleDataView extends Panel {
 	 * 必须实现的方法.
 	 * @param page 不带数据的初使分页对象
 	 */
-	protected void onLoadPage(Page page) {
+	protected void onLoadPage(Page page)
+	{
 		
 	}
 	
