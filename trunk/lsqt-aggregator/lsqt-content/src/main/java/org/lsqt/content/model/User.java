@@ -14,6 +14,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
+@org.hibernate.annotations.Entity(dynamicInsert=true,dynamicUpdate=true)
 @Table(name="tb_user")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User implements Serializable {

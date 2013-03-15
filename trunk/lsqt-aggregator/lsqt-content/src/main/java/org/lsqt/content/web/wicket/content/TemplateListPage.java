@@ -11,8 +11,12 @@ import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadProgressBar;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.PageCreator;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
@@ -65,151 +69,113 @@ public class TemplateListPage extends ConsoleIndex
 		target.add(table);
 	}
 	
-	final SimpleTree tree;
-	final SimpleDataView table;
+	final SimpleTree tree=new SimpleTree("tree")
+	{
+		public java.util.List<Node> onLoadTree() 
+		{
+			return rebuildTreeData();
+		};
+		@Override
+		protected void onClickNode(AjaxRequestTarget target, Node node)
+		{
+			load(target,node);
+		}
+	};
+	
+	final SimpleDataView table =(SimpleDataView)new SimpleDataView("table")
+	{
+		protected void onClickUpdate(AjaxRequestTarget target, org.apache.wicket.model.IModel<Object> rowModel) 
+		{
+			final ModalWindow window=getModalWindow();
+			final Template tmpl=(Template)rowModel.getObject();
+			window.setInitialWidth(800);
+			window.setInitialHeight(600);
+			window.setPageCreator(new PageCreator()
+			{
+				@Override
+				public org.apache.wicket.Page createPage()
+				{
+					return null;
+				}
+			});
+			
+			window.setWindowClosedCallback(new WindowClosedCallback()
+			{
+				@Override
+				public void onClose(AjaxRequestTarget target)
+				{
+					
+				}
+			});
+			window.show(target);
+		};
+		
+		protected void onClickDelete(AjaxRequestTarget target, org.apache.wicket.model.IModel<Object> rowModel) 
+		{
+			Template templ=(Template)rowModel.getObject();
+			templateService.deleteById(templ.getId());
+			load(target,tree.getSelectedNode());
+		};
+	}.addHeadLabel(new String[]{"所属栏目","模板名","模板简称","类型"})
+	.addHeadProp(new String []{"cateName","name","alias","type"})
+	.setVisibleForCreateButton(false)
+	.setOutputMarkupId(true);
+	
+	
 	public TemplateListPage()
 	{
-		freshTree();
-		tree=new SimpleTree("tree")
+		Form  <Void> form=new Form<Void>("form");
+		
+		
+		AjaxLink<Void> btnAdd=new AjaxLink<Void>("btnAdd")
 		{
 			@Override
-			protected void onClickNode(AjaxRequestTarget target, Node node)
+			public void onClick(AjaxRequestTarget target)
 			{
-				load(target,node);
+				if (tree.getSelectedNode() == null
+						|| (!NODE_TYPE_CATEGORY.equals(tree.getSelectedNode().getType())))
+				{
+					target.appendJavaScript("alert('请选择一个栏目!')");
+					return;
+				}
+				
+				final ModalWindow window=table.getModalWindow();
+				window.setTitle("添加模板");
+				window.setInitialWidth(800);
+				window.setInitialHeight(600);
+				window.setPageCreator(new PageCreator()
+				{
+					
+					@Override
+					public org.apache.wicket.Page createPage()
+					{
+						return new TemplateAddPanel(tree.getSelectedNode())
+						{
+							@Override
+							protected void onClickSave(AjaxRequestTarget target)
+							{
+								window.close(target);
+							}
+							
+							@Override
+							protected void onClickCancel( AjaxRequestTarget target)
+							{ 
+								window.close(target);
+							}
+						};
+					}
+				});
+				window.show(target);
 			}
 		};
 		
-		table =(SimpleDataView)new SimpleDataView("table")
-		{
-			protected void onClickDelete(AjaxRequestTarget target, org.apache.wicket.model.IModel<Object> rowModel) 
-			{
-				Template templ=(Template)rowModel.getObject();
-				templateService.deleteById(templ.getId());
-				load(target,tree.getSelectedNode());
-			};
-		}.addHeadLabel(new String[]{"文件名","文件别名","所属栏目","类型"})
-		.addHeadProp(new String []{"name","alias","cateName","type"})
-		.setOutputMarkupId(true);
-		table.setVisibleForCreateButton(false);
 		
-		
-		final FileUploadField fileUploadFiled=new FileUploadField("file");
-		
-		Form  <Void> form=new Form<Void>("form");
-		form.setMultiPart(true);
-		form.setMaxSize(Bytes.kilobytes(2000)); // Set maximum size to 2000K for demo purposes
-		
-		AjaxSubmitLink btnUpload=new AjaxSubmitLink("btnUpload",form)
-		{
-			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
-			{
-				
-					FileUpload fileUpload = fileUploadFiled.getFileUpload();
-				
-					if(fileUpload!=null)
-					{
-						try
-						{
-							String path=WebUtil.getWebRoot();
-							Node node=tree.getSelectedNode();
-							if (NODE_TYPE_APPLICATION.equals(node.getType()))
-							{
-								Application app=appsService.findById(node.getId());
-								path=path.concat(app.getEngName());
-							}else if(NODE_TYPE_CATEGORY.equals(node.getType()))
-							{
-								Application app=categoryServ.findById(node.getId()).getApp();
-								path=path.concat(app.getEngName());
-							}
-							//以上构建服务器布署跟路径: .../lsqt-conent/aaa1/
-							
-							List<String> fullPath=new ArrayList<String>();
-							if(NODE_TYPE_CATEGORY.equals(node.getType()))
-							{
-								buildPathForCateNode(node.getId(),fullPath);
-							}
-							Collections.reverse(fullPath);
-							StringBuffer tmp=new StringBuffer();
-							for(String i: fullPath){
-								tmp.append(File.separator.concat(i));
-							}
-							 
-							String wholePath=path.concat(tmp.toString()
-									.concat(File.separator)
-									.concat(fileUpload.getClientFileName())); //全路径,包含文件名
-							path=path.concat(tmp.toString());
-							
-							Template template=new Template();
-							template.setName(fileUpload.getClientFileName());
-							
-							template.setCateName(tree.getSelectedNode().getName());
-							template.setDiskPath(wholePath );
-							template.setAlias( fileUpload.getClientFileName());
-							template.setOrderNum(0);
-							template.setType(fileUpload.getContentType());
-							template.setCateId(tree.getSelectedNode().getId());
-							template.setCategory(categoryServ.findById(tree.getSelectedNode().getId()));
-							
-							
-							TmplContent tmplContent=new TmplContent();
-							tmplContent.setOrderNum(templateService.getMaxOrderNum(tree.getSelectedNode().getId()));
-							tmplContent.setBytes(fileUpload.getBytes());
-							
-							templateService.save(template, tmplContent);
-							
-							
-							File file = new File(path);
-							if (!file.exists())
-							{
-								file.mkdirs();
-							}
-							fileUpload.writeTo(new File(wholePath));
-
-							
-							TemplateListPage.this.info("saved file: "+ fileUpload.getClientFileName());
-							
-							load(target, tree.getSelectedNode());
-							
-						} catch (IOException e)
-						{
-							e.printStackTrace();
-						}
-					}
-				}
-				
-				/**
-				 * 跟据栏目树结构，递归构建模板文件结构.
-				 * @param id 栏目id
-				 * @param fullPath -
-				 * @return
-				 */
-				private String buildPathForCateNode(String id,List<String> fullPath) 
-				{
-					Category temp=categoryServ.findById(id);
-					fullPath.add(File.separator.concat(temp.getEngName()));
-					
-					if(temp.getParentCategory()==null)
-					{
-						return fullPath.toString();
-					}else
-					{
-						return buildPathForCateNode(temp.getParentCategory().getId(),fullPath);
-					}
-				}
-		};
-		
-		
-		
-		UploadProgressBar	progress=new UploadProgressBar("progress", form,fileUploadFiled);
 		
 		
 		
 		add(form);
 		{
-			form.add(btnUpload);
-			form.add(fileUploadFiled);
-			form.add(progress);
+			form.add(btnAdd);
 			form.add(tree);
 			form.add(table);
 		}
@@ -227,13 +193,13 @@ public class TemplateListPage extends ConsoleIndex
 		}
 	}
 	
-	final List<Node> treeNodes = new ArrayList<Node>();
+	
 	/**
 	 * 刷新树结构,保持数据与数据库同步.
 	 */
-	private void freshTree()
+	private List<Node> rebuildTreeData()
 	{
-		treeNodes.clear();
+		List<Node> treeNodes = new ArrayList<Node>();
 		
 		Node root = new Node();
 		root.setId(UUID.randomUUID().toString());
@@ -252,6 +218,8 @@ public class TemplateListPage extends ConsoleIndex
 			}
 		}
 		treeNodes.add(root);
+		
+		return treeNodes;
 	}
 	
 	/**

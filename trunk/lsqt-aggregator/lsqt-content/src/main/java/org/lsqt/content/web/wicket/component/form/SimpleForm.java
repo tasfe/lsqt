@@ -30,7 +30,7 @@ public class SimpleForm<T> extends Form<T>{
 	
 	public SimpleForm(String id) {
 		super(id,null);
-	
+		//actionToken = UUID.randomUUID().toString();
 	}
 	
 	public SimpleForm(String id, IModel<T> model) {

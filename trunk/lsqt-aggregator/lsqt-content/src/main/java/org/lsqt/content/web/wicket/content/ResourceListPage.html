@@ -13,21 +13,21 @@
 </head>
 <body>
 <wicket:extend>
+   <form wicket:id="form">
     <div id="websiteSidebar" wicket:id="tree">
     	这里是树状结构
     </div>
     <div id="websiteContent">
     	<div wicket:id="search">
-			<wicket:link>
-				<input type="text"></input><a href="#">查询</a>
-				<a href="#">添加</a>
-			</wicket:link>
+				<input type="text"></input>
+				<select wicket:id="selResources"></select>
+				<a href="#">查询</a>
+				<a href="#">批量删除</a>
 		</div>
-		<div wicket:id="table">
+		<div wicket:id="table"></div>
 		
-		</div>
     </div>
-
+    </form>
 </wicket:extend>	
 </body>
 </html>

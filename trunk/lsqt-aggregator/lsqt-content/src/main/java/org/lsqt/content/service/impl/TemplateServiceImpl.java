@@ -52,6 +52,11 @@ public class TemplateServiceImpl implements TemplateService{
 	}
 	
 	@Override
+	public Template findById(String id){
+		return templateDao.findById(id);
+	}
+	
+	@Override
 	public Page<Template> getPageByCategoryId(String categoryId,int currPage,int perPageItems){
 		return templateDao.getPageByCategoryId(categoryId, currPage, perPageItems);
 	}

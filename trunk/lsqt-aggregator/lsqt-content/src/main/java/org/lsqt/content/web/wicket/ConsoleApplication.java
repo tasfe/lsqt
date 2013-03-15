@@ -35,7 +35,7 @@ public class ConsoleApplication extends WebApplication {
 		 
 		 //test();
 		 
-		 WicketSource.configure(this);
+		// WicketSource.configure(this);
 	 }
 	
 	private void addDebugsSetting(){

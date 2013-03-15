@@ -40,10 +40,10 @@ public class NewsListPage  extends ConsoleIndex{
 	public static final String NODE_TYPE_OTHER="_other";
 
 	
-	final List<Node> nodes = new ArrayList<Node>();
-	private void freshTree()
+	
+	private List<Node> rebuildTreeData()
 	{
-		nodes.clear();
+		List<Node> nodes = new ArrayList<Node>();
 		
 		Node root = new Node();
 		root.setId(UUID.randomUUID().toString());
@@ -62,6 +62,8 @@ public class NewsListPage  extends ConsoleIndex{
 			}
 		}
 		nodes.add(root);
+		
+		return nodes;
 	}
 	
 	private void nestedCategory(Node n, Category c, Set<Category> subs)
@@ -75,7 +77,7 @@ public class NewsListPage  extends ConsoleIndex{
 	}
 	
 	
-	final SimpleDataView dataView=(SimpleDataView) new SimpleDataView("newsList")
+	final SimpleDataView table=(SimpleDataView) new SimpleDataView("newsList")
 	{
 		@Override
 		protected void onLoadPage(Page page)
@@ -92,7 +94,22 @@ public class NewsListPage  extends ConsoleIndex{
 	}
 	.addHeadLabel(new String[]{"标题","作者","排序号","创建日期","是否启用","是否已发布"})
 	.addHeadProp(new String[]{"title","shortContent","orderNum","createTime","isEnable","isPublished"})
-	.setOutputMarkupPlaceholderTag(true);
+	.setOutputMarkupId(true);
+	
+	
+	@SuppressWarnings("serial")
+	private SimpleTree tree=(SimpleTree) new SimpleTree("tree")
+	{
+		public java.util.List<Node> onLoadTree() 
+		{
+			return rebuildTreeData();
+		};
+		@Override
+		protected void onClickNode(AjaxRequestTarget target, Node node)
+		{
+			loadPage(target, node);
+		}
+	}.setOutputMarkupId(true);
 	
 	/**
 	 * 页面总数据刷新、加载的方法.
@@ -101,7 +118,7 @@ public class NewsListPage  extends ConsoleIndex{
 	 */
 	private void loadPage(AjaxRequestTarget target, Node node)
 	{
-		Page page=new Page(dataView.getPerPageRecord(),dataView.getCurrPage());
+		Page page=new Page(table.getPerPageRecord(),table.getCurrPage());
 		
 		if(NODE_TYPE_APPLICATION.equals(node.getType())){
 			newsService.getPageByAppID(node.getId(), page);
@@ -111,29 +128,14 @@ public class NewsListPage  extends ConsoleIndex{
 			return ;
 		}
 		
-		dataView.refresh(page);
-		target.add(dataView);
+		table.refresh(page);
+		target.add(table);
 	}
 	
-	private SimpleTree tree;
+	
 	@SuppressWarnings("serial")
 	public NewsListPage(){
-		freshTree();
-		
 		Form form=new Form("form");
-		
-		tree=(SimpleTree) new SimpleTree("tree")
-		{
-			@Override
-			protected void onClickNode(AjaxRequestTarget target, Node node)
-			{
-				loadPage(target, node);
-			}
-		}.setOutputMarkupId(true);
-		
-
-		
-		
 
 		
 		AjaxLink<Void> btnAdd = new AjaxLink<Void>("btnAdd")
@@ -152,7 +154,7 @@ public class NewsListPage  extends ConsoleIndex{
 					target.appendJavaScript("alert('请选择一个栏目再进行添加内容!')");
 					return ;
 				}
-				final ModalWindow modal=dataView.getModalWindow();
+				final ModalWindow modal=table.getModalWindow();
 				modal.setPageCreator(new ModalWindow.PageCreator()
 				{
 					
@@ -191,7 +193,7 @@ public class NewsListPage  extends ConsoleIndex{
 		{
 		form.add(btnAdd);
 		form.add(tree);
-		form.add(dataView);
+		form.add(table);
 		}
 	}
 	

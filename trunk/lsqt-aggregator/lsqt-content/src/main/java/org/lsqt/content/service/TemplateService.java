@@ -39,4 +39,11 @@ public interface TemplateService{
 	 * @param id 模板标识
 	 */
 	public void deleteById(String id);
+	
+	/**
+	 * 根据id查找模板基础信息.
+	 * @param id 模板id
+	 * @return 模板基础信息对象
+	 */
+	public Template findById(String id);
 }

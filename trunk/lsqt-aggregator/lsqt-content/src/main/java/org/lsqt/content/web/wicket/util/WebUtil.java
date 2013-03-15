@@ -14,7 +14,7 @@ import org.apache.wicket.util.file.File;
 public class WebUtil{
 	
 	/**
-	 * 获取web应用的布署文件夹全路径.
+	 * 获取web应用的布署文件夹根路径.
 	 * @return 
 	 */
 	public static String getWebRoot(){
