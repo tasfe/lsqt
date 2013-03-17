@@ -52,7 +52,7 @@ public class Template extends Content {
 	private Category category;
 	
 	/**模板类型,用于签定是velocity模板还是jsp模板，或者其它**/
-	@Column(name="type",length=20)
+	@Column(name="type",length=200)
 	private String type;
 	
 	/**模板的访问路径:模板文件存于数据库或磁盘都可,path为磁盘路径,默认行为是即上传到数据库又上传到磁盘**/

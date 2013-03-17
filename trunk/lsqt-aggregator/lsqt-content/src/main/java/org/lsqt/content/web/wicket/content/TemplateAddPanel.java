@@ -2,10 +2,12 @@ package org.lsqt.content.web.wicket.content;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -22,6 +24,7 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.ComponentModel;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -56,15 +59,10 @@ public class TemplateAddPanel extends WebPage//Panel
 	private final Template template=new Template() ;
 	private TmplContent tmplContent=new TmplContent();
 	private Node node;
-	public TmplContent getTmplContent()
-	{
-		return tmplContent;
-	}
-
-	public void setTmplContent(TmplContent tmplContent)
-	{
-		this.tmplContent = tmplContent;
-	}
+	
+	private String savedDir=StringUtils.EMPTY;
+	private String rootDir = WebUtil.getWebRoot(); 
+	
 
 	public TemplateAddPanel(Node node)
 	{
@@ -76,9 +74,19 @@ public class TemplateAddPanel extends WebPage//Panel
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	private void init()
 	{
-		final Form form=new Form("form",new ComponentModel<Template>());
+		final FeedbackPanel feedbackPanel=new FeedbackPanel("feedbackPanel");
+		
+		final Form form=new Form("form")
+		{
+			@Override
+			protected void onSubmit()
+			{
+				System.out.println("aaaa");
+			}
+		
+		};
 		form.setMultiPart(true);
-		form.setMaxSize(Bytes.kilobytes(2000));
+		form.setMaxSize(Bytes.kilobytes(20000));
 		
 		
 		final WebMarkupContainer tmplInfo=new WebMarkupContainer("tmplInfo");
@@ -89,114 +97,154 @@ public class TemplateAddPanel extends WebPage//Panel
 		final Label type=new Label("type", new PropertyModel<String>(template,"type"));
 		final Label diskPath=new Label("diskPath",new PropertyModel<String>(template, "diskPath"));
 		
-		final TextArea<byte[]> content=new TextArea<byte[]>("content", new PropertyModel<byte[]>(tmplContent,"bytes"));
+		final TextArea<String> content=new TextArea<String>("content", new PropertyModel<String>(tmplContent,"content"));
 		TinySettingBean.initSetting(content, form);
 		
 		final FileUploadField file=new FileUploadField("file");
 		final UploadProgressBar progress=new UploadProgressBar("progress", form,file);
 		
-		AjaxSubmitLink btnUpload=new AjaxSubmitLink("btnUpload",form)
+		AjaxSubmitLink btnAdd=new AjaxSubmitLink("btnAdd",form)
+		{
+			@Override
+			protected void onError(AjaxRequestTarget target, Form<?> form)
+			{
+				target.add(feedbackPanel);
+			}
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
+			{
+				if(StringUtils.isEmpty(tmplContent.getContent()))
+				{
+					error("没有模板内容!");
+					target.add(feedbackPanel);
+					return ;
+				}
+				
+				try
+				{
+					templateService.save(template, tmplContent);
+
+					File fileDir = new File(WebUtil.getWebRoot().concat(savedDir));
+					if (!fileDir.exists())
+					{
+						fileDir.mkdirs();
+					}
+					String fullPaht = rootDir.concat(File.separator)
+							.concat(savedDir).concat(File.separator)
+							.concat(file.getFileUpload().getClientFileName());
+					file.getFileUpload().writeTo(new File(fullPaht));
+
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+				} finally
+				{
+					target.add(tmplInfo);
+					onClickSave(target);
+				}
+			}
+			
+		};
+		
+		AjaxSubmitLink btnUpload=new AjaxSubmitLink("btnUpload")
 		{
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
 			{
 				FileUpload fileUpload = file.getFileUpload();
-				
-				if(fileUpload!=null)
+				if(fileUpload==null)
 				{
-					try
-					{
-						String path=WebUtil.getWebRoot();
-						
-						if (NODE_TYPE_APPLICATION.equals(node.getType()))
-						{
-							Application app=appsService.findById(node.getId());
-							path=path.concat(app.getEngName());
-						}else if(NODE_TYPE_CATEGORY.equals(node.getType()))
-						{
-							Application app=categoryServ.findById(node.getId()).getApp();
-							path=path.concat(app.getEngName());
-						}
-						//以上构建服务器布署跟路径: .../lsqt-conent/aaa1/
-						
-						List<String> fullPath=new ArrayList<String>();
-						if(NODE_TYPE_CATEGORY.equals(node.getType()))
-						{
-							buildPathForCateNode(node.getId(),fullPath);
-						}
-						Collections.reverse(fullPath);
-						StringBuffer tmp=new StringBuffer();
-						for(String i: fullPath){
-							tmp.append(File.separator.concat(i));
-						}
-						 
-						String wholePath=path.concat(tmp.toString()
-								.concat(File.separator)
-								.concat(fileUpload.getClientFileName())); //全路径,包含文件名
-						path=path.concat(tmp.toString());
-						
-						
-						template.setName(fileUpload.getClientFileName());
-						
-						template.setCateName(node.getName());
-						template.setDiskPath(wholePath );
-						template.setAlias( fileUpload.getClientFileName());
-						template.setOrderNum(0);
-						template.setType(fileUpload.getContentType());
-						template.setCateId(node.getId());
-						template.setCategory(categoryServ.findById(node.getId()));
-						
-						
-						
-						tmplContent.setName(template.getName());
-						tmplContent.setOrderNum(templateService.getMaxOrderNum(node.getId()));
-						tmplContent.setBytes(fileUpload.getBytes());
-						/*
-						templateService.save(template, tmplContent);
-						
-						
-						File file = new File(path);
-						if (!file.exists())
-						{
-							file.mkdirs();
-						}
-						fileUpload.writeTo(new File(wholePath));
-						 */
-						
-						//TemplateAddPanel.this.info("saved file: "+ fileUpload.getClientFileName());
-						
-						
-						target.add(tmplInfo);
-						
-					} catch (Exception e)
-					{
-						e.printStackTrace();
-					}
+					error("没有文件上传");
+					target.add(feedbackPanel);
+					return ;
 				}
+				
+				String tmpName=fileUpload.getClientFileName().toLowerCase();
+				
+				if(tmpName.endsWith(".vm")== false)
+				{
+					error("不是有效的模板文件(模板文件以*.vm结尾)");
+					target.add(feedbackPanel);
+					return ;
+				}
+				
+				String content=StringUtils.EMPTY;
+				try{
+					content=new String(fileUpload.getBytes(),"UTF-8");
+				}catch(UnsupportedEncodingException ex){
+					error("不是有效的模板文件: "+ex.getMessage());
+					target.add(feedbackPanel);
+					return ;
+				}
+				
+
+				String generDir=StringUtils.EMPTY;
+				if (NODE_TYPE_APPLICATION.equals(node.getType()))
+				{
+					Application app=appsService.findById(node.getId());
+					generDir=generDir.concat(app.getEngName());
+				}else if(NODE_TYPE_CATEGORY.equals(node.getType()))
+				{
+					Application app=categoryServ.findById(node.getId()).getApp();
+					generDir=generDir.concat(app.getEngName());
+				}
+				
+				
+				List<String> fullPath=new ArrayList<String>();
+				if(NODE_TYPE_CATEGORY.equals(node.getType()))
+				{
+					buildPathForCateNode(node.getId(),fullPath);
+				}
+				Collections.reverse(fullPath);
+				StringBuffer tmp=new StringBuffer();
+				for(String i: fullPath){
+					tmp.append(i);
+				}
+				 
+				savedDir=generDir.concat(tmp.toString()); //全路径,未包含文件名
+				
+				
+				template.setName(fileUpload.getClientFileName());
+				template.setCateName(node.getName());
+				template.setDiskPath(rootDir.concat(savedDir).concat(File.separator).concat(fileUpload.getClientFileName()));
+				template.setAlias(fileUpload.getClientFileName());
+				template.setOrderNum(0);
+				template.setType(fileUpload.getContentType());
+				template.setCateId(node.getId());
+				template.setCategory(categoryServ.findById(node.getId()));
+				
+				tmplContent.setName(template.getName());
+				tmplContent.setOrderNum(templateService.getMaxOrderNum(node.getId()));
+				tmplContent.setContent(content);
+				
+			
+				getFeedbackMessages().clear();
+				target.add(feedbackPanel);
+				
+				target.add(tmplInfo);
 			}
 		};
 		
-		btnUpload.setDefaultFormProcessing(false);
 		
 		AjaxSubmitLink btnDelete=new AjaxSubmitLink("btnDelete",form)
 		{
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
 			{
+				/*file.setModelObject(new ArrayList());
+				file.setDefaultModelObject(new ArrayList());*/
+			
+				tmplContent.setContent(StringUtils.EMPTY);
+				template.setDiskPath(StringUtils.EMPTY);
+				template.setType(StringUtils.EMPTY);
 				
+				getFeedbackMessages().clear();
+				target.add(feedbackPanel);
+				
+				target.add(tmplInfo);
 			}
 		};
 		
-		
-		AjaxSubmitLink btnAdd=new AjaxSubmitLink("btnAdd",form)
-		{
-			@Override
-			protected void onSubmit(AjaxRequestTarget target, Form<?> form)
-			{
-				
-				onClickSave(target);
-			}
-		};
 		
 		AjaxLink<Void> btnCancel=new AjaxLink("btnCancel")
 		{
@@ -207,6 +255,8 @@ public class TemplateAddPanel extends WebPage//Panel
 			}
 		};
 		
+		
+		add(feedbackPanel.setOutputMarkupId(true));
 		add(form);
 		{
 			form.add(tmplInfo.setOutputMarkupId(true));
@@ -219,8 +269,8 @@ public class TemplateAddPanel extends WebPage//Panel
 				tmplInfo.add(content);
 			}
 			form.add(file);
-			form.add(btnUpload);
 			form.add(progress);
+			form.add(btnUpload);
 			form.add(btnDelete);
 			form.add(btnAdd);
 			form.add(btnCancel);
@@ -245,6 +295,16 @@ public class TemplateAddPanel extends WebPage//Panel
 		{
 			return buildPathForCateNode(temp.getParentCategory().getId(),fullPath);
 		}
+	}
+	
+	public TmplContent getTmplContent()
+	{
+		return tmplContent;
+	}
+
+	public void setTmplContent(TmplContent tmplContent)
+	{
+		this.tmplContent = tmplContent;
 	}
 	
 	protected void onClickCancel(AjaxRequestTarget target)

@@ -3,8 +3,21 @@
 
 <wicket:head>
     <style type="text/css">
-         .pageNationBarText{width:50px;}
-    </style>
+.pageNationBarText {
+	width: 50px;
+}
+
+tr:hover {
+  background-color:#3d80df;
+  color: #fff;
+}
+
+thead tr:hover {
+  background-color: transparent;
+  color: inherit;
+}
+</style>
+    
 </wicket:head>
 
 <body>
@@ -23,7 +36,7 @@
 					</thead>
 					
 					<tbody>
-						<tr wicket:id="bodyer">
+						<tr wicket:id="bodyer" >
 						   <td><input type="checkbox" wicket:id="itemCheck"/></td>
 							<td wicket:id="row"><span wicket:id="rowCell"><span wicket:id="headerCellText">单元格内容</span></span></td>
 							<td wicket:id="operats">

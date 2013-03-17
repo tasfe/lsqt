@@ -30,7 +30,7 @@ public abstract class Content implements java.io.Serializable {
 	private String code;
 	
 	/**内容名称**/
-	@Column(name="name",length=500)
+	@Column(name="name",length=255)
 	private String name;
 	
 	/**创建时间戳**/
