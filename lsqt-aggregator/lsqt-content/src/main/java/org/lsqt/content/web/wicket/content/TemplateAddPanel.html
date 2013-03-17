@@ -5,11 +5,11 @@
 <title></title>
 </head>
 <body>
+    <div wicket:id="feedbackPanel"></div>
     <form wicket:id="form">
         模板内容: <a href="#">编辑器视图</a>&nbsp;&nbsp;<a href="#">文本视图</a>
         <span wicket:id="progress">进度条</span>
-        <input type="file" wicket:id="file"></input> 
-        <a wicket:id="btnUpload">上传内容</a>
+        <input type="file" wicket:id="file"></input> <input type="button" wicket:id="btnUpload" value="上传内容"></input>
         <a wicket:id="btnDelete">删除内容</a>
         <div wicket:id="tmplInfo">
 	        模板(英文)名称*:<input wicket:id="name"  type="text"></input><br />

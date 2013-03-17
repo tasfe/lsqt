@@ -33,9 +33,19 @@ public class TmplContent extends Content{
 	private Template template;
 
 	@Lob
-	@Column(name="value")
-	private byte [] bytes;
+	@Column(name="content")
+	private String content;
 	
+	public String getContent()
+	{
+		return content;
+	}
+
+	public void setContent(String content)
+	{
+		this.content = content;
+	}
+
 	public String getId(){
 		return id;
 	}
@@ -50,15 +60,5 @@ public class TmplContent extends Content{
 
 	public void setTemplate(Template template){
 		this.template = template;
-	}
-
-	public byte[] getBytes()
-	{
-		return bytes;
-	}
-
-	public void setBytes(byte[] bytes)
-	{
-		this.bytes = bytes;
 	}
 }
