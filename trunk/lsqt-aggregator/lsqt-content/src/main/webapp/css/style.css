@@ -1,14 +1,127 @@
 /* CONSOLE LAYOUT */
 #container {margin:0 auto; width:950px;}
 
-#header { height:60px; background:#6cf;}
-#menu { height:33px; background:#09c; }
+#header {
+    background-image: url("../img/header_bg.jpg");
+    background-position: right center;
+    background-repeat: no-repeat;
+    height: 87px;
+    margin: 0 auto;
+    position: relative;
+}
 
-#mainContent { height:615px;}
-#sidebar { float:left; width:200px; height:615px; overflow:auto}
-#content { float:right; width:750px; height:615px; }
+#menu { height:31px; text-align: left; background-image: url(../img/mainnav_bg.jpg);}
 
-#footer { height:60px; background:#6cf;}
+#main{ height:615px;}
+#sidebar { float:left; width:170px; height:615px; overflow:auto}
+#content { float:right; width:770px; height:615px; margin: 5px;}
 
+#footer { height:31px; background-image: url(../img/mainnav_bg.jpg);}
+
+/**清理浮动简洁方式**/
+.cf:before, .cf:after {
+    content:"";
+    display:table;
+}
+.cf:after {
+    clear:both;
+}
+.cf {
+    zoom:1;
+}
+
+
+ 
 /* MAIN CSS */
-body { font-family:Verdana; font-size:14px; margin:0;}
+body { font-family:Verdana; font-size:12px; margin:0;}
+form,h1,h2,h3,h4,h5,h6,ul,ol,li,dd,dt,dl{margin: 0px;padding: 0px;}
+img{border: 0px;}
+
+input[type=text],textarea,select{
+ background-color: #ECF5FB;
+ border: 1px solid #C1D9D9;
+ }
+ 
+.time{
+	background-image: url("../img/time_bg.jpg");
+    color: #FFFFFF;
+    float: right;
+    font-size: 12px;
+    line-height: 31px;
+    text-align: left;
+    text-decoration: none;
+    text-indent: 30px;
+    width: 280px;
+}
+.btn{
+	background-image: url("../img/button_bgcurrent.jpg");
+    border: 1px inset #064A55;
+    color: #FFFFFF;
+    float: left;
+    font-size: 12px;
+    line-height: 19px;
+    margin: 4px;
+    text-align: center;
+    width: 74.5px;
+	cursor: pointer;
+}
+#logo {
+	background-image: url("../img/logo_1xxxx.jpg");
+	float: left;
+	height: 87px;
+	width: 237px;
+}
+
+.topnav {
+    background-image: url("../img/2.gif");
+    background-position: left center;
+    background-repeat: no-repeat;
+   
+    float: right;
+    font-size: 12px;
+    line-height: 25px;
+    margin: 3px;
+    text-decoration: none;
+    width: 80px;
+    text-indent: 14px;
+     color: #FFFFFF;
+}
+
+.login{
+	background-image: url("../img/login_bg.jpg");
+    background-repeat: repeat-x;
+    height: 62px;
+    line-height: 62px;
+    width: 170px;;
+}
+.lgInfo{
+	background-image: url("../img/login.gif");
+    background-position: left center;
+    background-repeat: no-repeat;
+    color: #FFFFFF;
+    float: left;
+    font-size: 12px;
+    height: 52px;
+    line-height: 20px;
+    margin: 6px 0 0;
+    text-align: center;
+    text-indent: 50px;
+    width: 170px;
+}
+.nav{
+	 background-image: url("../img/mainnav_menu.jpg");
+    color: #FFFFFF;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    font-weight: 600;
+    height: 31px;
+    line-height: 31px;
+    text-align: left;
+    text-decoration: none;
+    text-indent: 25px;
+    width: 88px;
+}
+.nav:hover{
+	background-image: url(../img/mainnav_menuCurrent.jpg);
+}
