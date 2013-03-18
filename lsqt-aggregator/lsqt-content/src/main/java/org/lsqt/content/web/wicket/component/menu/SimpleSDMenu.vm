@@ -1,0 +1,12 @@
+#foreach(${key} in ${itemsMap.keySet()})
+    <div>
+     <span wicket:id="$key.id">${key.name} </span>
+        #foreach(${k} in ${itemsMap.get($key)})
+         <a href="#" wicket:id="$k.id">$k.name</a>
+        #end 
+    </div>
+#end
+
+
+
+
