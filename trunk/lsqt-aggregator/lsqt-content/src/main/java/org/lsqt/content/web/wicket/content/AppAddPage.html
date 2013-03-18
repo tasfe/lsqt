@@ -2,17 +2,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title></title>
+<wicket:head>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+</wicket:head>
+    <title>添加应用</title>
 </head>
 <body>
 <form wicket:id="form">
-    <div wicket:id="feedBackPanel">提示信息</div>
-	应用名称:<input wicket:id="appName"  type="text"></input><br />
-	应用名称英文:<input wicket:id="engName"  type="text"></input><br />
-	描述:<input wicket:id="desc"  type="text"></input><br />
-	排序号;<input wicket:id="orderNum" type="text"></input><br />
-	<input type="submit" wicket:id="btnAdd"></input>
-	<input type="button" value="取消" wicket:id="btnCancel"></input>
+<div style="margin: 0 auto; width: 400px;height: 250px;">
+    <div style="width: 220px;height: 250px; float: left;">
+    <table>
+        <tr>
+            <td>应用名称:</td>
+            <td><input wicket:id="appName"  type="text"></input></td>
+        </tr>
+        <tr>
+            <td>英文别名:</td>
+            <td><input wicket:id="engName"  type="text"></input></td>
+        </tr>
+        <tr>
+            <td>描述:</td>
+            <td><input wicket:id="desc"  type="text"></input></td>
+        </tr>
+        <tr>
+            <td>排序号:</td>
+            <td><input wicket:id="orderNum" type="text"></input></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" wicket:id="btnAdd" value="保存"></input>
+                <input type="button" value="取消" wicket:id="btnCancel"></input>
+            </td>
+        </tr>
+    </table>
+    </div>
+    <div wicket:id="feedBackPanel" style="width: 150px; float: right; ">提示信息</div>
+</div>
 </form>
 </body>
 </html>

@@ -52,7 +52,7 @@ public class NewsListPage  extends ConsoleIndex{
 
 		for (Application a : appsService.findAll())
 		{
-			Node n = new Node(root, a.getId(), a.getName());
+			Node n = new Node(root, a.getId(), "[应用]"+a.getName());
 			n.setType(NODE_TYPE_APPLICATION);
 
 			List<Category> list = categoryServ.getCategoryByApp(a.getId());

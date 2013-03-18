@@ -21,10 +21,11 @@
 			list-style: none;
 			padding: 2px;
 			margin: 0;
+			
 		}
 		
 		div.wicket-aa ul li.selected {
-			background-color: lightgreen;
+			background-color: #C6DFDF;
 			padding: 2px:      margin:0;
 		}
 	</style>
@@ -35,8 +36,13 @@
 <wicket:extend>
 		<form wicket:id="form">
 			<div wicket:id="search">
-			         <div>当前位置:应用管理 - 应用列表 <a href="#"  wicket:id="btnAdd">添加应用</a></div>
-					<input type="text" wicket:id="key" style="background:lightgreen;border-color:green" onclick="function(){this.value='';}"></input>
+			         <div style="background-color: #ECF5FB; height: 25px;margin:0px; border: 1px dashed #C6DFDF;">
+			             <div  style="float: left;"><span>当前位置:应用管理 - 应用列表</span></div>
+			             <div style="float: right;"> <div class="btn"  wicket:id="btnAdd"> 添加应用</div> </div>
+			          </div>
+			         
+			       
+					<input type="text" wicket:id="key" ></input>
 					<a href="#" wicket:id="btnSearch">查询</a>
 					<a href="#" wicket:id="btnDeleteSels">批量删除</a>
 			</div>
