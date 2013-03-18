@@ -1,0 +1,56 @@
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Slashdot's Menu</title>
+    <wicket:head>    
+    <script type="text/javascript">
+    // <![CDATA[
+    var myMenu;
+    window.onload = function() {
+        myMenu = new SDMenu("my_menu");
+        myMenu.speed = 5;
+       // myMenu.oneSmOnly = true; 
+        myMenu.markCurrent = true; 
+        myMenu.init();
+    };
+    // ]]>
+    </script>
+    </wicket:head>
+  </head>
+  
+  <body>
+<wicket:panel>
+   <div style="float: left" id="my_menu" class="sdmenu" wicket:id="templatePanel">
+      <div>
+        <span>CMS管理</span>
+        <a href="#">应用管理</a>
+        <a href="#">类别管理</a>
+        <a href="#">内容管理</a>
+         <a href="#">模板管理</a>
+        <a href="#">资源管理</a>
+      </div>
+      <div>
+        <span>论坛管理</span>
+        <a href="#">版块管理</a>
+        <a href="#">贴子管理</a>
+        <a href="#">其它</a>
+      </div> 
+      <div>
+        <span>商城管理</span>
+        <a href="#">产品管理</a>
+        <a href="#">订单管理</a>
+        <a href="#">物流管理</a>
+      </div>
+       <div>
+        <span>机构管理</span>
+        <a href="#">人员管理</a>
+        <a href="#">角色管理</a>
+        <a href="#">权限管理</a>
+      </div>
+    </div>
+  </wicket:panel>
+  </body>
+  
+</html>
