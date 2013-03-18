@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	   <title>Insert title here</title>
+	   <style type="text/css">
+	   body, ul, li, h1, h2, h3, h4, h5, h6, p, form, dl, dt, dd { margin: 0px; padding: 0px; font-size: 12px; font-weight: normal; }
+	ul { list-style: none; }
+	img { border-style: none; }
+	   
+	   
+	   
+	  body { font-family: Verdana; font-size: 12px; line-height: 1.5; margin: 0;font-family: Verdana,sans-serif,宋体; }
+
+        #ad { width:950px; height:80px; margin: auto; background-color: lightgreen;}
+        
+        #head { width:950px; height:110px;margin: auto; margin-top:2px;  background-color: orange;}
+        .logo{width:100px; height:110px; background-color: yellow; float: left;}
+        .search{width: 600px;  height:110px; background-color: green; float: left;}
+        .login{width:250px;  height:110px; background-color: pink; float: left;}
+        .content{ width: 950px; height: 300px; margin:auto; background-color: #99FFcc;}
+        
+        a { color: #000; text-decoration: none; }
+        a:hover { color: #F00; }
+        
+        #menu{width: 100px; border: 1 solid #ccc;}
+        #menu ul {list-style: none; margin: 0;padding: 0;}
+        #menu ul li{background-color: #eee ;height: 26px;padding: 0px 8px 0px 8px; line-height: 26px; border-bottom: 1px #ccc solid; position: relative;}
+        #menu ul li ul{display: none; border: solid solid none solid 1 #ccc; position: absolute ; width: 100px; left: 100px; top: 0px;}
+        #menu ul li:hover ul { display:block;}
+        #menu ul li.current ul{display: block;}
+        
+
+    </style>
+	
+	</head>
+	<body >
+
+	   <div id="ad">广告位</div>
+	   <div id="head" >
+	       <div class="logo">logo</div>
+	       <div class="search">search</div>
+	       <div class="login">
+	           <table>
+	               <tr>
+	                   <td>用户名:</td>
+	                   <td><input></input></td>
+	               </tr>
+	                <tr>
+                       <td>密码:</td>
+                       <td><input></input></td>
+                   </tr>
+                   <tr>
+                       <td><input type="button" value="忘记密码"></input></td>
+                       <td><input type="button" value="新用户注册"></input></td>
+                   </tr>
+	           </table>
+	       </div>
+	       
+	   </div>
+	   
+	   <div id="menu">
+		<ul>
+			<li><a href="@#">首页</a></li>
+			<li><a href="#">网页版式布局</a>
+			     <ul>
+			         <li><a href="#">自适用布局</a></li>
+			         <li><a href="#">固定布局</a></li>
+			     </ul>
+			</li>
+			<li><a href="#">div+css教程</a>
+			     <ul>
+			         <li><a href="#">divcss教程一</a></li>
+			          <li><a href="#">divcss教程二</a></li>
+			     </ul>
+			</li>
+			<li><a href="#">div+css实例</a></li>
+			<li><a href="#">常用代码</a></li>
+			<li><a href="#">站长杂谈</a></li>
+			<li><a href="#">技术文档</a></li>
+			<li><a href="#">资源下载</a></li>
+			<li><a href="#">图片素材</a></li>
+			</ul>
+		</div>
+	   
+	   
+	   <div style="width:950px; margin: auto;">
+	        <div style="width:450px;float:left; background-color: green; ">1111</div>
+	        <div  style="background-color: red;width: 500px; float: right; ">222223 </div>
+	    </div>
+	   <div class="content" style="background-color: white;">333</div>
+	   <div class="content">444</div>
+	</body>
+	
+	<script type="text/javascript">
+    <!--//--><![CDATA[//><!--
+        startList = function() {
+            if (document.all && document.getElementById) {
+                navRoot = document.getElementById("menu");
+                var allli = navRoot.getElementsByTagName("li")
+                for (i = 0; i < allli.length; i++) {
+                    node = allli[i];
+                    node.onmouseover = function() {
+                    	alert(this.className);
+                        this.className += " current";
+                    }
+                    node.onmouseout = function() {
+                        this.className = this.className.replace(" current", "");
+                    }
+                }
+            }
+        }
+        window.onload = startList;
+        //--><!
+    </script>
+</html>
