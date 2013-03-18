@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 
 public class Node implements Serializable
 {
@@ -13,17 +15,32 @@ public class Node implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-	private String name;
+	private String pid;
+	private String name=StringUtils.EMPTY;
 	
 	private Node parent;
-
 	private List<Node> subNodes = new ArrayList<Node>();
 
 	private Object tag;
 	private String type;
+	
 	public Node(){}
 
+	public Node(String id){
+		this.id=id;
+	}
 
+	public Node(String id,String name){
+		this.id=id;
+		this.name=name;
+	}
+	
+	public Node(String id,String pid,String name){
+		this.id=id;
+		this.pid=pid;
+		this.name=name;
+	}
+	
 	public Node(Node parent,String id, String name)
 	{
 		this.parent = parent;
@@ -126,7 +143,15 @@ public class Node implements Serializable
 		this.type = type;
 	}
 
+	public String getPid()
+	{
+		return pid;
+	}
 
+	public void setPid(String pid)
+	{
+		this.pid = pid;
+	}
 
 
 }

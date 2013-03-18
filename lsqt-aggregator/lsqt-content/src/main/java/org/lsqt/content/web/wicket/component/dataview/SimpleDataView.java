@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormChoiceComponentUpdatingBehavior;
@@ -145,26 +146,16 @@ public class SimpleDataView extends Panel {
 		
 		
 		//表格身体制造
-		ListView<Object> bodyer = new ListView<Object>("bodyer", bodyerData)
+		final ListView<Object> bodyer = new ListView<Object>("bodyer", bodyerData)
 		{
 			@Override
 			protected void populateItem(final ListItem<Object> item)
 			{
-				
+				if(item.getIndex()%2==0){
+					AttributeModifier att=new AttributeModifier("background-color", "#000000");
+					this.add(att);
+				}
 				final Check itemCheck=(Check)new Check("itemCheck",item.getModel(),group);
-				/*
-				itemCheck.add(new AjaxEventBehavior("onclick")
-				{
-					@Override
-					protected void onEvent(AjaxRequestTarget target)
-					{
-						Object o=itemCheck.getModelObject();
-						
-						//target.appendJavaScript("$(function(){$('#"+itemCheck.getMarkupId()+"')[0].checked='';})");
-						System.out.println(o);
-					}
-				});
-				*/
 				item.add(itemCheck);
 				
 				
@@ -309,7 +300,7 @@ public class SimpleDataView extends Panel {
 			protected void onUpdate(AjaxRequestTarget target) 
 			{
 				bean.setJumpPage(txtJumpPage.getModelObject());
-				Page initialPage = new Page(bean.getPerPageRecord(),bean.getJumpPage());
+				Page initialPage = new Page(bean.getPerPageRecord()==null ? 20:bean.getPerPageRecord() ,bean.getJumpPage()==null ? 1:bean.getJumpPage());
 				SimpleDataView.this.onLoadPage(initialPage);
 				refresh(initialPage);
 				target.add(txtJumpPage);
@@ -328,9 +319,12 @@ public class SimpleDataView extends Panel {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected void onUpdate(AjaxRequestTarget target) {
+			protected void onUpdate(AjaxRequestTarget target)
+			{
 				bean.setPerPageRecord(txtPerPageRecord.getModel().getObject());
-				Page initialPage = new Page(bean.getPerPageRecord(),bean.getCurrPageNum());
+				Page initialPage = new Page(bean.getPerPageRecord() == null
+						? 20 : bean.getPerPageRecord(),
+						bean.getCurrPageNum() == null ? 1 : bean.getCurrPageNum());
 				SimpleDataView.this.onLoadPage(initialPage);
 				refresh(initialPage);
 				target.add(ctnList);
