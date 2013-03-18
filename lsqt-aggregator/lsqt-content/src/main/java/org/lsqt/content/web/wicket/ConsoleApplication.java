@@ -2,7 +2,9 @@ package org.lsqt.content.web.wicket;
 
 import net.ftlines.wicketsource.WicketSource;
 
+import org.apache.velocity.app.Velocity;
 import org.apache.wicket.Page;
+import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.ajax.AjaxChannel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
@@ -28,8 +30,18 @@ public class ConsoleApplication extends WebApplication {
 		 //web编辑器使用
 		SecurePackageResourceGuard guard = (SecurePackageResourceGuard) getResourceSettings().getPackageResourceGuard();
 		 guard.addPattern("+*.htm");
-		 
 		 addDebugsSetting();
+		 
+		 //集成velocity使用 
+		 guard.addPattern("+*.vm");
+		 try
+			{
+				Velocity.init();
+			}
+			catch (Exception e)
+			{
+				throw new WicketRuntimeException(e);
+			}
 		 
 		 //setRootRequestMapper(new HttpsMapper(getRootRequestMapper(),new HttpsConfig()));
 		 

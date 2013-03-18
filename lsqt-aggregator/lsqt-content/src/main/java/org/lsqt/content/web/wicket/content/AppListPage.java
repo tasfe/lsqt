@@ -154,7 +154,7 @@ public class AppListPage  extends ConsoleIndex{
 						return emptyList.iterator();
 					}
 					
-					Page page = new Page(20, 1);
+					Page page = new Page(18, 1);
 					appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
 					
 					Set<String> set=new LinkedHashSet<String>();
@@ -185,11 +185,11 @@ public class AppListPage  extends ConsoleIndex{
 
 				@Override
 				public void onClick(AjaxRequestTarget target) {
-					System.out.println(ctnAppList.getSelectedItems());
-					
 					final ModalWindow modalWin=ctnAppList.getModalWindow();
 					modalWin.setTitle("应用添加");
-					modalWin.setCookieName("modalWin");
+					modalWin.setInitialWidth(450);
+					modalWin.setInitialHeight(250);
+					/*modalWin.setCookieName("modalWin");*/
 					modalWin.setPageCreator(new ModalWindow.PageCreator()
 					{
 						public AppAddPage createPage() 
@@ -209,7 +209,6 @@ public class AppListPage  extends ConsoleIndex{
 					modalWin.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
 						@Override
 					public void onClose(AjaxRequestTarget target){
-							System.out.println(ctnAppList.getSelectedItems());
 							refreshPage();
 							
 							target.add(ctnAppList);
@@ -232,11 +231,17 @@ public class AppListPage  extends ConsoleIndex{
 					
 						String key = txtKey.getModelObject();
 						key=getKey();
-						key=	txtKey.getInput();
 						if (StringUtils.isNotEmpty(key))
 						{
-							Page page = new Page(20, 1);
+							Page page = new Page(18, 1);
 		
+							appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
+							ctnAppList.refresh(page);
+							
+							target.add(ctnAppList);
+						}else{
+							Page page = new Page(18, 1);
+							
 							appsService.loadPage(key == null ? StringUtils.EMPTY : key, page);
 							ctnAppList.refresh(page);
 							

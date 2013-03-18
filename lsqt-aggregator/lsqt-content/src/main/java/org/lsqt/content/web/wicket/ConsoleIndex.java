@@ -8,11 +8,15 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.time.Duration;
 import org.lsqt.content.model.Category;
 import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.web.wicket.component.Clock;
+import org.lsqt.content.web.wicket.component.menu.SimpleSDMenu;
+import org.lsqt.content.web.wicket.component.menu.UrlNode;
+import org.lsqt.content.web.wicket.component.tree.Node;
 
 /**
  *后台管理首页.
@@ -84,91 +88,52 @@ public class ConsoleIndex extends AbstractPage {
 	}
 
 	private void layout(){
-		//WebMarkupContainer container = new WebMarkupContainer("container");
 		final WebMarkupContainer header = new WebMarkupContainer("header");
 		final WebMarkupContainer menu = new WebMarkupContainer("menu");
-		//WebMarkupContainer mainContent = new WebMarkupContainer("mainContent");
+	
 		final WebMarkupContainer sidebar = new WebMarkupContainer("sidebar");
-		//WebMarkupContainer content = new WebMarkupContainer("content");
+	
 		
-		//container.setOutputMarkupId(true);
 		header.setOutputMarkupId(true);
 		menu.setOutputMarkupId(true);
-		//mainContent.setOutputMarkupId(true);
+		
 		sidebar.setOutputMarkupPlaceholderTag(true);
-		//content.setOutputMarkupId(true);
-		
-		AjaxLink<Void> btnTop=new AjaxLink<Void>("btnTop") {
-			/**  */
-			private static final long serialVersionUID = 1L;
-
+	
+		SimpleSDMenu sideConetnt=new SimpleSDMenu("sideConetnt",null)
+		{
 			@Override
-			public void onClick(AjaxRequestTarget target) {
-			
+			protected void onClickNode(AjaxRequestTarget target, Node node)
+			{
+				UrlNode n=(UrlNode)node;
 				
-			}
-		};
-		
-		AjaxLink<Void> btnLeft=new AjaxLink<Void>("btnLeft") {
-			/**  */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				StringBuffer js=new StringBuffer();
-				js.append("$(function(){" +
-						"            $('#content').css('width','950px');" +
-						"   	})");
-				
-				
-				target.appendJavaScript(js.toString());
-				if (sidebar.isVisible()) {
-					sidebar.setVisible(false);
+				try
+				{
+					System.out.println((WebPage)Class.forName(n.getUrl()).newInstance());
+					setResponsePage((WebPage)Class.forName(n.getUrl()).newInstance());
+				}catch (Exception e)
+				{
+					
+					e.printStackTrace();
 				}
-				target.add(sidebar);
-				
 			}
 		};
 		
-		AjaxLink<Void> btnRight=new AjaxLink<Void>("btnRight") {
-			/**  */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onClick(AjaxRequestTarget target) {
-				StringBuffer js=new StringBuffer();
-				js.append("$(function(){" +
-						"            $('#content').css('width','750px');" +
-						"   	})");
-				
-				
-				target.appendJavaScript(js.toString());
-				if (sidebar.isVisible() == false) {
-					sidebar.setVisible(true);
-				}
-				target.add(sidebar);
-				
-			}
-		};
 		
+		Clock clock = new Clock("time", TimeZone.getDefault());
+		clock.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(1)));
+		menu.add(clock);
 		
 		add(header);
 		add(menu);
 		add(sidebar);
+		{
+			sidebar.add(sideConetnt);
+		}
 		 
-		menu.add(btnTop);
-		menu.add(btnLeft);
-		menu.add(btnRight);
 		
 		
 		
-		//Clock clock = new Clock("clock", TimeZone.getTimeZone("China/beijing"));
 		
-
-		// add the ajax behavior which will keep updating the component every 5
-		// seconds
-		//clock.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(1)));
-		//menu.add(clock);
 	}
 	
 }
