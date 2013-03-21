@@ -1,0 +1,32 @@
+<wicket:panel>
+<style type="text/css">
+#topCont a{border:0; cursor: pointer;}
+#topCont a,a:visited{color:#5e5e5e; text-decoration:none;}
+#topCont a:hover{color:#4183C4;text-decoration:underline;}
+#topCont h1{font-size:14px;font-family:"微软雅黑","宋体";}
+#topCont a,.shortcut h1{padding:0px 10px;letter-spacing:1px;color:#333;text-shadow:0px 1px 1px #fff;display:block;float:left;}
+#topCont a:hover{background:#fff;}
+#topCont span.right{float:right;}
+#topCont span.right a{float:left;display:block;color:#ff6600;font-weight:800;}
+</style>
+<script type="text/javascript">
+$(function(){
+	alert("bbb");
+	$("#fullScreen").onclick(){
+		alert("aaa");
+	};
+})
+</script>
+<div id="topCont">
+    <h1><a href="#">js表格排序筛选,字母和数字按先后大小顺序排列</a></h1>
+    <span class="right">
+        <a href="网站地图"></a>
+        <a >
+           <strong>刷新</strong>
+        </a>
+        <a  id="fullScreen">
+            <strong>全屏</strong>
+        </a>
+    </span>
+</div>
+</wicket:panel>

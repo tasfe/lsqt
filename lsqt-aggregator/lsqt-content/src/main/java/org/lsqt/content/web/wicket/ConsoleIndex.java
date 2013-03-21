@@ -7,6 +7,7 @@ import java.util.TimeZone;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -14,8 +15,10 @@ import org.apache.wicket.util.time.Duration;
 import org.lsqt.content.model.Category;
 import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.web.wicket.component.Clock;
+import org.lsqt.content.web.wicket.component.container.TopFixedFloatPanel;
 import org.lsqt.content.web.wicket.component.menu.SimpleSDMenu;
 import org.lsqt.content.web.wicket.component.menu.UrlNode;
+import org.lsqt.content.web.wicket.component.other.DisableContextMenuBehavior;
 import org.lsqt.content.web.wicket.component.tree.Node;
 
 /**
@@ -30,6 +33,17 @@ public class ConsoleIndex extends AbstractPage {
 	@SpringBean private CategoryService CatService;
 	
 	public ConsoleIndex() {
+		/*ModalWindow m=new ModalWindow("");
+		m.setContent(null);
+		m.show(target);
+		*/
+		
+		
+	/*	TopFixedFloatPanel topFiexedFloatPanel=new TopFixedFloatPanel("topFiexedFloatPanel");
+		topFiexedFloatPanel.setContent(new TopFloatContentPanel(topFiexedFloatPanel.getContentId()));
+		add(topFiexedFloatPanel);*/
+		
+		//this.add(new DisableContextMenuBehavior());
 		List<Category> list=new ArrayList<Category>();
 		Category c=new Category();
 		c.setId("2");
@@ -108,8 +122,10 @@ public class ConsoleIndex extends AbstractPage {
 				
 				try
 				{
+					if(n.getUrl()!=null){
 					System.out.println((WebPage)Class.forName(n.getUrl()).newInstance());
 					setResponsePage((WebPage)Class.forName(n.getUrl()).newInstance());
+					}
 				}catch (Exception e)
 				{
 					
