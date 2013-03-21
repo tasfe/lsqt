@@ -15,6 +15,9 @@ import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
 import org.apache.wicket.event.IEvent;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Check;
@@ -29,6 +32,8 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.resource.CoreLibrariesContributor;
 import org.lsqt.components.dao.suport.BeanHelper;
 import org.lsqt.components.dao.suport.Page;
 import org.lsqt.content.model.Application;
@@ -103,8 +108,9 @@ public class SimpleDataView extends Panel {
 		return this;
 	}
 	
+	
 	public SimpleDataView(String id){
-		
+
 		super(id);
 		
 		Page temp=new Page(20,1);
@@ -120,6 +126,7 @@ public class SimpleDataView extends Panel {
 			protected void populateItem(ListItem<String> item)
 			{
 				WebMarkupContainer headCell = new WebMarkupContainer("headCell");
+			
 				Label headerCellText =new Label("headerCellText",item.getModelObject()==null ? "": item.getModelObject().toString());
 				
 				headCell.add(headerCellText);
@@ -440,17 +447,9 @@ public class SimpleDataView extends Panel {
 		bean.setJumpPage(page.getCurrPageNum());
 		
 	}
-	/*
-	@Override
-	public boolean isVisible()
-	{
-		 super.isVisible();
-		 if(bodyerData.size()==0){
-			 return false;
-		 }
-		 return true;
-	}
-	*/
+	
+	
+	
 	public SimpleDataView addHeadLabel(String [] lable){
 		headerData.clear();
 		for(String i: lable){

@@ -1,7 +1,5 @@
 package org.lsqt.content.web.wicket;
 
-import net.ftlines.wicketsource.WicketSource;
-
 import org.apache.velocity.app.Velocity;
 import org.apache.wicket.Page;
 import org.apache.wicket.WicketRuntimeException;
@@ -10,8 +8,6 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.markup.html.SecurePackageResourceGuard;
 import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.protocol.https.HttpsConfig;
-import org.apache.wicket.protocol.https.HttpsMapper;
 import org.apache.wicket.response.filter.ServerAndClientTimeFilter;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.lsqt.content.web.wicket.content.AppListPage;
