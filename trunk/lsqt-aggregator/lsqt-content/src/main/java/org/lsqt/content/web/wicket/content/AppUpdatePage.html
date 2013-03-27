@@ -3,16 +3,37 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title></title>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
 <form wicket:id="form">
-	应用名称:<input wicket:id="appName"  type="text"></input>
-	应用英文名称:<input wicket:id="engName"  type="text"></input>
-	描述:<input wicket:id="desc"  type="text"></input>
-	排序号:<input wicket:id="orderNum" type="text"></input>
-	<input type="button" value="提交" wicket:id="btnSubmit"></input>
-	<input type="button" value="关闭" wicket:id="btnClose"></input>
-	
+    <div wicket:id="feedBackPanel"></div>
+    <table>
+        <tr>
+            <td>应用名称:</td>
+            <td><input wicket:id="appName"  type="text"></input></td>
+        </tr>
+        
+        <tr>
+            <td>应用别名:</td>
+            <td><input wicket:id="engName"  type="text"></input></td>
+        </tr>
+        
+        <tr>
+            <td>描述:</td>
+            <td><input wicket:id="desc"  type="text"></input></td>
+        </tr>
+        
+        <tr>
+            <td>排序号:</td>
+            <td><input wicket:id="orderNum" type="text"></input></td>
+        </tr>
+        
+        <tr>
+            <td><input type="button" value="提交" wicket:id="btnSubmit"></input></td>
+            <td><input type="button" value="关闭" wicket:id="btnClose"></input></td>
+        </tr>
+    </table>
 </form>
 </body>
 </html>

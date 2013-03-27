@@ -23,7 +23,18 @@ public class Node implements Serializable
 
 	private Object tag;
 	private String type;
+	private int orderNum;
 	
+	public int getOrderNum()
+	{
+		return orderNum;
+	}
+
+	public void setOrderNum(int orderNum)
+	{
+		this.orderNum = orderNum;
+	}
+
 	public Node(){}
 
 	public Node(String id){

@@ -23,6 +23,14 @@ public interface CategoryService {
 	public Page<Category> getPageByApp(String appID,Page initPage);
 	
 	/**
+	 * 跟据类别ID获取类别分页.
+	 * @param categoryID 类别ID
+	 * @param page 不带数据的分页
+	 * @return 一条数据的分页
+	 */
+	public Page<Category> getPageByID(String categoryID,Page initPage);
+	
+	/**
 	 * 获取匹配关键字的栏目.
 	 * @param keyWord 关键字
 	 * @return 返回栏目分页

@@ -39,9 +39,9 @@ public class ConsoleIndex extends AbstractPage {
 		*/
 		
 		
-	/*	TopFixedFloatPanel topFiexedFloatPanel=new TopFixedFloatPanel("topFiexedFloatPanel");
+		TopFixedFloatPanel topFiexedFloatPanel=new TopFixedFloatPanel("topFiexedFloatPanel");
 		topFiexedFloatPanel.setContent(new TopFloatContentPanel(topFiexedFloatPanel.getContentId()));
-		add(topFiexedFloatPanel);*/
+		add(topFiexedFloatPanel);
 		
 		//this.add(new DisableContextMenuBehavior());
 		List<Category> list=new ArrayList<Category>();

@@ -207,12 +207,15 @@ public class CategoryListPage extends ConsoleIndex {
 		} else if (NODE_TYPE_CATEGORY.equals( tree.getSelectedNode().getType()))
 		{
 			categoryServ.getPageByPID(tree.getSelectedNode().getId(), page);
-			
+			if(page.getData().size()==0){ //展现自己
+				categoryServ.getPageByID(tree.getSelectedNode().getId(), page);
+			}
 			
 		}else if(NODE_TYPE_OTHER.equals(tree.getSelectedNode().getType()))
 		{
 			//target.appendJavaScript("alert('请选择要添加的应用或父栏目！')");
 		}
+		
 		return page;
 	}
 	

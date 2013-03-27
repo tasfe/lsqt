@@ -479,6 +479,14 @@ public class SimpleDataView extends Panel {
 		return bean.getPerPageRecord();
 	}
 	
+	public void setCurrPage(Integer currPageNum){
+		bean.setCurrPageNum(currPageNum);
+	}
+	
+	public void setPerPageRecord(Integer perPageRecord){
+		bean.setPerPageRecord(perPageRecord);
+	}
+	
 	/**
 	 * 必须实现的方法.
 	 * @param page 不带数据的初使分页对象

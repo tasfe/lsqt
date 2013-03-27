@@ -18,14 +18,23 @@ $(function(){
 })
 </script>
 <div id="topCont">
-    <h1><a href="#">js表格排序筛选,字母和数字按先后大小顺序排列</a></h1>
+    <h1><a href="#">您有1条新消息</a></h1>
     <span class="right">
         <a href="网站地图"></a>
-        <a >
+        <a href="javascript:window.location.reload();">
            <strong>刷新</strong>
         </a>
         <a  id="fullScreen">
             <strong>全屏</strong>
+        </a>
+        <a>
+            <strong>使用说明</strong>
+        </a>
+        <a href="javascript:window.external.addFavorite('http://localhost:8080/lsqt-content/')">
+            <strong>加入收藏</strong>
+        </a>
+        <a onClick="var strHref=window.location.href;this.style.behavior='url(#default#homepage)'; this.setHomePage('http://要设为首页的完整网址');" >
+            <strong>设为首页</strong>
         </a>
     </span>
 </div>

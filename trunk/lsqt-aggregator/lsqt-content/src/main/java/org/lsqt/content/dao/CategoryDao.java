@@ -41,6 +41,15 @@ public interface CategoryDao extends EntityDao<Category>{
 	 */
 	public Page<Category> getPageByKey(String keyWord,Page page);
 	
+	/**
+	 * 跟据类别ID获取类别分页.
+	 * @param categoryID 类别ID
+	 * @param page 不带数据的分页
+	 * @return
+	 */
+	public Page<Category> getPageByID(String categoryID,Page page);
+	
+	
 	public Category findById(Serializable id) ;
 	
 	public void deleteAll();

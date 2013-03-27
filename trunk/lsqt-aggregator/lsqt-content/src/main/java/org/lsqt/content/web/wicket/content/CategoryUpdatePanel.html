@@ -7,14 +7,37 @@
 <body>
 <wicket:panel>
 	<form wicket:id="form">
-		栏目名称*:<input wicket:id="name"  type="text"></input><br/>
-		栏目英文*:<input wicket:id="engName"  type="text"></input>用于创建栏目的目录<br/>
-		排列顺序*:<input wicket:id="orderNum" type="text"></input><br/>
-		是否显示*:<span wicket:id="isVisible" type="checkbox"></span><br/>
-		打开目标: <input type="text" ></input><br/>
-		备注:<textarea wicket:id="description" ></textarea><br/>
-		<input type="button" wicket:id="btnAdd" value="保存"></input>
-		<input type="button" wicket:id="btnCancel" value="取消"></input>
+	   <div wicket:id="feedbackPanel"></div>
+	   <table>
+	       <tr>
+	           <td>栏目名称:</td>
+	           <td><input wicket:id="name"  type="text"></input></td>
+	       </tr>
+	       <tr>
+               <td>栏目英文:</td>
+               <td><input wicket:id="engName"  type="text"></input>用于创建栏目的目录</td>
+           </tr>
+           <tr>
+               <td>排列顺序:</td>
+               <td><input wicket:id="orderNum" type="text"></input></td>
+           </tr>
+           <tr>
+               <td>是否显示</td>
+               <td><span wicket:id="isVisible" type="checkbox"></span></td>
+           </tr>
+           <tr>
+               <td>打开目标:</td>
+               <td><input type="text" ></input></td>
+           </tr>
+           <tr>
+               <td>备注:</td>
+               <td><textarea wicket:id="description" ></textarea></td>
+           </tr>
+           <tr>
+               <td><input type="button" wicket:id="btnAdd" value="保存" /></td>
+               <td><input type="button" wicket:id="btnCancel" value="取消"/></td>
+           </tr>
+	   </table>
 	</form>
 </wicket:panel>
 </body>

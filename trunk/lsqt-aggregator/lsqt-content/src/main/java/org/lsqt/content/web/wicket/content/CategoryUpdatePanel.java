@@ -12,6 +12,7 @@ import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -38,6 +39,10 @@ public class CategoryUpdatePanel extends Panel
 	public CategoryUpdatePanel(String id,String categoryID){
 		super(id);
 
+		FeedbackPanel feedbackPanel=new FeedbackPanel("feedbackPanel");
+		feedbackPanel.setMaxMessages(1);
+		feedbackPanel.setOutputMarkupPlaceholderTag(true);
+		
 		Category category=categoryServ.findById(categoryID);
 		final SimpleForm<Category> form = new SimpleForm<Category>("form", 	new Model<Category>(category));
 		// 类别名称
@@ -82,6 +87,7 @@ public class CategoryUpdatePanel extends Panel
 
 		add(form);
 		{
+			form.add(feedbackPanel);
 			form.add(txtName);
 			form.add(txtEngName);
 			form.add(txtOrderNum);

@@ -40,6 +40,12 @@ public class CategoryDaoImpl extends AbstractHibernateDaoSupport<Category>  impl
 	}
 	
 	@Override
+	public Page<Category> getPageByID(String categoryID,Page page){
+		final StringBuilder hql=new StringBuilder("from Category c where  c.id = ?");
+		return super.loadPageByHql(hql.toString(), new Object[]{categoryID},page);
+	}
+	
+	@Override
 	public Page<Category> getPageByKey(String keyWord,Page page){
 		final StringBuffer hql=new StringBuffer();
 		hql.append("select c from Category c where c.name like '%"+StringEscapeUtils.escapeSql(keyWord)+"%' or c.description like '%"+StringEscapeUtils.escapeSql(keyWord)+"%'");
