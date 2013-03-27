@@ -1,23 +1,5 @@
-<wicket:head>
-<style type="text/css">
-/* reset */
-a,img{border:0;}
-/* shortcut */
-.shortcut{position:fixed;top:0;left:0;z-index:9999;width:100%;}
-*html,*html body /* 修正IE6振动bug */{background-image:url(about:blank);background-attachment:fixed;}
-*html .shortcut{position:absolute;top:expression(eval(document.documentElement.scrollTop));}
-.shortcut{height:28px;line-height:28px;font-size:12px;background:#EEEEEE;text-transform:uppercase;box-shadow:1px 0px 2px rgba(0,0,0,0.2);border-bottom:1px solid #DDDDDD;}
-.shortcut h1{font-size:14px;font-family:"Verdana;","微软雅黑","宋体";}
-.shortcut a,.shortcut h1{padding:0px 10px;letter-spacing:1px;color:#333;text-shadow:0px 1px 1px #fff;display:block;float:left;}
-.shortcut a:hover{background:#fff;}
-.shortcut span.right{float:right;}
-.shortcut span.right a{float:left;display:block;color:#ff6600;font-weight:800;}
-
-</style>
-</wicket:head>
-
 <wicket:panel>
-<div class="shortcut">
+<div id="shortcut">
     <div wicket:id="content"></div>
 </div>
 </wicket:panel>
