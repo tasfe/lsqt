@@ -13,6 +13,7 @@ import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -51,7 +52,10 @@ public class CategoryAddPanel extends Panel
 		this.modal=modal;
 		
 
-
+		final FeedbackPanel  feedbackPanel=new FeedbackPanel("feedbackPanel");
+		feedbackPanel.setMaxMessages(1);
+		feedbackPanel.setOutputMarkupPlaceholderTag(true);
+		
 		// 类别名称
 		TextField<String> txtName = new RequiredTextField<String>("name", new PropertyModel<String>(category, "name"));
 		
@@ -93,6 +97,13 @@ public class CategoryAddPanel extends Panel
 				onSaveAfter(target);
 				
 			}
+			
+			@Override
+			protected void onError(AjaxRequestTarget target, Form<?> form)
+			{
+				super.onError(target, form);
+				target.add(feedbackPanel);
+			}
 		};
 
 		// 取消
@@ -109,6 +120,7 @@ public class CategoryAddPanel extends Panel
 
 		add(form);
 		{
+			form.add(feedbackPanel);
 			form.add(txtName);
 			form.add(txtEngName);
 			form.add(txtOrderNum);
@@ -128,3 +140,4 @@ public class CategoryAddPanel extends Panel
 		
 	}
 }
+

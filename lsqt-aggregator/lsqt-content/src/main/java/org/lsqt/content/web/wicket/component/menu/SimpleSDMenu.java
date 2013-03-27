@@ -104,7 +104,7 @@ public class SimpleSDMenu extends Panel
 	}
 	
 	private  String getID(){
-		return UUID.randomUUID().toString().replace("-", "-");
+		return UUID.randomUUID().toString().replace("-", "");
 	}
 	/*
 	public static void main(String args[]) throws InstantiationException, IllegalAccessException, ClassNotFoundException

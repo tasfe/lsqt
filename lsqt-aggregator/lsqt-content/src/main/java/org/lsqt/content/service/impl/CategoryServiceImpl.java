@@ -41,6 +41,11 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 	
 	@Override
+	public Page<Category> getPageByID(String categoryID,Page initPage){
+		return this.categoryDao.getPageByID(categoryID,initPage);
+	}
+	
+	@Override
 	@Transactional
 	public boolean save(Category category){
 		return this.categoryDao.save(category);
@@ -64,8 +69,7 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public Page<Category> getPageByKey(String keyWord, Page initPage)
-	{
+	public Page<Category> getPageByKey(String keyWord, Page initPage)	{
 		return categoryDao.getPageByKey(keyWord, initPage);
 	}
 }

@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.NumberTextField;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -58,8 +59,12 @@ public class AppUpdatePage extends WebPage {
 		Model<Application> appModel=new Model<Application>(app);
 		Form<Application> form=new Form<Application>("form",appModel);
 		
-		TextField<String> txtAppName=new TextField<String>("appName", new PropertyModel<String>(app, "name") );
-		final TextField<String> txtEngName=new TextField<String>("engName", new PropertyModel<String>(app, "engName") );
+		final FeedbackPanel feedBackPanel=new FeedbackPanel("feedBackPanel");
+		feedBackPanel.setMaxMessages(1);
+		feedBackPanel.setOutputMarkupPlaceholderTag(true);
+		
+		TextField<String> txtAppName=new RequiredTextField<String>("appName", new PropertyModel<String>(app, "name") );
+		final TextField<String> txtEngName=new RequiredTextField<String>("engName", new PropertyModel<String>(app, "engName") );
 		TextField<String> txtDesc=new TextField<String>("desc", new PropertyModel<String>(app, "description") );
 		TextField<String> txtOrderNum=new RequiredTextField<String>("orderNum",new PropertyModel<String>(app,"orderNum"));
 		
@@ -83,10 +88,18 @@ public class AppUpdatePage extends WebPage {
 				appsService.update((Application)form.getModelObject());
 				window.close(target);
 			}
+			
+			@Override
+			protected void onError(AjaxRequestTarget target, Form<?> form)
+			{
+				super.onError(target, form);
+				target.add(feedBackPanel);
+			}
 		};
 		
 		add(form);
 		{
+			form.add(feedBackPanel);
 			form.add(txtAppName);
 			form.add(txtEngName);
 			form.add(txtDesc);

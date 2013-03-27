@@ -5,7 +5,7 @@
 <title></title>
 <wicket:head>
 	<style type="text/css">
-		.treeContent { float:left; width:200px; height:615px;  OVERFLOW-y:auto;}
+		.treeContent { float:left; width:200px; height:608px;  OVERFLOW-y:auto;}
 		.listContent { float:left; width:550px; height:615px; }
 	</style>
 </wicket:head>
@@ -13,13 +13,17 @@
 <body>
 <wicket:extend>
     <form wicket:id="form">
-			<div class="treeContent cf" wicket:id="tree">
-		    	这里是树状结构
-		    </div>
+			<div class="treeContent cf" wicket:id="tree"> 这里是树状结构 </div>
 			<div wicket:id="ctnSearch">
-					<input type="text" wicket:id="key"></input>
-					<a href="#" wicket:id="btnSearch">查询</a>
-					<input wicket:id="btnAddSub" type="button" value="添加子栏目"/>
+			          <div style="background-color: #ECF5FB; height: 25px;margin-left:200px; border: 1px dashed #C6DFDF;">
+                         <div  style="float: left;"><span>当前位置:类别管理 - 类别列表</span></div>
+                         <div style="float: right;"><input wicket:id="btnAddSub" type="button" value="添加子栏目"/> </div>
+                      </div>
+			         
+			         <div>
+						<input type="text" wicket:id="key"></input>
+						<a href="#" wicket:id="btnSearch">查询</a>
+					</div>
 			</div>
 			<div wicket:id="table"></div>
 	</form>

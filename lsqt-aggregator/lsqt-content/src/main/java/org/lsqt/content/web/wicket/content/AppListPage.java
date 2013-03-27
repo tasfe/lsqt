@@ -73,6 +73,8 @@ public class AppListPage  extends ConsoleIndex{
 		{
 			final ModalWindow window=getModalWindow();
 			window.setTitle("更新应用");
+			window.setInitialWidth(400);
+			window.setInitialHeight(180);
 			window.setPageCreator(new ModalWindow.PageCreator()
 			{
 				public AppUpdatePage createPage() 
@@ -187,9 +189,8 @@ public class AppListPage  extends ConsoleIndex{
 				public void onClick(AjaxRequestTarget target) {
 					final ModalWindow modalWin=ctnAppList.getModalWindow();
 					modalWin.setTitle("应用添加");
-					modalWin.setInitialWidth(450);
-					modalWin.setInitialHeight(250);
-					/*modalWin.setCookieName("modalWin");*/
+					modalWin.setInitialWidth(350);
+					modalWin.setInitialHeight(180);
 					modalWin.setPageCreator(new ModalWindow.PageCreator()
 					{
 						public AppAddPage createPage() 
@@ -271,7 +272,17 @@ public class AppListPage  extends ConsoleIndex{
 				}
 			};
 			
-			
+			final AjaxLink<Void> btnShowAll=new AjaxLink<Void>("btnShowAll")
+			{
+				@Override
+				public void onClick(AjaxRequestTarget target)
+				{
+					key=StringUtils.EMPTY;
+					refreshPage();
+					target.add(ctnAppList);
+					target.add(ctnSearch);
+				}
+			};
 		
 		
 		add(form);
@@ -284,6 +295,7 @@ public class AppListPage  extends ConsoleIndex{
 				ctnSearch.add(btnAdd);
 				ctnSearch.add(btnSearch);
 				ctnSearch.add(btnDeleteSels);
+				ctnSearch.add(btnShowAll);
 			}
 		}
 		
