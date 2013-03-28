@@ -40,12 +40,12 @@ public class NewsListPage  extends ConsoleIndex{
 	public static final String NODE_TYPE_OTHER="_other";
 
 	
-	
+	Node root;
 	private List<Node> rebuildTreeData()
 	{
 		List<Node> nodes = new ArrayList<Node>();
 		
-		Node root = new Node();
+		root = new Node();
 		root.setId(UUID.randomUUID().toString());
 		root.setName(ROOT_TEXT);
 		root.setType(NODE_TYPE_OTHER);
@@ -188,6 +188,7 @@ public class NewsListPage  extends ConsoleIndex{
 		};
 		
 
+		tree.expand(root);
 		
 		add(form);
 		{
