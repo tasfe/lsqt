@@ -171,7 +171,7 @@ public class TemplateListPage extends ConsoleIndex
 		
 		
 		
-		
+		tree.expand(root);
 		
 		add(form);
 		{
@@ -194,6 +194,7 @@ public class TemplateListPage extends ConsoleIndex
 	}
 	
 	
+	Node root;
 	/**
 	 * 刷新树结构,保持数据与数据库同步.
 	 */
@@ -201,7 +202,7 @@ public class TemplateListPage extends ConsoleIndex
 	{
 		List<Node> treeNodes = new ArrayList<Node>();
 		
-		Node root = new Node();
+		root = new Node();
 		root.setId(UUID.randomUUID().toString());
 		root.setName(ROOT_TEXT);
 		root.setType(NODE_TYPE_OTHER);

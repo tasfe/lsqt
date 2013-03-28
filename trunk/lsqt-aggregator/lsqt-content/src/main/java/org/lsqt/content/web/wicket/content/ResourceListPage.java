@@ -89,12 +89,12 @@ public class ResourceListPage  extends ConsoleIndex{
 		}
 	}.setOutputMarkupId(true);
 	
-	
+	Node root;
 	private List<Node> rebuildTreeData()
 	{
 		List<Node> nodes=new ArrayList<Node>();
 		
-		Node root = new Node();
+		root = new Node();
 		root.setId(UUID.randomUUID().toString());
 		root.setName(ROOT_TEXT);
 		root.setType(NODE_TYPE_OTHER);
@@ -143,7 +143,7 @@ public class ResourceListPage  extends ConsoleIndex{
 				});
 		
 
-		
+		tree.expand(root);
 	
 		add(form);
 		{

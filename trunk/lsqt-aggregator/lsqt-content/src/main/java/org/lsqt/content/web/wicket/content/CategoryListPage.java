@@ -55,7 +55,9 @@ public class CategoryListPage extends ConsoleIndex {
 			table.refresh(rebuildTableData());
 			target.add(table);
 		}
+		
 	}.setOutputMarkupId(true);
+	
 	
 	@SuppressWarnings("serial")
 	final SimpleDataView table=(SimpleDataView) new SimpleDataView("table")
@@ -223,7 +225,7 @@ public class CategoryListPage extends ConsoleIndex {
 	public CategoryListPage()
 	{
 		Form form=new Form("form");
-		
+		 
 		
 		//AutoCompleteTextField
 		
@@ -346,6 +348,7 @@ public class CategoryListPage extends ConsoleIndex {
 			}
 		};
 	
+		tree.expand(root);
 		
 		add(form);
 		{
@@ -380,12 +383,12 @@ public class CategoryListPage extends ConsoleIndex {
 
 
 
-
+	Node root ;
 	private List<Node> rebuildTreeData()
 	{
 		List<Node> nodes=new ArrayList<Node>();
 		
-		Node root = new Node();
+		root = new Node();
 		root.setId(UUID.randomUUID().toString());
 		root.setName(ROOT_TEXT);
 		root.setType(NODE_TYPE_OTHER);
