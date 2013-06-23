@@ -1,8 +1,0 @@
-<table>
-$foreach($element in $myUserList)
-	<tr>
-    	<td>$element.userId</td>
-    	<td>$element.userName</td>
-    </tr>
-$end
-</table>
