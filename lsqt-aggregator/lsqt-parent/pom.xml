@@ -39,9 +39,88 @@
 		<spring.version>3.0.3.RELEASE</spring.version>
 		
 		<commons-beanutils.version>1.7.0</commons-beanutils.version>
+		
+		
+		<ehcache-core.version>2.4.6</ehcache-core.version>
+		<ehcache-web.version>2.0.4</ehcache-web.version>
+		
+		
+		<org.mybatis.mybatis.version>3.1.1</org.mybatis.mybatis.version>
+		<org.mybatis.mybatis-spring>1.2.0</org.mybatis.mybatis-spring>
+		
+		<c3p0.version>0.9.1.2</c3p0.version>
+		
+		      
+        <velocity.version>1.7</velocity.version>
+        <velocity-tools.version>1.2</velocity-tools.version>
+        
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+		
+		<!-- velocity 网页静态化 -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>${velocity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>velocity-tools</groupId>
+            <artifactId>velocity-tools</artifactId>
+            <version>${velocity-tools.version}</version>
+        </dependency>
+		
+		<!-- 各种数据库驱动 -->
+		<dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.18</version>
+        </dependency>
+		
+		 <!-- 站内搜索 -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+		
+		
+		<!-- 数据源支持 -->
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${c3p0.version}</version>
+        </dependency>
+        
+        
+        
+		 <!-- ehcache缓存 -->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+            <version>${ehcache-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-web</artifactId>
+            <version>${ehcache-web.version}</version>
+        </dependency>
+		
+		
+		<!-- mybatis持久层支持 -->
+		 <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${org.mybatis.mybatis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>${org.mybatis.mybatis-spring}</version>
+        </dependency>
+		
+		<!-- hibernate持久层支持 -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -58,7 +137,7 @@
 			<version>${hibernate-core.version}</version>
 		</dependency>
 		
-		
+		<!-- spring框架支持 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -99,7 +178,18 @@
 			<artifactId>spring-asm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+             <version>${spring.version}</version>
+        </dependency>
+        
+        
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>apache-log4j-extras</artifactId>
@@ -131,6 +221,7 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.4</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -138,36 +229,6 @@
 		</dependency>
 
 
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 			<dependency>
 				<groupId>org.easymock</groupId>
@@ -380,5 +441,40 @@
 		
 		
 		<finalName>${project.artifactId}-${project.version}-r${svn.revision}-${maven.build.timestamp}</finalName>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.google.code.maven-svn-revision-number-plugin
+										</groupId>
+										<artifactId>
+											maven-svn-revision-number-plugin
+										</artifactId>
+										<versionRange>
+											[1.7,)
+										</versionRange>
+										<goals>
+											<goal>revision</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
