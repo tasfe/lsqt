@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Built-By: mm
+Build-Jdk: 1.7.0_21
+Implementation-Title: lsqt-content
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: org.lsqt
+Build-Time: 
+Created-By: Maven Integration for Eclipse
+SCM-Revision: 
+X-Compile-Source-JDK: 1.6
+X-Compile-Target-JDK: 1.6
+

@@ -15,6 +15,7 @@
 
 	<modules>
 		<module>components-dao</module>
-		<module>components-file</module>
-	</modules>
+		<!-- <module>components-file</module> -->
+    <module>components-util</module>
+  </modules>
 </project>
