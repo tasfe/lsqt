@@ -33,7 +33,7 @@ import org.lsqt.content.web.wicket.content.ResourceListPage;
 import org.lsqt.content.web.wicket.content.TemplateListPage;
 
 /**
- * 侧边滑动菜单组件,该菜单只支持两组结构菜单,多级结构请用Tree组件.
+ * 侧边滑动菜单组件,该菜单只支持两级结构菜单,多级结构请用Tree组件.
  * 利用velocity模板解析了固定格式的HTML.
  * @author 袁明敏
  *

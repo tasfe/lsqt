@@ -3,8 +3,12 @@ package org.lsqt.content.web.wicket.util;
 import org.apache.wicket.markup.html.form.IChoiceRenderer; 
 import org.apache.wicket.model.StringResourceModel;
 import org.lsqt.content.model.Category;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 public final class RendererUtil {
-	private RendererUtil(){}
+	private RendererUtil(){
+		
+	}
 	
 	/**
 	 * 

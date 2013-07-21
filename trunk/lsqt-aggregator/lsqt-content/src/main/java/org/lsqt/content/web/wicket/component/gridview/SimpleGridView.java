@@ -42,6 +42,7 @@ public class SimpleGridView extends Panel {
 			}
 
 			protected void populateEmptyItem(Item item) {
+				
 				Image image = new Image("static", "images/null.gif");
 				image.setVisible(false);
 				item.add(image);

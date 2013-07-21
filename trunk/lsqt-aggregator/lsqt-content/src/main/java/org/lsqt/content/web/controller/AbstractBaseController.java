@@ -6,7 +6,7 @@ import org.lsqt.content.service.CategoryService;
 import org.lsqt.content.service.UserService;
 import org.springframework.stereotype.Controller;
 
-
+import org.apache.commons.fileupload.FileItemFactory;
 @Controller
 public class AbstractBaseController {
 	protected UserService userService;
