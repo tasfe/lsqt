@@ -8,7 +8,7 @@
 	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	
 	<!-- wicket的web框架用 -->
-    <bean id="consoleApplication" class="org.lsqt.content.web.wicket.ConsoleApplication"/>
+    <bean id="consoleApplication" class="com.qhee.reserve.web.wicket.ConsoleApplication"/>
 
 	<!-- spring 加载xml 属性配置 -->
 	<bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
