@@ -11,10 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-
-
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
@@ -32,7 +28,6 @@ import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
 
 import org.lsqt.components.dao.DaoException;
 import org.lsqt.components.dao.suport.BeanHelper;
@@ -852,17 +847,64 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 	 * 
 	 * 方法说明：HQL分页查询.
 	 * 
+	 * @param hql 不带占位符的查询
+	 * @param page 分页bean
+	 * @return Page 返回带数据的分页bean
+	 */
+	public Page loadPageByHql(String hql,  Page page) {
+		Object[] t=new Object[]{};
+		return  loadPageByHql(hql, t, page) ;
+	}
+	
+	/**
+	 * 处理HQL分页查询总计录数的HQL语句.
+	 * @param hql
+	 * @return
+	 */
+	protected static String processHQLCountStr(String hql){
+		StringBuffer hqlTemp=new StringBuffer();
+		
+		if(! hql.startsWith("from ")){
+			String [] temp=hql.split(" ");
+			int flag=-1;
+			for(int i=0;i<temp.length;i++){
+				if("from".equals(temp[i])){
+					hqlTemp.append(temp[i]+" ");
+					flag=1;
+				}else{
+					if(flag==1){
+						hqlTemp.append(temp[i] +" ");
+					}
+				}
+			}
+		}else{
+			hqlTemp.append(hql);
+		}
+		
+		hql=hqlTemp.toString();
+		hql="select count(*) "+hql;
+		return hql;
+	}
+	
+	public static void main(String args[]){
+		String sql="from News n left join n.categories  c where c.id= ?   ";
+		
+		System.out.println(processHQLCountStr(sql));
+	}
+	/**
+	 * 
+	 * 方法说明：HQL分页查询.
+	 * 
 	 * @param hql 带占位符的查询
 	 * @param paramValues 参数值
 	 * @param page 分页bean
 	 * @return Page 返回带数据的分页bean
 	 */
-	
 	public Page loadPageByHql(String hql, Object[] paramValues, Page page) {
 		try {
 	
 			Query query = getSession().createQuery(hql);
-			Query totalQuery=getSession().createQuery("select count(*) "+hql);
+			Query totalQuery=getSession().createQuery(processHQLCountStr(hql));
 			
 			for (int i = 0; i < paramValues.length; i++) {
 				query.setParameter(i, paramValues[i], HibernateTypeHelper.filter(paramValues[i]));
@@ -902,6 +944,17 @@ public abstract class AbstractHibernateDaoSupport<T> extends HibernateDaoSupport
 		return page;
 	}
 
+	/**
+	 * 跟据原生SQL加载分页.
+	 * 
+	 * @param sql 带占位符的原生SQL语句
+	 * @param page　分页bean
+	 * @return Page<Object[]>　返回带数据的分页bean
+	 */
+	public Page<Object[]> loadPageBySql(String sql, Page<Object[]> page) {
+		Object[] t=new Object[]{};
+		return  loadPageBySql(sql,t, page);
+	}
 	
 	/**
 	 * 跟据原生SQL加载分页.
