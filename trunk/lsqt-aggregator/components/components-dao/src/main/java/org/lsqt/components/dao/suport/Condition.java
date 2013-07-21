@@ -387,17 +387,18 @@ public final class Condition implements Serializable{
 	} 
 	*/
 	
-	/**
+	 /**
 	 * Return the disjuction of two expressions
 	 *
 	 * @param lhs
 	 * @param rhs
 	 * @return Condition
-	
-	public static LogicalExpression or(Condition lhs, Condition rhs) {
-		return null;
+	**/
+	public  Condition or(String property, Object v) {
+		expressions.add(Restrictions.or(Restrictions.disjunction(), Restrictions.like(property, v.toString(), MatchMode.ANYWHERE)));
+		return this;
 	}
-	 */
+	 
 	
 	/**
 	 * Return the negation of an expression
