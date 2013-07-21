@@ -125,6 +125,7 @@ public class SimpleDataView extends Panel {
 			@Override
 			protected void populateItem(ListItem<String> item)
 			{
+				
 				WebMarkupContainer headCell = new WebMarkupContainer("headCell");
 			
 				Label headerCellText =new Label("headerCellText",item.getModelObject()==null ? "": item.getModelObject().toString());
