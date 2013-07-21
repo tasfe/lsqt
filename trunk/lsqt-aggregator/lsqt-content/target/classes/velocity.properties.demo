@@ -1,0 +1,12 @@
+#
+runtime.log=/home/mm/velocity.log
+#velocity's template file location
+file.resource.loader.path=/home/mm/Workspaces/sts_workspace/lsqt/src/main/resources/vm
+#
+input.encoding=UTF-8
+#
+output.encoding=UTF-8
+
+#replace "velocityCount" use "index"
+directive.foreach.counter.name=index
+directive.foreach.counter.initial.value=0

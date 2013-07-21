@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="true"
+         dynamicConfig="true"
+         >
+
+    <diskStore path="java.io.tmpdir"/>
+    <defaultCache
+            eternal="false"
+            timeToIdleSeconds="5"
+            timeToLiveSeconds="10"
+            overflowToDisk="true"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+            />
+            
+	<Cache 
+			name="fragmentCache"
+            maxElementsInMemory="10"
+            eternal="false"
+            timeToIdleSeconds="5"
+            timeToLiveSeconds="10"
+            overflowToDisk="true"
+            />
+     	<Cache 
+			name="pageCache"
+            maxElementsInMemory="10"
+            eternal="false"
+            timeToIdleSeconds="5"
+            timeToLiveSeconds="10"
+            overflowToDisk="true"
+            />
+            
+            <Cache 
+            name="DEFAULT_CACHE"
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="300000"
+            timeToLiveSeconds="600000"
+            overflowToDisk="true"
+            />
+</ehcache>

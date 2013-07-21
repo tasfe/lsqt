@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+
+	<diskStore path="java.io.tmpdir" />
+	<defaultCache 
+		eternal="false" 
+		timeToIdleSeconds="5"
+		timeToLiveSeconds="10" 
+		overflowToDisk="true" 
+		diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" 
+		memoryStoreEvictionPolicy="LRU" />
+
+	<Cache 
+		name="fragmentCache" 
+		maxElementsInMemory="10" 
+		eternal="false"
+		timeToIdleSeconds="5" 
+		timeToLiveSeconds="10" 
+		overflowToDisk="true" />
+		
+	<Cache 
+		name="pageCache" 
+		maxElementsInMemory="10" 
+		eternal="false"
+		timeToIdleSeconds="5" 
+		timeToLiveSeconds="10" 
+		overflowToDisk="true" />
+</ehcache>
