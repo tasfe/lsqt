@@ -45,7 +45,6 @@ public class ConsoleApplication extends WebApplication {
 		 
 		// WicketSource.configure(this);
 		 
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	 }
 	
 	private void addDebugsSetting(){
