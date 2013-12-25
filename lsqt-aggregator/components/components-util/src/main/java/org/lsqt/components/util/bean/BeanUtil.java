@@ -1,4 +1,4 @@
-package org.lsqt.components.util.lang;
+package org.lsqt.components.util.bean;
 
 
 import java.lang.reflect.Field;
