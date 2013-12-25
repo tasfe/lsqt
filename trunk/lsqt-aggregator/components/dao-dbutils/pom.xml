@@ -16,9 +16,16 @@
 			<groupId>commons-dbutils</groupId>
 			<artifactId>commons-dbutils</artifactId>
 		</dependency>
+		
 		<dependency>
-			<groupId>components-dto</groupId>
+			<groupId>org.lsqt</groupId>
 			<artifactId>components-dto</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.lsqt</groupId>
+			<artifactId>components-util</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

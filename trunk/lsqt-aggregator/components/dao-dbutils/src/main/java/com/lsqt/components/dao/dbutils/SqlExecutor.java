@@ -26,9 +26,19 @@ import com.lsqt.components.dto.Page;
 
 
 /**
+ * <pre>
  * 
- * @author Sky
- *
+ * 功能说明: 
+ * 	  轻量级SQL执行器.
+ * 
+ * 编写日期:2013-12-26
+ * 作者:袁明敏
+ * 
+ * 历史记录
+ * 修改日期：2013-12-26
+ * 修改人：袁明敏
+ * 修改内容：
+ * </pre>
  */
 public class SqlExecutor {
 	
