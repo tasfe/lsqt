@@ -14,5 +14,8 @@
   	<module>lsqt-content</module>
     <module>lsqt-forum</module>
     <module>lsqt-shopping</module>
+    
+    
+    
   </modules>
 </project>
