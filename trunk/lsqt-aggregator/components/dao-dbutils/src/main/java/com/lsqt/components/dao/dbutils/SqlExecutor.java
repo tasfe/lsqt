@@ -318,7 +318,7 @@ public class SqlExecutor {
 		QueryRunner run = new QueryRunner(dataSource);
 		
 		Integer cnt=0;
-		String countSQL=" select count(*) from ( "+sql+" )  BB ";
+		String countSQL="select count(*) from ( "+sql+" )  BB ";
 		
 		ArrayList paramList=new ArrayList();
 		for(Object t:paramValues){
