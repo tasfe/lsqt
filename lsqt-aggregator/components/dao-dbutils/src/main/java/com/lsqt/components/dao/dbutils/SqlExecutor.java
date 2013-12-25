@@ -15,8 +15,13 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
+import org.lsqt.components.util.bean.BeanUtil;
+import org.lsqt.components.util.sql.SqlType;
+
+import com.lsqt.components.dto.DataRow;
+import com.lsqt.components.dto.DataSet;
+import com.lsqt.components.dto.DataTable;
+import com.lsqt.components.dto.Page;
 
 
 
@@ -85,7 +90,7 @@ public class SqlExecutor {
 				hasResults = cstmt.getMoreResults();
 			}
 		} catch (Exception e) {
-			LOGGER.error("procedure execute fail ==> "+e.getMessage());
+			
 			return null;
 		} finally {
 			DbUtils.closeQuietly(con, cstmt, rs);
@@ -127,7 +132,7 @@ public class SqlExecutor {
 				hasResults = cstmt.getMoreResults();
 			}
 		} catch (Exception e) {
-			LOGGER.error("procedure execute fail ==> "+e.getMessage());
+			
 			return null;
 		} finally {
 			DbUtils.closeQuietly(con, cstmt, rs);
@@ -141,12 +146,12 @@ public class SqlExecutor {
 	 * 
 	 * @param procedureName 存储过程名称
 	 * @param paramValues 入参值和输出参数的值
-	 * @param paramValueTypes 储存过程入参和输出参数据的数据类型:ParamType.String待
+	 * @param paramValueTypes 储存过程入参和输出参数据的数据类型:SqlType.String待
 	 * @return DataSet 数据集
 	 * **/
-	public DataSet executeProcedure(final String procedureName, final Object[] paramValues, final int[] paramValueTypes) {
+	public DataSet executeProcedure(final String procedureName, final Object[] paramValues, final SqlType[] paramValueTypes) {
 		if (paramValues.length != paramValueTypes.length) {
-			LOGGER.error("procedure execute fail, Parameters and parameter types value , the length not equal  ");
+			//LOGGER.error("procedure execute fail, Parameters and parameter types value , the length not equal  ");
 			return null;
 		}
 
@@ -163,8 +168,8 @@ public class SqlExecutor {
 
 			List<Integer> outputParamIndex = new ArrayList<Integer>(); 
 			for (int i = 0; i < paramValues.length; i++) {
-				if (paramValues[i] == ParamType.HOLDER) {
-					cstmt.registerOutParameter(i + 1, paramValueTypes[i]);
+				if (paramValues[i] == SqlType.HOLDER) {
+					cstmt.registerOutParameter(i + 1, paramValueTypes[i].getTypeValue());
 					outputParamIndex.add(i + 1);
 				} else {
 					cstmt.setObject(i + 1, paramValues[i]);
@@ -197,7 +202,7 @@ public class SqlExecutor {
 				hasResults = cstmt.getMoreResults();
 			}
 		} catch (Exception e) {
-			LOGGER.error("execute procedure fail ==> "+e.getMessage());
+			//LOGGER.error("execute procedure fail ==> "+e.getMessage());
 			return null;
 		} finally {
 			DbUtils.closeQuietly(con, cstmt, rs);
@@ -218,7 +223,7 @@ public class SqlExecutor {
 		try{
 			return run.update(sql)>0;
 		}catch(SQLException ex){
-			LOGGER.error("execute sql fail ==> "+ex.getMessage());
+			//LOGGER.error("execute sql fail ==> "+ex.getMessage());
 			return false;
 		}
 	}
@@ -228,7 +233,7 @@ public class SqlExecutor {
 		try{
 			return run.update(sql,paramValues)>0;
 		}catch(SQLException ex){
-			LOGGER.error("execute sql fail ==> "+ex.getMessage());
+			//LOGGER.error("execute sql fail ==> "+ex.getMessage());
 			return false;
 		}
 	}
@@ -245,7 +250,7 @@ public class SqlExecutor {
 		  return run.batch(sql, dataTable).length>0;
 		  
 		} catch(SQLException ex){
-			LOGGER.debug("execute sql fail ==> "+ex.getMessage());
+			//LOGGER.debug("execute sql fail ==> "+ex.getMessage());
 			return false;
 		}
 	}
@@ -267,7 +272,7 @@ public class SqlExecutor {
 				}
 			});
 		} catch (SQLException ex) {
-			LOGGER.error("execute sql fail ==> " + ex.getMessage());
+			//LOGGER.error("execute sql fail ==> " + ex.getMessage());
 			return null;
 		} 
 	}
@@ -284,7 +289,7 @@ public class SqlExecutor {
 		try{
 			return	run.query(sql,new ArrayListHandler(),paramValues);
 		}catch(SQLException ex){
-			LOGGER.error("execute sql fail ==> "+ex.getMessage());
+			//LOGGER.error("execute sql fail ==> "+ex.getMessage());
 			return null;
 		}
 	}
@@ -298,12 +303,12 @@ public class SqlExecutor {
 	public Page executeSqlPage(String sql,Object[] paramValues,Page page){
 		int p=page.getCurrPageNum()-1;
 		int n=page.getPerPageRecord();
-		System.out.println("当前页:"+ p+"  每页显示:"+n);
+		
 		
 		QueryRunner run = new QueryRunner(dataSource);
 		
 		Integer cnt=0;
-		String countSQL=MySQLPageUtil.PAGE_COUNT_HEAD+sql+MySQLPageUtil.PAGE_COUNT_FOOT;
+		String countSQL=" select count(*) from ( "+sql+" )  BB ";
 		
 		ArrayList paramList=new ArrayList();
 		for(Object t:paramValues){
@@ -330,24 +335,27 @@ public class SqlExecutor {
 		}
 		
 		
-		String pageSQL=MySQLPageUtil.PAGE_HEAD_SQL+sql+MySQLPageUtil.PAGE_FOOT_SQL;
+		String pageSQL=" select * from ( "+sql+") as AA ";
 		pageSQL=pageSQL+"  limit "+(p*n)+" , "+n+"   ";
 		List<Object[]> data=executeSqlQuery(pageSQL,paramList.toArray());
 		
-		 BeanHelper.forceSetProperty(page, "data", data);
-		 BeanHelper.forceSetProperty(page, "totalRecord", cnt);
-		 BeanHelper.forceSetProperty(page, "totalPage", totalPage);
-		 BeanHelper.forceSetProperty(page, "currPageNum", p+1);
+		 BeanUtil.forceSetProperty(page, "data", data);
+		 BeanUtil.forceSetProperty(page, "totalRecord", cnt);
+		 BeanUtil.forceSetProperty(page, "totalPage", totalPage);
+		 BeanUtil.forceSetProperty(page, "currPageNum", p+1);
 		 
 		
 		return page;
 	}
+	
+	/**
 	public static void main(String args[]){
 		System.out.println(Math.ceil(1.2D));
 		for(int i=0;i<5000;i++){
 			SimpleSqlExecutor.executeSql("insert t_test_client values('"+i+"','%Y-%m-%d'),'dddd','dddd','dddd','ddddd')");
 		}
 	}
+	**/
 }
 
 
