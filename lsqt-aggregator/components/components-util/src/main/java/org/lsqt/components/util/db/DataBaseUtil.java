@@ -1,4 +1,4 @@
-package org.lsqt.components.db;
+package org.lsqt.components.util.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
