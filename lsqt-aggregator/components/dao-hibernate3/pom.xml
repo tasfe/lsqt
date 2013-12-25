@@ -7,8 +7,8 @@
 		<groupId>org.lsqt</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>components-dao</artifactId>
-	<name>components-dao</name>
+	<artifactId>dao-hibernate3</artifactId>
+	<name>dao-hibernate3</name>
 	
 	
 	<dependencies>
@@ -71,4 +71,20 @@
 		</dependency>
 		
 	</dependencies>
+	
+	<!-- 将该组件布署致远程仓库中 -->
+	<!-- 
+	<distributionManagement>
+		<repository>
+			<id>qheeReleaseRepo</id>
+			<name>Proj Release Repository</name>
+			<url>http://192.168.1.100/content//repositories/proj-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>qheeSnapshotRepo</id>
+			<name>Proj Snapshot Repository</name>
+			<url>http://192.168.1.100/content//repositories/proj-snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+	 -->
 </project>

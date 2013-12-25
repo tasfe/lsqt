@@ -14,8 +14,9 @@
   <name>lsqt-components</name>
 
 	<modules>
+		<module>components-dto</module>
 		<module>components-dao</module>
-		<!-- <module>components-file</module> -->
-    <module>components-util</module>
+		<!-- <module>components-file</module>
+    	<module>components-util</module> -->
   </modules>
 </project>
