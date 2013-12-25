@@ -67,7 +67,7 @@ public final class BeanUtil  {
 		}
 	}
 
-	/**
+	/**    
 	 * 暴力设置对象变量值,忽略private,protected修饰符的限制.
 	 * @param object 目标对象
 	 * @param propertyName 对象属性名称
