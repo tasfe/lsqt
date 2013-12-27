@@ -1,4 +1,4 @@
-package com.lsqt.components.dao.dbutils;
+package org.lsqt.components.dao.dbutils;
 
 
 import java.sql.CallableStatement;
@@ -6,15 +6,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.ArrayListHandler;
-import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.ResultSetHandler;
 import org.lsqt.components.util.bean.BeanUtil;
 import org.lsqt.components.util.sql.SqlType;
 
@@ -48,6 +47,9 @@ public class SqlExecutor {
 		this.dataSource = dataSource;
 	}
 	
+	public SqlExecutor(DataSource dataSource){
+		this.dataSource = dataSource;
+	}
 	
 	//-------------------------------------------------------------------------------
 	/**
@@ -67,6 +69,30 @@ public class SqlExecutor {
 		}
 		return holdString;
 	}
+	
+	/**
+	 * 处理结果集.
+	 * @param rs -
+	 * @return -
+	 * @throws SQLException
+	 */
+	private static final  DataTable fillDataTable(ResultSet rs) throws SQLException{
+		DataTable table=new DataTable();
+		int cnt=rs.getMetaData().getColumnCount();
+		while (rs.next()) {
+			DataRow row = new DataRow();
+			for (int i = 1; i <= cnt; i++) {
+				row.add(rs.getObject(i));
+			}
+			table.add(row);
+		}
+		return table;
+	}
+	
+	//-------------------------------------------------------------------------------
+	
+	
+	
 	
 	/**
 	 * 执行存储过程,返回结果集
@@ -99,8 +125,8 @@ public class SqlExecutor {
 				DATASET.add(dt);
 				hasResults = cstmt.getMoreResults();
 			}
-		} catch (Exception e) {
-			
+		} catch (SQLException e) {
+			e.printStackTrace();
 			return null;
 		} finally {
 			DbUtils.closeQuietly(con, cstmt, rs);
@@ -142,7 +168,7 @@ public class SqlExecutor {
 				hasResults = cstmt.getMoreResults();
 			}
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 			return null;
 		} finally {
 			DbUtils.closeQuietly(con, cstmt, rs);
@@ -213,6 +239,7 @@ public class SqlExecutor {
 			}
 		} catch (Exception e) {
 			//LOGGER.error("execute procedure fail ==> "+e.getMessage());
+			e.printStackTrace();
 			return null;
 		} finally {
 			DbUtils.closeQuietly(con, cstmt, rs);
@@ -233,17 +260,21 @@ public class SqlExecutor {
 		try{
 			return run.update(sql)>0;
 		}catch(SQLException ex){
-			//LOGGER.error("execute sql fail ==> "+ex.getMessage());
+			
+			ex.printStackTrace();
 			return false;
 		}
 	}
 	
 	public boolean executeSql(String sql,Object[] paramValues){
-		QueryRunner run = new QueryRunner(this.dataSource);
+		System.out.println(sql+"  "+Arrays.asList(paramValues));
+		
+		QueryRunner run = new QueryRunner(dataSource);
 		try{
 			return run.update(sql,paramValues)>0;
 		}catch(SQLException ex){
-			//LOGGER.error("execute sql fail ==> "+ex.getMessage());
+			
+			ex.printStackTrace();
 			return false;
 		}
 	}
@@ -254,16 +285,19 @@ public class SqlExecutor {
 	 * @param dataTable 参数数据表格 
 	 */
 	public boolean executeSql(String sql,Object [][] dataTable){
-		QueryRunner run = new QueryRunner(this.dataSource);
+		QueryRunner run = new QueryRunner(dataSource);
 		try{
 			
 		  return run.batch(sql, dataTable).length>0;
 		  
 		} catch(SQLException ex){
 			//LOGGER.debug("execute sql fail ==> "+ex.getMessage());
+			ex.printStackTrace();
 			return false;
 		}
 	}
+	
+
 
 	/**
 	 * 执行查询语句,返回二维结果集
@@ -271,18 +305,18 @@ public class SqlExecutor {
 	 * @return
 	 * @throws SQLException
 	 */
-	public  List<Object[]> executeSqlQuery(String sql){
+	public  DataTable executeQuery(String sql){
 		QueryRunner run = new QueryRunner(this.dataSource);
 	
 		try {
-			return  run.query(sql, new ArrayListHandler(){
-				@Override
-				protected Object[] handleRow(ResultSet rs) throws SQLException {
-					return super.handleRow(rs);
+			return  run.query(sql, new ResultSetHandler<DataTable>(){
+				 @Override
+				public DataTable handle(ResultSet rs) throws SQLException {
+					return fillDataTable(rs);
 				}
 			});
 		} catch (SQLException ex) {
-			//LOGGER.error("execute sql fail ==> " + ex.getMessage());
+			ex.printStackTrace();
 			return null;
 		} 
 	}
@@ -294,23 +328,41 @@ public class SqlExecutor {
 	 * @return
 	 * @throws SQLException
 	 */
-	public  List<Object[]> executeSqlQuery(String sql,Object [] paramValues){
+	public  DataTable executeQuery(String sql,Object [] paramValues){
+		System.out.println(sql+"  "+Arrays.asList(paramValues));
+		
 		QueryRunner run = new QueryRunner(dataSource);
 		try{
-			return	run.query(sql,new ArrayListHandler(),paramValues);
+			return run.query(sql, new ResultSetHandler<DataTable>(){
+				@Override
+				public DataTable handle(ResultSet rs) throws SQLException {
+					
+					return fillDataTable(rs);
+					
+				}
+			},paramValues);
 		}catch(SQLException ex){
-			//LOGGER.error("execute sql fail ==> "+ex.getMessage());
+			ex.printStackTrace();
 			return null;
 		}
 	}
 	
+	
+	/**
+	 * 执行分页查询.暂只支持MYSQL.
+	 * @param sql
+	 * @return -
+	 */
+	public Page executeQueryPage(String sql,Page page){
+		return executeQueryPage(sql, new Object[]{}, page);
+	}
 	/**
 	 * 执行分页查询.暂只支持MYSQL.
 	 * @param sql
 	 * @param paramValues
 	 * @return
 	 */
-	public Page executeSqlPage(String sql,Object[] paramValues,Page page){
+	public Page executeQueryPage(String sql,Object[] paramValues,Page page){
 		int p=page.getCurrPageNum()-1;
 		int n=page.getPerPageRecord();
 		
@@ -320,17 +372,12 @@ public class SqlExecutor {
 		Integer cnt=0;
 		String countSQL="select count(*) from ( "+sql+" )  BB ";
 		
-		ArrayList paramList=new ArrayList();
-		for(Object t:paramValues){
-			if(t!=null){
-				paramList.add(t);
-			}
-		}
-		List<Object[] > list=executeSqlQuery(countSQL,paramList.toArray());
-		if(list!=null && list.size()>0){
-			Object[] row=list.get(0);
-			if(row!=null && row.length>0){
-				cnt=Integer.valueOf(row[0].toString());
+		
+		DataTable dataTable=executeQuery(countSQL,paramValues);
+		if(dataTable.size()>0){
+			if(dataTable.getRow(0).iterator().hasNext()){
+				Object cntValue=dataTable.getRow(0).iterator().next();
+				cnt=Integer.valueOf(cntValue.toString());
 			}
 		}
 		
@@ -347,25 +394,31 @@ public class SqlExecutor {
 		
 		String pageSQL=" select * from ( "+sql+") as AA ";
 		pageSQL=pageSQL+"  limit "+(p*n)+" , "+n+"   ";
-		List<Object[]> data=executeSqlQuery(pageSQL,paramList.toArray());
 		
-		 BeanUtil.forceSetProperty(page, "data", data);
-		 BeanUtil.forceSetProperty(page, "totalRecord", cnt);
-		 BeanUtil.forceSetProperty(page, "totalPage", totalPage);
-		 BeanUtil.forceSetProperty(page, "currPageNum", p+1);
-		 
+		dataTable=executeQuery(pageSQL,paramValues);
+	
+		
+		BeanUtil.forceSetProperty(page, "dataTable", dataTable.getRows());
+		BeanUtil.forceSetProperty(page, "totalRecord", cnt);
+		BeanUtil.forceSetProperty(page, "totalPage", totalPage);
+		BeanUtil.forceSetProperty(page, "currPageNum", p+1);
+		if(p+1<totalPage){
+			BeanUtil.forceSetProperty(page, "hasNextPage",true);
+		}else{
+			BeanUtil.forceSetProperty(page, "hasNextPage",false);
+		}
+		
+		if(p-1<0){
+			BeanUtil.forceSetProperty(page, "hasPreviouPage",false);
+		}else{
+			BeanUtil.forceSetProperty(page, "hasPreviouPage",true);
+		}
 		
 		return page;
 	}
 	
-	/**
-	public static void main(String args[]){
-		System.out.println(Math.ceil(1.2D));
-		for(int i=0;i<5000;i++){
-			SimpleSqlExecutor.executeSql("insert t_test_client values('"+i+"','%Y-%m-%d'),'dddd','dddd','dddd','ddddd')");
-		}
-	}
-	**/
+	
+	
 }
 
 
