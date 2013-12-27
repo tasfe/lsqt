@@ -7,7 +7,7 @@ import java.util.Collections;
 /**
  * 通用的分页对象
  */
-public class Page<T> {
+public class Page {
 	/**
 	 * 默认每页显示20条记录*
 	 */
@@ -31,8 +31,7 @@ public class Page<T> {
 	/**
 	 * 分页对象承载的数据对象
 	 */
-	@SuppressWarnings("rawtypes")
-	private Collection data=Collections.EMPTY_LIST;
+	private DataTable dataTable=new DataTable();
 	
 	
 	/**
@@ -96,8 +95,8 @@ public class Page<T> {
 	 * 页对象承载的数据集
 	 * @return 返回分页对象承载的数据集
 	 * */
-	public Collection<T> getData() {
-		return data;
+	public DataTable getDataTable() {
+		return dataTable;
 	}
 
 
@@ -133,5 +132,13 @@ public class Page<T> {
 	}
 	
 	
-
+	@Override
+	public String toString() {
+		return "totalPage:"+this.totalPage
+				+"  currPageNum:"+this.currPageNum
+				+"  perPageRecord:"+this.perPageRecord
+				+"  hasNextPage:"+this.hasNextPage
+				+"  hasPreviouPage:"+this.hasPreviouPage
+				+"  data:"+dataTable;
+	}
 }
