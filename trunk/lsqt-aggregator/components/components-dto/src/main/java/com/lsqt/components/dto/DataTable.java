@@ -32,7 +32,7 @@ public class DataTable implements Iterable<DataRow>{
 		this.dataRow.add(index, e);
 	}
 
-	public DataRow get(int index) {
+	public DataRow getRow(int index) {
 		return this.dataRow.get(index);
 	}
 
@@ -52,17 +52,33 @@ public class DataTable implements Iterable<DataRow>{
 		return this.dataRow.size();
 	}
 
-	public DataRow[] toArray() {
-		return this.dataRow.toArray(new DataRow[this.dataRow.size()]);
-	}
-
 	public Iterator<DataRow> iterator() {
 		return this.dataRow.iterator();
 	}
 	
+ 
 	public Collection<DataRow> getRows(){
 		return this.dataRow;
 	}
+	
+	public DataRow[] toArray() {
+		return this.dataRow.toArray(new DataRow[this.dataRow.size()]);
+	}
+	
+	
+	
+	/**
+	 * 转化为二维数组
+	 * @return	 
+	public List<Object[]> toList(){
+		List<Object[]> list=new ArrayList();
+		DataRow[] row= toArray();
+		for(DataRow  e: row){
+			list.add(e.toArray());
+		}
+		return list;
+	}
+	*/
 	
 	/**
 	public String toJson(){
