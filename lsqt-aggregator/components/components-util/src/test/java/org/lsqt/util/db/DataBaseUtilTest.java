@@ -2,8 +2,8 @@ package org.lsqt.util.db;
 
 import org.junit.Test;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
+//import net.sf.ehcache.Cache;
+//import net.sf.ehcache.CacheManager;
 
 
 /**
@@ -17,11 +17,11 @@ public final class DataBaseUtilTest {
 		
 		
 		 // 使用默认配置文件创建CacheManager
-	    CacheManager manager = CacheManager.create();
+	   // CacheManager manager = CacheManager.create();
 	    // 通过manager可以生成指定名称的Cache对象
-	    Cache cache = cache = manager.getCache("demoCache");
+	    //Cache cache = cache = manager.getCache("demoCache");
 	    // 使用manager移除指定名称的Cache对象
-	    manager.removeCache("demoCache");
+	   // manager.removeCache("demoCache");
 	}
 }
 

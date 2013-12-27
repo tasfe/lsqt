@@ -49,4 +49,13 @@ public final class DataBaseUtil {
 			}
 		return con!=null;
 	}
+	
+	public static boolean isConnected(Connection conn){
+		if(conn==null){
+			return false;
+		}
+		
+		System.out.println(conn);
+		return true;
+	}
 }
