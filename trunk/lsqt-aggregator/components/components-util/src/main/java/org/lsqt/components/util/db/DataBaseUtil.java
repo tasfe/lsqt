@@ -56,6 +56,12 @@ public final class DataBaseUtil {
 		}
 		
 		System.out.println(conn);
+		try {
+			System.out.println("数据库链接是否关闭："+conn.isClosed());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 		return true;
 	}
 }
