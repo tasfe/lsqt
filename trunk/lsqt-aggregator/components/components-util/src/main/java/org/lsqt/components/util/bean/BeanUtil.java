@@ -4,9 +4,21 @@ package org.lsqt.components.util.bean;
 import java.lang.reflect.Field;
 
 /**
+ * <pre>
  * 
+ * 功能说明: 
+ * 	 
+ * 
+ * 编写日期:2011-4-21
+ * 作者:袁明敏
+ * 
+ * 历史记录
+ * 修改日期：2012-3-10
+ * 修改人：袁明敏
+ * 修改内容：
+ * </pre>
  */
-public final class BeanUtil  {
+public class BeanUtil  {
 
 	
 	/**
