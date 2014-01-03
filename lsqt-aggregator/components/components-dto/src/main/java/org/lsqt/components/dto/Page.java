@@ -136,6 +136,6 @@ public class Page {
 				+"  perPageRecord:"+this.perPageRecord
 				+"  hasNextPage:"+this.hasNextPage
 				+"  hasPreviouPage:"+this.hasPreviouPage
-				+"  data:"+dataTable;
+				+"  data:"+dataTable.toString();
 	}
 }

@@ -20,54 +20,68 @@ import java.util.Map;
  * </pre>
  */
 public class DataRow implements Iterable<Object>{
-	/**
-	 * 数据行单元格元素
-	 */
-	private List<Object> elements=new ArrayList<Object>(); 
+	
+	private List<Object> rowValues=new ArrayList<Object>(); 
+	private List<String> rowNames=new ArrayList<String>(); 
 	
 	public DataRow(){};
 	
 	public DataRow(Object [] elements){
 		List<Object> temp=Arrays.asList(elements);
 		List<Object> row=new ArrayList<Object>(temp);
-		this.elements=row;
+		this.rowValues=row;
 	}
 	
 	public DataRow(List<Object> elements){
-		this.elements= elements;
+		this.rowValues= elements;
 	}
 	
-	public void add(int index, Object e) {
-		this.elements.add(index, e);
+	
+	public void add(Object element) {
+		this.rowValues.add(element);
+	}
+
+	public void add(String label,Object element) {
+		this.rowValues.add(element);
+		this.rowNames.add(label);
 	}
 	
-	public boolean add(Object e) {
-		return this.elements.add(e);
+	public Object get(int index){
+		return this.rowValues.get(index);
 	}
 	
-	public Object get(int index) {
-		return this.elements.get(index);
+	public Object get(String label){
+		int index=0;
+		for(int i=0;i<this.rowNames.size();i++){
+			if(label.equals(this.rowNames.get(i))){
+				index=i;
+				break;
+			}
+		}
+		if(this.rowNames.contains(label) && index<=this.rowValues.size()-1){
+			return this.rowValues.get(index);
+		}
+		return null;
 	}
 	
 	public boolean isEmpty() {
-		return this.elements.isEmpty();
+		return this.rowValues.isEmpty();
 	}
 	
 	public Iterator<Object> iterator() {
-		return this.elements.iterator();
+		return this.rowValues.iterator();
 	}
 	
 	public Object remove(int index) {
-		return this.elements.remove(index);
+		return this.rowValues.remove(index);
 	}
 	
 	public boolean remove(Object e) {
-		return this.elements.remove(e);
-	}
-	
-	public Object[] toArray() {
-		return this.elements.toArray(new Object[this.elements.size()]);
+		return this.rowValues.remove(e);
 	}
 
+	public Object[] toArray() {
+		return this.rowValues.toArray(new Object[this.rowValues.size()]);
+	}
 	
 }
