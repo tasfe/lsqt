@@ -11,5 +11,11 @@
 	<artifactId>components-dto</artifactId>
 	<name>components-dto</name>
 
-
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
