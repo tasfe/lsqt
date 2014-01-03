@@ -99,8 +99,8 @@ public class SqlExecutor {
 	 * @param procedureName 存储过程名称
 	 * @return DataSet 
 	 */
-	public DataSet executeProcedure(final String procedureName) {
-		final DataSet DATASET = new DataSet();
+	public DataSet executeProcedure(String procedureName) {
+		DataSet dataSet = new DataSet();
 		CallableStatement cstmt = null;
 		ResultSet rs = null;
 		Connection con = null;
@@ -122,7 +122,7 @@ public class SqlExecutor {
 					}
 					dt.add(row);
 				}
-				DATASET.add(dt);
+				dataSet.add(dt);
 				hasResults = cstmt.getMoreResults();
 			}
 		} catch (SQLException e) {
@@ -132,7 +132,7 @@ public class SqlExecutor {
 			DbUtils.closeQuietly(con, cstmt, rs);
 		}
 
-		return DATASET;
+		return dataSet;
 	}
 	
 	/**
@@ -142,7 +142,7 @@ public class SqlExecutor {
 	 * @return DataSet 数据集
 	 */
 	public DataSet executeProcedure(final String procedureName, final Object[] paramValues) {
-		final DataSet DATASET = new DataSet();
+		DataSet dataSet= new DataSet();
 		CallableStatement cstmt = null;
 		ResultSet rs = null;
 		Connection con = null;
@@ -164,7 +164,7 @@ public class SqlExecutor {
 					}
 					dt.add(row);
 				}
-				DATASET.add(dt);
+				dataSet.add(dt);
 				hasResults = cstmt.getMoreResults();
 			}
 		} catch (Exception e) {
@@ -174,7 +174,7 @@ public class SqlExecutor {
 			DbUtils.closeQuietly(con, cstmt, rs);
 		}
 			
-		return DATASET;
+		return dataSet;
 	}
 	
 	/**
@@ -191,7 +191,7 @@ public class SqlExecutor {
 			return null;
 		}
 
-		final DataSet DATASET = new DataSet();
+		DataSet dataSet= new DataSet();
 
 		String sqlHold = processProcedureParamHold(paramValues);
 		CallableStatement cstmt = null;
@@ -220,7 +220,7 @@ public class SqlExecutor {
 				outputValues.add(cstmt.getObject(outputParamIndex.get(i)));
 			}
 
-			DATASET.setOutputParams(outputValues.toArray(new Object[outputValues.size()]));
+			dataSet.setOutputParams(outputValues.toArray(new Object[outputValues.size()]));
 
 			while (hasResults) {
 				DataTable dt = new DataTable();
@@ -234,7 +234,7 @@ public class SqlExecutor {
 					}
 					dt.add(row);
 				}
-				DATASET.add(dt);
+				dataSet.add(dt);
 				hasResults = cstmt.getMoreResults();
 			}
 		} catch (Exception e) {
@@ -244,7 +244,7 @@ public class SqlExecutor {
 		} finally {
 			DbUtils.closeQuietly(con, cstmt, rs);
 		}
-		return DATASET;
+		return dataSet;
 	}
 	
 	
@@ -254,21 +254,19 @@ public class SqlExecutor {
 	 * @param sql
 	 * @return
 	 */
-	public  boolean executeSql(String sql){
+	public  int executeSql(String sql){
 		QueryRunner run = new QueryRunner(dataSource);
 	
 		try{
-			return run.update(sql)>0;
+			return run.update(sql);
 		}catch(SQLException ex){
 			
 			ex.printStackTrace();
-			return false;
+			return 0;
 		}
 	}
 	
 	public boolean executeSql(String sql,Object[] paramValues){
-		System.out.println(sql+"  "+Arrays.asList(paramValues));
-		
 		QueryRunner run = new QueryRunner(dataSource);
 		try{
 			return run.update(sql,paramValues)>0;
@@ -329,8 +327,6 @@ public class SqlExecutor {
 	 * @throws SQLException
 	 */
 	public  DataTable executeQuery(String sql,Object [] paramValues){
-		System.out.println(sql+"  "+Arrays.asList(paramValues));
-		
 		QueryRunner run = new QueryRunner(dataSource);
 		try{
 			return run.query(sql, new ResultSetHandler<DataTable>(){
@@ -353,8 +349,8 @@ public class SqlExecutor {
 	 * @param sql
 	 * @return -
 	 */
-	public Page executeQueryPage(String sql,Page page){
-		return executeQueryPage(sql, new Object[]{}, page);
+	public void executeQueryPage(String sql,Page page){
+		 executeQueryPage(sql, new Object[]{}, page);
 	}
 	/**
 	 * 执行分页查询.暂只支持MYSQL.
@@ -362,63 +358,57 @@ public class SqlExecutor {
 	 * @param paramValues
 	 * @return
 	 */
-	public Page executeQueryPage(String sql,Object[] paramValues,Page page){
+	public void executeQueryPage(String sql,Object[] paramValues,Page page){
 		int p=page.getCurrPageNum()-1;
 		int n=page.getPerPageRecord();
 		
 		
-		QueryRunner run = new QueryRunner(dataSource);
+	
 		
 		Integer cnt=0;
-		String countSQL="select count(*) from ( "+sql+" )  BB ";
+		String countSQL="select count(*) from ( "+sql+" )  amount ";
 		
 		
-		DataTable dataTable=executeQuery(countSQL,paramValues);
-		if(dataTable.size()>0){
-			if(dataTable.getRow(0).iterator().hasNext()){
-				Object cntValue=dataTable.getRow(0).iterator().next();
-				cnt=Integer.valueOf(cntValue.toString());
+		DataTable dataTable = executeQuery(countSQL, paramValues);
+		if (dataTable.getDataRows().size() > 0) {
+			if (dataTable.getDataRow(0).iterator().hasNext()) {
+				Object cntValue = dataTable.getDataRow(0).iterator().next();
+				cnt = Integer.valueOf(cntValue.toString());
+			}
+		}
+
+		int totalPage = Double.valueOf(Math.ceil(Double.valueOf(cnt) / n)).intValue();
+		if ((p + 1) * n > cnt) {
+			if (p >= totalPage) {
+				p = totalPage - 1;
+			}
+			if (p < 0) {
+				p = 0;
 			}
 		}
 		
-		int totalPage=Double.valueOf(Math.ceil( Double.valueOf(cnt)/n)).intValue();
-		if((p+1)*n>cnt){
-			if(p>=totalPage){
-				p=totalPage-1;
-			}
-			if(p<0){
-				p=0;
-			}
-		}
-		
-		
-		String pageSQL=" select * from ( "+sql+") as AA ";
-		pageSQL=pageSQL+"  limit "+(p*n)+" , "+n+"   ";
-		
-		dataTable=executeQuery(pageSQL,paramValues);
-	
-		
-		BeanUtil.forceSetProperty(page, "dataTable", dataTable.getRows());
+		StringBuffer pageSQL = new StringBuffer(" select * from ( " + sql + ")  A   limit " + (p * n) + " , " + n + "  ");
+
+		dataTable = executeQuery(pageSQL.toString(), paramValues);
+
+		BeanUtil.forceSetProperty(page, "dataTable", dataTable);
 		BeanUtil.forceSetProperty(page, "totalRecord", cnt);
 		BeanUtil.forceSetProperty(page, "totalPage", totalPage);
-		BeanUtil.forceSetProperty(page, "currPageNum", p+1);
-		if(p+1<totalPage){
-			BeanUtil.forceSetProperty(page, "hasNextPage",true);
-		}else{
-			BeanUtil.forceSetProperty(page, "hasNextPage",false);
+		BeanUtil.forceSetProperty(page, "currPageNum", p + 1);
+		if (p + 1 < totalPage) {
+			BeanUtil.forceSetProperty(page, "hasNextPage", true);
+		} else {
+			BeanUtil.forceSetProperty(page, "hasNextPage", false);
+		}
+
+		if (p - 1 < 0) {
+			BeanUtil.forceSetProperty(page, "hasPreviouPage", false);
+		} else {
+			BeanUtil.forceSetProperty(page, "hasPreviouPage", true);
 		}
 		
-		if(p-1<0){
-			BeanUtil.forceSetProperty(page, "hasPreviouPage",false);
-		}else{
-			BeanUtil.forceSetProperty(page, "hasPreviouPage",true);
-		}
-		
-		return page;
 	}
-	
-	
-	
+
 }
 
 
