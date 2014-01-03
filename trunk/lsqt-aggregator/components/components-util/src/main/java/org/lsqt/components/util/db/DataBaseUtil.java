@@ -20,7 +20,7 @@ import java.sql.SQLException;
  * 修改内容：
  * </pre>
  */
-public final class DataBaseUtil {
+public  class DataBaseUtil {
 	private DataBaseUtil(){}
 	
 	/**
