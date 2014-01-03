@@ -159,5 +159,12 @@ public class DataTable implements Iterable<DataRow>{
 		return null;
 	}
 	
+	public String toString(){
+		StringBuilder info=new StringBuilder();
+		for(DataRow r: this.dataRows){
+			info.append(Arrays.asList(r.toArray()));
+		}
+		return info.toString();
+	}
 }
 
