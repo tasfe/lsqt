@@ -17,10 +17,10 @@ import org.apache.commons.dbutils.ResultSetHandler;
 import org.lsqt.components.util.bean.BeanUtil;
 import org.lsqt.components.util.sql.SqlType;
 
-import com.lsqt.components.dto.DataRow;
-import com.lsqt.components.dto.DataSet;
-import com.lsqt.components.dto.DataTable;
-import com.lsqt.components.dto.Page;
+import org.lsqt.components.dto.DataRow;
+import org.lsqt.components.dto.DataSet;
+import org.lsqt.components.dto.DataTable;
+import org.lsqt.components.dto.Page;
 
 
 
@@ -76,13 +76,14 @@ public class SqlExecutor {
 	 * @return -
 	 * @throws SQLException
 	 */
-	private static final  DataTable fillDataTable(ResultSet rs) throws SQLException{
+	private static final  org.lsqt.components.dto.DataTable fillDataTable(ResultSet rs) throws SQLException{
 		DataTable table=new DataTable();
 		int cnt=rs.getMetaData().getColumnCount();
+		
 		while (rs.next()) {
 			DataRow row = new DataRow();
 			for (int i = 1; i <= cnt; i++) {
-				row.add(rs.getObject(i));
+				row.add(rs.getMetaData().getColumnLabel(i).toLowerCase(),rs.getObject(i)); //数据添加
 			}
 			table.add(row);
 		}
@@ -141,7 +142,7 @@ public class SqlExecutor {
 	 * @param paramValues 入参值
 	 * @return DataSet 数据集
 	 */
-	public DataSet executeProcedure(final String procedureName, final Object[] paramValues) {
+	public DataSet executeProcedure(String procedureName, Object[] paramValues) {
 		DataSet dataSet= new DataSet();
 		CallableStatement cstmt = null;
 		ResultSet rs = null;
@@ -185,7 +186,7 @@ public class SqlExecutor {
 	 * @param paramValueTypes 储存过程入参和输出参数据的数据类型:SqlType.String待
 	 * @return DataSet 数据集
 	 * **/
-	public DataSet executeProcedure(final String procedureName, final Object[] paramValues, final SqlType[] paramValueTypes) {
+	public DataSet executeProcedure(String procedureName, Object[] paramValues, SqlType[] paramValueTypes) {
 		if (paramValues.length != paramValueTypes.length) {
 			//LOGGER.error("procedure execute fail, Parameters and parameter types value , the length not equal  ");
 			return null;
@@ -266,14 +267,14 @@ public class SqlExecutor {
 		}
 	}
 	
-	public boolean executeSql(String sql,Object[] paramValues){
+	public int executeSql(String sql,Object[] paramValues){
 		QueryRunner run = new QueryRunner(dataSource);
 		try{
-			return run.update(sql,paramValues)>0;
+			return run.update(sql,paramValues);
 		}catch(SQLException ex){
 			
 			ex.printStackTrace();
-			return false;
+			return 0;
 		}
 	}
 	
@@ -282,17 +283,14 @@ public class SqlExecutor {
 	 * @param sql 带占位符的SQL语句
 	 * @param dataTable 参数数据表格 
 	 */
-	public boolean executeSql(String sql,Object [][] dataTable){
+	public int[] executeSql(String sql, Object[][] dataTable) {
 		QueryRunner run = new QueryRunner(dataSource);
-		try{
-			
-		  return run.batch(sql, dataTable).length>0;
-		  
-		} catch(SQLException ex){
-			//LOGGER.debug("execute sql fail ==> "+ex.getMessage());
+		try {
+			return run.batch(sql, dataTable);
+		} catch (SQLException ex) {
 			ex.printStackTrace();
-			return false;
 		}
+		return null;
 	}
 	
 
@@ -388,7 +386,8 @@ public class SqlExecutor {
 		}
 		
 		StringBuffer pageSQL = new StringBuffer(" select * from ( " + sql + ")  A   limit " + (p * n) + " , " + n + "  ");
-
+		System.out.println(pageSQL+"  参数值:"+Arrays.asList(paramValues));
+		
 		dataTable = executeQuery(pageSQL.toString(), paramValues);
 
 		BeanUtil.forceSetProperty(page, "dataTable", dataTable);
