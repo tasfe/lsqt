@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <pre>
@@ -37,8 +36,8 @@ public class DataRow implements Iterable<Object>{
 	}
 	
 	
-	public void add(Object element) {
-		this.rowValues.add(element);
+	public boolean add(Object element) {
+		return this.rowValues.add(element);
 	}
 
 	public void add(String label,Object element) {
