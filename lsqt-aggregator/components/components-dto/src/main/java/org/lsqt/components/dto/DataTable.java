@@ -46,7 +46,7 @@ public class DataTable implements Iterable<DataRow>{
 	}
 	
 	/**
-	 *  设置表格头部显示的javaBean属性
+	 *  设置表格头部显示的javaBean属性，属性名不区分大小写
 	 * @param props -
 	 */
 	public DataTable doSettingPropety(String ... props){
@@ -125,15 +125,22 @@ public class DataTable implements Iterable<DataRow>{
 	 */
 	@SuppressWarnings("rawtypes")
 	public List toBeanList(Class ... clazzes ){
-		List t=this.settingProperty;
-		List<Integer> holdedIndexs=new ArrayList<Integer>();
+		
+		List<String> holdedProps=new ArrayList<String>();
 		for(Class e:clazzes){
+			Map<String,String> setterMap=getGetterSetterMap(e); //获取当前bean的setter,并利用反射赋值
 			
 		}
+		//System.out.println(holdedProps);
 		return null;
 	}
 	
-	private void processBean(Class<?> clazz,List<Integer> holdedIndexs){
+	/**
+	 * 处理每一个bean，
+	 * @param clazz
+	 * @param holdedIndexs
+	 */
+	private Map<String,String> getGetterSetterMap(Class<?> clazz){
 
 		Set<String> fieldSet=new HashSet<String>();
 		Set<String> boolFieldSet=new HashSet<String>();
@@ -192,7 +199,10 @@ public class DataTable implements Iterable<DataRow>{
 				}
 			}
 		}
-		System.out.println(map);
+		//System.out.println(map);
+		
+		return map;
+		
 	}
 	
 	
@@ -227,10 +237,11 @@ public class DataTable implements Iterable<DataRow>{
 	public List<Map<String,Object>> toMapList(){
 		return null;
 	}
-	
+	/*
 	public String toJSON(){
 		return null;
 	}
+	*/
 	
 	/**
 	 * <pre>

@@ -15,7 +15,7 @@
 
 	<modules>
 		<module>components-dto</module>
-		<module>components-dao</module>
+		<module>dao-dbutils</module>
 		<!-- <module>components-file</module>
     	<module>components-util</module> -->
   </modules>

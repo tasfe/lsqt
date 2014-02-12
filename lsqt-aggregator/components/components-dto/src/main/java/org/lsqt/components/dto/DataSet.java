@@ -17,15 +17,15 @@ import java.util.List;
  * 修改内容：
  * </pre>
  */
-public class DataSet implements Iterable<DataTableTest>{
-	public void setDataTables(List<DataTableTest> dataTables) {
+public class DataSet implements Iterable<DataTable>{
+	public void setDataTables(List<DataTable> dataTables) {
 		this.dataTables = dataTables;
 	}
 
 	/**数据表格**/
-	private List<DataTableTest> dataTables=new ArrayList<DataTableTest>();
+	private List<DataTable> dataTables=new ArrayList<DataTable>();
 	
-	public List<DataTableTest> getDataTables() {
+	public List<DataTable> getDataTables() {
 		return dataTables;
 	}
 
@@ -40,16 +40,16 @@ public class DataSet implements Iterable<DataTableTest>{
 		this.outputParams = outputParams;
 	}
 	
-	public boolean add(DataTableTest dataTable) {
+	public boolean add(DataTable dataTable) {
 		return this.dataTables.add(dataTable);
 	}
 
-	public void add(int index, DataTableTest dataTable) {
+	public void add(int index, DataTable dataTable) {
 		this.dataTables.add(index, dataTable);
 		
 	}
 
-	public DataTableTest getDataTable(int index) {
+	public DataTable getDataTable(int index) {
 		return this.dataTables.get(index);
 	}
 
@@ -57,7 +57,7 @@ public class DataSet implements Iterable<DataTableTest>{
 		return this.dataTables.isEmpty();
 	}
 
-	public DataTableTest remove(int index) {
+	public DataTable remove(int index) {
 		return this.dataTables.remove(index);
 	}
 
@@ -65,7 +65,7 @@ public class DataSet implements Iterable<DataTableTest>{
 		return this.dataTables.remove(dataTable);
 	}
 	
-	public Iterator<DataTableTest> iterator() {
+	public Iterator<DataTable> iterator() {
 		return this.dataTables.iterator();
 	}
 }

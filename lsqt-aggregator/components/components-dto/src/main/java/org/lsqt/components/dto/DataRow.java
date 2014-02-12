@@ -40,24 +40,24 @@ public class DataRow implements Iterable<Object>{
 		return this.rowValues.add(element);
 	}
 
-	public void add(String label,Object element) {
+	public void add(String field,Object element) {
 		this.rowValues.add(element);
-		this.rowNames.add(label);
+		this.rowNames.add(field);
 	}
 	
 	public Object get(int index){
 		return this.rowValues.get(index);
 	}
 	
-	public Object get(String label){
+	public Object get(String field){
 		int index=0;
 		for(int i=0;i<this.rowNames.size();i++){
-			if(label.equals(this.rowNames.get(i))){
+			if(field.equals(this.rowNames.get(i))){
 				index=i;
 				break;
 			}
 		}
-		if(this.rowNames.contains(label) && index<=this.rowValues.size()-1){
+		if(this.rowNames.contains(field) && index<=this.rowValues.size()-1){
 			return this.rowValues.get(index);
 		}
 		return null;
