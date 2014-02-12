@@ -14,7 +14,8 @@ import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.resource.CoreLibrariesContributor;
-
+import org.apache.wicket.util.lang.Objects;
+import org.apache.commons.beanutils.BeanUtils;
 /**
  * 顶部固定层组件(顶部固定层，随着滚动条下拉使终出现在顶部).
  * 

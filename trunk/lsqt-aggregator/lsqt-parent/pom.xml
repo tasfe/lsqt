@@ -21,7 +21,7 @@
 		<maven-source-plugin.version>2.1.2</maven-source-plugin.version>
 		<maven-javadoc-plugin.version>2.8</maven-javadoc-plugin.version>
 		<maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
-		<maven-svn-revision-number-plugin.version>1.4</maven-svn-revision-number-plugin.version>
+		<maven-svn-revision-number-plugin.version>1.7</maven-svn-revision-number-plugin.version>
 
 		<maven-eclipse-plugin.version>2.8</maven-eclipse-plugin.version>
 
@@ -33,7 +33,7 @@
 		<junit.version>4.8</junit.version>
 		
 		
-		<dbutils.version>1.4</dbutils.version>
+		<dbutils.version>1.5</dbutils.version>
 		<hibernate-core.version>3.3.2.GA</hibernate-core.version>
 		<hibernate-annotations.version>3.4.0.GA</hibernate-annotations.version>
 		<spring.version>3.0.3.RELEASE</spring.version>
@@ -269,8 +269,15 @@
 
 	</dependencyManagement>
 
+
+
 	<build>
-		<plugins>
+		<!-- 
+		<finalName>${project.artifactId}-${project.version}-r${svn.revision}-${maven.build.timestamp}</finalName>
+		 -->
+		 
+		<pluginManagement>
+			<plugins>
 			<!-- maven资源文件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -416,7 +423,7 @@
 				<version>${maven-deploy-plugin.version}</version>
 			</plugin>
 			
-			<!-- 打svn版本号 -->
+			<!-- 打svn版本号
 			<plugin>
 				<groupId>com.google.code.maven-svn-revision-number-plugin</groupId>
 				<artifactId>maven-svn-revision-number-plugin</artifactId>
@@ -436,44 +443,43 @@
 					</entries>
 				</configuration>
 			</plugin>
-		</plugins>
-		
-		
-		
-		<finalName>${project.artifactId}-${project.version}-r${svn.revision}-${maven.build.timestamp}</finalName>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											com.google.code.maven-svn-revision-number-plugin
-										</groupId>
-										<artifactId>
-											maven-svn-revision-number-plugin
-										</artifactId>
-										<versionRange>
-											[1.7,)
-										</versionRange>
-										<goals>
-											<goal>revision</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
+		 -->
+		 
+		 
+			<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+			<plugin>
+				<groupId>org.eclipse.m2e</groupId>
+				<artifactId>lifecycle-mapping</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<lifecycleMappingMetadata>
+						<pluginExecutions>
+							<pluginExecution>
+								<pluginExecutionFilter>
+									<groupId>
+										com.google.code.maven-svn-revision-number-plugin
+									</groupId>
+									<artifactId>
+										maven-svn-revision-number-plugin
+									</artifactId>
+									<versionRange>
+										[1.7,)
+									</versionRange>
+									<goals>
+										<goal>revision</goal>
+									</goals>
+								</pluginExecutionFilter>
+								<action>
+									<ignore></ignore>
+								</action>
+							</pluginExecution>
+						</pluginExecutions>
+					</lifecycleMappingMetadata>
+				</configuration>
+			</plugin>
+			
+				
+				
 			</plugins>
 		</pluginManagement>
 	</build>

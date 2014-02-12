@@ -3,7 +3,7 @@ package com.hirisun.content.service;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.lsqt.util.db.DataBaseUtil;
+import org.lsqt.components.util.db.DataBaseUtil;
 
 public class OtherTest {
 	
