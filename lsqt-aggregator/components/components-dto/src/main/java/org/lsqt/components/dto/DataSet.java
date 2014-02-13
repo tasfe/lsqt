@@ -61,7 +61,7 @@ public class DataSet implements Iterable<DataTable>{
 		return this.dataTables.remove(index);
 	}
 
-	public boolean remove(DataTableTest dataTable) {
+	public boolean remove(DataTable dataTable) {
 		return this.dataTables.remove(dataTable);
 	}
 	
