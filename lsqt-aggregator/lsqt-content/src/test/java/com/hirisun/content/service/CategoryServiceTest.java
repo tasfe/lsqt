@@ -12,7 +12,6 @@ public class CategoryServiceTest extends AbstractTest{
 	
 	@Test
 	public void testCRUDCategory(){
-	
 		
 		/*＊
 		 * 添加类别,如下：
