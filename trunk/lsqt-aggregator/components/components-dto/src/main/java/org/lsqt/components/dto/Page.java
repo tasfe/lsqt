@@ -28,7 +28,7 @@ public class Page {
 	/**
 	 * 分页对象承载的数据对象
 	 */
-	private DataTableTest dataTable=new DataTableTest();
+	private DataTable dataTable=new DataTable();
 	
 	
 	/**
@@ -92,7 +92,7 @@ public class Page {
 	 * 页对象承载的数据集
 	 * @return 返回分页对象承载的数据集
 	 * */
-	public DataTableTest getDataTable() {
+	public DataTable getDataTable() {
 		return dataTable;
 	}
 
