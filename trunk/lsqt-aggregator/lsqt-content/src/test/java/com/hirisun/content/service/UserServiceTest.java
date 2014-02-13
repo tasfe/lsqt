@@ -4,8 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.lsqt.content.model.User;
 import org.lsqt.content.service.UserService;
-import org.lsqt.util.db.DataBaseUtil;
-import org.hibernate.cache.EhCacheProvider;
 import com.hirisun.AbstractTest;
 
 public class UserServiceTest extends AbstractTest{

@@ -14,8 +14,9 @@
   	<module>lsqt-content</module>
     <module>lsqt-forum</module>
     <module>lsqt-shopping</module>
-    
-    
-    
+    <module>lsqt-uum</module>
+    <module>lsqt-pm</module>
+    <module>lsqt-report</module>
+    <module>lsqt-bpm</module>
   </modules>
 </project>

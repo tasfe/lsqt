@@ -14,9 +14,10 @@
   <name>lsqt-components</name>
 
 	<modules>
+		<module>components-codegen</module>
 		<module>components-dto</module>
+		<module>components-util</module>
 		<module>dao-dbutils</module>
-		<!-- <module>components-file</module>
-    	<module>components-util</module> -->
+		<module>dao-hibernate3</module>
   </modules>
 </project>
