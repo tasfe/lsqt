@@ -125,22 +125,66 @@ public class DataTable implements Iterable<DataRow>{
 	 */
 	@SuppressWarnings("rawtypes")
 	public List toBeanList(Class ... clazzes ){
+		List list=new ArrayList();
 		
 		List<String> holdedProps=new ArrayList<String>();
 		for(Class e:clazzes){
-			Map<String,String> setterMap=getGetterSetterMap(e); 
+			Map<String,String> setterMap=getSetterMap(e); 
 			
 		}
-		//System.out.println(holdedProps);
-		return null;
+		return list;
 	}
 	
+	private static Field getDeclaredField(Class clazz, String propertyName) throws NoSuchFieldException {
+		
+		for (Class superClass = clazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
+			try {
+				return superClass.getDeclaredField(propertyName);
+			} catch (NoSuchFieldException e) {
+				// Field不在当前类定义,继续向上转型
+			}
+		}
+		throw new NoSuchFieldException("No such field: " + clazz.getName() + '.' + propertyName);
+	}
+	
+/**
+	public static void forceSetProperty(Object object, String propertyName, Object newValue) {
+		
+		try {
+		Field field = getDeclaredField(object, propertyName);
+		boolean accessible = field.isAccessible();
+		field.setAccessible(true);
+		
+		field.set(object, newValue);
+		field.setAccessible(accessible);
+		} catch (Exception e) {
+			//LOGGER.info("Error won't happen");
+			throw new RuntimeException(e.getMessage());
+		}
+		
+	}
+	**/
+	
+	private void processData(Class clazz,Map<String,String> setterMap){
+		for(String p: setterMap.keySet()){
+			for(String e: settingProperty){
+				if(p.equalsIgnoreCase(e)){
+					String methodStr=setterMap.get(p);
+					
+					
+					
+					break;
+				}
+			}
+			
+		}
+	}
+
 	/**
 	 * 处理每一个bean，
 	 * @param clazz
-	 * @param holdedIndexs
 	 */
-	private Map<String,String> getGetterSetterMap(Class<?> clazz){
+	private Map<String,String> getSetterMap(Class<?> clazz){
 
 		Set<String> fieldSet=new HashSet<String>();
 		Set<String> boolFieldSet=new HashSet<String>();
