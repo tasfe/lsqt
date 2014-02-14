@@ -128,7 +128,7 @@ public class DataTable implements Iterable<DataRow>{
 		
 		List<String> holdedProps=new ArrayList<String>();
 		for(Class e:clazzes){
-			Map<String,String> setterMap=getGetterSetterMap(e); //获取当前bean的setter,并利用反射赋值
+			Map<String,String> setterMap=getGetterSetterMap(e); 
 			
 		}
 		//System.out.println(holdedProps);
