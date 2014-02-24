@@ -48,7 +48,7 @@ public class SqlExecutor {
 	private DataSource dataSource;
 	private QueryRunner run ;
 	
-	public void setDataSource(DataSource dataSource){
+	public void SqlExecutor(DataSource dataSource){
 		this.dataSource = dataSource;
 		this.run=new QueryRunner(dataSource);
 	}
@@ -60,7 +60,7 @@ public class SqlExecutor {
 	
 	
 	
-	public SqlExecutor(){
+	private SqlExecutor(){
 		/*hack code , will delete ！！！
 		Properties p=new Properties();
 		p.put("driverClassName", "com.p6spy.engine.spy.P6SpyDriver"); //com.mysql.jdbc.Driver
