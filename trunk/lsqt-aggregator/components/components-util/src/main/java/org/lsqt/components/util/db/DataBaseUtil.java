@@ -2,7 +2,14 @@ package org.lsqt.components.util.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 
 /**
@@ -63,5 +70,33 @@ public  class DataBaseUtil {
 			return false;
 		}
 		return true;
+	}
+	
+	public static void main(String ...st){
+		try{
+			
+			Connection con=null;
+			ResultSet rs=null;
+			PreparedStatement pstmt=null;
+			
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+				con=DriverManager.getConnection("jdbc:mysql://localhost:3306/oaonsite?&characterEncoding=utf-8&useUnicode=true&zeroDateTimeBehavior=round&autoReconnect=true&failOverReadOnly=false", "root", "123456");
+				
+				String sql="SELECT * FROM sys_dic where  itemName like '%普%' ";
+				pstmt=con.prepareStatement(sql);
+				rs= pstmt.executeQuery();
+				while (rs.next()) {
+					System.out.println(rs.getObject(1));
+				}
+				rs.close();
+				pstmt.close();
+				con.close();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 }
