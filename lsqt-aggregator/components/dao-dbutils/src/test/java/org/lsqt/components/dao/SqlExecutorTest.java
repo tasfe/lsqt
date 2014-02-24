@@ -20,7 +20,7 @@ import org.lsqt.components.dto.Page;
 public class SqlExecutorTest {
 	private SqlExecutor sqlExecutor;
 	
-	@Before
+	//@Before
 	public void before(){
 		
 		/**
@@ -88,7 +88,13 @@ public class SqlExecutorTest {
 	}
 	
 	@Test
-	public void executeQueryPage(){
+	public void executeQueryPage1(){
+		Page page=new Page(2,2);
+		this.sqlExecutor.executeQueryPage(page, "select * from sys_user where fullname  ");
+	}
+	
+	@Test
+	public void executeQueryPage2(){
 		Page page=new Page(2,2);
 		this.sqlExecutor.executeQueryPage(page, "select * from sys_user where fullname like ?","%张%");
 	}
