@@ -11,9 +11,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.dbcp.BasicDataSourceFactory;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -56,6 +58,24 @@ public class SqlExecutor {
 		this.run=new QueryRunner(dataSource);
 	}
 	
+	
+	/*hack code , will delete ！！！*/
+	public SqlExecutor(){
+		Properties p=new Properties();
+		p.put("driverClassName", "com.p6spy.engine.spy.P6SpyDriver"); //com.mysql.jdbc.Driver
+		p.put("username","root");
+		p.put("password", "123456");
+		p.put("url", "jdbc:mysql://localhost:3306/oaonsite?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round&autoReconnect=true&failOverReadOnly=false");
+		DataSource ds;
+		try {
+			ds = BasicDataSourceFactory.createDataSource(p);
+			this.run=new QueryRunner(ds);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+	}
+	
 	//-------------------------------------------------------------------------------
 	/**
 	 * 处理参数占位符字符串
@@ -85,7 +105,7 @@ public class SqlExecutor {
 	private static final  DataTable fillDataTable(ResultSet rs) throws SQLException{
 		//处理默认表头
 		int cnt=rs.getMetaData().getColumnCount();
-		List dataHead=new ArrayList();
+		List<String> dataHead=new ArrayList<String>();
 		for(int i=0;i<cnt;i++){
 			dataHead.add(rs.getMetaData().getColumnLabel(i+1));
 		}
@@ -107,7 +127,7 @@ public class SqlExecutor {
 			System.out.println(Arrays.asList(data.get(i).toArray()));
 			dataBody[i]=data.get(i).toArray();
 		}
-		DataTable table=new DataTable(dataHead.toArray(), dataBody);
+		DataTable table=new DataTable(dataHead.toArray(new String[dataHead.size()]), dataBody);
 		return table;
 	}
 	
