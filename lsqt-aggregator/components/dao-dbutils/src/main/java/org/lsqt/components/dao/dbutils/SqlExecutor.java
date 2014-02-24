@@ -105,7 +105,7 @@ public class SqlExecutor {
 	private static final  DataTable fillDataTable(ResultSet rs) throws SQLException{
 		//处理默认表头
 		int cnt=rs.getMetaData().getColumnCount();
-		List<String> dataHead=new ArrayList<String>();
+		List<Object> dataHead=new ArrayList<Object>();
 		for(int i=0;i<cnt;i++){
 			dataHead.add(rs.getMetaData().getColumnLabel(i+1));
 		}
