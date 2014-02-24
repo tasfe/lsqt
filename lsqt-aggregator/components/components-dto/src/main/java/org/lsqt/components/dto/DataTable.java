@@ -26,12 +26,12 @@ import java.util.Set;
  */
 public class DataTable {
 	
-	private String[] dataHead;  //默认来自数据库meta column label
+	private Object[] dataHead;  //默认来自数据库meta column label
 	private Object[][] dataBody;  //数据体
 	
 	private DataTable(){}
 	
-	public DataTable(String [] dataHead,Object[][] dataBody){
+	public DataTable(Object [] dataHead,Object[][] dataBody){
 		this.dataHead=dataHead;
 		this.dataBody=dataBody;
 	}
@@ -40,7 +40,7 @@ public class DataTable {
 		return this.dataBody;
 	}
 	
-	public Object[] getDataHead(){
+	public Object [] getDataHead(){
 		return this.dataHead;
 	}
 	
