@@ -60,7 +60,7 @@ public class SqlExecutor {
 	
 	
 	
-	private SqlExecutor(){
+	public SqlExecutor(){
 		/*hack code , will delete ！！！
 		Properties p=new Properties();
 		p.put("driverClassName", "com.p6spy.engine.spy.P6SpyDriver"); //com.mysql.jdbc.Driver
@@ -460,6 +460,10 @@ public class SqlExecutor {
 		BeanUtil.forceSetProperty(page, "hasNext", ((p + 1) < totalPage) ? true:false);
 		BeanUtil.forceSetProperty(page, "hasPreviou", ((p - 1) < 0) ? false: true);
 		
+	}
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 }
