@@ -19,40 +19,6 @@ public class DataTableTest {
 		test(CollegeStudentWoman.class);
 		test(CollegeStudentMan.class);
 		
-		DataTable tb=new DataTable();
-
-		DataRow r1=new DataRow();
-		r1.add("id", 1);
-		r1.add("havingSex", true);
-		r1.add("hadSex", true);
-		r1.add("isSex", true);
-		r1.add("name", "男大学生");
-		r1.add("collegeName","男子大学");
-		r1.add("hasSex",true);
-		r1.add("haveSex", true);
-		r1.add("car", new Car(1001));
-		
-		r1.add("id", 10001);
-		r1.add("name","女大学生");
-		r1.add("collegeName","女子大学");
-		r1.add("reallyManDesc","yes, i'm man!!");
-		
-		tb.add(r1);
-		
-		
-		
-		tb.doSettingPropety(
-				"id", "havingSex", "hadSex", "isSex", "name","collegeName", "hasSex", "haveSex", "car", 
-				"id","name","reallyManDesc");
-		tb.toBeanList(CollegeStudentWoman.class,CollegeStudentMan.class);
-		
-		
-		
-		
-		tb.doSettingPropety(
-				"id", "havingSex", "hadSex", "isSex", "CollegeStudentMan.name","collegeName", "hasSex", "haveSex", "car", 
-				"id","CollegeStudentWoman.name","reallyManDesc");
-		//tb.toBeanList(CollegeStudentWoman.class,CollegeStudentMan.class);
 	}
 	
 	@SuppressWarnings("rawtypes")
