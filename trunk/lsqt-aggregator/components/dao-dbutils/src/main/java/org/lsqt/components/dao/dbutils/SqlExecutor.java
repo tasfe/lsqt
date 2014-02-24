@@ -59,8 +59,9 @@ public class SqlExecutor {
 	}
 	
 	
-	/*hack code , will delete ！！！*/
+	
 	public SqlExecutor(){
+		/*hack code , will delete ！！！
 		Properties p=new Properties();
 		p.put("driverClassName", "com.p6spy.engine.spy.P6SpyDriver"); //com.mysql.jdbc.Driver
 		p.put("username","root");
@@ -73,7 +74,7 @@ public class SqlExecutor {
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
-		
+		*/
 	}
 	
 	//-------------------------------------------------------------------------------
