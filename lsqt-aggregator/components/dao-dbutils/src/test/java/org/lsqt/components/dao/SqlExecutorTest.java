@@ -1,17 +1,18 @@
 package org.lsqt.components.dao;
 
-import java.util.Arrays;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSourceFactory;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.lsqt.components.dao.dbutils.SqlExecutor;
-import org.lsqt.components.dto.DataRow;
+import org.lsqt.components.dto.DataSet;
 import org.lsqt.components.dto.DataTable;
 import org.lsqt.components.dto.Page;
 
@@ -31,19 +32,30 @@ public class SqlExecutorTest {
 		**/
 		
 		Properties p=new Properties();
-		p.put("driverClassName", "com.mysql.jdbc.Driver");
+		p.put("driverClassName", "com.p6spy.engine.spy.P6SpyDriver"); //com.mysql.jdbc.Driver
 		p.put("username","root");
 		p.put("password", "123456");
-		p.put("url", "jdbc:mysql://localhost:3306/oaonsite");
+		p.put("url", "jdbc:mysql://localhost:3306/oaonsite?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round&autoReconnect=true&failOverReadOnly=false");
 		DataSource ds;
 		try {
 			ds = BasicDataSourceFactory.createDataSource(p);
-			System.out.println(ds.getConnection().hashCode());
-			System.out.println(ds.getConnection().hashCode());
-			System.out.println(ds.getConnection().hashCode());
-			System.out.println(ds.getConnection().hashCode());
-			System.out.println(ds.getConnection().hashCode());
-			//sqlExecutor=new SqlExecutor(ds);
+			Connection con1=ds.getConnection();
+			Connection con2=ds.getConnection();
+			Connection con3=ds.getConnection();
+			Connection con4=ds.getConnection();
+			Connection con5=ds.getConnection();
+			
+			System.out.println(con1);
+			System.out.println(con2);
+			System.out.println(con3);
+			System.out.println(con4);
+			System.out.println(con5);
+			
+			System.out.println("A:"+(con1==con2));
+			System.out.println("B:"+(con2==con3));
+			System.out.println("C:"+(con3==con4));
+			System.out.println("D:"+(con4==con5));
+			sqlExecutor=new SqlExecutor(ds);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,49 +70,32 @@ public class SqlExecutorTest {
 		
 	}
 	
-	//@Test
-	public void executeCRUDTest(){
-		
-		
-		int cnt=sqlExecutor.executeSql("CREATE TABLE TBL_USERS(ID INTEGER, NAME varchar(50), BIRTHDAY DATE)");
-		Assert.assertEquals(0, cnt);
-		
-		
-		cnt=sqlExecutor.executeSql("INSERT INTO TBL_USERS(ID, NAME, BIRTHDAY) VALUES ('1', 'ADMIN', SYSDATE)");
-		Assert.assertTrue(cnt>0);
-		
-		DataTable dt=sqlExecutor.executeQuery("select * from TBL_USERS");
-		
-		List<DataRow> list=dt.getDataRows();
-		for(DataRow r:list){
-			System.out.println(Arrays.asList(r.toArray()));
-		}
-		
-		cnt=sqlExecutor.executeSql("delete from TBL_USERS where id=1");
-		Assert.assertEquals(1, cnt);
+	@Test
+	public void executeProcedureTest(){
+		DataSet ds=sqlExecutor.executeProcedure("test_p1");
+		System.out.println(ds.getDataTables().size());
 		 
 	}
 	
-	//@Test
-	public void executePageTest(){
-		for(int i=1;i<100;i++){
-			sqlExecutor.executeSql("INSERT INTO TBL_USERS(ID, NAME, BIRTHDAY) VALUES ('"+i+"', 'ADMIN_"+i+"', SYSDATE)");
-		}
-
-		
-		Page page=new Page(30,2);
-		sqlExecutor.executeQueryPage("select * from TBL_USERS where id in(1,2,3,4,5,6,7,8,9,10) and id=? ",new Object[]{11} ,page);
-		System.out.println(page);
-	
+	@Test
+	public void executeQueryTest(){
+		DataTable tb=sqlExecutor.executeQuery("select * from sys_user where fullname like '%张%' limit 5");
 	}
 	
 	@Test
-	public void executePageTest2(){
-		Page page=new Page(1,3);//每页1条，显示第3页
+	public void executeQueryTest2(){
+		DataTable tb=sqlExecutor.executeQuery("SELECT * FROM oaonsite.sys_dic where sn= ? and itemName like ? ",0,"%普%");
+	}
+	
+	@Test
+	public void executeQueryPage(){
+		Page page=new Page(2,2);
+		this.sqlExecutor.executeQueryPage(page, "select * from sys_user where fullname like ?","%张%");
+	}
+	
+	@Test
+	public void executePageTest3(){ 
+		//测试代输出参数据存储过程
 		
-		String sql="SELECT * FROM sys_sms where userId = ? and systemId=? order by id desc";
-		
-		sqlExecutor.executeQueryPage(sql, new Object[]{21,1},page);
-		System.out.println(page);
 	}
 }
