@@ -48,17 +48,15 @@ public class SqlExecutor {
 	private DataSource dataSource;
 	private QueryRunner run ;
 	
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+		this.run=new QueryRunner(dataSource);
+	}
+	
 	public void SqlExecutor(DataSource dataSource){
-		this.dataSource = dataSource;
+		this.dataSource=dataSource;
 		this.run=new QueryRunner(dataSource);
 	}
-	
-	public SqlExecutor(DataSource dataSource){
-		this.dataSource = dataSource;
-		this.run=new QueryRunner(dataSource);
-	}
-	
-	
 	
 	public SqlExecutor(){
 		/*hack code , will delete ！！！
@@ -462,9 +460,7 @@ public class SqlExecutor {
 		
 	}
 
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+
 
 }
 
