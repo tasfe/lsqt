@@ -445,8 +445,7 @@ public class SqlExecutor {
 
 	public int entitySaveOrUpdate(Object entity){ //主键值目前只采用自增长策略，以后自定义的策略再优化吧
 		try {
-			//this.sqlTranslator.getSetterGetterMap(entity.getClass(), false);
-			return sqlTranslator.save(entity);
+			return sqlTranslator.saveOrUpdate(entity);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -474,8 +473,28 @@ public class SqlExecutor {
 		private StringBuffer getDeleteSQL(Map map){
 			StringBuffer sql=new StringBuffer();
 			if(map.get("table")!=null && map.get("id")!=null){
-				sql.append("delete from " + map.get("table") +" where "+map.get("id")+" = ? ");
+				sql.append("delete from " + map.get("table") +" where "+map.get("idColumn")+" = ? ");
 			}
+			System.out.println(sql);
+			return sql;
+		}
+		
+		private StringBuffer getUpdateSQL(Map map){
+			StringBuffer sql=new StringBuffer();
+			if(map.get("table")!=null && map.get("colums")!=null){
+				String table=map.get("table").toString();
+				List<String> columns=(List<String>)map.get("colums");
+				
+				sql.append(" update "+table+" set ");
+				for(int i=0;i<columns.size();i++){
+					sql.append(columns.get(i)+"= ? ");
+					if(i!=columns.size()-1){
+						sql.append(" , ");
+					}
+				}
+				sql.append(" where "+map.get("idColumn")+" = ? ");
+			}
+			System.out.println(sql);
 			return sql;
 		}
 		
@@ -488,12 +507,17 @@ public class SqlExecutor {
 				
 				//组装SQL
 				sql.append(" insert into "+table+" ( ");
+				
 				for(int i=0;i<columns.size();i++){
 					sql.append(columns.get(i));
 					if(i!=columns.size()-1){
 						sql.append(" , ");
 					}
 				}
+				if(map.get("idColumn")!=null){
+					sql.append(", "+map.get("idColumn")+" ");
+				}
+				
 				sql.append(" ) values ( ");
 				
 				List params=(List)map.get("params");
@@ -502,6 +526,10 @@ public class SqlExecutor {
 					if(i!=params.size()-1){
 						sql.append(" , ");
 					}
+				}
+				
+				if(map.get("idColumn")!=null){
+					sql.append(", ? ");
 				}
 				sql.append(" ) ");
 				System.out.println(sql+"==>"+params);
@@ -521,7 +549,7 @@ public class SqlExecutor {
 			return sql;
 		}
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		private  Map getAnnotations(Object entity) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+		private  Map processAnnotations(Object entity) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
 			Map info=new LinkedHashMap();
 			
 			Class clazz=entity.getClass();
@@ -542,16 +570,19 @@ public class SqlExecutor {
 				for (Class superClass = clazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
 					for(Field e:superClass.getDeclaredFields()){
 						
-						//获取主键字段和值
+						//获取主键
 						Id id=e.getAnnotation(Id.class);
 						if(id!=null){
-							info.put("id", StringUtil.isEmpty(id.name()) ? "id":id.name());
+							info.put("idColumn", StringUtil.isEmpty(id.name()) ? "id":id.name());
+							info.put("idProperty", e.getName());
+							
 							for(Method m: superClass.getDeclaredMethods()){
 								if(("get"+e.getName()).equalsIgnoreCase(m.getName())){
-									info.put("idValue", m.invoke(entity, null));
+									info.put("idValue",m.invoke(entity, null));
 									break;
 								}
 							}
+							
 						}
 						
 						//2.获取字段
@@ -693,19 +724,37 @@ public class SqlExecutor {
 			return map;
 		}
 		
-		@SuppressWarnings("rawtypes")
-		public int save(Object entity) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
-				Map map = getAnnotations(entity);
-				List temp= (List)map.get("params");
-				Object[] params = temp.toArray();
-				StringBuffer sql= getInsertSQL(map);
-				return  sqlExecutor.executeUpdate(sql.toString(), params);
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		public int saveOrUpdate(Object entity) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+				//id无值，则进行插入操，否则更新实体
+				
+				Map map = processAnnotations(entity);
+				if (map.get("idColumn") != null && map.get("idValue") == null) {
+					List temp = (List) map.get("params");
+					
+					StringBuffer sql = getInsertSQL(map); // sql使终显示插入id字段，这个应该有注解的id生成策略来决定 ,再优化
+					
+					Object pk=IdAutoGenerator.getId();
+					temp.add(pk);
+					
+					sqlExecutor.executeUpdate(sql.toString(), temp.toArray());
+					BeanUtil.forceSetProperty(entity, map.get("idColumn").toString(), pk);
+					
+				} else if (map.get("idColumn") != null && map.get("idValue") != null) {
+					List temp = (List) map.get("params");
+					temp.add(map.get("idValue"));
+					
+					StringBuffer sql= getUpdateSQL(map);
+					
+					return sqlExecutor.executeUpdate(sql.toString(),temp.toArray());
+				}
+				return 0;
 		}
 		
 		public int delete(Object ... entitys) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
 			int cntEffect=0;
 			for(Object entity:entitys){  //需用batch操作，再优化
-				Map map = getAnnotations(entity);
+				Map map = processAnnotations(entity);
 				String idColum=(String)map.get("id");
 				Object idParam=map.get("idValue");
 				StringBuffer sql=getDeleteSQL(map);
