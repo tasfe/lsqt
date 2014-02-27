@@ -20,7 +20,7 @@ import org.lsqt.components.dto.Page;
 public class SqlExecutorTest {
 	private SqlExecutor sqlExecutor;
 	
-	//@Before
+	@Before
 	public void before(){
 		
 		/**
@@ -55,7 +55,8 @@ public class SqlExecutorTest {
 			System.out.println("B:"+(con2==con3));
 			System.out.println("C:"+(con3==con4));
 			System.out.println("D:"+(con4==con5));
-			sqlExecutor=new SqlExecutor(ds);
+			sqlExecutor=new SqlExecutor();
+			sqlExecutor.setDataSource(ds);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -97,6 +98,30 @@ public class SqlExecutorTest {
 	public void executeQueryPage2(){
 		Page page=new Page(2,2);
 		this.sqlExecutor.executeQueryPage(page, "select * from sys_user where fullname like ?","%张%");
+	}
+	
+	@Test
+	public void entitySaveTest(){
+		SysDataSource ds=new SysDataSource();
+		ds.setAlias("aaa");
+		ds.setDbType("mysql");
+		ds.setDriverName("driver");
+		ds.setName("jack");
+		ds.setPassword("12345");
+		ds.setUrl("url");
+		ds.setUserName("xu");
+		this.sqlExecutor.entitySaveOrUpdate(ds);
+		
+		ds.setAlias("XXXXXX");
+		ds.setDbType("oracle");
+		this.sqlExecutor.entitySaveOrUpdate(ds);
+	}
+	
+	@Test
+	public void entityDeleteTest(){
+		SysDataSource ds=new SysDataSource();
+		ds.setId(10009000801180L);
+		this.sqlExecutor.entityDelete(ds);
 	}
 	
 	@Test
