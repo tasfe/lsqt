@@ -9,7 +9,7 @@ import org.apache.commons.dbcp.BasicDataSourceFactory;
 import org.lsqt.components.dto.DataTable;
 
 
-public class IdAutoGenerator implements IdGenerator{
+public class IdAutoGenerator {
 	private static DataSource dataSource;
 	private static SqlExecutor sqlExecutor;
 	
@@ -47,11 +47,6 @@ public class IdAutoGenerator implements IdGenerator{
 	 */
 	private static long lastId = -1;
 	
-	
-	@Override
-	public Object getId() {
-		return genId();
-	}
 	
 	private static void getNextIdBlock() {
 		
@@ -94,7 +89,7 @@ public class IdAutoGenerator implements IdGenerator{
 	 * 产生一个唯一ID。 使用同步，防止重复
 	 * 
 	 */
-	public static synchronized long genId() {
+	public static synchronized long getId() {
 		if (lastId <= nextId) {
 			getNextIdBlock();
 		}
@@ -103,6 +98,6 @@ public class IdAutoGenerator implements IdGenerator{
 	}
 	
 	public static void main(String ...strins){
-		System.out.println(IdAutoGenerator.genId());
+		System.out.println(IdAutoGenerator.getId());
 	}
 }
