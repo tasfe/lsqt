@@ -101,15 +101,15 @@ public class SqlExecutorTest {
 	}
 	
 	@Test
-	public void entitySaveTest(){
+	public void entitySaveOrUpdateTest(){
 		SysDataSource ds=new SysDataSource();
-		ds.setAlias("aaa");
-		ds.setDbType("mysql");
-		ds.setDriverName("driver");
-		ds.setName("jack");
-		ds.setPassword("12345");
+		ds.setAlias("setAlias");
+		ds.setDbType("setDbType");
+		ds.setDriverName("setDriverName");
+		ds.setName("setName");
+		ds.setPassword("setPassword");
 		ds.setUrl("url");
-		ds.setUserName("xu");
+		ds.setUserName("setUserName");
 		this.sqlExecutor.entitySaveOrUpdate(ds);
 		
 		ds.setAlias("XXXXXX");
