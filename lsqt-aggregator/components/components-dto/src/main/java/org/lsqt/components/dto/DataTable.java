@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,9 +45,44 @@ public class DataTable {
 		return this.dataHead;
 	}
 	
+	/**
+	 * 获取指定索引的行数据
+	 * @param rowIndex
+	 * @return
+	 */
+	public Map<String, Object> getRowMap(int rowIndex) {
+		Map temp = new HashMap();
+		Object[] rs = null;
+		if (dataHead != null && dataBody != null) {
+			int rowCnt = 0;
+			for (Object[] row : dataBody) {
+				rowCnt++;
+			}
+			if ((rowIndex + 1) > rowCnt) {
+				return temp;
+			}
+
+			int idx = 0;
+			for (Object[] row : dataBody) {
+				if (idx == rowIndex) {
+					rs = row;
+				}
+				idx++;
+			}
+		}
+
+		if (rs != null && dataHead != null) {
+			for(int i=0;i<dataHead.length;i++){
+				temp.put(dataHead[i],rs[i]);
+			}
+		}
+		System.out.println(temp);
+		return temp;
+	}
 	
-	
-	
+	public Map<String, Object> getScalarRowMap() {
+		return this.getRowMap(0);
+	}
 	
 	
 	
