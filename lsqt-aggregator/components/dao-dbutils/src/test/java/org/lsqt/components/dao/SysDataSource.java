@@ -46,6 +46,7 @@ public class SysDataSource {
 	// 主键
 	@Id
 	private Long id;
+	
 	// 数据源名称
 	@Column(name="name")
 	private String name;
