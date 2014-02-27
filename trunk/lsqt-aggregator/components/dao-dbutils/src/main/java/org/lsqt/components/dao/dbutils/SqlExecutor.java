@@ -1,6 +1,9 @@
 package org.lsqt.components.dao.dbutils;
 
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +13,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -20,7 +27,11 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.lsqt.components.util.bean.BeanUtil;
+import org.lsqt.components.util.lang.StringUtil;
 import org.lsqt.components.util.sql.SqlType;
+import org.lsqt.components.dao.dbutils.annotation.Column;
+import org.lsqt.components.dao.dbutils.annotation.Id;
+import org.lsqt.components.dao.dbutils.annotation.Table;
 import org.lsqt.components.dto.DataSet;
 import org.lsqt.components.dto.DataTable;
 import org.lsqt.components.dto.Page;
@@ -38,25 +49,16 @@ import org.lsqt.components.dto.Page;
  * 作者:袁明敏
  * 
  * 历史记录
- * 修改日期：2013-12-26
+ * 修改日期：2014-02-26
  * 修改人：袁明敏
  * 修改内容：
  * </pre>
  */
 public class SqlExecutor {
-	
+	private SqlTranslator sqlTranslator;
 	private DataSource dataSource;
 	private QueryRunner run ;
-	
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-		this.run=new QueryRunner(dataSource);
-	}
-	
-	public void SqlExecutor(DataSource dataSource){
-		this.dataSource=dataSource;
-		this.run=new QueryRunner(dataSource);
-	}
+
 	
 	public SqlExecutor(){
 		/*hack code , will delete ！！！
@@ -74,6 +76,19 @@ public class SqlExecutor {
 		}
 		*/
 	}
+	
+	public void SqlExecutor(DataSource dataSource){
+		this.dataSource=dataSource;
+		this.run=new QueryRunner(dataSource);
+		this.sqlTranslator=new SqlTranslator(this);
+	}
+	
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+		this.run=new QueryRunner(dataSource);
+		this.sqlTranslator=new SqlTranslator(this);
+	}
+
 	
 	//-------------------------------------------------------------------------------
 	/**
@@ -357,35 +372,6 @@ public class SqlExecutor {
 	 */
 	public  DataTable executeQuery(String sql,Object ... param){
 		try{
-		/**
-		Connection con=null;
-		ResultSet rs=null;
-		Statement pstmt=null;
-		
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			con=	DriverManager.getConnection("jdbc:mysql://localhost:3306/oaonsite", "root", "123456");
-			//con=this.dataSource.getConnection();
-			
-			System.out.println(sql+"===>"+Arrays.asList(param));
-			
-			pstmt= con.createStatement();
-			
-			rs= pstmt.executeQuery("SELECT * FROM oaonsite.sys_dic where sn= '0' and itemName like '%普%' ");
-		
-			//pstmt.setString(2, "%"+"普"+"%");
-			for(int i=0;i<param.length;i++){
-				pstmt.setObject(i+1, param[i]);
-			}
-		//	rs= pstmt.executeQuery(sql);
-			DataTable table= fillDataTable(rs);
-			
-			return table;
-			 **/
 			
 			System.out.println(sql+"===>"+Arrays.asList(param));
 			return run.query(sql, new ResultSetHandler<DataTable>(){
@@ -395,9 +381,6 @@ public class SqlExecutor {
 					
 				}
 			},param);
-			
-			/**  **/
-			
 			
 		}catch(SQLException ex){
 			ex.printStackTrace();
@@ -460,8 +443,279 @@ public class SqlExecutor {
 		
 	}
 
+	public int entitySaveOrUpdate(Object entity){ //主键值目前只采用自增长策略，以后自定义的策略再优化吧
+		try {
+			//this.sqlTranslator.getSetterGetterMap(entity.getClass(), false);
+			return sqlTranslator.save(entity);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} 
+	}
 
-
+	public int entityDelete(Object entity){ 
+		try {
+			return sqlTranslator.delete(entity);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} 
+	}
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	//SQL翻译器实现，纯pojo的CRUD操作，须标注实体注解信息
+	@SuppressWarnings("unused")
+	private class SqlTranslator{
+		private SqlExecutor sqlExecutor;
+		private SqlTranslator(){}
+		private SqlTranslator(SqlExecutor sqlExecutor){
+			this.sqlExecutor=sqlExecutor;
+		}
+		
+		private StringBuffer getDeleteSQL(Map map){
+			StringBuffer sql=new StringBuffer();
+			if(map.get("table")!=null && map.get("id")!=null){
+				sql.append("delete from " + map.get("table") +" where "+map.get("id")+" = ? ");
+			}
+			return sql;
+		}
+		
+		private StringBuffer getInsertSQL(Map map){
+			StringBuffer sql=new StringBuffer();
+			
+			if(map.get("table")!=null && map.get("colums")!=null){
+				String table=map.get("table").toString();
+				List<String> columns=(List<String>)map.get("colums");
+				
+				//组装SQL
+				sql.append(" insert into "+table+" ( ");
+				for(int i=0;i<columns.size();i++){
+					sql.append(columns.get(i));
+					if(i!=columns.size()-1){
+						sql.append(" , ");
+					}
+				}
+				sql.append(" ) values ( ");
+				
+				List params=(List)map.get("params");
+				for(int i=0;i<params.size();i++){
+					sql.append(" ? ");
+					if(i!=params.size()-1){
+						sql.append(" , ");
+					}
+				}
+				sql.append(" ) ");
+				System.out.println(sql+"==>"+params);
+			}
+			return sql;
+		}
+		
+		private  StringBuffer getParamSQL(Object ... param){
+			StringBuffer sql=new StringBuffer();
+			for(int i=0;i<param.length;i++){
+				sql.append(" ? ");
+				if(i!=param.length-1){
+					sql.append(" , ");
+				}
+			}
+			System.out.println(sql);
+			return sql;
+		}
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		private  Map getAnnotations(Object entity) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+			Map info=new LinkedHashMap();
+			
+			Class clazz=entity.getClass();
+			Table table=(Table)clazz.getAnnotation(Table.class);
+			if(table!=null){
+				
+				 //1.获取schema
+				String schema=table.schema();
+				String tableName=table.name();
+				info.put("table", schema.concat(".").concat(tableName));
+				
+				
+				
+				List<String> sqlColoumns=new ArrayList<String>();
+				List params=new ArrayList();
+				Map<String,String> getter=getSetterGetterMap(clazz,true); //字段对应的setter方法
+				
+				for (Class superClass = clazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
+					for(Field e:superClass.getDeclaredFields()){
+						
+						//获取主键字段和值
+						Id id=e.getAnnotation(Id.class);
+						if(id!=null){
+							info.put("id", StringUtil.isEmpty(id.name()) ? "id":id.name());
+							for(Method m: superClass.getDeclaredMethods()){
+								if(("get"+e.getName()).equalsIgnoreCase(m.getName())){
+									info.put("idValue", m.invoke(entity, null));
+									break;
+								}
+							}
+						}
+						
+						//2.获取字段
+						Column columns=e.getAnnotation(Column.class);
+						if(columns!=null){
+							sqlColoumns.add(columns.name());
+						}
+						
+						//3.获取字段值
+						for(Method m: superClass.getDeclaredMethods()){
+							if(getter.get(e.getName())!=null && getter.get(e.getName()).toString().equals(m.getName())){
+								Object p=m.invoke(entity, null);
+								params.add(p);
+							}
+							
+						}
+						
+					}
+				}
+				info.put("colums", sqlColoumns);
+				
+				info.put("params", params);
+				
+			}
+			return info;
+		}
+	 
+		@SuppressWarnings("rawtypes")
+		private  Map<String,String> getSetterGetterMap(Class clazz,boolean isGetter){
+			
+			Set<String> fieldSet=new LinkedHashSet<String>();
+			Set<String> boolFieldSet=new LinkedHashSet<String>();
+			
+			Set<String> methodSet=new LinkedHashSet<String>();
+			Set<String> boolmethodSet=new LinkedHashSet<String>();
+			for (Class superClass = clazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
+				for(Field e:superClass.getDeclaredFields()){
+					//不取id注解标志的字段
+					if(e.getAnnotation(Id.class)!=null){
+						continue;
+					}
+					
+					if(e.getGenericType().equals(boolean.class)){
+						boolFieldSet.add(e.getName());
+					}else{
+						fieldSet.add(e.getName());
+					}
+				}
+				
+				for(Method m: superClass.getDeclaredMethods()){ 
+					if(isGetter){
+						
+						if(m.getParameterTypes()!=null && m.getParameterTypes().length==0 &&
+								(!m.getReturnType().equals(void.class)) ){//判断getter 方法：无入参，有返回值
+							
+							if ( m.getReturnType().equals(boolean.class)) { 
+								boolmethodSet.add(m.getName());
+							}else{
+								methodSet.add(m.getName());
+							}
+						}
+					}else{
+					
+						if(m.getReturnType().equals(void.class) && m.getParameterTypes().length ==1){//判断setter 方法：只有一个入参，无返回值
+							if ( !(m.getParameterTypes()[0].equals(boolean.class))) { 
+								methodSet.add(m.getName());
+							}else{
+								boolmethodSet.add(m.getName());
+							}
+						}
+					}
+					
+				}
+			}
+			/*
+			 System.out.println("aaaaa==="+fieldSet);
+			System.out.println("bbbbb==="+boolFieldSet);
+			
+			 System.out.println("ccccc==="+methodSet);
+			System.out.println("ddddd==="+boolmethodSet);
+			*/
+			
+			//找到每个字段的setter方法.  (注：isXXX开头的boolean字段,其setter方法为 setXXX)
+			Map<String,String> map=new LinkedHashMap<String,String>();
+			if(isGetter==false){
+				for(String f:fieldSet){
+					for(String m:methodSet){
+						if(("set"+f).equalsIgnoreCase(m)){
+							map.put(f, m);
+							break;
+						}
+					}
+				}
+				
+				//isBad ==> setBad , msTool ==> setMsTool
+				for(String f:boolFieldSet){
+					for(String m:boolmethodSet){
+						String setM="set"+f.substring(2, f.length()); //针对isXXX属性
+						if(setM.equalsIgnoreCase(m)){
+							map.put(f, m);
+							break;
+						}
+						
+						if(("set"+f).equalsIgnoreCase(m)){ 	// 针对非isXXX属性
+							map.put(f, m);
+							break;
+						}
+						
+					}
+				}
+				System.out.println(clazz.getName()+"'s  setter are, size is "+map.keySet().size()+" :  "+map);
+			}else{
+				
+				//isBad ==> isBad , msTool ==> isMsTool , hasTool ==> isHasTool
+				for(String f:fieldSet){
+					for(String m:methodSet){
+						if(("get"+f).equalsIgnoreCase(m)){
+							map.put(f, m);
+							break;
+						}
+					}
+				}
+				
+				for(String f:boolFieldSet){
+					for(String m:boolmethodSet){
+						if(f.equalsIgnoreCase(m)){
+							map.put(f, m);
+							break;
+						}
+						
+						if(f.equalsIgnoreCase(m.substring(2,m.length()))){
+							map.put(f, m);
+							break;
+						}
+					}
+				}
+				System.out.println(clazz.getName()+"'s  getter are, size is "+map.keySet().size()+" :  "+map);
+			}
+			return map;
+		}
+		
+		@SuppressWarnings("rawtypes")
+		public int save(Object entity) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+				Map map = getAnnotations(entity);
+				List temp= (List)map.get("params");
+				Object[] params = temp.toArray();
+				StringBuffer sql= getInsertSQL(map);
+				return  sqlExecutor.executeUpdate(sql.toString(), params);
+		}
+		
+		public int delete(Object ... entitys) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+			int cntEffect=0;
+			for(Object entity:entitys){  //需用batch操作，再优化
+				Map map = getAnnotations(entity);
+				String idColum=(String)map.get("id");
+				Object idParam=map.get("idValue");
+				StringBuffer sql=getDeleteSQL(map);
+				cntEffect+=sqlExecutor.executeUpdate(sql.toString(), idParam);
+			}
+			return cntEffect;
+		}
+		
+	}
+	
 }
 
 
