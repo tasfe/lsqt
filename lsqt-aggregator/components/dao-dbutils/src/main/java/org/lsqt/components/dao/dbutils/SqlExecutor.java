@@ -46,12 +46,12 @@ import org.lsqt.components.dto.Page;
  * 	  轻量级SQL执行器.
  * 
  * 编写日期:2013-12-26
- * 作者:袁明敏
+ * 作者:Sky
  * 
  * 历史记录
  * 修改日期：2014-02-26
- * 修改人：袁明敏
- * 修改内容：
+ * 修改人: Sky
+ * 修改内容：添加注解元信息解析
  * </pre>
  */
 public class SqlExecutor {
@@ -60,24 +60,10 @@ public class SqlExecutor {
 	private QueryRunner run ;
 
 	
-	public SqlExecutor(){
-		/*hack code , will delete ！！！
-		Properties p=new Properties();
-		p.put("driverClassName", "com.p6spy.engine.spy.P6SpyDriver"); //com.mysql.jdbc.Driver
-		p.put("username","root");
-		p.put("password", "123456");
-		p.put("url", "jdbc:mysql://localhost:3306/oaonsite?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=round&autoReconnect=true&failOverReadOnly=false");
-		DataSource ds;
-		try {
-			ds = BasicDataSourceFactory.createDataSource(p);
-			this.run=new QueryRunner(ds);
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-		*/
+	private SqlExecutor(){ //该类实例化必须使用数据源
 	}
 	
-	public void SqlExecutor(DataSource dataSource){
+	public SqlExecutor(DataSource dataSource){
 		this.dataSource=dataSource;
 		this.run=new QueryRunner(dataSource);
 		this.sqlTranslator=new SqlTranslator(this);
@@ -430,7 +416,7 @@ public class SqlExecutor {
 		}
 		
 		StringBuffer pageSQL = new StringBuffer(" select * from ( " + sql + ")  t0   limit " + (p * n) + " , " + n + "  ");
-		System.out.println(pageSQL+"  ====>参数值:"+Arrays.asList(param));
+		//System.out.println(pageSQL+"  ====>参数值:"+Arrays.asList(param));
 		
 		DataTable dataTable = executeQuery(pageSQL.toString(), param);
 
@@ -460,6 +446,21 @@ public class SqlExecutor {
 			throw new RuntimeException(e);
 		} 
 	}
+	
+	public <T> T  entityGetById(Class<T> entityClazz,Object id ){
+		try {
+			return sqlTranslator.entityGetById(entityClazz, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} 
+	}
+	
+	
+	public int entityDeleteByIds(Class entityClazz,Object ...ids){ 
+		return sqlTranslator.deleteByIds(entityClazz, ids);
+	}
+	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//SQL翻译器实现，纯pojo的CRUD操作，须标注实体注解信息
 	@SuppressWarnings("unused")
@@ -545,7 +546,7 @@ public class SqlExecutor {
 					sql.append(" , ");
 				}
 			}
-			System.out.println(sql);
+			//System.out.println(sql);
 			return sql;
 		}
 		@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -610,6 +611,12 @@ public class SqlExecutor {
 			return info;
 		}
 	 
+		/**
+		 * 获取pojo的filed与mothod映射
+		 * @param clazz
+		 * @param isGetter
+		 * @return
+		 */
 		@SuppressWarnings("rawtypes")
 		private  Map<String,String> getSetterGetterMap(Class clazz,boolean isGetter){
 			
@@ -761,6 +768,111 @@ public class SqlExecutor {
 				cntEffect+=sqlExecutor.executeUpdate(sql.toString(), idParam);
 			}
 			return cntEffect;
+		}
+		
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		public int deleteByIds(Class entityClazz,Object ...ids){
+			String idColumn=null;
+			for (Class superClass = entityClazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
+				boolean hasId=false;
+				for(Field e:superClass.getDeclaredFields()){
+					//1.获取主键
+					Id id=e.getAnnotation(Id.class);
+					if(id!=null){
+						idColumn= StringUtil.isEmpty(id.name()) ? "id":id.name();
+						hasId=true;
+						break;
+					}
+				}
+				if(hasId)break;
+			}
+			
+			//生成删除语句
+			Table table=(Table)entityClazz.getAnnotation(Table.class);
+			if(table!=null && idColumn!=null){
+				String schema=table.schema();
+				String tableName=table.name();
+				
+				StringBuffer sql=new StringBuffer();
+				sql.append("delete from ".concat(schema).concat(".").concat(tableName)
+						.concat(" where ").concat(idColumn)
+						.concat(" in (").concat(getParamSQL(ids).toString().concat(" ) ")));
+				System.out.println(sql+"==>"+Arrays.asList( ids));
+				return sqlExecutor.executeUpdate(sql.toString(), ids);
+			}
+			return 0;
+		}
+		
+		@SuppressWarnings("rawtypes")
+		public <T> T entityGetById(Class<T> entityClazz,Object id) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+			Map<String,Object> info=new LinkedHashMap<String,Object>();
+			List<String> sqlColoumns=new ArrayList<String>();
+			//生成查询语句
+			Table table=(Table)entityClazz.getAnnotation(Table.class);
+			if(table!=null){
+				String schema=table.schema();
+				String tableName=table.name();
+				
+				StringBuffer sql=new StringBuffer();
+				for (Class superClass = entityClazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
+					for(Field e:superClass.getDeclaredFields()){
+						
+						//1.获取主键
+						Id pk=e.getAnnotation(Id.class);
+						if(pk!=null){
+							info.put("idColumn", StringUtil.isEmpty(pk.name()) ? "id":pk.name());
+						}
+						
+						//2.获取字段
+						Column columns=e.getAnnotation(Column.class);
+						if(columns!=null){
+							sqlColoumns.add(columns.name());
+						}
+					}
+				}
+				sql.append(" select ");
+				for(int i=0;i<sqlColoumns.size();i++){
+					sql.append(sqlColoumns.get(i));
+					if(i!=sqlColoumns.size()-1){
+						sql.append(" , ");
+					}
+				}
+				sql.append(" , "+info.get("idColumn"));
+				sql.append(" from ".concat(schema+".").concat(tableName));
+				sql.append(" where "+info.get("idColumn")+" =  ?");
+				System.out.println(sql+"==>"+Arrays.asList(id));
+				
+				
+				//3.跟据注解信息还原bean对象
+				DataTable dataTable= sqlExecutor.executeQuery(sql.toString(), id);
+				Map<String,Object> map=dataTable.getScalarRowMap();  //数据库结果集字段与值
+				
+				T entity=entityClazz.newInstance();
+				for(String calumn:map.keySet()){
+					for (Class superClass = entityClazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
+						for(Field e:superClass.getDeclaredFields()){
+							
+							//赋值主键
+							Id pk=e.getAnnotation(Id.class);
+							if(pk!=null && pk.name().equalsIgnoreCase(calumn)){
+								BeanUtil.forceSetProperty(entity, e.getName(), map.get(calumn));
+								break;
+							 
+							}
+							
+							//赋值其它字段
+							Column c=e.getAnnotation(Column.class);
+							if(c!=null && c.name().equalsIgnoreCase(calumn)){
+								BeanUtil.forceSetProperty(entity, e.getName(), map.get(calumn));
+								break;
+							 
+							}
+						}
+					}
+				}
+				return entity;
+			}
+			return null;
 		}
 		
 	}
