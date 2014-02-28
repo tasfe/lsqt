@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -86,7 +87,18 @@ public class DataTable {
 	
 	
 	
-	
+	@SuppressWarnings("rawtypes")
+	public  List<Map> toList(){
+		List<Map> list=new LinkedList<Map>();
+		for(Object[] row: this.dataBody){
+			Map<Object,Object> temp=new LinkedHashMap<Object,Object>();
+			for(int i=0;i<row.length;i++){
+				temp.put(this.dataHead[i],  row[i]);
+			}
+			list.add(temp);
+		}
+		return list;
+	}
 	
 	
 	
