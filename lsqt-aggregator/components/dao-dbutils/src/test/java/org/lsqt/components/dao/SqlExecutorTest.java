@@ -55,8 +55,7 @@ public class SqlExecutorTest {
 			System.out.println("B:"+(con2==con3));
 			System.out.println("C:"+(con3==con4));
 			System.out.println("D:"+(con4==con5));
-			sqlExecutor=new SqlExecutor();
-			sqlExecutor.setDataSource(ds);
+			sqlExecutor=new SqlExecutor(ds);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -122,6 +121,18 @@ public class SqlExecutorTest {
 		SysDataSource ds=new SysDataSource();
 		ds.setId(10009000801180L);
 		this.sqlExecutor.entityDelete(ds);
+	}
+	
+	@Test
+	public void entityDeleteByIdsTest(){
+		int cnt=this.sqlExecutor.entityDeleteByIds(SysDataSource.class, 10000024820004L,10000024830004L,10000024830005L,10000024830006L,10000024830007L,10000024830008L);
+		System.out.println("==》影响的行数："+cnt);
+	}
+	
+	@Test
+	public void entityGetByIdTest(){
+		SysDataSource ds= this.sqlExecutor.entityGetById(SysDataSource.class, 10000001160139L);
+		System.out.println(ds);
 	}
 	
 	@Test
