@@ -28,8 +28,7 @@ public class IdAutoGenerator {
 		DataSource ds;
 		try {
 			dataSource = BasicDataSourceFactory.createDataSource(p);
-			sqlExecutor=new SqlExecutor();
-			sqlExecutor.setDataSource(dataSource);
+			sqlExecutor=new SqlExecutor(dataSource);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
