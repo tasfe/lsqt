@@ -2,6 +2,12 @@ package org.lsqt.components.util.bean;
 
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+
 
 /**
  * <pre>
@@ -99,8 +105,115 @@ public class BeanUtil  {
 			//LOGGER.info("Error won't happen");
 			throw new RuntimeException(e.getMessage());
 		}
-		
 	}
 	
-    
+	/**
+	 * 获取pojo的filed名称与method名称的映射
+	 * @param clazz
+	 * @param isGetter
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public static  Map<String,String> getSetterGetterMap(Class clazz,boolean isGetter){
+		
+		Set<String> fieldSet=new LinkedHashSet<String>();
+		Set<String> boolFieldSet=new LinkedHashSet<String>();
+		
+		Set<String> methodSet=new LinkedHashSet<String>();
+		Set<String> boolmethodSet=new LinkedHashSet<String>();
+		for (Class superClass = clazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
+			for(Field e:superClass.getDeclaredFields()){
+				
+				if(e.getGenericType().equals(boolean.class)){
+					boolFieldSet.add(e.getName());
+				}else{
+					fieldSet.add(e.getName());
+				}
+			}
+			
+			for(Method m: superClass.getDeclaredMethods()){ 
+				if(isGetter){
+					
+					if(m.getParameterTypes()!=null && m.getParameterTypes().length==0 &&
+							(!m.getReturnType().equals(void.class)) ){//判断getter 方法：无入参，有返回值
+						
+						if ( m.getReturnType().equals(boolean.class)) { 
+							boolmethodSet.add(m.getName());
+						}else{
+							methodSet.add(m.getName());
+						}
+					}
+				}else{
+				
+					if(m.getReturnType().equals(void.class) && m.getParameterTypes().length ==1){//判断setter 方法：只有一个入参，无返回值
+						if ( !(m.getParameterTypes()[0].equals(boolean.class))) { 
+							methodSet.add(m.getName());
+						}else{
+							boolmethodSet.add(m.getName());
+						}
+					}
+				}
+				
+			}
+		}
+
+		
+		//找到每个字段的setter方法.  (注：isXXX开头的boolean字段,其setter方法为 setXXX)
+		Map<String,String> map=new LinkedHashMap<String,String>();
+		if(isGetter==false){
+			for(String f:fieldSet){
+				for(String m:methodSet){
+					if(("set"+f).equalsIgnoreCase(m)){
+						map.put(f, m);
+						break;
+					}
+				}
+			}
+			
+			//isBad ==> setBad , msTool ==> setMsTool
+			for(String f:boolFieldSet){
+				for(String m:boolmethodSet){
+					String setM="set"+f.substring(2, f.length()); //针对isXXX属性
+					if(setM.equalsIgnoreCase(m)){
+						map.put(f, m);
+						break;
+					}
+					
+					if(("set"+f).equalsIgnoreCase(m)){ 	// 针对非isXXX属性
+						map.put(f, m);
+						break;
+					}
+					
+				}
+			}
+			System.out.println(clazz.getName()+"'s  setter are, size is "+map.keySet().size()+" :  "+map);
+		}else{
+			
+			//isBad ==> isBad , msTool ==> isMsTool , hasTool ==> isHasTool
+			for(String f:fieldSet){
+				for(String m:methodSet){
+					if(("get"+f).equalsIgnoreCase(m)){
+						map.put(f, m);
+						break;
+					}
+				}
+			}
+			
+			for(String f:boolFieldSet){
+				for(String m:boolmethodSet){
+					if(f.equalsIgnoreCase(m)){
+						map.put(f, m);
+						break;
+					}
+					
+					if(f.equalsIgnoreCase(m.substring(2,m.length()))){
+						map.put(f, m);
+						break;
+					}
+				}
+			}
+			System.out.println(clazz.getName()+"'s  getter are, size is "+map.keySet().size()+" :  "+map);
+		}
+		return map;
+	}
 }
