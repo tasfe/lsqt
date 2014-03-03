@@ -1,7 +1,11 @@
 package org.lsqt.components.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lsqt.components.dao.dbutils.annotation.Column;
 import org.lsqt.components.dao.dbutils.annotation.Id;
+import org.lsqt.components.dao.dbutils.annotation.Sub;
 import org.lsqt.components.dao.dbutils.annotation.Table;
 
 
@@ -75,7 +79,12 @@ public class SysDataSource {
 	//数据库类型
 	@Column(name="dbType")
 	private String dbType=DBTYPE_MYSQL;
+	
+	//当前数据源下的多个表
+	@Sub(lazy=false)
+	private List<BpmFormTable> tables=new ArrayList<BpmFormTable>();
 
+	
 	public String getDbType() {
 		return dbType;
 	}
