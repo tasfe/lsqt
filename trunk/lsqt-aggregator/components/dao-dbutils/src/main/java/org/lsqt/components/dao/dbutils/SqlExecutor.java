@@ -4,25 +4,20 @@ package org.lsqt.components.dao.dbutils;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSourceFactory;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -31,6 +26,7 @@ import org.lsqt.components.util.lang.StringUtil;
 import org.lsqt.components.util.sql.SqlType;
 import org.lsqt.components.dao.dbutils.annotation.Column;
 import org.lsqt.components.dao.dbutils.annotation.Id;
+import org.lsqt.components.dao.dbutils.annotation.Sub;
 import org.lsqt.components.dao.dbutils.annotation.Table;
 import org.lsqt.components.dto.DataSet;
 import org.lsqt.components.dto.DataTable;
@@ -429,6 +425,11 @@ public class SqlExecutor {
 		
 	}
 
+	/**
+	 * 更新实体所有属性数据
+	 * @param entity
+	 * @return
+	 */
 	public int entitySaveOrUpdate(Object entity){ //主键值目前只采用自增长策略，以后自定义的策略再优化吧
 		try {
 			return sqlTranslator.saveOrUpdate(entity);
@@ -438,6 +439,26 @@ public class SqlExecutor {
 		} 
 	}
 
+	/**
+	 * 只更新或插入指定的属性数据
+	 * @param entity
+	 * @param entityProperties
+	 * @return
+	 */
+	public int entitySaveOrUpdate(Object entity,String ... entityProperties){
+		try {
+			return sqlTranslator.saveOrUpdate(entity,entityProperties);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} 
+	}
+	
+	/**
+	 * 删除实体，实体需有id值
+	 * @param entity
+	 * @return
+	 */
 	public int entityDelete(Object entity){ 
 		try {
 			return sqlTranslator.delete(entity);
@@ -456,10 +477,11 @@ public class SqlExecutor {
 		} 
 	}
 	
-	
 	public int entityDeleteByIds(Class entityClazz,Object ...ids){ 
 		return sqlTranslator.deleteByIds(entityClazz, ids);
 	}
+	
+
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//SQL翻译器实现，纯pojo的CRUD操作，须标注实体注解信息
@@ -473,7 +495,7 @@ public class SqlExecutor {
 		
 		private StringBuffer getDeleteSQL(Map map){
 			StringBuffer sql=new StringBuffer();
-			if(map.get("table")!=null && map.get("id")!=null){
+			if(map.get("table")!=null && map.get("idColumn")!=null){
 				sql.append("delete from " + map.get("table") +" where "+map.get("idColumn")+" = ? ");
 			}
 			System.out.println(sql);
@@ -490,7 +512,7 @@ public class SqlExecutor {
 				for(int i=0;i<columns.size();i++){
 					sql.append(columns.get(i)+"= ? ");
 					if(i!=columns.size()-1){
-						sql.append(" , ");
+						sql.append(", ");
 					}
 				}
 				sql.append(" where "+map.get("idColumn")+" = ? ");
@@ -512,7 +534,7 @@ public class SqlExecutor {
 				for(int i=0;i<columns.size();i++){
 					sql.append(columns.get(i));
 					if(i!=columns.size()-1){
-						sql.append(" , ");
+						sql.append(", ");
 					}
 				}
 				if(map.get("idColumn")!=null){
@@ -525,12 +547,12 @@ public class SqlExecutor {
 				for(int i=0;i<params.size();i++){
 					sql.append(" ? ");
 					if(i!=params.size()-1){
-						sql.append(" , ");
+						sql.append(", ");
 					}
 				}
 				
 				if(map.get("idColumn")!=null){
-					sql.append(", ? ");
+					sql.append(",  ? ");
 				}
 				sql.append(" ) ");
 				System.out.println(sql+"==>"+params);
@@ -546,196 +568,99 @@ public class SqlExecutor {
 					sql.append(" , ");
 				}
 			}
-			//System.out.println(sql);
 			return sql;
 		}
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		private  Map processAnnotations(Object entity) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+		private  Map processAnnotations(Object entity,String ... props) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
 			Map info=new LinkedHashMap();
 			
 			Class clazz=entity.getClass();
 			Table table=(Table)clazz.getAnnotation(Table.class);
 			if(table!=null){
 				
-				 //1.获取schema
+				 //1.获取数据库、表名
 				String schema=table.schema();
 				String tableName=table.name();
-				info.put("table", schema.concat(".").concat(tableName));
-				
+				if(StringUtil.isNotEmpty(schema)){
+					tableName=schema.concat(".").concat(tableName);
+				}
+				info.put("table",tableName);
 				
 				
 				List<String> sqlColoumns=new ArrayList<String>();
-				List params=new ArrayList();
-				Map<String,String> getter=getSetterGetterMap(clazz,true); //字段对应的setter方法
+				List<Object> sqlParams=new ArrayList(); 
+				
+				//Map<String,String> getter=BeanUtil.getSetterGetterMap(clazz,true); //字段对应的getter方法
+				Map<Field,Method> getterMap=BeanUtil.getSetterGetterMap(clazz, true) ;
 				
 				for (Class superClass = clazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
 					for(Field e:superClass.getDeclaredFields()){
-						
-						//获取主键
+						//1.获取主键
 						Id id=e.getAnnotation(Id.class);
 						if(id!=null){
-							info.put("idColumn", StringUtil.isEmpty(id.name()) ? "id":id.name());
+							info.put("idColumn", StringUtil.isEmpty(id.name()) ? e.getName():id.name());
 							info.put("idProperty", e.getName());
 							
-							for(Method m: superClass.getDeclaredMethods()){
-								if(("get"+e.getName()).equalsIgnoreCase(m.getName())){
-									info.put("idValue",m.invoke(entity, null));
-									break;
-								}
-							}
-							
+							Method m=getterMap.get(e);
+							info.put("idValue",m.invoke(entity, null));
+							continue;
 						}
 						
-						//2.获取字段
+						//2.获取字段(不含主键)
 						Column columns=e.getAnnotation(Column.class);
 						if(columns!=null){
 							sqlColoumns.add(columns.name());
 						}
 						
 						//3.获取字段值
-						for(Method m: superClass.getDeclaredMethods()){
-							if(getter.get(e.getName())!=null && getter.get(e.getName()).toString().equals(m.getName())){
-								Object p=m.invoke(entity, null);
-								params.add(p);
-							}
-							
+						Method m=getterMap.get(e);
+						if(m!=null){
+							sqlParams.add(m.invoke(entity, null));
 						}
+						
 						
 					}
 				}
 				info.put("colums", sqlColoumns);
+				info.put("params", sqlParams);
+			
 				
-				info.put("params", params);
-				
+				//4.只更新指定的属性
+				if(props.length>0){
+					List<String> tempParam=Arrays.asList(props);
+					
+					sqlColoumns=new ArrayList<String>();
+					sqlParams=new ArrayList(); 
+					
+					for (Class superClass = clazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
+						for(Field e:superClass.getDeclaredFields()){
+							//主键不作更新，只更新数据列
+							if (tempParam.contains(e.getName())
+									&& e.getAnnotation(Column.class) != null) {
+								sqlColoumns.add(e.getAnnotation(Column.class).name());
+								
+								Method m=getterMap.get(e);
+								if(m!=null){
+									sqlParams.add(m.invoke(entity, null));
+								}
+							}
+						}
+					}
+					info.put("colums", sqlColoumns);
+					info.put("params", sqlParams);
+				}
 			}
 			return info;
 		}
 	 
-		/**
-		 * 获取pojo的filed与mothod映射
-		 * @param clazz
-		 * @param isGetter
-		 * @return
-		 */
-		@SuppressWarnings("rawtypes")
-		private  Map<String,String> getSetterGetterMap(Class clazz,boolean isGetter){
-			
-			Set<String> fieldSet=new LinkedHashSet<String>();
-			Set<String> boolFieldSet=new LinkedHashSet<String>();
-			
-			Set<String> methodSet=new LinkedHashSet<String>();
-			Set<String> boolmethodSet=new LinkedHashSet<String>();
-			for (Class superClass = clazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
-				for(Field e:superClass.getDeclaredFields()){
-					//不取id注解标志的字段
-					if(e.getAnnotation(Id.class)!=null){
-						continue;
-					}
-					
-					if(e.getGenericType().equals(boolean.class)){
-						boolFieldSet.add(e.getName());
-					}else{
-						fieldSet.add(e.getName());
-					}
-				}
-				
-				for(Method m: superClass.getDeclaredMethods()){ 
-					if(isGetter){
-						
-						if(m.getParameterTypes()!=null && m.getParameterTypes().length==0 &&
-								(!m.getReturnType().equals(void.class)) ){//判断getter 方法：无入参，有返回值
-							
-							if ( m.getReturnType().equals(boolean.class)) { 
-								boolmethodSet.add(m.getName());
-							}else{
-								methodSet.add(m.getName());
-							}
-						}
-					}else{
-					
-						if(m.getReturnType().equals(void.class) && m.getParameterTypes().length ==1){//判断setter 方法：只有一个入参，无返回值
-							if ( !(m.getParameterTypes()[0].equals(boolean.class))) { 
-								methodSet.add(m.getName());
-							}else{
-								boolmethodSet.add(m.getName());
-							}
-						}
-					}
-					
-				}
-			}
-			/*
-			 System.out.println("aaaaa==="+fieldSet);
-			System.out.println("bbbbb==="+boolFieldSet);
-			
-			 System.out.println("ccccc==="+methodSet);
-			System.out.println("ddddd==="+boolmethodSet);
-			*/
-			
-			//找到每个字段的setter方法.  (注：isXXX开头的boolean字段,其setter方法为 setXXX)
-			Map<String,String> map=new LinkedHashMap<String,String>();
-			if(isGetter==false){
-				for(String f:fieldSet){
-					for(String m:methodSet){
-						if(("set"+f).equalsIgnoreCase(m)){
-							map.put(f, m);
-							break;
-						}
-					}
-				}
-				
-				//isBad ==> setBad , msTool ==> setMsTool
-				for(String f:boolFieldSet){
-					for(String m:boolmethodSet){
-						String setM="set"+f.substring(2, f.length()); //针对isXXX属性
-						if(setM.equalsIgnoreCase(m)){
-							map.put(f, m);
-							break;
-						}
-						
-						if(("set"+f).equalsIgnoreCase(m)){ 	// 针对非isXXX属性
-							map.put(f, m);
-							break;
-						}
-						
-					}
-				}
-				System.out.println(clazz.getName()+"'s  setter are, size is "+map.keySet().size()+" :  "+map);
-			}else{
-				
-				//isBad ==> isBad , msTool ==> isMsTool , hasTool ==> isHasTool
-				for(String f:fieldSet){
-					for(String m:methodSet){
-						if(("get"+f).equalsIgnoreCase(m)){
-							map.put(f, m);
-							break;
-						}
-					}
-				}
-				
-				for(String f:boolFieldSet){
-					for(String m:boolmethodSet){
-						if(f.equalsIgnoreCase(m)){
-							map.put(f, m);
-							break;
-						}
-						
-						if(f.equalsIgnoreCase(m.substring(2,m.length()))){
-							map.put(f, m);
-							break;
-						}
-					}
-				}
-				System.out.println(clazz.getName()+"'s  getter are, size is "+map.keySet().size()+" :  "+map);
-			}
-			return map;
-		}
+
 		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public int saveOrUpdate(Object entity) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+		public int saveOrUpdate(Object entity,String ...props) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
 				//id无值，则进行插入操，否则更新实体
 				
-				Map map = processAnnotations(entity);
+				Map map = processAnnotations(entity,props); //注解信息
+				
 				if (map.get("idColumn") != null && map.get("idValue") == null) {
 					List temp = (List) map.get("params");
 					
@@ -765,6 +690,7 @@ public class SqlExecutor {
 				String idColum=(String)map.get("id");
 				Object idParam=map.get("idValue");
 				StringBuffer sql=getDeleteSQL(map);
+				System.out.println(sql);
 				cntEffect+=sqlExecutor.executeUpdate(sql.toString(), idParam);
 			}
 			return cntEffect;
@@ -810,8 +736,10 @@ public class SqlExecutor {
 			//生成查询语句
 			Table table=(Table)entityClazz.getAnnotation(Table.class);
 			if(table!=null){
-				String schema=table.schema();
+				String schema= StringUtil.isEmpty(table.schema()) ? "":table.schema().concat(".");
 				String tableName=table.name();
+				
+				
 				
 				StringBuffer sql=new StringBuffer();
 				for (Class superClass = entityClazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
@@ -838,7 +766,7 @@ public class SqlExecutor {
 					}
 				}
 				sql.append(" , "+info.get("idColumn"));
-				sql.append(" from ".concat(schema+".").concat(tableName));
+				sql.append(" from ".concat(schema).concat(tableName));
 				sql.append(" where "+info.get("idColumn")+" =  ?");
 				System.out.println(sql+"==>"+Arrays.asList(id));
 				
@@ -870,11 +798,42 @@ public class SqlExecutor {
 						}
 					}
 				}
+				
+				//4.处理关联的对象：子对象、主对象值
+				processCascadeSub(entity);
+				
 				return entity;
 			}
 			return null;
 		}
 		
+		//处理子对象
+		@SuppressWarnings("rawtypes")
+		private void processCascadeSub(Object entity) throws InstantiationException, IllegalAccessException{
+			Class entityClazz=entity.getClass();
+			Map<Field,Method> getterMap=BeanUtil.getSetterGetterMap(entityClazz, true);
+			
+			for (Class superClass = entityClazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
+				for(Field e:superClass.getDeclaredFields()){
+					Sub sub=e.getAnnotation(Sub.class);
+					if(sub!=null && sub.lazy()==false){
+						
+						
+						ParameterizedType type=(ParameterizedType)e.getGenericType();
+						Class ttt=(Class)type.getRawType();
+						System.out.println(ttt.newInstance());
+						
+						if(type.getActualTypeArguments()!=null && type.getActualTypeArguments().length>0){
+							Type temp=type.getActualTypeArguments()[0];
+							Class eClazz = (Class) temp;
+							System.out.println(eClazz);
+						}
+						
+						
+					}
+				}
+			}
+		}
 	}
 	
 }
