@@ -4,10 +4,7 @@ package org.lsqt.components.util.bean;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
-
 
 /**
  * <pre>
@@ -112,7 +109,7 @@ public class BeanUtil  {
 	 * @param clazz
 	 * @param isGetter
 	 * @return
-	 */
+	
 	@SuppressWarnings("rawtypes")
 	public static  Map<String,String> getSetterGetterMap(Class clazz,boolean isGetter){
 		
@@ -170,7 +167,7 @@ public class BeanUtil  {
 				}
 			}
 			
-			//isBad ==> setBad , msTool ==> setMsTool
+			//example:isBad ==> setBad , msTool ==> setMsTool
 			for(String f:boolFieldSet){
 				for(String m:boolmethodSet){
 					String setM="set"+f.substring(2, f.length()); //针对isXXX属性
@@ -215,5 +212,155 @@ public class BeanUtil  {
 			System.out.println(clazz.getName()+"'s  getter are, size is "+map.keySet().size()+" :  "+map);
 		}
 		return map;
+	}
+	 */
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@SuppressWarnings("rawtypes")
+	public static  Map<Field,Method> getSetterGetterMap(Class clazz,boolean isGetter){
+		Map<Field,Method> setterGetter=new LinkedHashMap<Field,Method>();
+
+		for (Class superClass = clazz; superClass != Object.class; superClass = superClass.getSuperclass()) {
+			for(Field f:superClass.getDeclaredFields()){
+				Method m=getMethodByField(superClass,isGetter,f);
+				if(m!=null){
+					setterGetter.put(f, m);
+				}
+			}
+			
+		}
+		
+		for(Field f: setterGetter.keySet()){
+			System.out.println(f.getName()+"  "+setterGetter.get(f).getName());
+		}
+		
+		return setterGetter;
+	}
+	
+	/**
+	 * 跟据域，找到对应的getter/setter方法
+	 * @param clazz
+	 * @param getterSetterType
+	 * @param field
+	 * @return
+	 */
+	@SuppressWarnings({"rawtypes" })
+	private static Method getMethodByField(Class clazz,boolean isGetter,Field field){
+		for(Field e:clazz.getDeclaredFields()){
+			if(field.getName().equals(e.getName())){
+				if(isGetter==false){
+					if(! e.getGenericType().equals(boolean.class)){ //处理非布尔值的域
+						for(Method m: clazz.getDeclaredMethods()){
+							if(isCanSetter(m) && ("set".concat(e.getName())).equalsIgnoreCase(m.getName())){
+								return m;
+							}
+						}
+					}else{
+						for(Method m: clazz.getDeclaredMethods()){
+							if(isCanSetter(m)){
+								if(e.getName().startsWith("is") 
+										&& ("set".concat(e.getName().substring(2,e.getName().length()))).equalsIgnoreCase(m.getName()) ){
+									return m;
+								}else{
+									if(("set".concat(e.getName())).equalsIgnoreCase(m.getName())){
+										return m;
+									}
+								}
+							}
+						}
+					}
+					
+				}else if(isGetter){
+					if(! e.getGenericType().equals(boolean.class)){ //处理非布尔值的域
+						for(Method m: clazz.getDeclaredMethods()){
+							if(isCanGetter(m) && "get".concat(e.getName()).equalsIgnoreCase(m.getName())){
+								return m;
+							}
+						}
+					}else{
+						for(Method m: clazz.getDeclaredMethods()){
+							if(isCanGetter(m)){
+								if(e.getName().startsWith("is") && e.getName().equalsIgnoreCase(m.getName())){
+									return m;
+								}else{
+									if(("is".concat(e.getName()).equalsIgnoreCase(m.getName()))){
+										return m;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 粗略判断此方法是否是setter方法
+	 * @param m
+	 * @return
+	 */
+	public static boolean isCanSetter(Method m){
+		// 判断setter:只有一个入参，方法名以set开头,无返回值，
+		return (m!=null 
+				&& m.getName().startsWith("set")
+				&& m.getReturnType().equals(void.class)
+				&& m.getParameterTypes().length == 1) ;
+	}
+
+	/**
+	 * 粗略判断此方法是否是getter方法
+	 * @param m
+	 * @return
+	 */
+	public static boolean isCanGetter(Method m){
+		// 判断getter方法：无入参，有返回值
+		return (m!=null
+				&& m.getParameterTypes().length == 0
+				&& (!m.getReturnType().equals(void.class)));
+	}
+	
+	public static void main(String args[]){
+		//Map<Field,Method> m=getSetterOrGetterMap(User.class,GetterSetterType.GETTER);
+		
+		//Map<Field,Method> m2=getSetterOrGetterMap(User.class,GetterSetterType.SETTER);
+		
 	}
 }
