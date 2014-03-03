@@ -1,0 +1,58 @@
+/**此文件为代码生成器OnLine后台自定义样式文件.by Sky 2014-02-24**/
+html,body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.header {
+	background:
+		url(/lsqt-static/miniui/demo/header.gif) repeat-x;
+}
+
+.header div {
+	font-family: 'Trebuchet MS', Arial, sans-serif;
+	font-size: 25px;
+	line-height: 60px;
+	padding-left: 10px;
+	font-weight: bold;
+	color: #333;
+}
+
+body .header .topNav {
+	position: absolute;
+	right: 8px;
+	top: 10px;
+	font-size: 12px;
+	line-height: 25px;
+}
+
+.header .topNav a {
+	text-decoration: none;
+	color: #222;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 25px;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+.header .topNav a:hover {
+	text-decoration: underline;
+	color: Blue;
+}
+
+.mini-layout-region-south img {
+	vertical-align: top;
+}
+
+a:link,a:visited {
+	text-decoration: none; /*超链接搜索无下划线*/
+}
+
+a:hover {
+	text-decoration: underline; /*鼠标放上去有下划线*/
+}

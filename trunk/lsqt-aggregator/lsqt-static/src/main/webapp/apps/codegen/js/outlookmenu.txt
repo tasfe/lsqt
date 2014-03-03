@@ -1,0 +1,11 @@
+﻿[
+	{ id: "user", text: "对象定义", iconCls: "icon-add"},
+	{ id: "addUser", pid: "user", text: "数据源管理", iconCls: "icon-edit", url: "http://localhost:8080/lsqt-codegen/sysDataSource/index" },
+	{ id: "editUser", pid: "user", text: "数据表管理", iconCls: "icon-edit", url: "http://localhost:8080/lsqt-codegen/bpmFormTable/index" },
+	{ id: "removeUser", pid: "user", text: "实体定义", iconCls: "icon-edit", url: "../datagrid/datagrid.html" },
+	{ id: "removeUser", pid: "user", text: "规则定义", iconCls: "icon-edit", url: "../datagrid/datagrid.html" },
+	
+	{ id: "right", text: "帮助"},
+	{ id: "addRight", pid: "right", text: "帮助1", iconCls: "Note", url: "../tree/detailgrid.html", iconPosition: "top" },
+	{ id: "editRight", pid: "right", text: "帮助2", iconCls: "Reports", url: "../buttonedit/selectGrid.html", iconPosition: "top" }		
+]
