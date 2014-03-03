@@ -90,7 +90,7 @@ public class SqlExecutorTest {
 	@Test
 	public void executeQueryPage1(){
 		Page page=new Page(2,2);
-		this.sqlExecutor.executeQueryPage(page, "select * from sys_user where fullname  ");
+		this.sqlExecutor.executeQueryPage(page, "select * from sys_user where fullname like '%张%' ");
 	}
 	
 	@Test
@@ -113,7 +113,7 @@ public class SqlExecutorTest {
 		
 		ds.setAlias("XXXXXX");
 		ds.setDbType("oracle");
-		this.sqlExecutor.entitySaveOrUpdate(ds);
+		this.sqlExecutor.entitySaveOrUpdate(ds,"alias","dbType");
 	}
 	
 	@Test
@@ -131,7 +131,7 @@ public class SqlExecutorTest {
 	
 	@Test
 	public void entityGetByIdTest(){
-		SysDataSource ds= this.sqlExecutor.entityGetById(SysDataSource.class, 10000001160139L);
+		SysDataSource ds= this.sqlExecutor.entityGetById(SysDataSource.class, 10009000801177L);
 		System.out.println(ds);
 	}
 	
