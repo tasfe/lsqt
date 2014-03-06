@@ -265,10 +265,11 @@ public class BeanUtil  {
 			
 		}
 		
+		/**
 		for(Field f: setterGetter.keySet()){
 			System.out.println(f.getName()+"  "+setterGetter.get(f).getName());
 		}
-		
+		**/
 		return setterGetter;
 	}
 	
