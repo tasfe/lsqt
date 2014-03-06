@@ -21,6 +21,9 @@ public class UserController extends AbstractBaseController{
 	
 	@RequestMapping("/user/userAdd")
 	public String userAdd(User user){
+		
+		
+		
 		Category c=new Category();
 		c.setName("test");
 		categoryService.save(c);
