@@ -39,11 +39,13 @@ public class SqlExecutorTest {
 		DataSource ds;
 		try {
 			ds = BasicDataSourceFactory.createDataSource(p);
+			/**
 			Connection con1=ds.getConnection();
 			Connection con2=ds.getConnection();
 			Connection con3=ds.getConnection();
 			Connection con4=ds.getConnection();
 			Connection con5=ds.getConnection();
+			
 			
 			System.out.println(con1);
 			System.out.println(con2);
@@ -55,6 +57,7 @@ public class SqlExecutorTest {
 			System.out.println("B:"+(con2==con3));
 			System.out.println("C:"+(con3==con4));
 			System.out.println("D:"+(con4==con5));
+			**/
 			sqlExecutor=new SqlExecutor(ds);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,19 +104,21 @@ public class SqlExecutorTest {
 	
 	@Test
 	public void entitySaveOrUpdateTest(){
-		SysDataSource ds=new SysDataSource();
-		ds.setAlias("setAlias");
-		ds.setDbType("setDbType");
-		ds.setDriverName("setDriverName");
-		ds.setName("setName");
-		ds.setPassword("setPassword");
-		ds.setUrl("url");
-		ds.setUserName("setUserName");
-		this.sqlExecutor.entitySaveOrUpdate(ds);
-		
-		ds.setAlias("XXXXXX");
-		ds.setDbType("oracle");
-		this.sqlExecutor.entitySaveOrUpdate(ds,"alias","dbType");
+		for(int i=0;i<10;i++){
+			SysDataSource ds=new SysDataSource();
+			ds.setAlias("setAlias");
+			ds.setDbType("setDbType");
+			ds.setDriverName("setDriverName");
+			ds.setName("setName");
+			ds.setPassword("setPassword");
+			ds.setUrl("url");
+			ds.setUserName("setUserName");
+			this.sqlExecutor.entitySaveOrUpdate(ds);
+			
+			ds.setAlias("XXXXXX");
+			ds.setDbType("oracle");
+			this.sqlExecutor.entitySaveOrUpdate(ds,"alias","dbType");
+		}
 	}
 	
 	@Test
