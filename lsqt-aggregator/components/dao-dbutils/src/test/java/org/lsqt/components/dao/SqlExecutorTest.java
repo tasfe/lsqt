@@ -119,7 +119,7 @@ public class SqlExecutorTest {
 	@Test
 	public void entityDeleteTest(){
 		SysDataSource ds=new SysDataSource();
-		ds.setId(10009000801180L);
+		ds.setId(10000025030005L);
 		this.sqlExecutor.entityDelete(ds);
 	}
 	
@@ -131,8 +131,8 @@ public class SqlExecutorTest {
 	
 	@Test
 	public void entityGetByIdTest(){
-		SysDataSource ds= this.sqlExecutor.entityGetById(SysDataSource.class, 10009000801177L);
-		System.out.println(ds);
+		SysDataSource ds= this.sqlExecutor.entityGetById(SysDataSource.class, 10000009651362L);
+		System.out.println(	ds.getTables().size());
 	}
 	
 	@Test
