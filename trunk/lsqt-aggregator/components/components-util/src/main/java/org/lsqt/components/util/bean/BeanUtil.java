@@ -356,11 +356,5 @@ public class BeanUtil  {
 				&& m.getParameterTypes().length == 0
 				&& (!m.getReturnType().equals(void.class)));
 	}
-	
-	public static void main(String args[]){
-		//Map<Field,Method> m=getSetterOrGetterMap(User.class,GetterSetterType.GETTER);
-		
-		//Map<Field,Method> m2=getSetterOrGetterMap(User.class,GetterSetterType.SETTER);
-		
-	}
+
 }
