@@ -9,10 +9,17 @@ import org.apache.commons.dbcp.BasicDataSourceFactory;
 import org.lsqt.components.dto.DataTable;
 
 
-public class IdAutoGenerator {
-	private static DataSource dataSource;
-	private static SqlExecutor sqlExecutor;
+public class IdAutoGenerator implements IdGenerator{
+	private  SqlExecutor sqlExecutor;
 	
+	private IdAutoGenerator(){}
+	
+	public IdAutoGenerator(SqlExecutor sqlExecutor){
+		this.sqlExecutor=sqlExecutor;
+	}
+	
+	
+	/**
 	static {
 		String strAdjust=null; //机器标识号，再优化（来自配置文件）
 		if(strAdjust!=null){
@@ -33,6 +40,8 @@ public class IdAutoGenerator {
 			e.printStackTrace();
 		}
 	}
+	**/
+	
 	/**
 	 * （集群部署时的应用服务器编号,一台机器默认编号为1）
 	 */
@@ -47,12 +56,11 @@ public class IdAutoGenerator {
 	private static long lastId = -1;
 	
 	
-	private static void getNextIdBlock() {
-		
+	private  void getNextIdBlock() {
 		Long bound=-1L;
 		Integer incremental=-1;
-		String sql="SELECT bound,incremental FROM SYS_DB_ID T WHERE T.ID=?";
-		String upSql="UPDATE SYS_DB_ID  SET BOUND=? WHERE ID=?";
+		String sql="select bound,incremental from sys_db_id t0 where t0.id=?";
+		String upSql="update sys_db_id  set bound=? where id=?";
 		try{
 			DataTable dataTable=sqlExecutor.executeQuery(sql, adjust);
 			Map map=dataTable.getScalarRowMap();
@@ -73,10 +81,10 @@ public class IdAutoGenerator {
 	/**
 	 * 不存在该计算机编号的则插入一条记录
 	 */
-	private static void insertNewComputer(){
+	private  void insertNewComputer(){
 		try{
 			lastId = 10000;
-			String sql="INSERT INTO SYS_DB_ID (id,incremental,bound) VALUES("+adjust+",10000,"+lastId+")";
+			String sql="insert into sys_db_id (id,incremental,bound) values ("+adjust+",10000,"+lastId+")";
 			sqlExecutor.executeUpdate(sql);
 		}
 		catch(Exception e){
@@ -88,15 +96,12 @@ public class IdAutoGenerator {
 	 * 产生一个唯一ID。 使用同步，防止重复
 	 * 
 	 */
-	public static synchronized long getId() {
+	public  synchronized Long getId() {
 		if (lastId <= nextId) {
 			getNextIdBlock();
 		}
 		long _nextId = nextId++;
 		return _nextId + adjust*10000000000000L;
 	}
-	
-	public static void main(String ...strins){
-		System.out.println(IdAutoGenerator.getId());
-	}
+
 }
