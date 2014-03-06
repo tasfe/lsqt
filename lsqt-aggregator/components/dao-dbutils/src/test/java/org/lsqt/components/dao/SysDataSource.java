@@ -167,4 +167,10 @@ public class SysDataSource {
 	public String getPassword() {
 		return password;
 	}
+	public List<BpmFormTable> getTables() {
+		return tables;
+	}
+	public void setTables(List<BpmFormTable> tables) {
+		this.tables = tables;
+	}
 }
