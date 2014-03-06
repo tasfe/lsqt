@@ -1,7 +1,6 @@
 package org.lsqt.components.dao.dbutils;
 
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
