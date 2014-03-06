@@ -25,7 +25,7 @@ import org.lsqt.components.dao.dbutils.annotation.Table;
 import org.lsqt.components.dto.DataSet;
 import org.lsqt.components.dto.DataTable;
 import org.lsqt.components.dto.Page;
-
+import org.lsqt.components.dao.dbutils.IdAutoGenerator;
 import static org.lsqt.components.dao.dbutils.EntityAnnotationUtil.*;
 
 
@@ -47,6 +47,7 @@ import static org.lsqt.components.dao.dbutils.EntityAnnotationUtil.*;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class SqlExecutor {
+	private IdGenerator idAutoGenerator;
 	private DataSource dataSource;
 	private QueryRunner run ;
 
@@ -59,11 +60,13 @@ public class SqlExecutor {
 	public SqlExecutor(DataSource dataSource){
 		this.dataSource=dataSource;
 		this.run=new QueryRunner(dataSource);
+		this.idAutoGenerator=new IdAutoGenerator(this);
 	}
 	
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 		this.run=new QueryRunner(dataSource);
+		this.idAutoGenerator=new IdAutoGenerator(this);
 	}
 
 	
@@ -189,14 +192,14 @@ public class SqlExecutor {
 				
 				String sql = getInsertSQL(pk,table, effectColumn,effectParamValues);
 				
-				effectParamValues.add(IdAutoGenerator.getId()); //pk值处理
+				effectParamValues.add(idAutoGenerator.getId()); //pk值处理
 				
 				System.out.println(sql+"==>>:"+effectParamValues);
 				return executeUpdate(sql, effectParamValues.toArray());
 			}else{
 				String sql = getInsertSQL(pk,table, coloumnList, paramValues);
 
-				paramValues.add(IdAutoGenerator.getId()); //pk值处理
+				paramValues.add(idAutoGenerator.getId()); //pk值处理
 				
 				System.out.println( sql+"==>>:"+paramValues);
 				return executeUpdate(sql, paramValues.toArray());
