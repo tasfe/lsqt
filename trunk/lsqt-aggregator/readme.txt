@@ -22,7 +22,8 @@ lsqt-doc:		spring3.0.3 + dbutil + Lucene3.5 + jsp + 阿里文件服务器管理�
 
 lsqt-etl:		spring3.0.3 + dbutil + jsp + quartz 简单的抽取、转化、清洗 （复杂的需结合kattle工具做）
 
-codegen(在线版): freemarker + 自定义表 + 规则(drools/groovy) + easyUI 界面 	
+codegen(在线版): freemarker + 自定义表 + 规则(drools/groovy) + miniUI 界面
+	
 codegen(线下版):	freemarker/velocity 生成  dbutil+springmvc+jsp 结构
 
 分布式环境下：dbutils 执行一系列事物性的SQL语句
