@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import org.lsqt.components.dto.DataSet;
 import org.lsqt.components.dto.DataTable;
 import org.lsqt.components.dto.Page;
 import org.lsqt.components.dao.dbutils.IdAutoGenerator;
+
 import static org.lsqt.components.dao.dbutils.EntityAnnotationUtil.*;
 
 
@@ -70,6 +72,8 @@ public class SqlExecutor {
 
 	
 	//-------------------------------------------------------------------------------
+
+	
 	/**
 	 * 删除多个实体（实体内需有id值)
 	 * @param entity
@@ -116,13 +120,8 @@ public class SqlExecutor {
 		Table table=(Table)entityClazz.getAnnotation(Table.class);
 		if(table!=null){
 			
-			List<String> sqlColoumns=getDbColumns(entityClazz);
+			StringBuffer sql = getSelectSQL(entityClazz);
 			
-			StringBuffer sql=new StringBuffer();
-			sql.append(" select "+ArrayUtil.join(sqlColoumns, ","));
-			sql.append(" from ");
-			sql.append(getDbSchema(entityClazz)==null ? "": getDbSchema(entityClazz).concat("."));
-			sql.append(getDbTable(entityClazz));
 			sql.append(" where "+getDbIdColumn(entityClazz)+" =?");
 			
 			System.out.println(sql+"==>"+Arrays.asList(id));
@@ -132,12 +131,52 @@ public class SqlExecutor {
 			DataTable dataTable= SqlExecutor.this.executeQuery(sql.toString(), id);
 			Map<String,Object> map=dataTable.getScalarRowMap();  //数据库结果集字段与值
 			
-			return toEntity(map, entityClazz);
+			return toEntity(entityClazz,map);
 		}
 		return null;
+	}
+
+	private static StringBuffer getSelectSQL(Class<?> entityClazz) {
+		List<String> sqlColoumns=getDbColumns(entityClazz);
+		
+		StringBuffer sql=new StringBuffer();
+		sql.append(" select "+ArrayUtil.join(sqlColoumns, ","));
+		sql.append(" from ");
+		sql.append(getDbSchema(entityClazz)==null ? "": getDbSchema(entityClazz).concat("."));
+		sql.append(getDbTable(entityClazz));
+		return sql;
 	}	
 
-
+	/**
+	 * 跟据sql查询，加载实体
+	 * @param entityClazz 实体类型
+	 * @param sql 整个查询SQL
+	 * @param params SQL参数值
+	 * @return
+	 */
+	public <T> List<T> entityQuery(Class<T> entityClazz,String sql,Object ... params) {
+		Table table=(Table)entityClazz.getAnnotation(Table.class);
+		if(table!=null){
+			DataTable dataTable=executeQuery(sql,params);
+			return toEntityList(entityClazz, dataTable);
+		}
+		return Collections.EMPTY_LIST;
+	}
+	
+	/**
+	 * 跟据sql查询，加载实体
+	 * @param entityClazz 实体类型
+	 * @return
+	 */
+	public <T> List<T> entityQuery(Class<T> entityClazz) {
+		Table table=(Table)entityClazz.getAnnotation(Table.class);
+		if(table!=null){
+			String sql=getSelectSQL(entityClazz).toString();
+			return entityQuery(entityClazz, sql);
+		}
+		return Collections.EMPTY_LIST;
+	}
+	
 	/**
 	 * 更新实体所有属性数据
 	 * @param entity
