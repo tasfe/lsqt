@@ -13,8 +13,9 @@
 		<module>lsqt-parent</module>
 		<module>components</module>
 		<module>lsqt-static</module>
+		<module>lsqt-codegen</module>
+		<!-- 
 		<module>lsqt-content</module>
-
 		<module>lsqt-forum</module> 
 		<module>lsqt-pm</module>
 		
@@ -25,5 +26,6 @@
 		<module>lsqt-bpm</module>
 		<module>lsqt-search</module>
 		<module>lsqt-rule</module>
+		 -->
 	</modules>
 </project>
