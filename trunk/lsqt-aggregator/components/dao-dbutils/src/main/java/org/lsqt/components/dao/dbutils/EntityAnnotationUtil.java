@@ -11,6 +11,7 @@ import java.util.Map;
 import org.lsqt.components.dao.dbutils.annotation.Column;
 import org.lsqt.components.dao.dbutils.annotation.Id;
 import org.lsqt.components.dao.dbutils.annotation.Table;
+import org.lsqt.components.dto.DataTable;
 import org.lsqt.components.util.bean.BeanUtil;
 import org.lsqt.components.util.lang.StringUtil;
 
@@ -127,7 +128,7 @@ public class EntityAnnotationUtil {
 	 * @param entityClazz
 	 * @return
 	 */
-	public static <T> T toEntity(Map<String,Object> recordMap,Class<T> entityClazz){
+	public static <T> T toEntity(Class<T> entityClazz,Map<String,Object> recordMap){
 		T entity;
 		try {
 			entity = entityClazz.newInstance();
@@ -160,6 +161,65 @@ public class EntityAnnotationUtil {
 		}
 		return entity;
 	}
+	
+	/**
+	 * 跟据数据庘的多条记录，还原实体bean
+	 * @param entityClazz
+	 * @param dataTable
+	 * @return
+	 */
+	public static <T> List<T> toEntityList(Class<T> entityClazz,DataTable dataTable){
+		List<T> temp=new ArrayList<T>();
+		try{
+			Object [] hd=dataTable.getDataHead();
+			
+			for(Object [] row: dataTable.getDataBody()){
+				T entity = entityClazz.newInstance();
+				for(int i=0;i<hd.length;i++){
+					String column=hd[i]==null ? "":hd[i].toString();
+					initProperty(entity, column, row[i]);
+				}
+				temp.add(entity);
+			}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		return temp;
+	}
+	
+	/**
+	 * 跟据实体域的db注解从dataTable取数据初使化域值
+	 * @param entity
+	 * @param column
+	 * @param value
+	 * @return
+	 */
+	private static boolean initProperty(Object entity,String column,Object value){
+		boolean isOk=false;
+		for (Class superClass = entity.getClass(); superClass != Object.class; superClass = superClass.getSuperclass()) {
+			for(Field e:superClass.getDeclaredFields()){
+				
+				//赋值主键
+				Id pk=e.getAnnotation(Id.class);
+				if(pk!=null && pk.name().equalsIgnoreCase(column)){
+					BeanUtil.forceSetProperty(entity, e.getName(), value);
+					return true;
+				 
+				}
+				
+				//赋值其它字段
+				Column c=e.getAnnotation(Column.class);
+				if(c!=null && c.name().equalsIgnoreCase(column)){
+					BeanUtil.forceSetProperty(entity, e.getName(), value);
+					return true;
+				 
+				}
+			}
+		}
+		return isOk;
+	}
+	
 	
 	/**
 	 * 获取实体bean的主键值

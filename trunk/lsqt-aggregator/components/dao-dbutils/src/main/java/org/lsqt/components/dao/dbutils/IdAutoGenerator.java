@@ -12,6 +12,7 @@ import org.lsqt.components.dto.DataTable;
 public class IdAutoGenerator implements IdGenerator{
 	private  SqlExecutor sqlExecutor;
 	
+	@SuppressWarnings("unused")
 	private IdAutoGenerator(){}
 	
 	public IdAutoGenerator(SqlExecutor sqlExecutor){
