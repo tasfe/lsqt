@@ -150,6 +150,20 @@ public class SqlExecutor {
 	/**
 	 * 跟据sql查询，加载实体
 	 * @param entityClazz 实体类型
+	 * @return
+	 */
+	public <T> List<T> entityQuery(Class<T> entityClazz) {
+		Table table=(Table)entityClazz.getAnnotation(Table.class);
+		if(table!=null){
+			String sql=getSelectSQL(entityClazz).toString();
+			return entityQuery(entityClazz, sql);
+		}
+		return Collections.EMPTY_LIST;
+	}
+	
+	/**
+	 * 跟据sql查询，加载实体
+	 * @param entityClazz 实体类型
 	 * @param sql 整个查询SQL
 	 * @param params SQL参数值
 	 * @return
@@ -164,18 +178,35 @@ public class SqlExecutor {
 	}
 	
 	/**
-	 * 跟据sql查询，加载实体
-	 * @param entityClazz 实体类型
-	 * @return
+	 * 分页加载实体
+	 * @param page
+	 * @param entityClazz
 	 */
-	public <T> List<T> entityQuery(Class<T> entityClazz) {
-		Table table=(Table)entityClazz.getAnnotation(Table.class);
-		if(table!=null){
-			String sql=getSelectSQL(entityClazz).toString();
-			return entityQuery(entityClazz, sql);
-		}
-		return Collections.EMPTY_LIST;
+	public void entityQueryPage(final Page page,Class<?> entityClazz) {
+		
+		executeQueryPage(page, getSelectSQL(entityClazz).toString());
+		
+		List<?> list=toEntityList(entityClazz, page.getDataTable());
+		
+		BeanUtil.forceSetProperty(page,"entityTable",list);
 	}
+
+	/**
+	 * 
+	 * @param page
+	 * @param entityClazz
+	 * @param sql 完整SQL查询
+	 * @param param
+	 */
+	public void entityQueryPage(final Page page,Class<?> entityClazz,String sql,Object ... param) {
+		
+		executeQueryPage(page, sql,param);
+		
+		List<?> list=toEntityList(entityClazz, page.getDataTable());
+		
+		BeanUtil.forceSetProperty(page,"entityTable",list);
+	}
+	
 	
 	/**
 	 * 更新实体所有属性数据
