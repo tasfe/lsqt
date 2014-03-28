@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -141,8 +142,31 @@ public class SqlExecutorTest {
 	}
 	
 	@Test
-	public void executePageTest3(){ 
-		//测试代输出参数据存储过程
+	public void entityQuery(){ 
+		this.sqlExecutor.entityQuery(SysDataSource.class);
+	}
+	
+	@Test
+	public void entityQuery2(){ 
+		List<SysDataSource > list=sqlExecutor.entityQuery(SysDataSource.class, "select * from  sys_datasource where 1=?", 1);
+		System.out.println(list.size());
+	}
+	
+	@Test
+	public void entityQueryPage(){ 
+		Page page=Page.getDefaultPage();
+		sqlExecutor.entityQueryPage(Page.getDefaultPage(), SysDataSource.class);
+
+		System.out.println(page.getEntityTable());
+	}
+	
+	@Test
+	public void entityQueryPage2(){
+		Page page=Page.getDefaultPage();
+		sqlExecutor.entityQueryPage(page,SysDataSource.class, "select * from  sys_datasource where 1=?", 1);
+		
+		System.out.println( page.getEntityTable().size() );
+		
 		
 	}
 }
