@@ -8,7 +8,6 @@
     <relativePath>../lsqt-parent/pom.xml</relativePath>
   </parent>
   
-  
   <artifactId>components</artifactId>
   <packaging>pom</packaging>
   <name>lsqt-components</name>
@@ -17,7 +16,11 @@
 		<module>components-codegen</module>
 		<module>components-dto</module>
 		<module>components-util</module>
+		<module>components-weixin-api</module>
 		<module>dao-dbutils</module>
+		<module>sql-map-ftl</module>
+		<module>sql-map-vm</module>
 		<module>dao-hibernate3</module>
+		 
   </modules>
 </project>
