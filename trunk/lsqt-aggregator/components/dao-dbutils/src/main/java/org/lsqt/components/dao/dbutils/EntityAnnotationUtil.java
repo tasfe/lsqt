@@ -235,7 +235,7 @@ public class EntityAnnotationUtil {
 					Id id=e.getAnnotation(Id.class);
 					if(id!=null){
 						Method m=BeanUtil.getSetterGetterMap(clazz,true).get(e);
-						return m.invoke(entity, null);
+						return m.invoke(entity,(Object[])null);
 					}
 				}
 			}
@@ -291,7 +291,7 @@ public class EntityAnnotationUtil {
 						if(columns!=null){
 							String temp=StringUtil.isEmpty(columns.name()) ? e.getName():columns.name();
 							try{
-								valueMap.put(temp,getterMap.get(e).invoke(entity, null));
+								valueMap.put(temp,getterMap.get(e).invoke(entity, (Object[])null));
 							}catch(Exception ex){
 								ex.printStackTrace();
 							}
