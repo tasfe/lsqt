@@ -53,4 +53,8 @@ public class ValidateSignatureUtil {
 		}
 		return des;
 	}
+	
+	public static void main(String args[]){
+		
+	}
 }
