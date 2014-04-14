@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<statements>
+	<statement id="list">
+	 	<![CDATA[  
+		select 
+		    *
+		from
+		    sys_datasource
+		where
+		    1 = 1
+		    
+		        and (name like ? or alias like ?
+		        or driverName like ?
+		        or url like ?
+		        or userName like ?
+		        or dbType like ?)
+		        ]]>
+	</statement>
+</statements>
